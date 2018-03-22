@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+<script src="http://www.jq22.com/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="layui.css">
+<title>手写签名</title>
+
+<style type="text/css">
+
+    @font-face{
+        font-family:"siyuan";
+        src: url('siyuan.ttf');
+    }
+
+    html,body,div,span,h1,h2,h3,h4,h5,h6,p{
+        font:  normal  16px   "siyuan",sans-serif;
+        vertical-align:baseline;
+        outline:none;
+        box-sizing:border-box;
+    }
+
+
+*{padding:0;margin:0;}
+#canvas{  }
+#canvasDiv{display: none;}
+    #qmimg{position: absolute;transition: all 0.7s;}
+    form{overflow: hidden;}
+    #warnMsg{position: absolute;border:6px solid #bf7963;background-color: #eeeeee;width:50%;height:100px;border-radius:5%;font-size:16px;text-align: center;top:0;bottom:0;right:0;left:0;margin:auto;}
+    .hideBox{display:none;width:100vw;height:100vh;z-index: 1;position: absolute;left:0;top:0;background-color: rgba(58, 58, 58, 0.8);}
+    #fontSize{font-size:35px;}
+</style>
+
+</head>
+
+
+
+<body>
+<div id="bb">
+    <div id="fontSize"></div>
+<form class="layui-form" style="padding-top:5%;">
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="text-align: center;width:20%;padding:9px 2.5%">内容</label>
+        <div class="layui-textarea-inline" style="margin-left:0;width:74%;float: left;">
+            <textarea style="resize: none;" id="contxt"  placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <div class="layui-textarea-block" style="text-align: center;">
+            <button style="display: inline-block;" id="btn_submit" class="layui-btn" type="button">立即提交</button>
+        </div>
+    </div>
+</form>
+<div id="canvasDiv"></div>
+<div id="positionUse"></div>
+<div class="hideBox">
+    <div id="warnMsg">
+        <p style="line-height:80px;">内容不能空！</p>
+    </div>
+</div>
+</div>
+
+
+<script language="javascript">
+
+   var contxt='';
+
+function onDocumentTouchStart( event ) {
+
+
+
+    if( event.touches.length == 1 ) {
+
+
+
+        event.preventDefault();
+
+
+
+        // Faking double click for touch devices
+
+
+
+        var now = new Date().getTime();
+
+
+
+        if ( now - timeOfLastTouch  < 250 ) {
+
+
+
+            reset();
+
+            return;
+
+        }
+
+
+
+        timeOfLastTouch = now;
+
+
+
+        mouseX = event.touches[ 0 ].pageX;
+
+        mouseY = event.touches[ 0 ].pageY;
+
+        isMouseDown = true;
+
+    }
+
+}
+
+
+
+var canvasDiv = document.getElementById('canvasDiv');
+
+var canvas = document.createElement('canvas');
+
+
+
+
+
+
+
+var canvasWidth = window.screen.width;
+
+var canvasHeight=window.screen.height;
+
+
+
+ 
+
+  //  document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+   
+
+var point = {};
+
+point.notFirst = false;
+
+
+
+$('.hideBox').click(function(){
+    $(this).css('display','none');
+});
+
+canvas.setAttribute('width', canvasWidth);
+
+canvas.setAttribute('height', canvasHeight);
+
+canvas.setAttribute('id', 'canvas');
+
+canvasDiv.appendChild(canvas);
+
+
+
+if(typeof G_vmlCanvasManager != 'undefined') {
+
+
+
+	canvas = G_vmlCanvasManager.initElement(canvas);
+
+}
+
+
+
+
+
+var context = canvas.getContext("2d");
+
+
+
+
+
+var img = new Image();
+
+img.src = "./a.png";
+
+
+
+ img.onload = function(){
+     context.drawImage(img,0,0,window.screen.width,window.screen.height);
+     $('#qmimg').css('top',$('#positionUse').offset().top);
+     /*          var ptrn = context.createPattern(img,'no-repeat');
+  /*
+
+    context.fillStyle = ptrn;
+
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    */
+
+
+
+        };
+
+ //让canvas字体换行
+   function drawText(t,x,y,w){
+
+       var chr = t.split("");
+       var temp = "";
+       var row = [];
+
+       context.font = "bold 20px siyuan";
+       context.fillStyle = "black";
+       context.textBaseline = "middle";
+    console.log(context.measureText(temp).width);
+       for(var a = 0; a < chr.length; a++){
+           if( context.measureText(temp).width < w ){
+               ;
+           }
+           else{
+               row.push(temp);
+               temp = "";
+           }
+           temp += chr[a];
+       }
+
+       row.push(temp);
+
+       if(row[3]){
+           row.splice(3)
+       }
+        if(row[2]){
+            row[2]=row[2].substring(0,row[2].length-1);
+            row[2]+='...';
+        }
+
+
+       for(var b = 0; b < row.length; b++){
+           context.fillText(row[b],x,y+(b+1)*22);
+       }
+   }
+
+$('#btn_submit').click(function(){
+    let txt='';
+    if($('textarea').val().length==0){
+        $('.hideBox').css('display','block');
+        return false;
+    }
+    if($('textarea').val().length>=27){
+        txt=$('textarea').val().substring(0,26);
+        txt+='...';
+
+    }else{
+        txt=$('textarea').val();
+    }
+
+
+    var top = $('#canvasDiv').height();
+    var left = $('#canvasDiv').width();
+
+    drawText(txt,(left/4),(top/2.8),(window.screen.width*0.5));
+$("#qmimg").attr("src",canvas.toDataURL("image/png"));
+
+	$('form').animate({'height':0+'px'},500);
+
+    $('#bb').css('height',window.screen.height);
+    $('#qmimg').css('top',0);
+});
+
+</script>
+
+<img  id="qmimg"  />
+
+</body>
+
+</html>
+
+
+
+
+
