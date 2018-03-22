@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script type="text/javascript">
+        function draw(){
+            var ctx = document.getElementById("myCanvas").getContext("2d");
+            ctx.font = "italic 35px 黑体";
+            ctx.fillStyle = "Red";
+            ctx.fillText("绘制填充文字",30,60,200);
+            ctx.font = "bold 35px 宋体";
+            ctx.fillStyle = "blue";
+            ctx.fillText("绘制填充文字",30,100);
+            ctx.font = "25px 隶书";
+            ctx.fillStyle = "Green";
+            ctx.fillText("绘制填充文字",30,130);
+        }
+        window.onload = function(){
+            draw();
+        }
+    </script>
+</head>
+<body>
+<canvas id="myCanvas" width="350" height="200" style="border:solid 1px gray;"></canvas>
+</body>
+</html>
