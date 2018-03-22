@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function unique(txt) {
+        var newtxt=[];
+        for(let i=0;i<txt.length;i++){
+            if(newtxt.indexOf(txt[i])==-1){
+                newtxt.push(txt[i])
+            }
+        }
+        return newtxt.join('')
+    }
+    var x=unique('dsajfoijvlikcxzjvoiuaijewqr1321353dsaf');
+    console.log(x);
+
+</script>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="height:3000px;width:100%;"></div>
+</body>
+</html>
+<script>
+    var x,y;
+    var timer=setInterval(function () {
+        x=document.documentElement.scrollTop;
+    },10);
+    window.onscroll=function () {
+        y=document.documentElement.scrollTop;
+        //console.log('pre'+x+'net'+y);
+        if((y-x)>0){
+            console.log('down');
+        }else{
+            console.log('up');
+        }
+    }
+</script>

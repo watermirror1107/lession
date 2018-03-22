@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    ({
+        x: 10,
+        foo: function () {
+            function bar() {
+                console.log(x);              //  undefined
+                console.log(y);              //  30
+                console.log(this.x);         //  20
+            }
+            with (this) {
+                var x = 20; //如果带进来的this对象，有X属性就会把var x这个声明顶替掉，会把值赋给this.x；所以第一个X会输出undefined;
+                var y = 30;
+                bar.call(this);
+            }
+        }
+    }).foo();
+</script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>adsfdsaf</title>
+    <style>
+        ul{list-style: none;}
+        *{padding:0;margin:0;}
+        .border{width:100%;height:5px;background-color: aqua;position: absolute;left:101%;bottom:0;transition: all 0.3s;}
+        .box2:hover .border{left:0;}
+        .gg{display:inline-block;position: relative;margin-left: 100px;overflow: hidden;}
+        .gg li{float:left;display:inline-block;width:100px;line-height: 60px;height:60px;text-align: center;box-sizing: border-box;border:1px solid black;}
+    </style>
+</head>
+<body>
+
+<a accesskey="h" onclick="hh()">HTML </a><br />
+<a accesskey="c" ondblclick="hh()">CSS </a>
+<input type="text" list="haha">
+<datalist name="" id="haha">
+    <option value="1">2</option>
+    <option value="2">3</option>
+    <option value="3">4</option>
+</datalist>
+<ul>
+    <li class="box2" style="border:1px solid black;text-align: center;position: relative;display:inline-block;overflow: hidden;">
+        <h4 style="line-height: 20px;padding:30px;">首页</h4>
+        <div class="border"></div>
+    </li>
+    <li class="box2" style="border:1px solid black;text-align: center;position: relative;display:inline-block;overflow: hidden;">
+        <h4 style="line-height: 20px;padding:30px;">游戏公司fdsd</h4>
+        <div class="border"></div>
+    </li>
+    <li class="box2" style="border:1px solid black;text-align: center;position: relative;display:inline-block;overflow: hidden;">
+        <h4 style="line-height: 20px;padding:30px;">游戏绍</h4>
+        <div class="border"></div>
+    </li>
+    <li class="box2" style="border:1px solid black;text-align: center;position: relative;display:inline-block;overflow: hidden;">
+        <h4 style="line-height: 20px;padding:30px;">游戏人物</h4>
+        <div class="border"></div>
+    </li>
+</ul>
+<ul class="gg">
+    <li>首页</li>
+    <li>游戏</li>
+    <li>介绍</li>
+    <li>下载</li>
+    <li>任务</li>
+    <div class="changborder" style="float:left;height:5px;width:100px;position: absolute;left:-101px;background-color: orangered;bottom:0;"></div>
+</ul>
+
+
+
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    function hh(){
+        console.log('asdf')
+    }
+    window.onpagehide=function () {
+        //alert('hide')
+    };
+    window.onpageshow=function () {
+        //alert('show')
+    };
+    window.onunload=function () {
+        localStorage.name='wawa';
+    };
+
+
+    var prenum=0;
+    var w=$('.gg li').width()+2;
+    var distance=0;
+    $('.gg').children('li').mouseleave(function () {
+        prenum=$(this).index();
+        console.log('离开的：'+prenum);
+    });
+    $('.gg').children('li').mouseenter(function () {
+        var num=$(this).index();
+        console.log('当前的：'+num);
+        distance+=(num-prenum)*w;
+        $('.changborder').css('opacity','1');
+        $('.changborder').animate({'left':distance+'px'},100)
+        //$('.changborder').css('left',distance+'px')
+    });
+    $('.gg').mouseleave(function () {
+        $('.changborder').css({'left':'-101px','width':'100px','opacity':'0'});
+        distance=0;
+        prenum=0;
+    })
+</script>
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button>点一下获取再点一下改变内容</button>
+<p>内容</p>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    //生成器generator
+    function* next_id() {
+        for(var i=1;i<100;i++){
+            yield i;
+        }
+    }
+    // 测试:
+    var x,pass = true,g = next_id();
+    for (x = 1; x < 100; x ++) {
+        if (g.next().value !== x) {
+            pass = false;
+            console.log('测试失败!');
+            break;
+        }
+    }
+    if (pass) {
+        console.log('测试通过!');
+    }
+    //用生成器做ajax
+    var content='';
+    function* getandchang(){
+        yield $.ajax({
+            'url':'./x.json',
+            'type':'GET',
+            'success':function(data){
+                console.log(data);
+                content=data.people[0].firstName;
+            }
+        });
+        yield $('p').html(content);
+    };
+    var gc=getandchang();
+    $('button').click(function () {
+        gc.next();
+    })
+    //上面的方法可以很好的解决异步操作，但是要点两下有点麻烦;
+</script>

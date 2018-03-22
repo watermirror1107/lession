@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        ul{list-style: none;}
+        .box{margin-top:100px;margin-left:100px;perspective:800px;transform: rotateY(0deg);transform-style: preserve-3d;position:relative;height:500px;width:400px;}
+        li{height:500px;width:100px;position:absolute;background-color: aqua;}
+    </style>
+</head>
+<body>
+    <ul class="box">
+        <li style="left:-50px;transform:rotateY(-90deg);background-color: green;">1</li>
+        <li style="left:calc(100% - 50px);transform:rotateY(90deg);background-color: yellow;">2</li>
+        <li style="left:calc(50% - 50px);">3</li>
+        <li style="left:calc(50% - 50px);transform:translateZ(-800px);">4</li>
+        <li style="">5</li>
+        <li style="">6</li>
+        <li style="">7</li>
+        <li style="">8</li>
+        <li style="">9</li>
+    </ul>
+</body>
+</html>

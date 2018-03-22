@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    let ws=new WeakSet();
+    var a={};
+    var b={};
+    ws.add(a);
+    ws.add(b);
+    console.log(ws.has(a));
+    console.log(ws.has(b));
+</script>

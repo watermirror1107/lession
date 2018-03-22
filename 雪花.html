@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <style>
+        *{padding:0;margin:0;}
+        .box{perspective: 800px;width:100vw;height:100vh;background:url("images/背景.png") no-repeat ;background-size: cover;position:relative;overflow: hidden;}
+        .snow{transition: all 0.1s;background:url("images/snow.png") no-repeat;background-size: contain;position:absolute; z-index: 10;}
+        .character{opacity:0;transition:all 5s;width:100%;height:100%;position:absolute;z-index: 5;background-size: cover;background: url("images/前景.png") no-repeat;}
+        .word{transition:all 5s;opacity:1;transform: translateZ(0px);position: absolute;z-index: 7;left:30%;top:15%;}
+        .op{opacity: 1}
+        .into{transform: translateZ(500px);opacity: 0;}
+        .dis{opacity: 0;transform: translateZ(500px);transition:all 3s;}
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="character"></div>
+        <div class="word into"><img src="images/一起同朝为官.png" alt=""></div>
+    </div>
+
+</body>
+</html>
+<script>
+
+    window.onscroll=function(){
+      $('.word').addClass('into');
+      setTimeout(function(){
+          $('.character').addClass('dis');
+      },200);
+      $('.snow').remove();
+    };
+    window.onload=function(){
+        $('.character').addClass('op');
+        $('.word').removeClass('into');
+    };
+    function makesnow(){
+        return new Promise(function(resolve, reject){
+            for(let i=0;i<200;i++){
+                var l=$('.box').width()*Math.random();
+                var t=$('.box').height()*Math.random();
+                $('.box').append('<div class="snow"></div>');
+                $('.snow').eq(i).css({'left':l+'px','top':t+'px'});
+                //不同雪花大小
+                if(i%2==0){
+                    $('.snow').eq(i).css({'width':10+'px','height':10+'px','opacity':0.8})
+                }else if(i%3==0){
+                    $('.snow').eq(i).css({'width':20+'px','height':20+'px','opacity':0.5})
+                }else{
+                    $('.snow').eq(i).css({'width':30+'px','height':30+'px','opacity':0.3})
+                }
+                if(i==199){
+                    resolve();
+                }
+            }
+        });
+
+    }
+    makesnow().then(function(){
+        for(let i=0;i<200;i++){
+            setInterval(function(){
+                var l=parseFloat($('.snow').eq(i).css('left'));
+                var t=parseFloat($('.snow').eq(i).css('top'));
+              /* 随机飘落
+               var ss=Math.random();
+                if(ss>0.5){
+                    l+=30;
+                }else {
+                    l -= 50;
+                }*/
+                t+=15;
+                l-=50;
+                $('.snow').eq(i).css({'left':l,'top':t});
+                if(t>=$('.box').height()){
+                    $('.snow').eq(i).css('top',0+'px')
+                }
+                /*左右随机飘落的重定位
+                if(l>=$('.box').width() || l<=0){*/
+                if(l<=0){
+                    l=$('.box').width()*Math.random();
+                    $('.snow').eq(i).css('left',l+'px')
+                }
+            },100)
+            //这里的时间必须和transition的一致;
+        }
+
+
+    })
+
+</script>

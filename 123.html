@@ -1,0 +1,411 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <base href="<%=basePath%>">
+
+    <title>My JSP 'recruit.jsp' starting page</title>
+    <style>
+        .swiper-button-prev{background-image:url(<%=basePath%>gamestatic/img/mobileImg/arrow.png);}
+        .swiper-button-next{background-image:url(<%=basePath%>gamestatic/img/mobileImg/arrow1.png);}
+        .swiper-button-next, .swiper-button-prev{top:44%;width: 8px;height:38px;background-size: 100% 100%;}
+        .page{background-image:url(<%=basePath%>gamestatic/img/mobileImg/bg.png);background-size:100% 100%;}
+    </style>
+</head>
+<body >
+
+<div class="wp" >
+    <div class="wp-inner">
+        <div class="page page1">
+            <div class="js-animate animated" data-animate="bounce" data-time="0">
+                <img class="litLogo" src="<%=basePath%>gamestatic/img/mobileImg/1/logo1.png">
+            </div>
+            <div class="js-animate animated" data-animate="bounceIn" data-time="1500">
+                <img class="logo" src="<%=basePath%>gamestatic/img/mobileImg/1/logo.png">
+            </div>
+            <div class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="2000" style="position:
+        absolute;left:0;bottom:0;">
+                <img class="charactor" src="<%=basePath%>gamestatic/img/mobileImg/1/charactor.png">
+            </div>
+            <div class="js-animate animated joinUs fadeInLeft" data-animate="fadeInLeft" data-time="2100" >
+                <img src="<%=basePath%>gamestatic/img/mobileImg/1/joinUs.png">
+            </div>
+        </div>
+        <div class="page page2">
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="bounceIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/2/resume.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <p>泡游网络科技公司于2016年6月成立于福建厦门，是一家以游戏研发为核心的公司，秉承着专注做好一件事，专业服务好一群人的理念。深耕游戏细分领域，公司目前已上线产品有《极品芝麻官》等。
+                    <span style="text-indent:2em;display:block;">公司贯彻扁平化的管理方针，更愿意成为员工的平台，在相对自由的管理方针上，去释放每一位员工的潜力，每个礼拜定期组织分享会，在这个平台上你就是主角，我们不以资历排辈份，更信奉思想碰撞所产生的百家齐放。员工促进平台的成长，平台给与员工更大的舞台。跟与你一样自由奔放的牛人一起工作，将是你成长中最最宝贵的养分。</span>
+                    <span style="text-indent:2em;display:block;">我们都是一群浸“泡”在“游”戏里的深度玩家，我们明白游戏的快乐，愿意去传递这份快乐，让更多的人感受快乐。</span></p>
+            </div>
+        </div>
+        <div class="page page3">
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="bounceIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/3/welfare.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <ul>
+                    <li class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="850">带薪休假</li>
+                    <li class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="900">周末双休</li>
+                    <li class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="950">五险一金</li>
+                    <li class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="1000">年度旅游</li>
+                    <li class="js-animate animated fadeInLeft" data-animate="fadeInLeft" data-time="1050">带薪年假</li>
+                </ul>
+            </div>
+        </div>
+        <div class="page page4">
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/4/surrounding.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <div style="margin-top: 0.15rem;" class="swiperContainer swiper-container-horizontal swiper-container-wp8-horizontal">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/4/photo1.png">
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/4/photo.png">
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/4/photo2.png">
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/4/photo3.png">
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/4/photo4.png">
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+                <img src="<%=basePath%>gamestatic/img/mobileImg/4/building.png">
+            </div>
+        </div>
+        <div class="page page5">
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/5/job.png">
+            </div>
+            <div  class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <div style="margin-top: 0.15rem;" class="swiper-container swiper-container-horizontal swiper-container-wp8-horizontal">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon1.png">
+                            <p></p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="1">查看详情</a>
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon2.png">
+                            <p></p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="2">查看详情</a>
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon3.png">
+                            <p></p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="3">查看详情</a>
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon4.png">
+                            <p></p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="4">查看详情</a>
+                        </div>
+                        <div class="swiper-slide" >
+                            <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon5.png">
+                            <p></p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="5">查看详情</a>
+                        </div>
+
+                        <div class="swiper-slide">   <img src="<%=basePath%>gamestatic/img/mobileImg/5/icon6.png">
+                            <p>更多职位</p>
+                            <a href="javascript:void (0);" class="detailBtn" data-page="6">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page pageDetail page6" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3></h3>
+                <div class="wrapper" >
+                    <p style="margin-bottom: 0.2rem;">&nbsp;&nbsp;<span>【岗位职责】</span></br>
+                        <span class="detail "></span>
+                    </p>
+                </div>
+
+                <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+
+            </div>
+        </div>
+        <div class="page pageDetail page7" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3></h3>
+                <div class="wrapper">
+                    <p style="margin-bottom: 0.2rem;">&nbsp;&nbsp;<span>【岗位职责】</span></br>
+                        <span class="detail"></span></p>
+
+                    <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+                </div>
+            </div>
+        </div>
+        <div class="page pageDetail page8" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3></h3>
+                <div class="wrapper" style="  -webkit-overflow-scrolling: touch;">
+                    <p  style="margin-bottom: 0.2rem;  ">&nbsp;&nbsp;<span>【岗位职责】</span></br>
+                        <span class="detail"></span></p>
+                </div>
+                <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+
+            </div>
+        </div>
+        <div class="page pageDetail page9" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3></h3>
+                <div class="wrapper">
+                    <p style="margin-bottom: 0.2rem;">&nbsp;&nbsp;<span>【岗位职责】</span></br>
+                        <span class="detail"></span></p>
+                    <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+                </div>
+            </div>
+        </div>
+        <div class="page pageDetail page10" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3></h3>
+                <div class="wrapper">
+                    <p style="margin-bottom: 0.2rem;">&nbsp;&nbsp;<span>【岗位职责】</span></br>
+                        <span class="detail"></span></p>
+                    <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+                </div>
+            </div>
+        </div>
+        <div class="page pageDetail page98">
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="rollIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/6/detail.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <h3>更多职位</h3>
+                <div class="wrapper">
+                    <p style="margin-bottom: 0.2rem;">&nbsp;&nbsp;<span>【岗位】</span></br>
+                        <span class="detail"></span>
+                    </p>
+                    <a href="javascript:void (0);" style="bottom:-0.5rem;">投递简历</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="page page99" >
+            <div class="js-animate animated top" data-animate="bounceIn" data-time="0">
+                <img class="lanternL" src="<%=basePath%>gamestatic/img/mobileImg/lanternL.png">
+                <img class="lanternR" src="<%=basePath%>gamestatic/img/mobileImg/lanternR.png">
+            </div>
+            <div class="js-animate animated topPic" data-animate="bounceIn" data-time="500">
+                <img src="<%=basePath%>gamestatic/img/mobileImg/7/information.png">
+            </div>
+            <div class="js-animate animated intro" data-animate="bounceIn" data-time="800">
+                <img class="logo" src="<%=basePath%>gamestatic/img/mobileImg/1/logo1.png">
+                <form>
+                    <input class="userName" autocomplete="off" type="text" name="userName" placeholder="请输入姓名">
+                    <input class="telphone" autocomplete="off" type="number" name="telphone" placeholder="请输入手机号码">
+                    <div>
+                        <select class="resumeName">
+
+                        </select>
+                    </div>
+                    <div>
+                        <select class="sex">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </div>
+                    <button type="button" class="joinUs">加入我们</button>
+                </form>
+            </div>
+            <div class="msgBox hide">
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+<span class="start"><b></b></span>
+<script type="text/javascript">
+    function alertMsg(txt){
+        $('.msgBox').removeClass('hide').find('p').html(txt);
+        setTimeout(function(){
+            $('.msgBox').addClass('hide');
+        },1500);
+    }
+
+
+    //手机正则
+    function checkMobile(tel){
+        if(!/^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$/.test(tel)){
+            return true;
+        }
+    }
+    $.get('/official/recruit/pc/javaDept',function(res){
+        for(var i=0;i<res.date.length;i++){
+            var txt=6+i;
+            $('.page5 .swiper-slide').eq(i).find('p').html(res.date[i].memberName);
+            $('.page'+txt).find('h3').html(res.date[i].memberName);
+            $('.page'+txt).find('.detail').html(res.date[i].mbDetail);
+        }
+    });
+    $.get('/official/recruit/pc/selectMoreDeptMembers',function(res){
+        var txt='';
+        res.date.forEach(function(i,index){
+            txt+=(' '+i.memberName+';')
+        });
+        $('.page98 .detail').html(txt);
+    });
+    $.get('/official/recruit/pc/selectDeptMember',function(res){
+        // console.log(res.date);
+        res.date.forEach(function(i,index){
+            $('.resumeName').append('<option value='+i.memberName+'>'+i.memberName+'</option>')
+        });
+    });
+    //职位展示
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 2.5,
+        spaceBetween: 14,
+        // centeredSlides: false,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    });
+    //公司环境
+    var swiper1 = new Swiper('.swiperContainer', {
+        spaceBetween: 14,
+        // centeredSlides: false,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+
+    //假数据
+    $('.detailBtn').click(function(){
+        $.fn.fullpage.moveTo($(this).data('page')+4,true);//布尔值控制跳转动画
+    });
+    $('.page99 .joinUs').click(function(){
+        if($('.userName').val()==''){
+            alertMsg('名字不能为空');
+        }else if($('.telphone').val()==''){
+            alertMsg('手机号码不能为空');
+        }else if(checkMobile($('.telphone').val())){
+            alertMsg('手机号码格式不对');
+        }else{
+            $.ajax({
+                url:'/official/recruit/pc/phoneresume',
+                type:'POST',
+                data:{name:$('.userName').val(),phoneNumber:$('.telphone').val(),resumeName:$(".resumeName").find("option").not(function(){ return !this.selected }).text(),sex:$(".sex").find("option").not(function(){ return !this.selected }).text()},
+                success:function(data){
+                    alertMsg(data.msg);
+                },
+                error:function(){
+                    alertMsg('提交失败');
+                }
+            });
+
+        }
+    });
+
+    //跳转投递简历按钮
+    $(".pageDetail a").click(function(){
+        $.fn.fullpage.moveTo($('.page').length-1,true);//布尔值控制跳转动画
+    });
+    window.onload=function(){
+        //浠ヨ嫻鏋�鐨勫搴︿负鏍囧噯
+        $('html').css('font-size',document.body.clientWidth/3.75);
+        $('.page5 ul').css('width',($('.page5 ul li').length*1.7)+'rem');
+    };
+    $('.wp-inner').fullpage({
+        change: function (e) {
+            //向下箭头
+            $('.start').css('display',$.fn.fullpage.getCurIndex()==($('.page').length-1)?'none':'block');
+            // 移除动画属性
+            $('.page').eq(e.cur).find('.js-animate').each(function() {
+                $(this).removeClass($(this).data('animate')).hide();
+            });
+        },
+        afterChange: function (e) {
+            // 添加动画属性
+            $('.page').eq(e.cur).find('.js-animate').each(function () {
+                var $this = $(this);
+                var time = $this.data('time');
+                setTimeout(function () {
+                    $this.addClass($this.data('animate')).show();
+                }, time);
+            });
+        }
+    });
+</script>
+</body>
+
+</html>

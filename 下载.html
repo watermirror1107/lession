@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/bootstrap.css" rel="stylesheet"></head>
+<body>
+
+<!--方法一JSON和普通的表格都可以下载-->
+<a href="" download="x.json">点击链接下载</a>
+<button >点击按钮下载</button>
+<a href="#" class="save">保存文件</a>
+<span class="glyphicon glyphicon-download-alt" aria-hidden="true" ></span>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+ /*   //方法二只能用来下载非json文件;
+    $('button').click(function () {
+        $.ajax({
+            url:'./he.xml',
+            success:function(r){
+                window.location.href = 'he.xml';
+            }
+        })
+    });
+*/
+    //方法三
+    function fake_click(obj) {
+        var ev = document.createEvent("MouseEvents");
+        ev.initMouseEvent(
+            "click", true, false, window, 0, 0, 0, 0, 0
+            , false, false, false, false, 0, null
+        );
+        obj.dispatchEvent(ev);
+    }
+
+    function export_raw(name, data) {
+        var urlObject = window.URL || window.webkitURL || window;
+
+        var export_blob = new Blob([data]);
+
+        var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a");
+        save_link.href = urlObject.createObjectURL(export_blob);
+        save_link.download = name;
+        fake_click(save_link);
+    }
+
+    //方法四
+    $('.save').click(function(companyId) {
+        export_raw('test.html', 'hello world');
+    });
+
+    //方法五通过提交隐藏表单实现下载
+    //get请求
+    $('.download').click(function () {
+        var tt = new Date().getTime();
+        var url = 'http://192.168.1.231:8080/91survey/ws/excel/download';
+        /**
+         * 使用form表单来发送请求
+         * 1.method属性用来设置请求的类型——post还是get
+         * 2.action属性用来设置请求路径。
+         *
+         */
+        var form=$("<form>");//定义一个form表单
+        form.attr("style","display:none");
+        form.attr("target","");
+        form.attr("method","get"); //请求类型
+        form.attr("action",url); //请求地址
+        $("body").append(form);//将表单放置在web中
+        /**
+         * input标签主要用来传递请求所需的参数：
+         *
+         * 1.name属性是传递请求所需的参数名.
+         * 2.value属性是传递请求所需的参数值.
+         *
+         * 3.当为get类型时，请求所需的参数用input标签来传递，直接写在URL后面是无效的。
+         * 4.当为post类型时，queryString参数直接写在URL后面，formData参数则用input标签传递
+         * 有多少数据则使用多少input标签
+         *
+         　　　*/
+        var input1=$("<input>");
+        input1.attr("type","hidden");
+        input1.attr("name","tt");
+        input1.attr("value",tt);
+        form.append(input1);
+        var input2=$("<input>");
+        input2.attr("type","hidden");
+        input2.attr("name","companyId");
+        input2.attr("value",companyId);
+        form.append(input2);
+        form.submit();//表单提交
+    });
+    //post请求
+
+
+    $('.download').click(function(){
+        var tt =newDate().getTime();
+        var url = restUrl +'/excel/download?userId='+ userId;
+        var form=$("<form>");//定义一个form表单
+        form.attr("style","display:none");
+        form.attr("target","");
+        form.attr("method","post");//请求类型
+        form.attr("action",url);//请求地址
+        $("body").append(form);//将表单放置在web中
+        var input1=$("<input>");
+        input1.attr("type","hidden");
+        input1.attr("name","tt");
+        input1.attr("value",tt);
+        form.append(input1);
+        var input2=$("<input>");
+        input2.attr("type","hidden");
+        input2.attr("name","companyId");
+        input2.attr("value",companyId);
+        form.append(input2);
+        form.submit();//表单提交
+    });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table{margin: 0 auto;}
+    </style>
+</head>
+<body>
+<div style="margin:50px 0 0 600px;background-color: #7cff41;height: auto;width: 450px">
+    <h3 style="text-align: center;padding-top:30px;">注册页面</h3>
+    <h4 style="text-align: center;background-color: #FFCC00">请完成以下表格</h4>
+    <form:form modelAttribute="user" method="post" action="register" >
+        <table>
+            <tr>
+                <td><label>登录名: </label></td>
+                <td><input type="text" id="loginname" name="loginname" ></td>
+            </tr>
+            <tr>
+            <tr>
+                <td><label>姓名: </label></td>
+                <td><input type="text" id="username" name="username" ></td>
+            </tr>
+            <tr>
+                <td><label>密码: </label></td>
+                <td><input type="password" id="password" name="password"></td>
+            </tr>
+            <tr>
+            <tr>
+                <td><label>确认密码: </label></td>
+                <td><input type="password" id="password2" name="password2"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="color: red">${requestScope.user.msg }</td>
+            </tr>
+
+            <tr>
+                <td><label>邮箱地址: </label></td>
+                <td><input type="text" id="email" name="email" ></td>
+            </tr>
+            <tr>
+                <td><label>手机号码: </label></td>
+                <td><input type="text" id="telephone" name="telephone" ></td>
+            </tr>
+            <tr>
+                <td><label>学号: </label></td>
+                <td><input type="text" id="sid" name="sid" ></td>
+            </tr>
+            <tr>
+                <td><label>班级: </label></td>
+                <td><input type="text" id="sclass" name="sclass" ></td>
+            </tr>
+            <tr>
+                <td><label>院校: </label></td>
+                <td><input type="text" id="faculty" name="faculty" ></td>
+            </tr>
+            <tr>
+
+                <table>
+                    <tr>
+                        <td>性别:</td>
+                        <td>
+                            <input type="radio" checked="checked" path="sex" value="男" name="sex"/>
+                        </td>
+                        <td>
+                            男
+                        </td>
+                        <td>
+                            <input type="radio" path="sex" value="女" name="sex"/>
+
+                        <td>
+                            女
+                        </td>
+                    </tr>
+                </table>
+
+            </tr>
+            <tr>
+
+                <table>
+                    <tr>
+                        <td>部门:</td>
+                        <td>
+                            <select path="deptId">
+                                <option value="1">闽江学院</option>
+                                <option value="2">软件学院</option>
+                                <option value="3">软件工程</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+            </tr>
+            <tr>
+
+                <table>
+                    <tr>
+                        <td>个人爱好:</td>
+                        <td>
+                            <label for="">养鸟</label><input type="checkbox" path="courses" value="bird" name="habit">
+                            <label for="">象棋</label><input type="checkbox" path="courses" value="chess" name="habit">
+                            <label for="">听戏</label><input type="checkbox" path="courses" value="opera" name="habit">
+
+                        </td>
+
+                    </tr>
+                </table>
+                <h6 style="text-align: center;padding:5px;margin:0;">在上面选择自己兴趣爱好。</h6>
+                <table>
+                <tr style="width:100%;"><td style="">留言内容</td></tr>
+            <tr style="width:100%;">
+
+                <td style="width:100%;"><textarea style="border:2px solid pink;height: 130px;width: 280px;resize:none;"></textarea></td>
+            </tr>
+            <h5 style="margin:5px auto;padding:5px 0 5px 130px;background-color: #FFCC00">填写完成后，轻点下方的提交按钮。</h5>
+            <tr style="text-align: center;">
+                <td><input style="display:inline;" id="submit" type="submit" value="提交">
+                <input style="display:inline;" id="reset" type="reset" value="重置"></td>
+            </tr>
+
+        </table>
+
+            </tr>
+        </table>
+    </form:form>
+</div>
+</body>
+</html>

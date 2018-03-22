@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="box">
+    <p>hahahah</p>
+    <button onclick="getmsg()">GET</button>
+    <iframe src="导航条动画.html" frameborder="1"></iframe>
+</div>
+</body>
+</html>
+<script>
+    function getmsg() {
+        var x=new Worker('./js/message.js');
+        x.onmessage=function (event) {
+            document.getElementsByTagName('p')[0].innerHTML=event.data;
+            console.log(event.data)
+        }
+    }
+
+</script>

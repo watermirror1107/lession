@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <style>
+    	*{margin:0;padding:0;}
+    	ul{list-style: none;}
+    </style>
+</head>
+<body>
+    <input type="text" placeholder="请输入搜索内容" value="">
+    <button>搜索</button>
+    <button>清除搜索记录</button>
+    <ul class="tagList"></ul>
+   	<script type="text/javascript">
+        var historyArr;
+        if(window.localStorage.historyArr){
+            historyArr=window.localStorage.historyArr.split(',');
+            //ES6去重
+            historyArr=new Set(historyArr);
+            historyArr=Array.from(historyArr);
+            for(var i=0;i<historyArr.length;i++){
+                $('.tagList').append('<li>'+historyArr[i]+'</li>');
+            }
+        }else{
+            historyArr=[];
+        }
+
+   		$('button:eq(0)').click(function(){
+           historyArr.push($('input').val());
+   		});
+   		$('button:eq(1)').click(function(){
+            historyArr=undefined;
+            $('.tagList').html('');
+            alert('清除完毕');
+   		});
+   		window.onunload=function(){
+   		    if(historyArr){
+                window.localStorage.historyArr=historyArr;
+            }else{
+                window.localStorage.removeItem('historyArr');
+            }
+   		};
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .father{
+            overflow-y:auto ;
+            width:20%;
+            height:300px;
+
+        }
+        .son{
+            width:100%;height:900px;
+            background-color:yellow ;
+        }
+    </style>
+</head>
+<body>
+<div class="father">
+    <div class="son">鼠标移到这里</div>
+</div>
+<script>
+
+    window.onload=function(){
+        console.log('load')
+    };
+    $(document).ready(()=>{
+        console.log('ready');
+    });
+
+
+</script>
+</body>
+</html>

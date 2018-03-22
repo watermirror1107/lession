@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        .box{box-shadow: #0a0a0b 0px 5px 5px ;width:100vw;height:60px;transform: rotateZ(60deg);}
+    </style>
+</head>
+<body>
+<div class="box"></div>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    var x=$('.box').css('transform');
+    var values = x.split('(')[1].split(')')[0].split(',');
+    var a = values[0];
+    var b = values[1];
+    var c = values[2];
+    var d = values[3];
+
+
+    var scale = Math.sqrt(a * a + b * b);
+
+    console.log('Scale: ' + scale);
+
+
+    // arc sin, convert from radians to degrees, round
+    var sin = b / scale;
+    // next line works for 30deg but not 130deg (returns 50);
+    // var angle = Math.round(Math.asin(sin) * (180/Math.PI));
+    var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+    //angle=angle+60;
+    //$('.box').css('transform','rotateZ('+angle+'deg)');
+    console.log('Rotate:'+angle+'deg' );
+</script>

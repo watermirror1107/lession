@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var arr=[1,2,1,2,3,5,4,9,4,5,6,7,77,8,99,5];
+    var ss=new Set(arr);
+    console.log(typeof ss);  //object;
+    console.log(ss);
+    console.log(ss.add('df'));//返回添加后的SET结构对象；
+    console.log(ss.has('df'));//返回布尔值;表示是否有这个值;
+    console.log(ss.delete('df'));//返回布尔值，表示删除成功是否;
+    //console.log(ss.clear());//清空set对象，返回值undefined；
+    //清空了set对象会影响到上面的结构;size会等于0;
+    var arr1=[{'name':'tom','age':12},{'name':'tim','age':18},{'name':'jim','age':15}];
+    for(var i=0;i<arr1.length;i++){
+        for(var key in arr1[i]){
+            console.log(arr1[i][key]);
+        }
+
+    }
+    //set的去重办法只能用在非对象数组的;
+    var arr3=[{'name0':'tom','age':12},{'name1':'tom','age':16},{'name2':'tim','age':12},{'name3':'tom','age':12},]
+    var sss=new Set(arr3);
+    console.log(sss);
+
+
+    //普通循环;默认是键值循环;等于键值循环;
+    for(let item of ss){
+        console.log(item)
+    }
+    //键名循环;
+    for(let item of ss.keys()){
+        item=item*2;
+        console.log(item)
+        //但是这样无法改变ss的值；如果想在遍历操作中，同步改变原来的 Set 结构，目前没有直接的方法，但有两种变通方法。
+        // 一种是利用原 Set 结构映射出一个新的结构，然后赋值给原来的 Set 结构；另一种是利用Array.from方法
+        /*// 方法一
+        let set = new Set([1, 2, 3]);
+        set = new Set([...set].map(val => val * 2));
+        // set的值是2, 4, 6
+
+        // 方法二
+        let set = new Set([1, 2, 3]);
+        set = new Set(Array.from(set, val => val * 2));
+        // set的值是2, 4, 6*/
+    }
+    //键值循环;
+    for (let item of ss.values()) {
+        console.log(item);
+    }
+    //键值对的遍历器
+    for (let item of ss.entries()) {
+        console.log(item);
+    }
+    //数组模型的
+    for (let item of ss.entries()) {
+        console.log(item);
+    }
+</script>

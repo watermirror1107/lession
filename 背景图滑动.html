@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin: 0;padding:0;}
+        .box1{text-align:center;padding:100px 0;width:100%;text-transform: uppercase;position: relative;}
+        span{padding:2px;position: absolute;bottom:-21px;left:calc(50% - 29px);background-color: rgba(255,255,255,.6);cursor: pointer;}
+        h1{line-height:100px;}
+        .box2{height:800px;width:100%;background:url("images/banner1.jpg") no-repeat;background-size: cover;background-attachment:fixed;}
+        .box2:nth-child(2){background-image:url("images/banner2.jpg");}
+    </style>
+</head>
+<body>
+    <div class="box1">
+        <h1>标题</h1>
+        <span>down</span>
+    </div>
+    <div class="box2"></div>
+    <div class="box1"><h1>标题</h1><span>down</span></div>
+    <div class="box2"></div>
+    <div class="box1"><h1>标题</h1><span>up</span></div>
+    <div class="box2" style="background-image:url('images/banner3.jpg')"></div>
+</body>
+</html>
+<script>
+    var Span=document.getElementsByTagName('span');
+    var Box2H=document.getElementsByClassName('box2')[0];
+    var Box1H=document.getElementsByClassName('box1')[0];
+    for (let i=0;i<Span.length;i++){
+        Span[i].onclick=function () {
+            if(i==2){
+                var timer=setInterval(function () {
+                    document.documentElement.scrollTop-=(Box2H.offsetHeight+Box1H.offsetHeight)/50;
+                    if(document.documentElement.scrollTop==0){
+                        clearInterval(timer);
+                    }
+                },5)
+            }else{
+                var totalH=(i+1)*(Box2H.offsetHeight+Box1H.offsetHeight);
+                var timer=setInterval(function () {
+                    document.documentElement.scrollTop+=(Box2H.offsetHeight+Box1H.offsetHeight)/100;
+                    if(document.documentElement.scrollTop==totalH){
+                        clearInterval(timer);
+                    }
+                },5);
+            }
+        }
+    }
+</script>

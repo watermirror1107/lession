@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        body{text-align:center;position:relative;background-image: url("images/gameintrobgimg.png");}
+        .reel{margin-top: 30px;height:80%;position:relative;display:inline-block;}
+        .reel>div{float:left;}
+        .reel .left{transition:all 2s;}
+        .reel .paper{display: inline-block;position:relative;perspective:800px;text-align:center;height:544px;margin:88px -15px 0;width:30px;}
+        .reel .paper .paperslide{position:relative;display: inline-block;height:100%;float:left;z-index:2;transition:all 2s;width:0;background:url("images/reel.png");background-attachment: fixed;background-position: 275px 120px;}
+        .reel .paper .paperslide:nth-child(1){}
+        .reel .paper .paperslide:nth-child(2){}
+        .reel .paper .first{background-position:1181px 0 !important;}
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+</head>
+<body>
+<div class="reel">
+    <div class="left">
+        <img src="images/reelleft.png">
+    </div>
+    <div class="paper">
+        <div class="paperslide"></div>
+        <div class="paperslide"></div>
+        <!-- <img class="seal disseal" src="<%=basePath%>gamestatic/img/seal.png"> -->
+    </div>
+    <div class="left right">
+        <img src="images/reelright.png">
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+  window.onload=function () {
+      $('.reel .paper').css({'width':'auto'});
+      //$('.reel .paper .paperslide').eq(0).addClass('first');
+      $('.reel .paper .paperslide').css({'width':'591px'});
+  }
+</script>

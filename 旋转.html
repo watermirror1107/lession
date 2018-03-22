@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{padding:0;margin:0;
+            -webkit-transition: all  1s;
+            -moz-transition: all 1s;
+            -ms-transition: all 1s;
+            -o-transition: all 1s;
+            transition: all 1s;
+        }
+        .box{
+            position: relative;
+            width:200px;height:200px;transform-style: preserve-3d;perspective: 500px;
+            backface-visibility: visible;;
+        }
+        .box:hover{transform: rotateY(180deg)}
+        .front,.back{width:100%;height:100%;}
+        .front{background-color: black;color:white;font-size: 20px;}
+        .back{position:absolute;left:0;top:0;background-color: yellow;color:red;font-size: 20px;transform:rotateY(180deg);}
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="front">front</div>
+    <div class="back">back</div>
+</div>
+</body>
+</html>

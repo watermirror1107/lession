@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<input type="password" placeholder="请输入密码">
+<button>显示密码</button>
+<button>隐藏密码</button>
+<script>
+    $('button:eq(0)').click(()=>{
+        $('input').attr('type','text');
+    });
+    $('button:eq(1)').click(()=>{
+        $('input').attr('type','password');
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    setTimeout(function () {
+        console.log('three');
+    }, 0);
+
+    Promise.resolve().then(function () {
+        console.log('two');
+    });
+
+    console.log('one');
+
+    // one
+    // two
+    // three
+</script>

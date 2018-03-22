@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button class="button2">2</button>
+<button class="button3">3</button>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<!--JQ的自己的promise:deferred-->
+<script>
+    function runAsync1(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    function runAsync2(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    function runAsync3(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName);
+                console.log(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    //单个调用;
+    $('.button2').click(function () {
+        runAsync1().then(function (dd) {
+            console.log('成功调用JQ的deferred并且传递参数:'+dd)
+        })
+    });
+    //多个调用;
+    $('.button3').click(function () {
+        $.when(runAsync1(),runAsync2(),runAsync3()).then(function (d1,d2,d3) {
+            console.log('全部执行完毕');
+            console.log('第一个参数:'+d1+'; 第二个参数：'+d2+'; 第三个参数：'+d3)
+        })
+    })
+    //
+    //
+</script>

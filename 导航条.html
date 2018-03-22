@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{padding:0;margin:0;}
+        ul{list-style: none;}
+        ul li{cursor:pointer;position:relative;float:left;width:100px;height:50px;line-height: 50px;font-size:20px;border:1px solid black;}
+
+        .litMenu{display:none;position: absolute;top:65px;}
+        .active{display:block;}
+        .litMenu dd{border:1px solid black;height:30px;width:100px;}
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <ul>
+        <li>姓名</li>
+        <li>更多
+            <dl class="litMenu">
+                <dd>a</dd>
+                <dd>a</dd>
+                <dd>a</dd>
+            </dl>
+            </li>
+        <li>基础</li>
+    </ul>
+    <script>
+        $('li').mouseenter(function(){
+            if($(this).find('.litMenu').length!=0){
+                $(this).find('.litMenu').addClass('active');
+            }
+        });
+        let funy=true;
+        $('li').mouseleave(function(){
+            let xx=$(this);
+                    setTimeout(function(){
+                        //需要注意的是这里的this是window,所以不能用,用个中间变量过渡下；
+                        if( xx.find('.litMenu').length!=0 && funy ){ $('.litMenu').removeClass('active');}
+                    },200);
+        });
+        $('.litMenu').mouseenter(function(){
+            funy=false;
+        });
+        $('.litMenu').mouseout(function(){
+            funy=true;
+        });
+        console.log(this)
+
+    </script>
+</body>
+</html>

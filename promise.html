@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button class="button1">I Promise</button>
+<button class="button2">JQ Deferred</button>
+<button class="button3">JQ 的多个调用</button>
+
+<p>What The <mark>Fuck</mark></p>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<!--原生JS的promise-->
+<script>
+    function getJSON(url) {
+        return new Promise(function(resolve, reject){
+            const handler = function() {
+                if (this.readyState !== 4) {
+                    return;
+                }
+                if (this.status === 200) {
+                    resolve(this.response.people[0].firstName);
+                } else {
+                    reject(new Error(this.statusText));
+                }
+            };
+            const client = new XMLHttpRequest();
+            client.open("GET", url);
+            client.onreadystatechange = handler;
+            client.responseType = "json";
+            //client.setRequestHeader("Accept", "application/json");
+            client.send();//开始发送请求;
+
+        });
+
+
+    }
+$('.button1').click(function () {
+    getJSON("./x.json").then(function(json) {
+        $('p').html(json);
+    }, function(error) {
+        console.error('出错了', error);
+    });
+})
+</script>
+<!--JQ的自己的promise:deferred-->
+<script>
+    function runAsync1(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    function runAsync2(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    function runAsync3(){
+        var def = $.Deferred();
+        //做一些异步操作
+        $.ajax({
+            'url':'./x.json',
+            'type':'get',
+            'success':function (data) {
+                //console.log(data);
+                //success就是要传递的参数;
+                def.resolve(data.people[0].firstName);
+                console.log(data.people[0].firstName)
+                //def.reject('失败')
+            }
+        });
+        return def.promise(); //就在这里调用,此处如果没有promise;def的状态就可以在函数外面进行改变;
+    }
+    //单个调用;
+    $('.button2').click(function () {
+        runAsync1().then(function (dd) {
+            console.log('成功调用JQ的deferred并且传递参数:'+dd)
+        })
+    });
+    //多个调用;
+    $('.button3').click(function () {
+       $.when(runAsync1(),runAsync2(),runAsync3()).then(function (d1,d2,d3) {
+           console.log('全部执行完毕');
+           console.log('第一个参数:'+d1+'; 第二个参数：'+d2+'; 第三个参数：'+d3)
+       })
+    })
+
+    //
+    //
+</script>
+<!--图片加载的promise-->
+<script>
+    const preloadImage = function (path) {
+        return new Promise(function (resolve, reject) {
+            const image = new Image();
+            image.onload  = resolve;
+            image.onerror = reject;
+            image.src = path;
+        });
+    };
+</script>
+</html>

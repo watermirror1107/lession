@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="box" action="x.json">
+    <tr>
+        <input type="text" class="fn" value="" placeholder="姓">
+        <input type="text" class="ln" placeholder="名" value="">
+        <input type="button" value="按钮" class="button">
+        <input type="button" value="按钮1" class="button1">
+    </tr>
+</form>
+</body>
+</html>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script>
+    $('.button').click(function () {
+
+
+
+
+
+        $.ajax({
+            'url':'./x.json',
+            'type':'POST',
+            'async':false,
+           // 'dataType':'xml',
+            'data':{'firstName':$('.fn').val(),'lastName':$('.ln').val()},
+            'success':function (data) {
+               console.log('success提交');
+               console.log(data)
+            },
+            'error':function(){
+                console.log('失败');
+            }
+
+        });
+
+
+    });
+    $.get('/baiwu.com',{userId:123},function (res) {
+
+    },function(){
+        alert('出错')
+    });
+
+</script>

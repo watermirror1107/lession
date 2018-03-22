@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+    <style>
+        body{position: relative;width:100vw;height:100vh;}
+        button {border:none;border-radius:5px;position:absolute;margin: auto;left:0;right:0;top:0;bottom:0;outline:none;width:100px;height:40px;background-color: aqua;color:white;line-height:20px;font-size:16px;}
+        .visited{background-color:greenyellow;}
+    </style>
+</head>
+<body>
+<button>点我</button>
+</body>
+</html>
+<script>
+    $('button').click(function(){
+        $(this).addClass('visited');
+        var num=Math.random()*10;
+        if(num<2.5){alert('肉夹馍')}else if(num>2.5&&num<5){alert('黄焖鸡')}else if(num>5&&num<7.5){alert('小面')}else{alert('饺子')}
+    })
+</script>
