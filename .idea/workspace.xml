@@ -18,45 +18,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="视频.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/视频.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="localstorage.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/localstorage.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
-              <folding>
-                <element signature="e#880#934#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/form.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="input类型.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/input类型.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="123.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/123.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -111,16 +72,52 @@
         <entry file="file://$PROJECT_DIR$/thress学习.html">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret lean-forward="true" selection-end-line="14" selection-end-column="6" />
+              <caret selection-end-line="14" selection-end-column="6" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thress插件检测动画帧数.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="thress插件检测动画帧数.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/thress插件检测动画帧数.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-748">
-              <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+            <state relative-caret-position="340">
+              <caret line="10" column="3" selection-start-line="8" selection-start-column="4" selection-end-line="10" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="thress控件插件.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/thress控件插件.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="548">
+              <caret line="95" column="25" lean-forward="true" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/promise.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4148">
+              <caret line="122" column="9" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="promise顺序问题.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/promise顺序问题.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stats.min.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/stats.min.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -128,17 +125,8 @@
       <file leaf-file-name="dddd.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dddd.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="反向数组循环.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/反向数组循环.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="30" selection-end-column="5" />
+            <state relative-caret-position="510">
+              <caret line="15" column="6" lean-forward="true" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -149,8 +137,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -160,6 +148,7 @@
       <find>证明人</find>
       <find>700px</find>
       <find>1</find>
+      <find>requestAnimationFrame</find>
     </findStrings>
     <replaceStrings>
       <replace>1s</replace>
@@ -168,9 +157,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/JS脚本之间的通信.html" />
-        <option value="$PROJECT_DIR$/导航条动画.html" />
-        <option value="$PROJECT_DIR$/deferred.html" />
         <option value="$PROJECT_DIR$/JQ获取transform属性.html" />
         <option value="$PROJECT_DIR$/JQ获取transform属性值.html" />
         <option value="$PROJECT_DIR$/new.html" />
@@ -215,10 +201,13 @@
         <option value="$PROJECT_DIR$/input类型.html" />
         <option value="$PROJECT_DIR$/123.html" />
         <option value="$PROJECT_DIR$/up&amp;down.html" />
-        <option value="$PROJECT_DIR$/js/three.min.js" />
         <option value="$PROJECT_DIR$/js/stats.min.js" />
         <option value="$PROJECT_DIR$/thress学习.html" />
+        <option value="$PROJECT_DIR$/promise顺序问题.html" />
+        <option value="$PROJECT_DIR$/js/three.min.js" />
         <option value="$PROJECT_DIR$/thress插件检测动画帧数.html" />
+        <option value="$PROJECT_DIR$/js/dat.gui.min.js" />
+        <option value="$PROJECT_DIR$/thress控件插件.html" />
       </list>
     </option>
   </component>
@@ -450,11 +439,13 @@
       <workItem from="1521081732978" duration="578000" />
       <workItem from="1521687608397" duration="484000" />
       <workItem from="1521689025326" duration="466000" />
+      <workItem from="1521692179362" duration="736000" />
+      <workItem from="1521699764978" duration="2385000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="249634000" />
+    <option name="totallyTimeSpent" value="252755000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -508,59 +499,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/input类型.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/123.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13974">
-          <caret line="411" selection-start-line="411" selection-end-line="411" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#p#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#p#0;n#div#2;n#div#1;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#3;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#4;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#9600#9606#0" expanded="true" />
-            <element signature="e#9606#9612#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#2;n#div#5;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#6;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#10598#10604#0" expanded="true" />
-            <element signature="e#10604#10610#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#6;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#2;n#div#7;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#7;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#11625#11631#0" expanded="true" />
-            <element signature="e#11631#11637#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#2;n#div#7;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#8;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#12600#12606#0" expanded="true" />
-            <element signature="e#12606#12612#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#8;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#13579#13585#0" expanded="true" />
-            <element signature="e#13585#13591#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#9;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#div#2;n#div#10;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#14561#14567#0" expanded="true" />
-            <element signature="e#14567#14573#0" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#10;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/判断鼠标拖拽上或下.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/thress学习.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -630,13 +568,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="5" column="41" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/ThreeCanvas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -736,13 +667,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
           <caret line="14" column="7" selection-start-line="14" selection-start-column="7" selection-end-line="14" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/promise.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="23" column="27" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -879,38 +803,73 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/thress学习.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/promise.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4148">
+          <caret line="122" column="9" selection-start-line="122" selection-start-column="9" selection-end-line="122" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/promise顺序问题.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/three.min.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="773">
-          <caret line="926" column="55" selection-start-line="926" selection-start-column="55" selection-end-line="926" selection-end-column="55" />
+        <state relative-caret-position="34">
+          <caret line="149" column="268" selection-start-line="149" selection-start-column="268" selection-end-line="149" selection-end-column="268" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/ThreeCanvas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/stats.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dddd.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/thress学习.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret lean-forward="true" selection-end-line="14" selection-end-column="6" />
+        <state relative-caret-position="510">
+          <caret line="15" column="6" lean-forward="true" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/thress插件检测动画帧数.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-748">
-          <caret line="17" column="6" selection-start-line="17" selection-start-column="6" selection-end-line="17" selection-end-column="6" />
+        <state relative-caret-position="340">
+          <caret line="10" column="3" selection-start-line="8" selection-start-column="4" selection-end-line="10" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/dat.gui.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/thress控件插件.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="548">
+          <caret line="95" column="25" lean-forward="true" selection-start-line="95" selection-start-column="25" selection-end-line="95" selection-end-column="25" />
         </state>
       </provider>
     </entry>
