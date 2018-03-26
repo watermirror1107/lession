@@ -14,7 +14,10 @@
             ctx.fillText("绘制填充文字",30,100);
             ctx.font = "25px 隶书";
             ctx.fillStyle = "Green";
-            ctx.fillText("绘制填充文字",30,130);
+            ctx.textAlign="right";//让字体左对齐;对齐后书写的起点也发生改变，需要更换
+            ctx.fillText("绘制填充文字",200,130);
+            ctx.fillText("绘制填",200,160);
+
         }
         window.onload = function(){
             draw();
