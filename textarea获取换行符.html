@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<textarea name="dd" id="text" cols="30" rows="10"></textarea>
+<button id="btn"><点击></点击></button>
+<script>
+    $('button').click(function(){
+        console.log($('#test').val());
+    })
+    document.getElementById("btn").onclick = function() {
+        var strContent = document.getElementById("text").value;
+        alert("处理前的strContent为\r\n"+strContent);
+        strContent = strContent.replace(/\r\n/g, '<br/>'); //IE9、FF、chrome
+        strContent = strContent.replace(/\n/g, '<br/>'); //IE7-8
+        strContent = strContent.replace(/\s/g, ' '); //空格处理
+        alert("转换之后的html代码为\r\n"+strContent);
+        document.getElementById("show").innerHTML = strContent;
+    };
+
+    /*
+ * 根据Value格式化为带有换行、空格格式的HTML代码
+ * @param strValue {String} 需要转换的值
+ * @return  {String}转换后的HTML代码
+ * @example
+ * getFormatCode("测\r\n\s试")  =>  “测<br/> 试”
+ */
+    var getFormatCode=function(strValue){
+        return strValue.replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, ' ');
+    }
+</script>
+</body>
+</html>
