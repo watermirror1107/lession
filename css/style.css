@@ -1,0 +1,14 @@
+.border {
+  border: 5px solid #5B83AD;
+}
+.box {
+  border: 5px solid #5B83AD;
+  font-size: 13px;
+  color: green;
+}
+.box .son {
+  font-size: 16px;
+  color: red;
+  border: 5px solid #5B83AD;
+}
+/*# sourceMappingURL=style.css.map */
