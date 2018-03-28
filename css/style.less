@@ -1,12 +1,33 @@
-@nice-blue: #5B83AD;
+@nice-blue: #5B83AD;//变量
 .border{
   border:5px solid @nice-blue;
 }
 .box{
   .border;
-  font-size:13px;color:green;
+  font-size:13px;color:yellow;
+  p{
+  #bundle>.greenBox;
+  }
   .son{
     font-size:16px;color:red;
     .border;
+    a{
+      #bundle > .button;//这样只继承了.button的样式;
+    }
+
+  }
+}
+//函数封装样式+
+#bundle() {
+  .button {
+    display: block;
+    border: 1px solid black;
+    background-color: grey;
+    &:hover {
+      background-color: white
+    }
+  }
+  .greenBox{
+    background-color:green;
   }
 }
