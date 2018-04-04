@@ -15,30 +15,28 @@
 
     </style>
     <script>
-        var renderer,cube;
+        var renderer,width,height;
         function initThree() {
             width = document.getElementById('canvas-frame').clientWidth;
             height = document.getElementById('canvas-frame').clientHeight;
-            renderer = new THREE.WebGLRenderer();
+            renderer = new THREE.WebGLRenderer({
+                antialias : true
+            });
             renderer.setSize(width, height);
-            renderer.setClearColor(0x000000, 1.0);
             document.getElementById('canvas-frame').appendChild(renderer.domElement);
+            renderer.setClearColor(0xFFFFFF, 1.0);
         }
 
         var camera;
         function initCamera() {
-            camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
-            camera.position.x = 0;
-            camera.position.y = 1000;
-            camera.position.z = 0;
+            camera = new THREE.PerspectiveCamera(95, width / height, 1, 10000);
+            camera.position.x = 100;
+            camera.position.y = 100;
+            camera.position.z = 100;
             camera.up.x = 0;
             camera.up.y = 0;
             camera.up.z = 1;
-            camera.lookAt({
-                x : 0,
-                y : 0,
-                z : 0
-            });
+            camera.lookAt(0, 0, 0)
         }
 
         var scene;
@@ -48,24 +46,20 @@
 
         var light;
         function initLight() {
-            light = new THREE.DirectionalLight(0xFFFFFF, 1.0, 0);
+            light = new THREE.DirectionalLight(0xFF0000, 1.0, 0);
             light.position.set(100, 100, 200);
             scene.add(light);
         }
 
-
+        var cube;
         function initObject() {
 
             var geometry = new THREE.Geometry();
-            var material = new THREE.LineBasicMaterial( { vertexColors: true } );
-            var color1 = new THREE.Color( 0xFFFFFF ), color2 = new THREE.Color( 0xFFFFFF );
-            var cube1 = new THREE.CubeGeometry(1,1,1);
-            var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFFF});
-             cube = new THREE.Mesh(cube1, cubeMaterial);
+            var material = new THREE.LineBasicMaterial( { vertexColors: true , linewidth:100} );
+            var color1 = new THREE.Color( 0x000000 ), color2 = new THREE.Color( 0x000000 );
+            // 0x代表#，这里的颜色也可以用字符串color1 = new THREE.Color( 'green' );
 
-            scene.add(cube);
-
-           /* // 线的材质可以由2点的颜色决定
+            // 线的材质可以由2点的颜色决定
             var p1 = new THREE.Vector3( -100, 0, 100 );
             var p2 = new THREE.Vector3(  100, 0, -100 );
             geometry.vertices.push(p1);
@@ -73,30 +67,17 @@
             geometry.colors.push( color1, color2 );
 
             var line = new THREE.Line( geometry, material, THREE.LineSegments );
-            scene.add(line);*/
-
+            scene.add(line);
         }
 
         function threeStart() {
-            //设置渲染器
             initThree();
-            //设置相机
             initCamera();
-            //设置场景
             initScene();
-            //设置灯光
             initLight();
-            //设置物体
             initObject();
-            //renderer.clear();
-            function render() {
-                cube.rotation.x += 0.1;
-                cube.rotation.y += 0.1;
-                renderer.render(scene, camera);
-                requestAnimationFrame(render);
-            }
-            render();
-            //renderer.render(scene, camera);
+            renderer.clear();
+            renderer.render(scene, camera);
         }
 
     </script>
