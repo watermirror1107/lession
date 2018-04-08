@@ -5,6 +5,7 @@
     <title>Three框架</title>
     <script src="../js/three.min.js"></script>
     <style type="text/css">
+        *{padding:0;margin:0;}
         div#canvas-frame {
             border: none;
             cursor: pointer;
@@ -24,6 +25,7 @@
             });
             renderer.setSize(width, height);
             document.getElementById('canvas-frame').appendChild(renderer.domElement);
+            //选择背景色
             renderer.setClearColor(0xFFFFFF, 1.0);
         }
 
@@ -84,6 +86,6 @@
 </head>
 
 <body onload="threeStart();">
-<div id="canvas-frame"></div>
+    <div id="canvas-frame"></div>
 </body>
 </html>

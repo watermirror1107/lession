@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<input type="date" name="date"/>
-<input type="color" name="color"/>
+<input type="date" name="date"/><br>
+<div class="test"><input type="text" class="xx"/><br></div>
+
+<input type="color" name="color"/><br>
 <input type="time" name="datetime" step="14400"/>
+<ul>
+
+</ul>
+<button>添加</button>
+<script>
+    $('input[type="text"]').keyup(function(){
+        console.log($(this).val());
+    });
+        $('button').click(function(){
+            var x=$('.test').html();
+            console.log(x);
+            $('ul').append('<li>'+x+'</li>');
+        })
+    //动态添加节点绑keyup事件
+    $('ul').on('keyup',()=>{
+        console.log('ul li')
+    })
+
+</script>
 </body>
 </html>
