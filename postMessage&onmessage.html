@@ -8,17 +8,23 @@
 <div class="box">
     <p>hahahah</p>
     <button onclick="getmsg()">GET</button>
+    <button onclick="stop()">STOP</button>
     <iframe src="导航条动画.html" frameborder="1"></iframe>
 </div>
 </body>
 </html>
 <script>
+    var x;
     function getmsg() {
-        var x=new Worker('./js/message.js');
+         x=new Worker('./js/message.js');
         x.onmessage=function (event) {
             document.getElementsByTagName('p')[0].innerHTML=event.data;
             console.log(event.data)
         }
+    }
+    //停止接受后台脚本信息
+    function stop() {
+        x.terminate();
     }
 
 </script>

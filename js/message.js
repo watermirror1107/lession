@@ -1,6 +1,10 @@
 var i=0;
-postMessage(i);
-setTimeout(function () {
-    i+=500;
+
+function timedCount()
+{
+    i=i+1;
     postMessage(i);
-},2000);
+    setTimeout("timedCount()",500);
+}
+
+timedCount();
