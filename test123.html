@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{height:200px;}
+        #lt{ float: left;width:100px; background: #ff0;}
+        #rt{ overflow: hidden; background: #f0f;}
+    </style>
+</head>
+<body>
+<div id="lt"></div>
+<div id="rt"></div>
+<script>
+    var color1='yellow';
+   function changeColor(){
+       try{
+           if(color==='blue'){
+               color='red';
+           }
+       }catch (e) {
+           console.log(e)
+       }
+    }
+    for(var i=0;i<10;i++){
+       //console.log(i)
+    }
+    //alert(i);
+  /* function changeColor(){
+       var anotherColor='red';
+       function swapColor() {
+           var temColor=anotherColor;
+           anotherColor=color;
+           color=temColor;
+       }
+       swapColor();
+   }*/
+    //changeColor();
+    var color='blue';
+    function getColor() {
+        //因为局部变量有了color声明所以这个地方输出是undefind,而不是输出全局变量的color
+        console.log(color);
+        //如果要获取全局的color就需要用window.color来获取;
+        console.log(window.color);
+        var color='red';
+        return color;
+    }
+    alert(getColor());
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    function Animal(name) {
+        this.name = name;
+        this.showName = function() {
+            console.log(this.name);
+        };
+    }
+    //第一种继承方式
+    function Cat(name) {
+        Animal.call(this, name);//此处注意，call不能继承对象原型上的方法
+    }
+    //第二种继承方式
+    Cat.prototype = new Animal();//继承所有属性和方法
+
+    function Dog(name) {
+        Animal.apply(this, name);//同Call一样
+    }
+    Dog.prototype = new Animal();
+</script>
+</html>

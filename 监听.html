@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+    function addEvent(elem, type, handler){
+        if(elem.addEventListener){
+            elem.addEventListener(type, handler, false);
+        }else if(elem.attachEvent){
+            elem.attachEvent('on' + type, handler);
+        }else{
+            //给元素绑自定义属性的方法，类似.onclick
+            elem['on' + type] = handler;
+        }
+    }
+</script>
+</html>
