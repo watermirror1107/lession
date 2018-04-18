@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/loading.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.fullPage.js"></script>
+    <script src="js/webgl.js"></script>
+    <style>
+        *{padding:0;margin:0;}
+        body{position: relative;}
+        #mainanim{position: absolute;z-index: 1;top: 0;}
+        #fullpage{position: relative;z-index: 2;background-color: transparent;color:white;}
+        #loading span .slh{font-size:50px;transition: all 1s;animation: ddd 0.5s infinite;display: inline;}
+        @keyframes ddd {
+            from{opacity: 1}
+            to{opacity: 0}
+        }
+        #loading span .slh:nth-child(2){animation-delay: 0.1s}
+        #loading span .slh:nth-child(3){animation-delay: 0.2s}
+    </style>
+</head>
+<body>
+<div id="loading">
+    <div class="loadingwrapper"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="loadingtxt">
+        <span>LOADING<span class="slh" >.</span><span class="slh">.</span><span class="slh">.</span></span>
+    </div>
+</div>
+<div id="fullpage">
+    <div class="section">第一屏</div>
+    <div class="section">第二屏</div>
+    <div class="section">第三屏</div>
+    <div class="section">第四屏</div>
+    <div class="section">第五屏</div>
+</div>
+<script>
+    var supportWebGL=(function () {
+        try {
+            var canvas = document.createElement( 'canvas' ); return !! ( window.WebGLRenderingContext && ( canvas.getContext( 'webgl' ) || canvas.getContext( 'experimental-webgl' ) ) );
+        } catch ( e ) {
+            return false;
+        }
+    })();
+    (function(){
+        if(supportWebGL){
+
+        }else{
+            // console.log('OldBrowser!');
+        }
+    })();
+</script>
+<script src="js/common.js"></script>
+</body>
+</html>
