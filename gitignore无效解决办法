@@ -1,0 +1,5 @@
+先把本地缓存删除（改变成未被追踪状态），然后再提交：
+
+git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
