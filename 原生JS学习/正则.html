@@ -13,15 +13,17 @@
         return /[as]d/gi.test(txt);
     }
     var txt1='mom and dad and baby';
-    var pattern=/and( dad)/gi;
+    var pattern=/and( dad( and baby)?)?/gi;
     //exec捕获组用的虽然返回的是数组，但是数组额外两个属性index和input,index表示匹配项在字符串中的位置，input表示应用正则表达式的字符串;
+    //先匹配and dad and baby如果有就放进数组里面，再匹配dad and baby,最后匹配and baby,从最大的字符串开始匹配;
     var matches=pattern.exec(txt1);
-    console.log(reg());
-    console.log(matches);
-    console.log(matches.index);
-    console.log(matches.input);
+    //console.log(reg());
+    //console.log(matches);
+    //console.log(matches.index);
+    //console.log(matches.input);
     console.log(matches[0]);
     console.log(matches[1]);
+    console.log(matches[2]);
 </script>
 </body>
 </html>
