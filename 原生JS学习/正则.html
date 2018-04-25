@@ -6,7 +6,7 @@
 
 </head>
 <body>
-
+<script src="../js/jquery-3.3.1.min.js"></script>
 <script>
     var txt='aSdf1123';
     function reg(){
@@ -19,11 +19,27 @@
     var matches=pattern.exec(txt1);
     //console.log(reg());
     //console.log(matches);
-    //console.log(matches.index);
-    //console.log(matches.input);
+    //console.log(matches.index);//返回匹配成功的第一个字符串的索引
+    //console.log(matches.input);//返回匹配的字符串
     console.log(matches[0]);
     console.log(matches[1]);
     console.log(matches[2]);
+    //正则构造函数的方法，这些方法执行的都是最近一次正则的RegExp.input;RegExp.leftContext;RegExp.rightContext;RegExp.lastMatch;RegExp.lastParen;
+    //RegExp.input;返回最近一次正则的匹配字符串
+    //RegExp.leftContext;匹配成功的字符串左边的字符串;
+    //RegExp.rightContext;匹配成功的字符串右边的字符串;
+    //RegExp.lastMatch;匹配成功的字符串;
+    //RegExp.lastParen;返回最近一次匹配的捕获组;
+    var text="this is a funny man";
+    var pattern=/(.)nny/g;
+    if(pattern.test(text)){
+        console.log(RegExp.input);
+        console.log(RegExp.leftContext);
+        console.log(RegExp.rightContext);
+        console.log(RegExp.lastMatch);
+        console.log(RegExp.lastParen);
+    }
+    //详细正则规则和方法http://www.runoob.com/jsref/jsref-obj-regexp.html
 </script>
 </body>
 </html>

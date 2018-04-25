@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function compare(propertyName){
+        return function(obj1,obj2){
+            var v1=obj1[propertyName],v2=obj2[propertyName];
+            if(v2>v1){
+                return -1
+            }else if(v2<v1){
+                return 1
+            }else{
+                return 0
+            }
+        }
+    }
+    var arr=[{age:2,height:128},{age:4,height:110}];
+    arr.sort(compare('age'));
+    console.log(arr[0]);
+    arr.sort(compare('height'));
+    console.log(arr[0]);
+</script>
+</body>
+</html>

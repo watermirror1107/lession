@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var obj={};
+    Object.defineProperty(obj, "x", {value:0, writable:false});
+    obj.x='123';
+    console.log(obj)
+</script>
+</body>
+</html>
