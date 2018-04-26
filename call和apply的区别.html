@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function sum(num1,num2){
+        return num1+num2;
+    }
+    function callNum(num1,num2){
+        return sum.call(this,num1,num2)//call需要把所有的参数都罗列出来
+    }
+    function applyNum(arguments){
+        return sum.apply(this,arguments)//等价于apply(this,[])
+    }
+    function applyNum2(num1,num2){
+        return sum.apply(this,[num1,num2])//等价于apply(this,[])
+    }
+    console.log(callNum(10,5));
+    console.log(applyNum([10,5]));
+    console.log(applyNum2(10,5));
+</script>
+</body>
+</html>
