@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>skdfasldf</p>
+<script>
+    //在键盘按下去的时候就禁止控制台，不能用Keyup,因为都按下去启用了，在禁止没有意义
+    document.onkeydown=function (ev) {
+        ev=ev||window.event;
+        //按住ctrl和shift键盘，加上任意键都禁止
+       if(ev.keyCode=='123'||ev.ctrlKey&&ev.shiftKey){
+           return false;
+       }
+    };
+    //禁止右键
+    document.oncontextmenu=function (ev) {
+        return false;
+    };
+    //禁止选中
+    document.onselectstart=function (ev) {
+        return false;
+    };
+</script>
+</body>
+</html>
