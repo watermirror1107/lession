@@ -12,7 +12,13 @@
     <option value="2">2</option>
 </select>
 <script>
-
+function Person() {
+    this.name='sj';
+}
+Person.prototype.age='18';
+var p1=new Person(),p2=new Person();
+console.log(p1.name='222');
+console.log(p2.name==p1.name);
 </script>
 </body>
 </html>
