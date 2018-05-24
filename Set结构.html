@@ -23,12 +23,12 @@
         for(var key in arr1[i]){
             console.log(arr1[i][key]);
         }
-
     }
     //set的去重办法只能用在非对象数组的;
     var arr3=[{'name0':'tom','age':12},{'name1':'tom','age':16},{'name2':'tim','age':12},{'name3':'tom','age':12},]
     var sss=new Set(arr3);
     console.log(sss);
+    console.log(Array.from(sss));//把set数据结构改成数组
 
 
     //普通循环;默认是键值循环;等于键值循环;
