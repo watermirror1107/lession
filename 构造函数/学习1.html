@@ -22,6 +22,21 @@ console.log(p1.name='222');
 p1.arr.push('micheal');
 console.log(p2.name==p1.name);
 console.log(p2.arr);
+//寄生构造函数
+function Man(name,age,job){
+    var o=new Object();
+    o.name=name;
+    o.age=age;
+    o.job=job;
+    o.sayName=function () {
+        alert(this.name);
+    };
+    return o;//要返回
+}
+var friend=new Man('lili',28,'cooker');
+friend.sayName();
+console.log(friend instanceof Function);
+console.log(friend instanceof Object);
 </script>
 </body>
 </html>
