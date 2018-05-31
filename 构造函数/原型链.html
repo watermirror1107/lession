@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function FatherType(name){
+        this.name=name;
+        this.colors=['red','black','blue'];
+    };
+    FatherType.prototype.sayName=function () {
+        console.info(this.name);
+    };
+    function SonType(name,age){
+        FatherType.call(this,name);
+        this.age=age;
+    };
+    SonType.prototype=new FatherType();
+    console.log(SonType.prototype.constructor);
+    //这时候SonType的构造函数指针已经变成了FatherType;要把它的构造函数指针指回sontype
+    SonType.prototype.constructor=SonType;
+    SonType.prototype.sayAge=function () {
+        console.log(this.age);
+    };
+    var instance1=new SonType('name1','age1');
+    instance1.colors.push('black');
+    console.log(instance1.colors);
+    instance1.sayAge();
+    instance1.sayName();
+    var instance2=new SonType('name2','age2');
+    console.log(instance2.colors);
+    instance2.sayAge();
+    instance2.sayName();
+</script>
+</body>
+</html>

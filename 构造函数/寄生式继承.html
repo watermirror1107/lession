@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function object(o){
+        function f(){};
+        f.prototype=o;
+        return new f();
+    }
+    function createAnother(x){
+        var clone=object(x);
+        clone.sayHi=function () {
+            console.log('hi');
+        }
+        return clone;
+    }
+</script>
+</body>
+</html>
