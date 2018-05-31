@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
+<script type="javascript" src="../123.html" id="cu"></script>
 <script>
+    console.log($('#cu'));
     function FatherType(name){
         this.name=name;
         this.colors=['red','black','blue'];
@@ -14,7 +17,7 @@
         console.info(this.name);
     };
     function SonType(name,age){
-        FatherType.call(this,name);
+        FatherType.call(this,name);//这样就不会吧name属性变成原型属性
         this.age=age;
     };
     SonType.prototype=new FatherType();
@@ -33,6 +36,7 @@
     console.log(instance2.colors);
     instance2.sayAge();
     instance2.sayName();
+
 </script>
 </body>
 </html>
