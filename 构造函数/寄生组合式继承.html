@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function fatherType(name){
+        this.name=name;
+        this.colors=['red','blue','green'];
+    }
+    fatherType.prototype.sayName=function () {
+        console.log(this.name);
+    };
+    function sonType(name,age){
+        fatherType.call(this,name);    //第二次调用fatherType构造函数，name在是实例属性，因为用的是call；
+        this.age=age;
+    }
+    sonType.prototype=new fatherType(); //这里的name为原生属性这里是第一次调用fatherType构造函数
+    sonType.prototype.constructor=sonType;
+    sonType.prototype.sayAge=function () {
+        console.log(this.age);
+    };
+    var xx=new sonType('sss','123');
+    //寄生组合式继承
+    function inheritPrototype(a,b){
+        var xd=new Object()
+        xd.prototype=a.prototype;
+        var prototype=xd;
+        prototype.constructor=b;  //把原型对象的构造属性指回子级构造函数；
+        b.prototype=prototype;
+    }
+    function son1Type(name,age){
+        fatherType.call(this,name);
+        this.age=age;
+    }
+    //xx.name属性是实例属性
+    var userObject=new son1Type('aaa','321');
+    console.log(userObject.name);
+    console.log(userObject.colors);
+    //inheritPrototype(fatherType,son1Type);用于继承父级的原型对象；
+    console.log(userObject.sayName());//这里输出未定义，是因为用call来调用的话，只会继承父级构造函数的实例属性，不会继承原型对象里面的属性；
+
+</script>
+</body>
+</html>
