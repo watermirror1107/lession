@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var c=1;
+    function a(){
+        var aa=1;
+        return function(){
+            aa++;
+            c=aa;
+        }
+    };
+    var b=a();
+    b();
+    b();
+    console.log(c);//闭包是指有权访问另一个函数作用域中的变量函数；
+</script>
+</body>
+</html>
