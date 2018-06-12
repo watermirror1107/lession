@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var singleton=function () {   //前面有var声明一个函数就可以在这个匿名函数后面加括号运行它，否则得用括号去括起来(function(){})();
+        var p=10;
+        function pp(){
+            return false;
+        }
+        return {
+            publicProperty:true,
+            publicMethod:function () {
+                p++;
+                return pp();
+            }
+        }
+    }();
+    console.log(singleton.publicProperty);
+    //增强模块模式
+    var singleTon=function () {
+      var p=10;
+      function pp() {
+          return false;
+      }
+      var object=new Object();
+      object.publicProperty=true;
+      object.publicMethod=function () {
+          p++;
+          return pp();
+      };
+      return object;
+    }()
+</script>
+</body>
+</html>
