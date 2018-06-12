@@ -7,9 +7,19 @@
 <body>
 <script>
     //构造函数声明私有变量
-    //方法一
-
-    //方法二
+    //方法一实例私有变量
+    function myobject(){
+        var num=10;//这里的私有变量相当于构造函数的实例属性是不会被共享的
+        this.getNum=function () {
+            num++;
+            return num;
+        }
+    }
+    var a=new myobject();
+    a.getNum();
+    var b=new myobject();
+    console.log(b.getNum());//这里输出的不是12而是11，说明构造函数的私有变量没有被共享；
+    //方法二静态私有变量
     //如果在一个私有作用域里面创建一个函数能获取到私有变量的话，就要用函数表达式声明一个函数
     (function(){
         var num=10;//私有变量
