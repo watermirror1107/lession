@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function myObject() {
+        var p=10;  //这里的构造函数中的P，就是
+        function pp(){
+            return false;
+        }
+        this.ppp=function () {
+            p++;
+            console.log(p);
+            return pp();
+        }
+    }
+    var x=new myObject();
+    var y=new myObject();
+    x.ppp();
+    x.ppp();
+    x.ppp();
+    y.ppp();
+</script>
+</body>
+</html>

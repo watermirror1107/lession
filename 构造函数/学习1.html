@@ -13,13 +13,18 @@
 </select>
 <script>
 function Person() {
-    this.name='sj';
+    this.name='json';
 }
-Person.prototype.age='18';
+Person.prototype.age='18';       //原型上面的变量如果是基本类型的数据，这个变量会和实例属性一样，不共享，例如这个AGE
 Person.prototype.arr=['lili','kangkang'];
 var p1=new Person(),p2=new Person();
 console.log(p1.name='222');
 p1.arr.push('micheal');
+p1.age++;//这里的p1.age++等于p1.age=p1.age+1;所以相当于p1赋了age这个属性,覆盖了原型age，等式后面的p1.age是来自原型的，所以p1.age加加后等于19,后面读到是实例属性拍p1.age，p2.age还是原型属性,所以会导致p1和P2d的age不一样
+console.log(p1.age);
+console.log(p1.hasOwnProperty('age'));
+console.log(p2.hasOwnProperty('age'));
+console.log(p2.age);
 console.log(p2.name);
 console.log(p2.arr);
 //寄生构造函数

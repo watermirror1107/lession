@@ -12,21 +12,6 @@
     var b=function () {  //函数表达式 ，如果没有var就是全局函数,但是在严格模式下就会报错;
 
     };
-    //如果在一个私有作用域里面创建一个函数能获取到私有变量的话，就要用函数表达式声明一个函数
-    (function(){
-        var num=10;//私有变量
-        getNum=function () {  //构造函数这个时候就是个闭包，
-
-        };
-        getNum.prototype.say=function () {  //构造函数num在这引用了外面作用域链的Num变量;
-            num++;
-            return num;
-        }
-    })();
-    var x=new getNum();
-    var y=new getNum();
-    console.log(x.say());//这样就可以在外面获得num这个私有变量；
-    console.log(y.say());//但是由于这个是构造函数，所以所有的实例共享一个私有变量和原型上的函数，这时候num=12;
-</script>
+  </script>
 </body>
 </html>
