@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function output(){
+        (function(){
+            //这里面就是块级作用域；
+            for (var i=0;i<5;i++){
+                console.log(i);
+            }
+        })();
+        //这样i就会在函数结束后，被销毁，就会避免产生闭包导致的内存占用
+        var x=0;
+    }
+
+</script>
+</body>
+</html>
