@@ -25,14 +25,28 @@
 </p>
 <p>
     使用
-    　　requestAnimationFrame的用法与settimeout很相似，只是不需要设置时间间隔而已。requestAnimationFrame使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。它返回一个整数，表示定时器的编号，这个值可以传递给cancelAnimationFrame用于取消这个函数的执行
+    　　requestAnimationFrame的用法与setTimeout很相似，只是不需要设置时间间隔而已。requestAnimationFrame使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。它返回一个整数，表示定时器的编号，这个值可以传递给cancelAnimationFrame用于取消这个函数的执行
 </p>
+<div style="width:0px;height:16px;background-color:red;color:white;font-size:14px;line-height:16px;"></div>
+<button style="padding:5px;background: orangered;">Start</button>
 <script>
-    var timer = requestAnimationFrame(function(){
-        console.log(0);
-    });
-    console.log(timer);
-    cancelAnimationFrame(timer);
+   var btn=document.getElementsByTagName('button')[0];
+   var divW=parseFloat(document.getElementsByTagName('div')[0].style.width);
+   var timer;
+   btn.onclick=function () {
+       //document.getElementsByTagName('div')[0].style.width=0+'px';
+       cancelAnimationFrame(timer);
+       timer=requestAnimationFrame(function xx() {
+           if(divW<100){
+               document.getElementsByTagName('div')[0].style.width=(divW++)+'px';
+               document.getElementsByTagName('div')[0].innerHTML=(divW++)+'%';
+               timer = requestAnimationFrame(xx);
+           }else{
+               cancelAnimationFrame(timer);
+           }
+       });
+
+   }
 </script>
 </body>
 </html>
