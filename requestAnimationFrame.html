@@ -34,7 +34,7 @@
    var divW=parseFloat(document.getElementsByTagName('div')[0].style.width);
    var timer;
    btn.onclick=function () {
-       //document.getElementsByTagName('div')[0].style.width=0+'px';
+       document.getElementsByTagName('div')[0].style.width=0+'px';
        cancelAnimationFrame(timer);
        timer=requestAnimationFrame(function xx() {
            if(divW<100){
