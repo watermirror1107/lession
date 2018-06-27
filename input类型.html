@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        input{
+            outline: none; /*去掉chrome浏览器自带的点击input框出现边框情况*/
+            -webkit-appearance: none;  /*使元素标签看起来像个按钮样式，意思定义了按钮样式,去掉按钮样式*/
+            border-radius: 0; /*去掉圆角*/
+        }
+    </style>
     <script src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
@@ -23,7 +30,7 @@
             var x=$('.test').html();
             console.log(x);
             $('ul').append('<li>'+x+'</li>');
-        })
+        });
     //动态添加节点绑keyup事件
     $('ul').on('keyup',()=>{
         console.log('ul li')
