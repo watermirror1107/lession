@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    alert,prompt,confirm这三个系统弹窗会阻止代码继续执行，必须关闭对话框之后代码又会恢复执行；也会阻止页面渲染;
+</p>
+<script>
+    alert('123');
+    if(confirm('are you man?')){    //confirm返回的是布尔值，点确定返回true，点关闭和取消都是返回false;
+        console.log(1);
+    }else{
+        console.log(2)
+    }
+    if(prompt('what is your name?','mike')!=null){ //prompt点击取消和关闭返回Null，prompt接受两个参数一个是内容，一个是Input里面的提示信息;
+        console.log(3)
+    }
+</script>
+</body>
+</html>
