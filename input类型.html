@@ -9,6 +9,10 @@
             -webkit-appearance: none;  /*使元素标签看起来像个按钮样式，意思定义了按钮样式,去掉按钮样式*/
             border-radius: 0; /*去掉圆角*/
         }
+        input::-webkit-outer-spin-button,  /*去掉type=number的input的两个小箭头*/
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
     </style>
     <script src="js/jquery-3.3.1.min.js"></script>
 </head>
