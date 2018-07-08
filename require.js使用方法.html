@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>require.js</title>
+</head>
+<body>
+<Nav data="niceNav"></Nav>
+<p>首先，加载的时候，浏览器会停止网页渲染，加载文件越多，网页失去响应的时间就会越长；其次，由于js文件之间存在依赖关系，因此必须严格保证加载顺序（比如上例的1.js要在2.js的前面），依赖性最大的模块一定要放到最后加载，当依赖关系很复杂的时候，代码的编写和维护都会变得困难。
+
+    require.js的诞生，就是为了解决这两个问题：</p>
+<p>（1）实现js文件的异步加载，避免网页失去响应；
+
+    　　（2）管理模块之间的依赖性，便于代码的编写和维护。</p>
+<!--第一步使用require.js-->
+　　<script src="js/require.js" defer async="true" ></script>
+<!--
+async属性表明这个文件需要异步加载，避免网页失去响应。IE不支持这个属性，只支持defer，所以把defer也写上。-->
+
+<!--加载require.js以后，下一步就要加载我们自己的代码了。假定我们自己的代码文件是main.js，也放在js目录下面。那么，只需要写成下面这样就行了：-->
+　　<script src="js/require.js" data-main="js/main"></script>
+<!--
+data-main属性的作用是，指定网页程序的主模块。在上例中，就是js目录下面的main.js，这个文件会第一个被require.js加载。由于require.js默认的文件后缀名是js，所以可以把main.js简写成main。-->
+</body>
+</html>
