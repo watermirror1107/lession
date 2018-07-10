@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-
+<script>
+    async function myFunction() {
+        await somethingThatReturnsAPromise()
+            .catch(function (err) {
+                console.log(err);
+            });//推荐写法，因为await后面返回的promise对象有可能失败对象，所有用try和catch，这个写法是简写，只写一个catch就可以;
+    }
+</script>
 </body>
 </html>
