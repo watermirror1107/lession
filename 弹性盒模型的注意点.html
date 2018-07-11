@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .father{display: flex;border-radius:10px 10px 0 0;height:200px;width:500px;background: greenyellow;}
+        .son{width: 100%;height:150px;background: #00aaff;}
+    </style>
+</head>
+<body>
+<div class="father">
+    <div class="son">这里的父级盒子的border-radius没有生效是因为子级是弹性盒子，会把圆角部分给撑开，导致没有显示出父级盒子的圆角，如果不想改变父级盒子的dipslay要显示就要给是子级盒子也加上一样的圆角即可</div>
+</div>
+</body>
+</html>
