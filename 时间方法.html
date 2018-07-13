@@ -14,6 +14,7 @@
     console.log(a=Date.parse(month+'/'+date+'/'+year));
     console.log(b=Date.parse(month+'/'+(date+1)+'/'+year));
     console.log((b-a)/(1000*24*3600))
+    //要获取每个月多少天就用下个月的第一天时间戳减这个月第一天的时间戳，除（1000*24*3600）
 </script>
 </body>
 </html>
