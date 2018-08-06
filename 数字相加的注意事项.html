@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var a=1.01234;
+    var b=12.341234;
+    //注意点:toFiexed函数返回的是字符串类型，下面相加就会变成字符串类型
+    console.log(a+b.toFixed(2));
+    var arr=[1,'2.01',3];
+    var aa=0;//这里一定要把aa声明并且初始化成数字类型，不然下面的累加会出现问题，最直接的方法就是等于0;不然会变成字符串相加
+    for(var i=0;i<arr.length;i++) {
+        console.log(arr[i]);
+        aa += arr[i];
+    }
+    console.log(aa);
+</script>
+</body>
+</html>

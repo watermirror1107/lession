@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{margin:0;padding:0;}
+        .li{width:200px;background-color: red;}
+        .son{display:block;width:100%;text-align:center;font-size: 20px;color:white;background-color: greenyellow;height:50px;transition: all 0.3s;}
+        .disappear{height:0;}
+        .son div{float:left;}
+        .son div:nth-child(2){float:right;}
+    </style>
+</head>
+<body>
+    <div class="li">
+        <h2>2314124</h2>
+        <div class="detail">
+            <div class="son">
+                <div>234</div>
+                <div>dsfads</div>
+            </div>
+            <div class="son">
+                <div>234</div>
+                <div>dsfads</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var ss=true;
+        var btn=document.getElementsByClassName('li')[0];
+        var sonJ=document.getElementsByClassName('son');
+        btn.onclick=()=>{
+            if(ss){
+                for(i of sonJ){
+                    i.classList.add("disappear");
+                }
+            }else{
+                for(i of sonJ){
+                    i.classList.remove("disappear");
+                }
+            }
+            ss=!ss;
+        }
+    </script>
+</body>
+</html>

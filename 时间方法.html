@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //Date.parse(6/15/2018)获取2018年6月15号的时间戳;
+    var a,b;
+    var month=new Date().getMonth()+1;
+    var year=new Date().getFullYear();
+    var date=new Date().getDate();
+    console.log(a=Date.parse(month+'/1/'+year));
+    console.log(b=Date.parse((month+1)+'/1/'+year));
+    console.log((b-a)/(1000*24*3600))
+    //要获取每个月多少天就用下个月的第一天时间戳减这个月第一天的时间戳，除（1000*24*3600）
+</script>
+</body>
+</html>
