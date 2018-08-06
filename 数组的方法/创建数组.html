@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Array.from() 方法从一个类似数组或可迭代对象中创建一个新的数组实例。</p>
+<script>
+    console.log(Array.from('foo'));
+    // expected output: Array ["f", "o", "o"]
+
+    console.log(Array.from([1, 2, 3], x => x + x));
+    // expected output: Array [2, 4, 6]
+</script>
+</body>
+</html>

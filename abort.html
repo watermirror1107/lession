@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>如果一个ajax请求过长，你可能会有取消之前发起的一次请求的需要。这里介绍jquery中如何实现。其实jquery发起一个ajax请求后会返回一个jqXHR对象，你随后可对该对象进行操作，包括abort中断操作;</p>
+<p>注意：不要用abort方法来作为终止对服务器的请求操作，只能当做在前端页面立刻停止执行ajax成功后的方法，因为你执行abort方法后，ajax很可能已经对服务端发送了请求，只是还未返回回馈信息而已。</p>
+<p>取消成功后会执行error回调</p>
+<script>
+    //r就是一个XHR对象，和原生的XHR的不大一样，因为经过了JQ的封装;
+    var r = $.ajax({
+
+        url: '...',
+
+        success: function (data) {
+        },
+
+        error: function (data, error) {
+            console.log(error);
+        },
+
+        complete: function () {
+            r = null;
+        }
+    });
+
+
+    setTimeout(function () {
+
+        if (r && r.readystate != 4) {
+
+            r.abort();
+
+        }
+
+    }, 5000);
+</script>
+</body>
+</html>

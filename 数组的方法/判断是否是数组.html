@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>检测是否是数组</p>
+<script>
+    console.log(Array.isArray([1, 2, 3]));
+    // true
+    console.log(Array.isArray({foo: 123}));
+    // false
+    console.log(Array.isArray("foobar"));
+    // false
+    console.log(Array.isArray(undefined));
+</script>
+</body>
+</html>

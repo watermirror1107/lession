@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    filter() 方法创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。
+</p>
+<script>
+    var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+    //把单词长度大于6的词筛选出来放进新数组;
+    const result = words.filter(word => word.length > 6);
+    console.log(result);
+    // expected output: Array ["exuberant", "destruction", "present"]
+</script>
+</body>
+</html>
