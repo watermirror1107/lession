@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // 数据模型可以是一个简单的原生对象
+    var todoModel = {
+        label: 'Default',
+        completed: false
+    };
+    function observer(changes){
+        changes.forEach(function(change, i){
+            console.log('what property changed? ' + change.name);
+            console.log('how did it change? ' + change.type);
+            console.log('whats the current value? ' + change.object[change.name]);
+            console.log(change); // 所有变化
+        });
+    }
+    Object.observe(todoModel, observer,['delete']);//第二个参数是回调，可以在数据改变的同时做相应的操作，比如双向绑定;
+    //第三个参数是对数据制定操作才回执行回调，比如现在是删除才回触发回调
+</script>
+</body>
+</html>

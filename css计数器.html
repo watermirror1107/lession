@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .reset { padding-left: 20px; counter-reset: wangxiaoer; line-height: 1.6; color: #666; }
+        .counter:before { content: counters(wangxiaoer, '-') '. '; counter-increment: wangxiaoer; font-family: arial black; }
+        .reset ~ .counter { color: #cd0000; }
+        /* .reset~.counter选择器 reset之后出现的所有counter。
+
+　　      两种元素必须拥有相同的父元素，但是 reset之后出现的所有counter不必直接紧随reset。*/
+    </style>
+</head>
+<body>
+<div class="reset">
+    <div class="counter">我是王小二
+        <div class="reset">
+            <div class="counter">我是王小二的大儿子</div>
+            <div class="counter">我是王小二的二儿子
+                <div class="reset">
+                    <div class="counter">我是王小二的二儿子的大孙子</div>
+                    <div class="counter">我是王小二的二儿子的二孙子</div>
+                    <div class="counter">我是王小二的二儿子的小孙子</div>
+                </div>
+            </div>
+            <div class="counter">我是王小二的三儿子</div>
+        </div>
+    </div>
+    <div class="counter">我是王小三</div>
+    <div class="counter">我是王小四
+        <div class="reset">
+            <div class="counter">我是王小四的大儿子</div>
+        </div>
+    </div>
+</div>
+
+<!--错误嵌套-->
+<div class="reset">
+    <div class="counter">我是王小二</div>
+    <div class="reset">
+        <div class="counter">我是王小二的大儿子</div>
+        <div class="counter">我是王小二的二儿子</div>
+        <div class="reset">
+            <div class="counter">我是王小二的二儿子的大孙子</div>
+            <div class="counter">我是王小二的二儿子的二孙子</div>
+            <div class="counter">我是王小二的二儿子的小孙子</div>
+        </div>
+        <div class="counter">我是王小二的三儿子</div>
+    </div>
+    <div class="counter">我是王小三</div>
+    <div class="counter">我是王小四</div>
+    <div class="reset">
+        <div class="counter">我是王小四的大儿子</div>
+    </div>
+</div>
+</body>
+</html>
