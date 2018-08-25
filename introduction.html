@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>皮一下</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        html{
+            font-size:100px
+        }
+        body{
+            min-width: 320px;
+        }
+        .box {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .box span {
+            font-size: 0.3rem;
+            cursor: pointer;
+        }
+
+        .box img {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <span>头皮发麻的前端工程师！</span>
+    <img src="images/29854579.png" alt="图片丢了找不到了呀" onclick="goMyGit()" title="点一下头发掉一根！">
+</div>
+<script>
+    function goMyGit() {
+        window.location.href = 'https://github.com/songjie55';
+    }
+
+    document.querySelector('span').onclick = goMyGit;
+    window.onload=function () {
+
+    }
+    var b=document.getElementsByTagName('html')[0];
+    var c=window.getComputedStyle(b,null).fontSize;
+    var w=document.body.clientWidth;
+    console.log(c);
+</script>
+</body>
+</html>

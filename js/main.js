@@ -22,7 +22,8 @@ require.config({
         "moduleA": "module2",//模块的编写方式可以看module2,AMD模块编写规范
         //"jquery": "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min",//也可以通过CDN获取模板
         "moduleB":"module3",
-        "moduleC":'module'
+        "moduleC":'module',
+        "moduleD":'module4',
     }
 
 });
@@ -64,11 +65,11 @@ require.config()接受一个配置对象，这个对象除了有前面说过的p
 /*主模块依赖于其他模块，这时就要使用AMD规范定义的的require()函数,异步加载模块;*/
 // main.js
 
-require(['moduleA','moduleB','moduleC'], function (a,b,c){  //回调里面额参数名可以随便取;
+require(['moduleA','moduleB','moduleC','moduleD'], function (a,b,c){  //回调里面额参数名可以随便取;
 
     console.log(a(1,3));
     b();
-    //module; //只要在依赖模块数组里面的引入就会自动调用模块,而这个模块是导出的是自己运行函数，所以不需要在回调里面引用，也会执行;
+    //module; //只要在依赖模块数组里面的引入就会自动调用模块,而这个模块是导出的是自己运行函数，所以不需要在回调里面引用，也会执行例如module4;
 
 
 });
