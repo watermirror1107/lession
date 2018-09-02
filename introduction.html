@@ -34,19 +34,25 @@
         .box img {
             cursor: pointer;
         }
+        a{
+            text-decoration: none;
+            color:#333;
+        }
     </style>
 </head>
 <body>
 <div class="box">
     <span>头皮发麻的前端工程师！</span>
-    <span>JSON</span>
+    <a href="./litTest.html">JSON</a>
     <img src="images/29854579.png" alt="图片丢了找不到了呀" onclick="goMyGit()" title="点一下头发掉一根！">
 </div>
 <script>
     function goMyGit() {
         window.location.href = 'https://github.com/songjie55';
     }
-    document.querySelector('span').onclick = goMyGit;
+    document.querySelector('span').onclick = function(){
+        window.location.href='./litTest.html'
+    };
     var b=document.getElementsByTagName('html')[0];
     var c=parseInt(window.getComputedStyle(b,null).fontSize);
     var w=document.body.clientWidth;
