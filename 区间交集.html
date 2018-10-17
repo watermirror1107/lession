@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	var area1="[-5,6]";
+	var area2="[-3,7]";
+	var array1=[],array2=[],all=[],conNum,connNum;
+	function way(area1,area2){
+		var con1=area1.split(",");
+		var con2=con1.toString().split("[");
+		var con3=con2.toString().split("]");
+
+		var conn1=area2.toString().split(",");
+		var conn2=conn1.toString().split("[");
+		var conn3=conn2.toString().split("]");
+
+		var con=con3.toString().split(",");
+		var conn=conn3.toString().split(",");
+
+		for(var i=1;i<(con[2]-con[1]);i++){
+			conNum=parseInt(con[1])+i;
+			array1.push(conNum);
+
+		}
+		for(var j=1;j<(conn[2]-conn[1]);j++){
+			connNum=parseInt(conn[1])+j;
+			array2.push(connNum);
+		}
+		console.log(array1)
+		console.log(array2)
+		if(array1.length > array2.length){
+			for(var n=0;n<array2.length;n++){
+				for(var m=0;m<array1.length;m++){
+					if(array2[n] == array1[m]){
+						all.push(array1[m]);
+					}else{
+
+					}
+				}
+
+			}
+		}else{
+			for(var n=0;n<array1.length;n++){
+				for(var m=0;m<array2.length;m++){
+					if(array1[n] == array2[m]){
+						all.push(array1[n]);
+					}
+				}
+
+			}
+		}
+		console.log("交集：{"+all+"}");
+	}
+
+	way(area1,area2);
+</script>
+
+</body>
+</html>
