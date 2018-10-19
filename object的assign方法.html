@@ -9,46 +9,49 @@
 <p style="color:red;padding-top:20px;">注意，Object.assign 不会跳过那些值为 null 或 undefined 的源对象。继承属性和不可枚举属性是不能拷贝的
 </p>
 <script>
-    const obj1 = {
-        a: 1,
-        b: 2,
-        c: 3
-    };
-    const obj2 = Object.assign({c: 4, d: 5}, obj1);//前面一个对象是目标对象，后面一个obj1是源对象;
-    // 如果目标对象中的属性具有相同的键，则属性将被源中的属性覆盖。后来的源的属性将类似地覆盖早先的属性。
-    // 就比如原来的C等于4，复制后边成了obj1里面的3了
-    // String类型和 Symbol 类型的属性都会被拷贝。
-    //在出现错误的情况下，例如，如果属性不可写，会引发TypeError，如果在引发错误之前添加了任何属性，则可以更改target对象。
-    //针对深拷贝，需要使用其他方法，因为 Object.assign()拷贝的是属性值。假如源对象的属性值是一个指向对象的引用，它也只拷贝那个引用值。
-    console.log(obj2);
+	const obj1 = {
+		a: 1,
+		b: 2,
+		c: 3,
+	};
+	const obj2 = {c: 4, d: 5};
+	Object.assign(obj2, obj1);//前面一个对象是目标对象，后面一个obj1是源对象;
+	// 如果目标对象中的属性具有相同的键，则属性将被源中的属性覆盖。后来的源的属性将类似地覆盖早先的属性。
+	// 就比如原来的C等于4，复制后边成了obj1里面的3了
+	// String类型和 Symbol 类型的属性都会被拷贝。
+	//在出现错误的情况下，例如，如果属性不可写，会引发TypeError，如果在引发错误之前添加了任何属性，则可以更改target对象。
+	//针对深拷贝，需要使用其他方法，因为 Object.assign()拷贝的是属性值。假如源对象的属性值是一个指向对象的引用，它也只拷贝那个引用值。
+    //会改变目标对象
+	console.log(obj2);
 
-    function test() {
-        'use strict';
+	function test() {
+		'use strict';
 
-        let obj1 = { a: 0 , b: { c: 0}};
-        let obj2 = Object.assign({}, obj1);
-        console.log(JSON.stringify(obj2)); // { a: 0, b: { c: 0}}
+		let obj1 = {a: 0, b: {c: 0}};
+		let obj2 = Object.assign({}, obj1);
+		console.log(JSON.stringify(obj2)); // { a: 0, b: { c: 0}}
 
-        obj1.a = 1;
-        console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 0}}
-        console.log(JSON.stringify(obj2)); // { a: 0, b: { c: 0}}
+		obj1.a = 1;
+		console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 0}}
+		console.log(JSON.stringify(obj2)); // { a: 0, b: { c: 0}}
 
-        obj2.a = 2;
-        console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 0}}
-        console.log(JSON.stringify(obj2)); // { a: 2, b: { c: 0}}
+		obj2.a = 2;
+		console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 0}}
+		console.log(JSON.stringify(obj2)); // { a: 2, b: { c: 0}}
 
-        obj2.b.c = 2;//引用类型改值之后obj1和obj2都变了
-        console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 3}}
-        console.log(JSON.stringify(obj2)); // { a: 2, b: { c: 3}}
+		obj2.b.c = 2;//引用类型改值之后obj1和obj2都变了
+		console.log(JSON.stringify(obj1)); // { a: 1, b: { c: 2}}
+		console.log(JSON.stringify(obj2)); // { a: 2, b: { c: 2}}
 
-        // Deep Clone
-        obj1 = { a: 0 , b: { c: 0}};
-        let obj3 = JSON.parse(JSON.stringify(obj1));
-        obj1.a = 4;
-        obj1.b.c = 4;
-        console.log(JSON.stringify(obj3)); // { a: 0, b: { c: 0}}
-    }
-    test()
+		// Deep Clone
+		obj1 = {a: 0, b: {c: 0}};
+		let obj3 = JSON.parse(JSON.stringify(obj1));
+		obj1.a = 4;
+		obj1.b.c = 4;
+		console.log(JSON.stringify(obj3)); // { a: 0, b: { c: 0}}
+	}
+
+	test();
 </script>
 </body>
 </html>
