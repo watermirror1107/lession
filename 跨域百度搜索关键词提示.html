@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<script>
+	var data='跑车';
+	window.baidu= {};
+	window.baidu.sug = function(data) {
+		var x = JSON.stringify(data);
+		x = JSON.parse(x);
+		console.log(x.s)
+	};
+	$.ajax({
+		async:false,
+		url:'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd='+
+		data,
+		dataType:'jsonp',
+		jsonp:"mycallback",
+		jsonpCallback:"window.baidu.sug"
+	});
+</script>
+</body>
+</html>
