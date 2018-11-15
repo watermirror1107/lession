@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2</title>
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<script>
+    $(document).ready(function (e) {
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                //window.location.href = '#';//留在当前页
+                window.location.href = 'http://www.baidu.com';//留在当前页
+            });
+        }
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
+    });</script>
+</body>
+</html>
