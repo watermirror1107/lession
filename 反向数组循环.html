@@ -9,20 +9,6 @@
 </body>
 </html>
 <script>
-    var x=document.getElementById("demo");
-    function getLocation()
-    {
-        if (navigator.geolocation)
-        {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        }
-        else{x.innerHTML="Geolocation is not supported by this browser.";}
-    }
-    function showPosition(position)
-    {
-        x.innerHTML="Latitude: " + position.coords.latitude +
-            "<br />Longitude: " + position.coords.longitude;
-    }
     var arr=[1,23,5,3,6,34,234];
     for(var i=1;i<5;i++){
         if(arr[arr.length-i]){
