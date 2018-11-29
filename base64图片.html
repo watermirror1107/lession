@@ -6,5 +6,9 @@
 </head>
 <body>
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAeCAIAAAA0IQ7mAAABpUlEQVR42u3YPUpDQRAH8NcKgmex9QQKlrZ2Nl7AGwg5hZWCR7DT3jN4A0EQD+DCwDDszsd/sx+JvoQpkpdNyI/ZmdmX5W1lj2Wl4Kv3h739idcn9yn6Z3jfzOTsSJ0NPn383qFTr+Fx5lA72mk2rUFmCzzNORVcauc7vbHE5qePI47wi55fN1YkMD3xnS9fNzJAwNnlnR/QHCYzDva1YT5JeP5zm6LWHIIzs3nwSOZGMDv5ivVxSb34PKYAzQhYmnVwElaBrfrkzWxpicrIFNn2BrX4AhNMZrmxa+eKrF6fWtqmgrPE+mCrPkst55Covm03YPUlcsRlbbZXM6plw/uWD4ZquOTVlnFZkBbVGkh4l67tWH3AUpiC04tQLXCvIRzMYctWXlfTKGfv1tSO6Q1OWrJXqaEiVS1CHdSxOoAZ6exq1uJUB9bYsSBwmF6njCUVvOmdA1bNC9KZnHeZSl2qHdxlJgVgZPCoa5ia3RWVUduxcK0P1rv0FuCMGsa4CVy7YAHPFbxMtqVGbcsQxsHo7aF13F/LH/H/gFqd4QP4AP4Lj1+NAmpVvbMOqwAAAABJRU5ErkJggg==" alt="">
+<p>如果图片足够小且因为用处的特殊性无法被制作成雪碧图（CssSprites），在整个网站的复用性很高且基本不会被更新。</p>
+<p>base64的图片和url地址发起http请求的图片的区别</p>
+<p>url的图片通过HTTP请求来的图片可以缓存下次用到就可以用缓存中的，如果一个图片重复利用推荐用url</p>
+<p>base64图片是不能缓存的，没有发起http请求</p>
 </body>
 </html>
