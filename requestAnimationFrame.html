@@ -36,11 +36,11 @@
 	var btn = document.getElementsByTagName('button')[0], timer, kg = true;
 	btn.onclick = function () {
 		let divW = parseFloat(document.getElementsByTagName('div')[0].style.width);
-		if(divW==100){
-			divW=0;
-        }else{
-			kg=!kg;
-        }
+		if (divW == 100) {
+			divW = 0;
+		} else {
+			kg = !kg;
+		}
 		timer = requestAnimationFrame(function xx() {
 			if (divW < 100 && !kg) {
 				++divW;
