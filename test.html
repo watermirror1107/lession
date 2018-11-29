@@ -26,8 +26,10 @@
 <div class="father">
     <div class="son">鼠标移到这里</div>
 </div>
-<script>
+<textarea name="txt" id="txt" cols="30" rows="10"></textarea>
 
+<script>
+	// let txt=document.querySelector('#txt').value;
 	/*  window.onload=function(){
           console.log('load')
       };
@@ -37,22 +39,21 @@
 
 	const pipeline = (...funcs) =>
 		(val) => {
-			console.log(val);
-			console.log(funcs);
-			return funcs.reduce((a, b) => b(a), val);
+			// console.log(val);
+			// console.log(funcs);
+			return funcs.reduce((a, b) => b(a), val);   //传入的参数回调没有累加处理的是2*(6+1)
 		};
 
 	const plus1 = a => a + 1;
 	const mult2 = a => a * 2;
 	const addThenMult = pipeline(plus1, mult2);
-
-	console.log(addThenMult(5));
-	var gameList = [{gameName: '极品芝麻官', id: '123'}, {gameName: '魔兽世界', id: '321'}];
-	gameList[0].cooperation = [{cooperationName: '腾讯', id: '11'}, {cooperationName: '华为', id: '22'}];
-	gameList[0].cooperation[0].serverList = [{id: '333', serverName: '一区'}, {id: '444', serverName: '二区'}, {
-		id: '555',
-		serverName: '三区',
-	}];
+	const arr = [1, 2, 4, 5];
+	const c2 = (total, item) => {
+		return total *2 + item;
+	};
+	let res = arr.reduce(c2,6);
+	console.log(res);
+	console.log(addThenMult(9));
 </script>
 </body>
 </html>
