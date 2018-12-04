@@ -20,14 +20,26 @@
             height: 900px;
             background-color: yellow;
         }
+
     </style>
 </head>
 <body>
 <div class="father">
     <div class="son">鼠标移到这里</div>
 </div>
-<script>
+<div id="a" onclick="alert('old')">Open the Developer Tools Console to see the output.</div>
 
+<script>
+	window.onload = function () {
+		var div = document.getElementById("a");
+		console.log("Attribute reflected as a property: ", div.onclick.toString());
+		// Prints: function onclick(event) { alert('old') }
+		div.onclick = function() { alert('new') };
+		console.log("Changed property to: ", div.onclick.toString());
+		// Prints: function () { alert('new') }
+		console.log("Attribute value is unchanged: ", div.getAttribute("onclick"));
+		// Prints: alert('old')
+	}
 	/*  window.onload=function(){
           console.log('load')
       };

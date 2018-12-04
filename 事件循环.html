@@ -5,16 +5,30 @@
     <title>Title</title>
 </head>
 <body>
+宏观任务微观任务
 <script>
 	console.log('script start');
 
-	setTimeout(function() {
+	setTimeout(function () {
 		console.log('setTimeout');
 	}, 0);
+	const s = new Date().getSeconds();
 
-	Promise.resolve().then(function() {
+	setTimeout(function () {
+		// 输出 "9"，表示回调函数并没有在 500 毫秒之后立即执行
+		console.log('Ran after ' + (new Date().getSeconds() - s) + ' seconds');
+	}, 500);
+
+	while (true) {
+		if (new Date().getSeconds() - s >= 9) {
+			console.log('Good, looped for 9 seconds');
+			break;
+		}
+	}
+	//单线程在这个循环没有执行完成即使到了延迟时间也是不会输出的。
+	Promise.resolve().then(function () {
 		console.log('promise1');
-	}).then(function() {
+	}).then(function () {
 		console.log('promise2');
 	});
 
