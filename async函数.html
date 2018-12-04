@@ -6,98 +6,98 @@
 </head>
 <body>
 <script>
-		async function myFunction() {
-				await somethingThatReturnsAPromise()
-					.catch(function (err) {
-							console.log(err);
-					});//推荐写法，因为await后面返回的promise对象有可能失败对象，所有用try和catch，这个写法是简写，只写一个catch就可以;
-		}
+	async function myFunction() {
+		await somethingThatReturnsAPromise()
+			.catch(function (err) {
+				console.log(err);
+			});//推荐写法，因为await后面返回的promise对象有可能失败对象，所有用try和catch，这个写法是简写，只写一个catch就可以;
+	}
 
-		//async的原理
-		function spawn(genF) {
-				return new Promise(function (resolve, reject) {
-						const gen = genF();
+	//async的原理
+	function spawn(genF) {
+		return new Promise(function (resolve, reject) {
+			const gen = genF();
 
-						function step(nextF) {
-								let next;
-								try {
-										next = nextF();
-								} catch (e) {
-										return reject(e);
-								}
-								if (next.done) {
-										return resolve(next.value);
-								}
-								Promise.resolve(next.value).then(function (v) {
-										step(function () {
-												return gen.next(v);
-										});
-								}, function (e) {
-										step(function () {
-												return gen.throw(e);
-										});
-								});
-						}
-
-						step(function () {
-								return gen.next(undefined);
-						});
-				});
-		}
-
-		//继发promise写法
-		function chainAnimationsPromise(elem, animations) {
-
-				// 变量ret用来保存上一个动画的返回值
-				let ret = null;
-
-				// 新建一个空的Promise
-				let p = Promise.resolve();
-
-				// 使用then方法，添加所有动画
-				for (let anim of animations) {
-						p = p.then(function (val) {
-								ret = val;
-								return anim(elem);
-						});
-				}
-
-				// 返回一个部署了错误捕捉机制的Promise
-				return p.catch(function (e) {
-						/* 忽略错误，继续执行 */
-				}).then(function () {
-						return ret;
-				});
-
-		}
-
-		//async写法
-		async function chainAnimationsAsync(elem, animations) {
-				let ret = null;
+			function step(nextF) {
+				let next;
 				try {
-						for (let anim of animations) {
-								ret = await anim(elem);
-						}
+					next = nextF();
 				} catch (e) {
-						/* 忽略错误，继续执行 */
+					return reject(e);
 				}
-				return ret;
-		}
-
-
-		//并发执行结果按顺序返回
-		async function logInOrder(urls) {
-				// 并发读取远程URL
-				const textPromises = urls.map(async url => {     //map里面的参数是async
-						const response = await fetch(url);
-						return response.text();
+				if (next.done) {
+					return resolve(next.value);
+				}
+				Promise.resolve(next.value).then(function (v) {
+					step(function () {
+						return gen.next(v);
+					});
+				}, function (e) {
+					step(function () {
+						return gen.throw(e);
+					});
 				});
+			}
 
-				// 按次序输出
-				for (const textPromise of textPromises) {
-						console.log(await textPromise);
-				}
+			step(function () {
+				return gen.next(undefined);
+			});
+		});
+	}
+
+	//继发promise写法
+	function chainAnimationsPromise(elem, animations) {
+
+		// 变量ret用来保存上一个动画的返回值
+		let ret = null;
+
+		// 新建一个空的Promise
+		let p = Promise.resolve();
+
+		// 使用then方法，添加所有动画
+		for (let anim of animations) {
+			p = p.then(function (val) {
+				ret = val;
+				return anim(elem);
+			});
 		}
+
+		// 返回一个部署了错误捕捉机制的Promise
+		return p.catch(function (e) {
+			/* 忽略错误，继续执行 */
+		}).then(function () {
+			return ret;
+		});
+
+	}
+
+	//async写法
+	async function chainAnimationsAsync(elem, animations) {
+		let ret = null;
+		try {
+			for (let anim of animations) {
+				ret = await anim(elem);
+			}
+		} catch (e) {
+			/* 忽略错误，继续执行 */
+		}
+		return ret;
+	}
+
+
+	//并发执行结果按顺序返回
+	async function logInOrder(urls) {
+		// 并发读取远程URL
+		const textPromises = urls.map(async url => {     //map里面的参数是async
+			const response = await fetch(url);
+			return response.text();
+		});
+
+		// 按次序输出
+		for (const textPromise of textPromises) {
+			console.log(await textPromise);
+		}
+	}
 </script>
 </body>
 </html>
