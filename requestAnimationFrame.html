@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>requestAnimationFrame</title>
     <style>
-        p{font-size: 20px;margin-bottom:10px;}
+        p {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -30,23 +33,26 @@
 <div style="width:0px;height:16px;background-color:red;color:white;font-size:14px;line-height:16px;"></div>
 <button style="padding:5px;background: orangered;">Start</button>
 <script>
-   var btn=document.getElementsByTagName('button')[0];
-   var divW=parseFloat(document.getElementsByTagName('div')[0].style.width);
-   var timer;
-   btn.onclick=function () {
-       document.getElementsByTagName('div')[0].style.width=0+'px';
-       cancelAnimationFrame(timer);
-       timer=requestAnimationFrame(function xx() {
-           if(divW<100){
-               document.getElementsByTagName('div')[0].style.width=(divW++)+'px';
-               document.getElementsByTagName('div')[0].innerHTML=(divW++)+'%';
-               timer = requestAnimationFrame(xx);
-           }else{
-               cancelAnimationFrame(timer);
-           }
-       });
+	var btn = document.getElementsByTagName('button')[0], timer, kg = true;
+	btn.onclick = function () {
+		let divW = parseFloat(document.getElementsByTagName('div')[0].style.width);
+		if (divW == 100) {
+			divW = 0;
+		} else {
+			kg = !kg;
+		}
+		timer = requestAnimationFrame(function xx() {
+			if (divW < 100 && !kg) {
+				++divW;
+				document.getElementsByTagName('div')[0].style.width = divW + 'px';
+				document.getElementsByTagName('div')[0].innerHTML = divW + '%';
+				timer = requestAnimationFrame(xx);
+			} else {
+				cancelAnimationFrame(timer);
+			}
+		});
 
-   }
+	};
 </script>
 </body>
 </html>

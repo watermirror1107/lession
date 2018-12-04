@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	document.addEventListener('visibilitychange', function () { //浏览器切换事件
+		if (document.visibilityState == 'hidden') { //状态判断
+			//normal_title=document.title;
+			document.title = '你就这样离开了';
+		} else {
+			document.title = '你又回来了';
+		}
+	});
+</script>
+</body>
+</html>
