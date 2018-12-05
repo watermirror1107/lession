@@ -1,38 +1,32 @@
+<!doctype html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta charset="utf-8">
-    <title>dispatchEvent示例用法</title>
-    <script type="text/javascript">
-        var provinces = new Array();
-        provinces["陕西"] = ["西安","咸阳","宝鸡","延安","汉中"];
-        provinces["台湾"] = ["台北","台中","台南"];
-        provinces["浙江"] = ["杭州","宁波","绍兴","温州"];
-
-        function provinceChange() {
-            console.log("onChange is triggered.");
-            var prov = document.getElementById("province").value;
-            var cityObj = document.getElementById("city");
-            cityObj.options.length =0;
-            for(var i in provinces[prov])
-            {
-                cityObj.options.add(new Option(provinces[prov][i]));
-            }
-        }
-        window.onload = function(){
-            var provinceObj = document.getElementById("province");
-            for(var index in provinces)
-            {
-                provinceObj.options.add(new Option(index));
-            }
-            var event = document.createEvent('HTMLEvents');
-            event.initEvent("change", true, true);
-            event.eventType = 'message';
-            provinceObj.dispatchEvent(event);
-        };
-    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
-省份:<select id="province" onchange="provinceChange()"></select>
-城市:<select id="city"></select>
+<p>
+    element.dispatchEvent()</p>
+<div id="app" onclick="f()">
+    asdfklasdfjaslkfj
+</div>
+<script>
+	var dd = document.createEvent('HTMLEvents');
+	dd.initEvent('alert', false, false);
+	var event = new Event('build');
+	var elem = document.querySelector('#app');
+	elem.dispatchEvent(dd);
+	// Listen for the event.
+	elem.addEventListener('build', function (e) {
+		console.log(e);
+	}, false);
+
+	// Dispatch the event.
+	elem.dispatchEvent(event);
+
+</script>
 </body>
 </html>
