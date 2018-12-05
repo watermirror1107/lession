@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .tow{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="one" style="width: 100px;height: 100px;"></div>
+<div class="tow"></div>
+
+<script>
+    let w=document.querySelector('.one').style.width;//只能获得行内样式
+    //dom.currentStyle旧版IE获取非行内样式
+    let w1=window.getComputedStyle(document.querySelector('.tow',null)).width;//获取内部的样式style里面的和外部样式link引入
+    let w2=document.querySelector('.tow').getBoundingClientRect().width;
+    console.log(w)
+    console.log(w1)
+    console.log(w2)
+</script>
+</body>
+</html>

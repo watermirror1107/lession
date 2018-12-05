@@ -13,13 +13,12 @@
         }
         .box{
             width: 25vw;
-            display: grid;
-            grid-template-rows: 100px auto 100px;
             height: 100vh;
-            position: relative;
         }
         .top,.bottom{
             background-color: mediumvioletred;
+            height: 100px;
+            display: table-cell;
         }
         .top{
         }
@@ -31,11 +30,11 @@
         }
     </style>
     <article>
-        <div class="box">
-            <div class="top"></div>
-            <div class="middle"></div>
-            <div class="bottom"></div>
-        </div>
+        <table class="box">
+            <tr class="top"></tr>
+            <tr class="middle"></tr>
+            <tr class="bottom"></tr>
+        </table>
     </article>
 </section>
 </body>
