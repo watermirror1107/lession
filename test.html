@@ -27,15 +27,20 @@
         .box{
             /*position: relative;*/
             /*width: 100vw;*/
-            display: grid;
-            grid-template-rows:100px ;
-            grid-template-columns:300px auto 300px;
+            display: table;
+            height: 100px;
+            width: 100vw;
+            /*display: grid;*/
+            /*grid-template-rows:100px ;*/
+            /*grid-template-columns:300px auto 300px;*/
         }
         .left,.right,.center{
+            display: table-cell;
             /*position: absolute;*/
             /*height: 100px;*/
         }
         .left{
+            width: 300px;
             background-color: red;
             /*float: left;*/
             /*left: 0;*/
@@ -43,6 +48,7 @@
             /*height: 100px;*/
         }
         .right{
+            width: 300px;
             background-color: blue;
             /*float: right;*/
             /*right: 0;*/
