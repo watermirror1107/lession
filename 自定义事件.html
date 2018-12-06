@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<p>
+    element.dispatchEvent()</p>
+<div id="app" onclick="f()">
+    自定义事件
+</div>
+<script>
+    //自定义事件分为三步，初始化事件，发配事件，触发事件
+	var event = new Event('build');//初始化事件，build是事件名
+    //初始化可以用CustomEvent,这样可以传递一个Option参数，用法CustomEvent('build',{{ bubbles: false, cancelable: false, detail: undefined};})
+    var event2=new CustomEvent('tpfm',{ bubbles: false, cancelable: false, detail: {length:10,height:22}});
+	var elem = document.querySelector('#app');
+	// 发布事件到节点上
+	elem.addEventListener('build', function (e) {
+		console.log(e);
+	}, false);
+	elem.addEventListener('tpfm',(e)=>{
+		console.log(e.detail);//会把初始化的时候的detail信息返回
+    },false);
+
+	// 用dispatchEvent触发事件
+	elem.dispatchEvent(event);
+	elem.dispatchEvent(event2);
+
+</script>
+</body>
+</html>
