@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>格式化上下文</title>
+</head>
+<body>
+<p>BFC（Block Formatting Context）格式化上下文，是Web页面中盒模型布局的CSS渲染模式，指一个独立的渲染区域或者说是一个隔离的独立容器。</p>
+<p> 1、浮动元素，float 除 none 以外的值；
+    2、定位元素，position（absolute，fixed）；
+    3、display 为以下其中之一的值 inline-block，table-cell，table-caption；
+    4、overflow 除了 visible 以外的值（hidden，auto，scroll）；</p>
+<p>解决浮动环绕问题，浮动，边距重叠</p>
+<section>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            overflow: auto;
+            background-color: aqua;
+        }
+
+        .litbox {
+            float: left;
+            height: 200px;
+            background-color: red;
+        }
+    </style>
+    <article>
+        <div class="box">
+            <div class="litbox">世界有时候真的很美好!</div>
+        </div>
+    </article>
+</section>
+</body>
+</html>
