@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	//1字面量声明
+	var obj1 = {name: 'aa'};
+
+	//2构造函数
+	function Students() {
+		this.name = 'bb';
+	}
+    Students.prototype.age='10-17';
+	var obj2 = new Students();
+
+	//构造函数可以用es6的class类构造函数
+	class Teachers {
+		constructor() {
+			this.name = 'cc';
+		}
+	}
+	var obj3 = new Teachers();
+	//3通过Object.create()方法
+	var obj4 = Object.create({name: 'dd'});
+</script>
+</body>
+</html>

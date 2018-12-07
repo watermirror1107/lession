@@ -1,4 +1,0 @@
-1.在你的本地项目目录下手动删除你要删除的东西
-2.在客户端输入：git commit -a -m "A file was deleted"
-3.在客户端：git push
-4.在客户端输入你的用户名和密码

@@ -6,93 +6,93 @@
 </head>
 <body>
 <script>
-		class Point {
-				constructor() {
-						// ...
-				}
-
-				toString() {
-						// ...
-				}
-
-				toValue() {
-						// ...
-				}
+	class Point {
+		constructor() {
+			// ...
 		}
 
-		// 等同于
-
-		Point.prototype = {
-				constructor() {
-				},
-				toString() {
-				},
-				toValue() {
-				},
-		};
-
-		class Con {
-				constructor(name) {
-						this.name = name;
-						this.height = '190';
-				}
-
-				//sex='man';//也是实例属性的新写法，不需要写在constructor里面，但是因为ES版本太低不支持；
-				// static age = 123;//这种是新写法，在类里面写静态属性，也是因为ES版本太低不支持
-				write() {
-						console.log(this.name);
-						console.log(this.height);
-				}
-
-				tpfm() {
-						console.log('tpfm');
-				}
-
-				static write(dd) {
-						console.log(this.age);//注意，如果静态方法包含this关键字，这个this指的是类，而不是实例。
-						console.log(dd);
-				}
-
+		toString() {
+			// ...
 		}
 
-		Con.age = 123;//静态属性
-		Con.prototype.hair = 'red';//原型属性
-		Con.write('静态');
-		let a = new Con('kk');
-		console.log(a.age);
-		console.log(a.name);
-		a.write();
+		toValue() {
+			// ...
+		}
+	}
 
-		//继承
-		class Bon extends Con {
-				constructor(name) {
-						super(name);
-						//作为函数时，super()只能用在子类的构造函数之中，用在其他地方就会报错。可以通过super给父级的constructor传递参数;
-						//子类Bon的构造函数之中的super()，代表调用父类的构造函数。这是必须的，否则 JavaScript 引擎会报错。
-						//注意，super虽然代表了父类Con的构造函数，但是返回的是子类Bon的实例，即super内部的this指的是B，因此super()在这里相当于
-						super.write();//// 第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
-						this.height = '200';//等价于super.height
-				}
+	// 等同于
 
-				dd() {
-						console.log('dd');
-						console.log(super.name);//定义在父类实例上的方法或属性，是无法通过super调用的。因为未实例，即在constructor里面的属性
-                        console.log(super.hair);//原型属性
-						super.tpfm();//原型方法
-						super.write();//在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例。
-				}
+	Point.prototype = {
+		constructor() {
+		},
+		toString() {
+		},
+		toValue() {
+		},
+	};
 
-				static litS(dd) {
-						super.write(dd);//静态方法this指向的是子类不是实例;
-				}
-
+	class Con {
+		constructor(name) {
+			this.name = name;
+			this.height = '190';
 		}
 
-		Bon.age = '321';//子级的静态属性覆盖了父级的
-		let b = new Bon('xx');
-		b.write();
-		b.dd();
-		Bon.litS('wade');//age=321
+		//sex='man';//也是实例属性的新写法，不需要写在constructor里面，但是因为ES版本太低不支持；
+		// static age = 123;//这种是新写法，在类里面写静态属性，也是因为ES版本太低不支持
+		write() {
+			console.log(this.name);
+			console.log(this.height);
+		}
+
+		tpfm() {
+			console.log('tpfm');
+		}
+
+		static write(dd) {
+			console.log(this.age);//注意，如果静态方法包含this关键字，这个this指的是类，而不是实例。
+			console.log(dd);
+		}
+
+	}
+
+	Con.age = 123;//静态属性
+	Con.prototype.hair = 'red';//原型属性
+	Con.write('静态');
+	let a = new Con('kk');
+	console.log(a.age);
+	console.log(a.name);
+	a.write();
+
+	//继承
+	class Bon extends Con {
+		constructor(name) {
+			super(name);
+			//作为函数时，super()只能用在子类的构造函数之中，用在其他地方就会报错。可以通过super给父级的constructor传递参数;
+			//子类Bon的构造函数之中的super()，代表调用父类的构造函数。这是必须的，否则 JavaScript 引擎会报错。
+			//注意，super虽然代表了父类Con的构造函数，但是返回的是子类Bon的实例，即super内部的this指的是B，因此super()在这里相当于
+			super.write();//// 第二种情况，super作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
+			this.height = '200';//等价于super.height
+		}
+
+		dd() {
+			console.log('dd');
+			console.log(super.name);//定义在父类实例上的方法或属性，是无法通过super调用的。因为未实例，即在constructor里面的属性
+			console.log(super.hair);//原型属性
+			super.tpfm();//原型方法
+			super.write();//在子类普通方法中通过super调用父类的方法时，方法内部的this指向当前的子类实例。
+		}
+
+		static litS(dd) {
+			super.write(dd);//静态方法this指向的是子类不是实例;
+		}
+
+	}
+
+	Bon.age = '321';//子级的静态属性覆盖了父级的
+	let b = new Bon('xx');
+	b.write();
+	b.dd();
+	Bon.litS('wade');//age=321
 </script>
 </body>
 </html>
