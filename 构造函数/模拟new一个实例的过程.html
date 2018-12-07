@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	//new一个新实例的时候如果后面没有参数可不用加括号如new Students
+	//模拟new一个实例的过程
+	function imitateNew(fu, ...dt) {//fu就是要传入的构造函数,dt是参数
+		//1new先创建一个空对象
+		var o = Object.create(fu.prototype);//2然后把构造函数prototype的原型对象继承过去
+		var r = fu.call(o, ...dt);//3执行构造函数
+		if (typeof r == 'object') {//4判断构造函数返回的是不是对象类型，不是的话就把第二步的对象返回回去
+			return r;
+		} else {
+			return o;
+		}
+
+	}
+
+	function A(x) {
+	  this.name=x;
+	  this.speak=function (ee) {
+	    console.log(this.name+ee);
+	  };
+	}
+	var c=imitateNew(A,'namec');//模拟new
+	var b={name:'shit'};
+	var a=new A('bullshit');//这里如果没有参数可以省略掉括号（）
+	a.speak.call(b,'tpfm');
+</script>
+</body>
+</html>
