@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //jsonp的原理就是利用script的跨域能力
+    //使用方法：
+    //1.在请求发起页面定义一个全局函数,在页面添加一个script，src为要请求的地址（可加参数）,把后端要调用的函数名（即全局函数）也传递给后端；
+    //2.后端调用这个客户端传递过来的全局函数，调用这个函数传递data，客户端就可以获取到值；
+    //3.前端获取数据后删掉script
+    //局限性是jsonp只能发起get请求
+    //jq有封装好的jsonp的ajax
+    //客户端
+    //定义一个全局函数
+    var data='';
+    function getData(dd) {
+      data=dd;
+    }
+    //后端需要根据这个src里面的回调函数名调用这个函数，并在里面塞入数据
+</script>
+<!--<script src="请求地址?callBack=getData"></script>-->
+
+</body>
+</html>

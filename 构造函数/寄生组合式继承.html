@@ -24,23 +24,17 @@
     };
     var xx=new sonType('sss','123');
     //寄生组合式继承
-    function inheritPrototype(a,b){
-        var xd=new Object()
-        xd.prototype=a.prototype;
-        var prototype=xd;
-        prototype.constructor=b;  //把原型对象的构造属性指回子级构造函数；
-        b.prototype=prototype;
-    }
     function son1Type(name,age){
         fatherType.call(this,name);
         this.age=age;
     }
+    son1Type.prototype=fatherType.prototype;
+    son1Type.prototype.constructor=son1Type;//构造函数指回son1Type;
+    //son1Type.prototype=Object.create(fatherType.prototype);
     //xx.name属性是实例属性
     var userObject=new son1Type('aaa','321');
-    console.log(userObject.name);
-    console.log(userObject.colors);
-    //inheritPrototype(fatherType,son1Type);用于继承父级的原型对象；
-    console.log(userObject.sayName());//这里输出未定义，是因为用call来调用的话，只会继承父级构造函数的实例属性，不会继承原型对象里面的属性；
+    console.log(userObject);
+    console.log(userObject.sayName());//这里输出未定义，是因为这个函数没有返回值；
 
 </script>
 </body>
