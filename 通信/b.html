@@ -11,8 +11,10 @@
 <p>fun</p>
 <script>
     window.onhashchange=()=>{
-    	console.log(1);
+    	console.log('接收到父窗口传递的信息');
         console.log(window.location.hash);
+        //给父级窗口发送信息做到互相通信
+	    parent.location.href+= "#age=333";
     }
 </script>
 </body>

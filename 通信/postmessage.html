@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box {
+            background-color: black;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<iframe src="./a.html" frameborder="0"></iframe>
+<script>
+	window.frames[0].onload = function () {
+		this.postMessage('发给子窗口', 'http://localhost:63342/lession/通信/a.html');
+	};
+	window.addEventListener('message', function (event) {
+		console.log(event.data);
+	}, false);
+
+</script>
+</body>
+</html>

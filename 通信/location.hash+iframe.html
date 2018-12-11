@@ -11,7 +11,7 @@
 <iframe id="iframe" src="b.html"></iframe>
 <script>
 	let iframe = document.querySelector('#iframe');
-    //这里有个要点就是必须是等iframe加载完在改;
+    //这里有个要点就是必须是等iframe加载完在改;不然b页面接收不到信息;
 	iframe.onload = () => {
 		iframe.src += '#name=kk';
 	};
