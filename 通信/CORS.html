@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跨域资源共享</title>
+</head>
+<body>
+<p>CORS，它是JSONP模式的现代升级版，与JSONP不同的是，CORS除了GET要求方法以外也支持其他的 HTTP要求。浏览器CORS请求分成两种
+    a、简单请求
+    b、协商模型/预检请求（Preflighted Request），即非简单请求
+    如何区分请求具体属于哪一种呢，下面我总结了几点：
+    1) 请求方式
+
+    GET
+    HEAD
+    POST
+    2）HTTP的头信息子段
+
+    Accept
+    Accept-Language
+    Content-Language
+    Last-Event-ID
+    Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain，其中'text/plain'默认支持，其他两种则需要预检请求和服务器协商。
+    满足以上两大点的即为简单请求，否则为非简单请求</p>
+<p>
+    跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器  让运行在一个 origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源。当一个资源从与该资源本身所在的服务器不同的域或端口请求一个资源时，资源会发起一个跨域 HTTP 请求。</p>
+</body>
+</html>
