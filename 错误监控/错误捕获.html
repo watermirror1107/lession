@@ -6,13 +6,22 @@
 </head>
 <body>
 <script>
+    //错误的捕获
+
 	//即时运行错误的捕获
 	//1.try...catch
 	//2.window.onerror（dom0级事件在事件冒泡时候触发）
 	//资源加载错误的捕获（这种错误不会冒泡不能被window.onerror获取到，但是这种错误可以被捕获到）
 	//1.object.onerror(如img.onerror包括script的加载错误)
 	//2.performance.getEntries()返回的是一个数组，数组里面是成功加载的资源列表，这个方法是高级浏览器才有的方法
-    //3.资源错误不支持冒泡，那就利用捕获来获取错误window.addEventListener('error',function(e){},true)
+	//3.资源错误不支持冒泡，那就利用捕获来获取错误window.addEventListener('error',function(e){},true)
+	//跨域的错误也可以拿到的，客户端在script加上一个crossorigin属性，服务端在js资源响应头上加上Access-Control-Allow-Origin:*(运行所有的请求*,或者指定某一个域名的)
+
+
+    //错误的上报
+    //1.采用ajax上报错误8
+    //2.利用Image对象快捷发送错误(便捷简单)
+    (new Image()).src='url?name=dd&age=13';
 </script>
 </body>
 </html>
