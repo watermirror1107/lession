@@ -3,9 +3,9 @@
 3、     location.hash + iframe
 4、 window.name + iframe跨域
 5、     postMessage跨域
-6、 跨域资源共享（CORS）
+6、     跨域资源共享（CORS）
 7、     nginx代理跨域
-8、 nodejs中间件代理跨域
+8、     nodejs中间件代理跨域（很简单在截取的req的相对请求地址的时候在前面拼接需要跨域的请求地址即可https://www.cnblogs.com/ytu2010dt/p/5959899.html）
 9、     WebSocket协议跨域
 
 
