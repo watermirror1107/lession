@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	//即时运行错误的捕获
+	//1.try...catch
+	//2.window.onerror（dom0级事件在事件冒泡时候触发）
+	//资源加载错误的捕获（这种错误不会冒泡不能被window.onerror获取到，但是这种错误可以被捕获到）
+	//1.object.onerror(如img.onerror包括script的加载错误)
+	//2.performance.getEntries()返回的是一个数组，数组里面是成功加载的资源列表，这个方法是高级浏览器才有的方法
+    //3.资源错误不支持冒泡，那就利用捕获来获取错误window.addEventListener('error',function(e){},true)
+</script>
+</body>
+</html>
