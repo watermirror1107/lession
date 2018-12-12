@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>afasdfasdf
+<script>
+	window.addEventListener('message', function (e) {
+		console.log(e.data);
+		console.log(e.source);
+		console.log(e.origin);
+		// e.source：发送消息的窗口
+		// e.origin: 消息发向的网址
+		// e.data: 消息内容
+		//top=e.source
+		top.postMessage('asdf');
+		//可以通过操作e.source来操作父级窗口dom等等;或则是用top打开这个子窗口的父窗口
+		top.document.querySelector('.box').style.backgroundColor = 'red';
+	}, false);
+
+</script>
+</body>
+</html>
