@@ -7,21 +7,52 @@
 <body>
 
 <script>
-    var text='lorem ipsum dolor sit amet, consectetur adipisicing elit';
-    var position=[];
-    var pos=text.indexOf('e');
-    while (pos>0){
-        position.push(pos);
-        pos=text.indexOf('e',pos+1);
-    }
-    console.log(position);
-    var ppp=[];
-    for (let i=0;i<text.length;i++){
-        if(text[i]=='e'){
-            ppp.push(i);
-        }
-    }
-    console.log(ppp);
+	var text = 'lorem ipsum dolor sit amet, consectetur adipisicing elit';
+	var position = [];
+	var pos = text.indexOf('e');
+	while (pos > 0) {
+		position.push(pos);
+		pos = text.indexOf('e', pos + 1);
+	}
+	// console.log(position);
+	var ppp = [];
+	for (let i = 0; i < text.length; i++) {
+		if (text[i] == 'e') {
+			ppp.push(i);
+		}
+	}
+
+	// console.log(ppp);
+
+	function Foo() {
+		getName = function () {
+			console.log(1);
+		};
+		return this;
+	}
+
+	Foo.getName = function () {
+		console.log(2);
+	};
+
+	Foo.prototype.getName = function () {
+		console.log(3);
+	};
+	var getName = function () {
+		console.log(4);
+	};
+
+	function getName() {
+		console.log(5);
+	}
+
+	Foo.getName(); //2
+	getName(); //4
+	Foo().getName();//1  这个Foo函数在调用的时候没有用new，Foo函数里面的返回的this，这个时候指的是全局变量window，所以这里相当于是在调用window.getName,但是因为调用了Foo(),里面对getName进行了重新复制，所以最终输入1；
+	getName(); //1
+	new Foo.getName();//2  这是三个要查看运算级的顺序，new一个实例如果没有带参数的话的运算级等级排在.属性成员后面的，所以先运行Foo.getName();
+	new Foo().getName();//3  //（）的优先级又高于.成员属性的，所以先运行new Foo()，然后在实例对象上面调用getName(),但是构造函数Foo直接返回this实例，所以只能往原型上面找，所以输出3
+	new new Foo().getName();//3 new Foo()相对于第一个New是一个带参数的new，所有先运行new Foo(),一个没有属性的实例，然后是运行实例的.成员属性.getName(),没找到又去原型上面找，所以输出3；
 </script>
 
 </body>
