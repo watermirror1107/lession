@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 5% auto;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px;
+        }
+
+        .item {
+            height: 100px;
+            width: 100px;
+            border: 4px solid #eee;
+            box-sizing: border-box;
+            line-height: 100px;
+            text-align: center;
+            color: #333;
+            margin-left: -4px;
+            margin-top: -4px;
+        }
+        .item:nth-child(3n+1){
+            margin-left: 0;
+        }
+        .item:hover {
+            border-color: red;
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+<ul class="box">
+    <li class="item">1</li>
+    <li class="item">2</li>
+    <li class="item">3</li>
+    <li class="item">4</li>
+    <li class="item">5</li>
+    <li class="item">6</li>
+    <li class="item">7</li>
+    <li class="item">8</li>
+    <li class="item">9</li>
+</ul>
+</body>
+</html>
