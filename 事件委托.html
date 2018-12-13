@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            height: 50px;
+            line-height: 50px;
+            padding: 0 5%;
+            width: 300px;
+            margin: 1% 0;
+            border: 2px solid #00aaff;
+            cursor: pointer;
+        }
+
+        span {
+            font-size: 20px;
+            float: right;
+            padding: 0 5%;
+        }
+    </style>
+</head>
+<body>
+<ul class="list">
+    <li>内容1<span>X</span></li>
+    <li>内容2<span>X</span></li>
+    <li>内容3<span>X</span></li>
+    <li>内容4<span>X</span></li>
+    <li>内容5<span>X</span></li>
+    <li>内容6<span>X</span></li>
+</ul>
+<script>
+	class List {
+		constructor(el) {
+			this.parentNode = document.querySelector(el);
+			this.parentNode.addEventListener('click', (ev) => {
+				if (ev.target.nodeName == 'UL') return false;//点击直接不执行
+				this.findParent(ev.target);
+			}, false);
+		}
+
+		findParent(target) {
+			if (target.nodeName == 'LI') {
+				this.removeNode(target);
+			} else {
+				this.findParent(target.parentNode);
+			}
+		}
+
+		removeNode(node) {
+			this.parentNode.removeChild(node);
+		}
+	}
+
+	window.addEventListener('DOMContentLoaded', () => {
+		//文档树dom加载完之后执行
+		new List('.list');
+	}, true);
+</script>
+</body>
+</html>
