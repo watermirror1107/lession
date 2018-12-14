@@ -9,20 +9,26 @@
 </head>
 <body>
 <script>
-    let arr=[1,2,3,[4,5,6,[7,8]],[9,10],11];
-    let arr1=arr.flat(Infinity);//es6语法拉平所有元素的结构,关键字Infinity表示直到拉平数组为止，不然默认拉平一次;
-    console.log(arr1);
-    let arr3=[];
-    function laping(data) {
-      data.map((item)=>{
-      	if(item.constructor=='Array'){
-      		laping(item);
-        }else{
-      		arr3.push(item);
-        }
-      })
-    }
-    laping(arr1);
+	let arr = [1, 2, 3, [4, 5, 6, [7, 8]], [9, 10], 11];
+	let arr1 = arr.flat(Infinity);//1.es6语法拉平所有元素的结构,关键字Infinity表示直到拉平数组为止，不然默认拉平一次;
+	console.log(arr1);
+	let arr3 = [];
+
+	function laping(data) {//2.递归
+		data.map((item) => {
+			if (item.constructor == 'Array') {
+				laping(item);
+			} else {
+				arr3.push(item);
+			}
+		});
+	}
+
+	laping(arr1);
+	console.log(arr3);
+	let arr4 = [];
+	arr4 = arr.join(',').split(',');//利用隐式转换，可以去除数组的多层结构，不过就是类型变成了字符串；
+	console.log(arr4);
 </script>
 </body>
 </html>
