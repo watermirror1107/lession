@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<button>修改obj的name</button>
+<p></p>
+<body>
+<script>
+	let obj = {name: 'kangkang'};
+	let p = document.querySelector('p');
+	let btn = document.querySelector('button');
+	let b = Object.defineProperty(obj, 'name', {
+		set(nV) {
+			console.log(`name属性变为${nV}`);
+			p.innerHTML = nV;
+		},
+	});
+	console.log(obj == b);
+	btn.addEventListener('click', () => {
+		obj.name = 'lili';
+	}, false);
+	//Reflect会把上面的Object的顶替掉，这个2个函数的返回值不一样而已，
+	let c = Reflect.defineProperty(obj, 'name', {
+		set(nV) {
+            p.innerHTML=nV+'123';
+		},
+		get() {
+            return '123'
+		},
+	});
+	console.log(c)
+</script>
+</body>
+</html>
