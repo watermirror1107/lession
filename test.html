@@ -8,10 +8,11 @@
         <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     -->
     <style>
-        *{
+        * {
             padding: 0;
             margin: 0;
         }
+
         .father {
             overflow-y: auto;
             width: 20%;
@@ -24,7 +25,8 @@
             height: 900px;
             background-color: yellow;
         }
-        .box{
+
+        .box {
             /*position: relative;*/
             /*width: 100vw;*/
             display: table;
@@ -34,12 +36,14 @@
             /*grid-template-rows:100px ;*/
             /*grid-template-columns:300px auto 300px;*/
         }
-        .left,.right,.center{
+
+        .left, .right, .center {
             display: table-cell;
             /*position: absolute;*/
             /*height: 100px;*/
         }
-        .left{
+
+        .left {
             width: 300px;
             background-color: red;
             /*float: left;*/
@@ -47,7 +51,8 @@
             /*width: 300px;*/
             /*height: 100px;*/
         }
-        .right{
+
+        .right {
             width: 300px;
             background-color: blue;
             /*float: right;*/
@@ -55,7 +60,8 @@
             /*width: 300px;*/
             /*height: 100px;*/
         }
-        .center{
+
+        .center {
             background-color: yellow;
             /*width: auto;*/
             /*left: 300px;*/
@@ -71,21 +77,20 @@
     <div class="right"></div>
 </div>
 <!--<div class="father">-->
-    <!--<div class="son">鼠标移到这里</div>-->
+<!--<div class="son">鼠标移到这里</div>-->
 <!--</div>-->
 <!--<div id="a" onclick="alert('old')">Open the Developer Tools Console to see the output.</div>-->
-
 <script>
-	window.onload = function () {
-		var div = document.getElementById("a");
-		console.log("Attribute reflected as a property: ", div.onclick.toString());
-		// Prints: function onclick(event) { alert('old') }
-		div.onclick = function() { alert('new') };
-		console.log("Changed property to: ", div.onclick.toString());
-		// Prints: function () { alert('new') }
-		console.log("Attribute value is unchanged: ", div.getAttribute("onclick"));
-		// Prints: alert('old')
-	}
+	// window.onload = function () {
+	// 	var div = document.getElementById("a");
+	// 	console.log("Attribute reflected as a property: ", div.onclick.toString());
+	// 	// Prints: function onclick(event) { alert('old') }
+	// 	div.onclick = function() { alert('new') };
+	// 	console.log("Changed property to: ", div.onclick.toString());
+	// 	// Prints: function () { alert('new') }
+	// 	console.log("Attribute value is unchanged: ", div.getAttribute("onclick"));
+	// 	// Prints: alert('old')
+	// }
 	/*  window.onload=function(){
           console.log('load')
       };
@@ -111,6 +116,7 @@
 		id: '555',
 		serverName: '三区',
 	}];
+
 </script>
 </body>
 </html>

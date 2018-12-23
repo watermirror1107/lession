@@ -259,26 +259,76 @@
 
 	// console.log(pickPeaks([1, 2, 2, 2, 3]));
 
-	function anagrams(word, words) {
-		if (words.length <= 0) {
-			return [];
-		} else {
-			let arr = [];
-			words.map((item, index) => {
-				if (item.length == word.length) {
-					if (item.split('').every(x => word.includes(x))) {
-						if (word.split('').every(x => item.includes(x))) {
-							arr.push(item);
-						}
-					}
-				}
-			});
-			return arr;
-		}
-	}
+	let anagrams = (word, words) => words.filter(w => w.split('').sort().join('') === word.split('').sort().join(''));
 
 	// console.log(anagrams('abba', ['aabb', 'abcd', 'bbaa', 'dada', 'asdff']));
 	console.log(anagrams('racer', ['crazer', 'carer', 'racar', 'caers', 'racer']));
+
+	///字符串也要懂得排序，字符串排序也是一种很好的办法；
+
+	var numbers = [5, 32, 5, 1, 31, 70, 30, 8];
+
+	class GroupByDifference {
+		constructor(arg) {
+			this.arr = arg.sort((a, b) => {
+				if (a == b) {
+					return 0;
+				} else {
+					return a - b > 0 ? 1 : -1;
+				}
+			});
+		}
+
+		find(dis) {
+			let res = [];
+			var check = (item, index) => {
+				for (let i = 0; i < this.arr.length; i++) {
+					if (index != i) {
+						if (Math.abs(item - this.arr[i]) <= dis) {
+							return true;
+						}
+					}
+				}
+			};
+			for (let j = 0; j < this.arr.length; j++) {
+				if (check(this.arr[j], j)) {
+					res.push(this.arr[j]);
+					continue;
+				}
+			}
+			return res;
+		}
+	}
+
+	console.log(new GroupByDifference(numbers).find(3));
+	// Test.assertDeepEquals(new GroupByDifference(numbers).find(100), [1,5,5,8,30,31,32,70])
+	// Test.assertDeepEquals(new GroupByDifference(numbers).find(3), [5,5,8,30,31,32])
+	// Test.assertDeepEquals(new GroupByDifference(numbers).find(2), [5,5,30,31,32])
+	// Test.assertDeepEquals(new GroupByDifference(numbers).find(0), [5,5])
+	// Test.assertDeepEquals(new GroupByDifference([]).find(10), [])
+
+
+	var moveZeros = function (arr) {
+		let newArr=[];
+        arr.forEach((item, index) => {
+			if (item !== 0) {
+				newArr.push(item);
+			}
+        });
+        let dis=arr.length-newArr.length;
+        do{
+	        newArr.push(0);
+	        dis--;
+        }while (dis>0);
+		return newArr;
+	};
+	// console.log(moveZeros([false, 2, true, 1, 0, 1, 0, 3, 0, 1]));
+	// console.log(moveZeros([false,1,0,1,2,0,1,3,"a"]));
+	console.log(moveZeros([9,0,0,9,1,2,0,1,0,1,0,3,0,1,9,0,0,0,0,9]));
+	console.log(moveZeros(["a",0,0,"b","c","d",0,1,0,1,0,3,0,1,9,0,0,0,0,9]));
+	console.log(moveZeros(["a",0,0,"b",null,"c","d",0,1,false,0,1,0,3,[],0,1,9,0,0,{},0,0,9]));
+	console.log(moveZeros([0,1,null,2,false,1,0]));
+	// JSON.stringify(moveZeros([1,2,0,1,0,1,0,3,0,1]))
 </script>
 </body>
 </html>
