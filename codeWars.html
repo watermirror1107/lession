@@ -309,26 +309,168 @@
 
 
 	var moveZeros = function (arr) {
-		let newArr=[];
-        arr.forEach((item, index) => {
-			if (item !== 0) {
-				newArr.push(item);
-			}
-        });
-        let dis=arr.length-newArr.length;
-        do{
-	        newArr.push(0);
-	        dis--;
-        }while (dis>0);
-		return newArr;
+		return arr.filter(function (x) {
+			return x !== 0;
+		}).concat(arr.filter(function (x) {
+			return x === 0;
+		}));
 	};
 	// console.log(moveZeros([false, 2, true, 1, 0, 1, 0, 3, 0, 1]));
 	// console.log(moveZeros([false,1,0,1,2,0,1,3,"a"]));
-	console.log(moveZeros([9,0,0,9,1,2,0,1,0,1,0,3,0,1,9,0,0,0,0,9]));
-	console.log(moveZeros(["a",0,0,"b","c","d",0,1,0,1,0,3,0,1,9,0,0,0,0,9]));
-	console.log(moveZeros(["a",0,0,"b",null,"c","d",0,1,false,0,1,0,3,[],0,1,9,0,0,{},0,0,9]));
-	console.log(moveZeros([0,1,null,2,false,1,0]));
+	console.log(moveZeros([9, 0, 0, 9, 1, 2, 0, 1, 0, 1, 0, 3, 0, 1, 9, 0, 0, 0, 0, 9]));
+	console.log(moveZeros(['a', 0, 0, 'b', 'c', 'd', 0, 1, 0, 1, 0, 3, 0, 1, 9, 0, 0, 0, 0, 9]));
+	console.log(moveZeros(['a', 0, 0, 'b', null, 'c', 'd', 0, 1, false, 0, 1, 0, 3, [], 0, 1, 9, 0, 0, {}, 0, 0, 9]));
+	console.log(moveZeros([0, 1, null, 2, false, 1, 0]));
+
 	// JSON.stringify(moveZeros([1,2,0,1,0,1,0,3,0,1]))
+
+	function isMerge(s, part1, part2) {
+		return !s ? !(part1 || part2) :
+			s[0] == part1[0] && isMerge(s.slice(1), part1.slice(1), part2) || s[0] == part2[0] && isMerge(s.slice(1), part1, part2.slice(1));
+	}
+
+	console.log(isMerge('codewars', 'code', 'wasr'));
+	//console.log(isMerge('codewars', 'cdw', 'oears'));
+	// console.log(isMerge('codewars', 'cod', 'wars'));
+
+
+	stringMerge = (s, d, f) => s.split(f)[0] + d.slice(d.indexOf(f));
+	console.log(stringMerge('person', 'here', 'e'));
+
+	var memo = function (f) {
+		var cache = {};
+		return function (n) {
+			if (!cache[n]) cache[n] = f(n);
+			return cache[n];
+		};
+	};
+	var fibonacci = memo(function (n) {
+		if (n == 0 || n == 1) return n;
+		return fibonacci(n - 1) + fibonacci(n - 2);
+	});
+
+	console.log(fibonacci(70));
+
+	String.prototype.toLoverCase = function () {
+		return this.toLowerCase().replace(/[a-z]/g, (item) => {
+			return ['L', 'O', 'V', 'E'][(item.charCodeAt(0) - 97) % 4];
+		});
+	};
+
+	class Thing {
+		constructor(name) {
+			let obj = {
+					name: name,
+					is_a_person: '',
+					is_a_man: '',
+					is_a_woman: '',
+					parent_of: '',
+					is_the: {parent_of: ''},
+					can: {speak: ''},
+				},
+				fuck1 = {person: '', man: '', woman: ''},
+				fuck2 = {person: '', man: '', woman: ''},
+				fuck3 = {};
+			var handle1 = {
+				get(target, key, descriptor) {
+					switch (key) {
+						case 'man':
+							obj.is_a_man = true;
+							obj.is_a_woman = false;
+							break;
+						case 'woman':
+							obj.is_a_woman = true;
+							obj.is_a_man = false;
+							break;
+						case 'person':
+							obj.is_a_person = true;
+							break;
+					}
+				},
+			};
+			var handle2 = {
+				get(target, key, descriptor) {
+					switch (key) {
+						case 'man':
+							obj.is_a_man = false;
+							obj.is_a_woman = true;
+							break;
+						case 'woman':
+							obj.is_a_woman = false;
+							obj.is_a_man = true;
+							break;
+						case 'person':
+							obj.is_a_person = false;
+							break;
+					}
+				},
+			};
+			var handle3 = {
+				get(target, key, descriptor) {
+					Reflect.ownKeys(target).forEach((item) => {
+						delete target[item];
+					});
+					if (!Reflect.has(target, key)) {
+						obj.parent_of = key;
+					}
+				},
+			};
+			fuck1 = new Proxy(fuck1, handle1);
+			fuck2 = new Proxy(fuck2, handle2);
+			fuck3 = new Proxy(fuck3, handle3);
+			obj.is_a = fuck1;
+			obj.is_not_a = fuck2;
+			obj.is_the.parent_of = fuck3;
+			obj.spoke = [];
+			obj.can.speak = new Proxy(function () {
+			}, {
+				apply: function (target, thisBinding, args) {
+					let name = obj.name;
+
+					obj.speak = function (dd) {
+						obj.spoke.push(`${name} says: ${dd}!`);
+						return `${name} says: ${dd}!`;
+					};
+
+				},
+			});
+			obj.has = function (length) {
+				return new Proxy({}, {
+					get(target, key, descriptor) {
+						if (length == 1) {
+							let item = Object.create(Thing.prototype);
+							item.name = key;
+							obj[key] = item;
+						} else {
+							let arr = [];
+							for (let i = 0; i < length; i++) {
+								let item = Object.create(Thing.prototype);
+								item.name = key.substr(0, key.length - 1);
+								arr.push(item);
+							}
+							obj[key] = arr;
+						}
+
+
+					},
+				});
+			};
+			obj.having = function (length) {
+				return new Proxy({}, {
+					get(target, key, descriptor) {
+
+					},
+				});
+			};
+			obj.each = function () {
+
+			};
+			return obj;
+		}
+	}
+
+	const ff = new Thing('ff');
+
 </script>
 </body>
 </html>
