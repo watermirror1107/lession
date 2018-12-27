@@ -15,7 +15,7 @@
 <div class="box"></div>
 <script>
     var name='window';//这里用Let申明的话，18行是调用不到全局的变量name;就会输出空，
-    //（但是切换成var在切换成let在刷新就不会输出空,这是因为js设计的时候败笔之一，全局变量会挂在顶级对象window上面，成为window的属性，刷新的时候如果不关闭窗口，window上面的属性是不会重置的，所以可以再顶级对象window属性上面读取到全局变量name;）
+    //（但是切换成var在切换成let在刷新就不会输出空,这是因为js设计的时候败笔之一，全局变量会挂在顶级对象window上面，成为window的属性，刷新的时候如果不关闭窗口或者url不跳转，window上面的属性是不会重置的，所以可以再顶级对象window属性上面读取到全局变量name;）
 	let obj = {
 		name: 'obj',
 		speak: () => {   //这里用箭头函数导致调用的时候this会指向顶层对象window
