@@ -45,15 +45,12 @@
 			var args = arguments;
 			var now = +new Date();
 			if (last && now - last < interval) {
-				console.log(4);
 				clearTimeout(timer);
 				timer = setTimeout(function () {
-					//console.log(1);
 					last = now;
 					fn.apply(th, args);
 				}, interval);
 			} else {
-				//console.log(2);
 				last = now;
 				fn.apply(th, args);
 			}

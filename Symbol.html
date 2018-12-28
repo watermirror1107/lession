@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	//es6的第七种数据类型symbol有类似于于字符串，不过它是不重复的, Symbol 值不是对象，所以不能添加属性。
+	//创建一个symbol类型
+	let a = Symbol();
+	console.log(typeof a);
+	console.log(a);
+	let b = Symbol('dataB');//Symbol构造函数不需要用new,参数就是用来标明这个symbol类型的
+	let c = Symbol('dataB');//同一个参数得出的symbol也是不一样的；
+	console.log(b);
+	console.log(b == c);
+	console.log(Symbol() == Symbol());
+	//Symbol 值不能与其他类型的值进行运算 Symbol 值可以显式转为字符串和布尔值不能转为数字
+	//Symbol 值作为对象属性名时，不能用点运算符。要用方括号
+	let obj = {};
+	obj.name = 'kangkang';
+	obj[a] = 'a1';
+	obj[Symbol()] = 'a2';
+	obj[b] = 'b';
+	obj[c] = 'c';
+	//Symbol 作为属性名，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+	// 但是，它也不是私有属性，有一个Object.getOwnPropertySymbols方法，可以获取指定对象的所有 Symbol 属性名。
+	//Object.getOwnPropertySymbols方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。
+	console.log(Object.getOwnPropertySymbols(obj));
+	//Reflect.ownKeys可以遍历出对象的属性，包括对象中带有的symbol属性；es6新API
+	console.log(Reflect.ownKeys(obj));
+	//使用同一个 Symbol 值，Symbol.for方法可以做到这一点。它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的 Symbol 值。如果有，就返回这个 Symbol 值，否则就新建并返回一个以该字符串为名称的 Symbol 值。
+	let d = Symbol.for('dataC');
+	let e = Symbol.for('dataC');
+	let f = Symbol.for('dataB');//Symbol.for和Symbol同一个参数的生产的symbol不是同一个；
+	console.log(f == b);
+	console.log(d == e);
+	//Symbol.for()与Symbol()这两种写法，都会生成新的 Symbol。它们的区别是，前者会被登记在全局环境中供搜索，后者不会。Symbol.for()不会每次调用就返回一个新的 Symbol 类型的值，而是会先检查给定的key是否已经存在，如果不存在才会新建一个值。比如，如果你调用Symbol.for("cat")30 次，每次都会返回同一个 Symbol 值，但是调用Symbol("cat")30 次，会返回 30 个不同的 Symbol 值。
+
+
+	//Symbol.keyFor
+	let s1 = Symbol.for('foo');
+	console.log(Symbol.keyFor(s1)); // "foo"
+
+	let s2 = Symbol('foo');
+	console.log(Symbol.keyFor(s2)); // undefined
+	//Symbol.for为 Symbol 值登记的名字，是全局环境的，可以在不同的 iframe 或 service worker 中取到同一个值。
+
+	//对象的Symbol.hasInstance属性，指向一个内部方法。当其他对象使用instanceof运算符，判断是否为该对象的实例时，会调用这个方法。比如，foo instanceof Foo在语言内部，实际调用的是Foo[Symbol.hasInstance](foo)。
+	class Even {
+		static [Symbol.hasInstance](num) {//这里声明的时候要注意声明成静态方法，因为是调用类的方法，而不是实例的方法，如果是实例的方法，就调用不到；
+			return Number(num) % 2 === 0;//判断是不是偶数
+		}
+	}
+
+	class Even2 {
+		[Symbol.hasInstance](num) {
+			return Number(num) % 2 === 0;
+		}
+	}
+	console.log(2 instanceof Even);
+	console.log(2 instanceof Even2);//这里就调用不到类的symbol.hasinstance方法，因为在even2类里面这个方法不是静态方法，所以输出false;
+
+
+</script>
+</body>
+</html>

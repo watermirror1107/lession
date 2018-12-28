@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box {
+            height: 300px;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script>
+	'use strict';
+
+	function ch(dd) {
+		let num = 1;
+		if (dd == 1) {
+			return num;
+		} else {
+			num = dd * ch(dd - 1);
+		}
+		return num;
+	}
+
+	console.log(ch(60));
+
+	function sum(dd) {
+		let num = 0;
+		if (dd == 0) {
+			return num;
+		} else {
+			num = dd + sum(dd - 1);
+		}
+		return num;
+	}
+
+	console.time('尾1');
+	console.log(sum(3000));
+	console.timeEnd('尾1');
+	//300000栈溢出
+	//尾递归优化
+
+	function sum1(dd, total) {
+		if (dd == 0) {
+			return total;
+		}
+		return sum1(dd - 1, total + dd);
+	}
+
+	console.time('尾2');
+	console.log(sum1(3000, 0));
+	console.timeEnd('尾2');
+
+	function fibonacci(n) {
+		if (n <= 1) return 1;
+		return fibonacci(n - 1) + fibonacci(n - 2);
+	}
+
+	console.time('普通');
+	console.log(fibonacci(10));
+	console.timeEnd('普通');
+
+	//尾递归
+	function fibonacci1(n, ac1 = 0, ac2 = 1) {
+		if (n == 1 || n == 0) {
+			return ac2;
+		}
+		return fibonacci1(n - 1, ac2, ac1 + ac2);
+	}
+
+	console.time('尾递归');
+	console.log(fibonacci1(70));
+	console.timeEnd('尾递归');
+
+	//记忆递归
+	var memoizer = function (fundamental) {
+		var memo = {};
+		return function (n) {
+			if (!memo[n]) {
+				memo[n] = fundamental(n);
+			}
+			return memo[n];
+		};
+	};
+	var fibonacci2=memoizer(function (n) {
+		if (n == 0 || n == 1) return n;
+		return fibonacci2(n - 1) + fibonacci2(n - 2);
+	});
+	console.time('记忆递归');
+    console.log(fibonacci2(70));
+	console.timeEnd('记忆递归');
+</script>
+</body>
+</html>
