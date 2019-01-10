@@ -63,12 +63,13 @@
 		});
 
 	};
-	let time = new Date().valueOf(), box = document.querySelector('.box');
+	let time = new Date().valueOf(), box = document.querySelector('.box'),num=1;
 	let moveLeft = requestAnimationFrame(function move() {
 		console.log(new Date().valueOf() - time);
-		if (new Date().valueOf() - time < 5000) {
+		if (new Date().valueOf() - time < 2000) {
+			num++;
 			let left =parseFloat(window.getComputedStyle(box, null).left);
-			box.style.left=(++left)+'px';
+			box.style.left=(left+num)+'px';
 			moveLeft = requestAnimationFrame(move);
 		} else {
 			cancelAnimationFrame(moveLeft);
