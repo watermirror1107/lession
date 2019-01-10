@@ -8,6 +8,15 @@
             font-size: 20px;
             margin-bottom: 10px;
         }
+
+        .box {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            margin-top: 10px;
+            left: 0;
+        }
     </style>
 </head>
 <body>
@@ -32,8 +41,9 @@
 </p>
 <div style="width:0px;height:16px;background-color:red;color:white;font-size:14px;line-height:16px;"></div>
 <button style="padding:5px;background: orangered;">Start</button>
+<div class="box"></div>
 <script>
-	var btn = document.getElementsByTagName('button')[0], timer, kg = true;
+	let btn = document.getElementsByTagName('button')[0], timer, kg = true;
 	btn.onclick = function () {
 		let divW = parseFloat(document.getElementsByTagName('div')[0].style.width);
 		if (divW == 100) {
@@ -53,7 +63,17 @@
 		});
 
 	};
-
+	let time = new Date().valueOf(), box = document.querySelector('.box');
+	let moveLeft = requestAnimationFrame(function move() {
+		console.log(new Date().valueOf() - time);
+		if (new Date().valueOf() - time < 5000) {
+			let left =parseFloat(window.getComputedStyle(box, null).left);
+			box.style.left=(++left)+'px';
+			moveLeft = requestAnimationFrame(move);
+		} else {
+			cancelAnimationFrame(moveLeft);
+		}
+	});
 </script>
 </body>
 </html>
