@@ -7,11 +7,14 @@
 </head>
 <body>
 <div id="app">
+    {{age}}
 </div>
 <script>
-	new Vue({
+	var vm=new Vue({
 		el: '#app',
-		data: {},
+		data: {
+			age:123
+        },
 	});
 </script>
 </body>
