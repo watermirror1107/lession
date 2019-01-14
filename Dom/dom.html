@@ -5,6 +5,26 @@
     <title>Title</title>
 </head>
 <body>
-
+<div class="box">
+    <div class="son"></div>
+    <!--注释节点-->
+    <div class="son"></div>
+    <div class="son"></div>
+</div>
+<script>
+	let box = document.querySelector('.box'), sonList;
+	if (box.nodeType == 1) {//根据Nodetype等于1来判断这个变量是不是节点：也可以用box.nodeType==Node.ELEMENT_NODE;不过这个方法IE不兼容
+		sonList = box.childNodes;//有length不过不是一个数组的实例;可以用。。。拓展运算符变成数组:
+		console.log(sonList.item(1) == sonList[1]);//获取具体哪个子节点用的方法2个都可以；
+		console.log(sonList[1].previousSibling);//获取前面一个节点
+		console.log(sonList[1].nextSibling);//获取后面一个节点
+		console.log(sonList[0] == box.firstChild);//索引为0的时候总是等于第一个子节点
+		console.log(sonList[sonList.length - 1] == box.lastChild);//索引为长度减一的时候总是等于最后一个子节点，这里不能用[2]来获取最后一个节点，因为子节点不只是你看到的3个类名为son的标签，还有换行和注释
+		console.log(sonList.length);//长度等于9
+		[...sonList].map((item) => {
+			console.log(item);//换行和注释也是算在子节点里面
+		});
+	}
+</script>
 </body>
 </html>

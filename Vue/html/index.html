@@ -4,17 +4,59 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
     {{age}}
+    <big-box @change-age="changeAge" class="wode" :msg="age" title="ddd">
+        <p slot="two">插槽2</p>
+        <p slot="one">插槽1</p>
+    </big-box>
+    <button @click="changeModel">改变模板</button>
+    <component :is="model"></component>
 </div>
 <script>
-	var vm=new Vue({
+	Vue.component('big-box', {
+		props: ['msg', 'title'],
+		template: `<div class="active"><h3>{{msg}}</h3><p>{{title}}</p><button @click="change">changeAge</button><slot name="one"></slot><slot name="two"></slot></div>`,
+		methods: {
+			change: function () {
+				this.$emit('change-age', 3);
+				console.log('changeAge');
+			},
+		},
+	});
+	Vue.component('lit-box', {
+		props: ['msg'],
+		template: `<div class="active"><h3>tom</h3></div>`,
+		methods: {},
+	});
+	Vue.component('middle-box', {
+		props: ['msg'],
+		template: `<div class="active"><h3>jack</h3></div>`,
+		methods: {},
+	});
+	var vm = new Vue({
 		el: '#app',
 		data: {
-			age:123
-        },
+					age: 222,
+					model: 'lit-box',
+				},
+		methods: {
+			changeAge: function (num = 1) {
+				this.age += num;
+				console.log(num);
+			},
+			changeModel: function () {
+				this.model = 'middle-box';
+			},
+		},
 	});
 </script>
 </body>
