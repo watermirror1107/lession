@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        .name:before{content:attr(class)}
+        .name:before{content:attr(content)}
+        .name:after{content:attr(class)}
         /*使用attr可以获取标签属性*/
     </style>
 </head>
 <body>
-<p class="name">1</p>
+<p class="name" content="数字">-</p>
 </body>
 </html>
