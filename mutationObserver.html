@@ -8,10 +8,8 @@
 <div class="boxOne"></div>
 <div class="boxTow"></div>
 <script>
-	let changeArr = [];
 	var domWatcher = new MutationObserver((arr, obj) => {//第一个是变动数组，第二个是观察器实例
-		changeArr = arr;
-		//console.log(obj);
+		console.log(arr);//在这里可以处理变动数组，里面有变动的变动的类型
 	});
 	let boxOne = document.querySelector('.boxOne');
 	//MutationObserver 的实例方法observe
