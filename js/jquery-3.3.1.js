@@ -24,14 +24,12 @@
 		// This accentuates the need for the creation of a real `window`.
 		// e.g. var jQuery = require("jquery")(window);
 		// See ticket #14549 for more info.
-		module.exports = global.document ?
-			factory(global, true) :
-			function (w) {
-				if (!w.document) {
-					throw new Error('jQuery requires a window with a document');
-				}
-				return factory(w);
-			};
+		module.exports = global.document ? factory(global, true) : function (w) {
+			if (!w.document) {
+				throw new Error('jQuery requires a window with a document');
+			}
+			return factory(w);
+		};
 	} else {
 		factory(global);
 	}
@@ -94,9 +92,7 @@
 
 	function DOMEval(code, doc, node) {
 		doc = doc || document;
-
-		var i,
-			script = doc.createElement('script');
+		var i, script = doc.createElement('script');
 
 		script.text = code;
 		if (node) {
@@ -126,8 +122,7 @@
 // unguarded in another place, it seems safer to define global only for this module
 
 
-	var
-		version = '3.3.1',
+	var version = '3.3.1',
 
 		// Define a local copy of jQuery
 		jQuery = function (selector, context) {

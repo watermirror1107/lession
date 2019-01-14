@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .middle {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 0;
+            bottom: 0;
+            width: 200px;
+            height: 200px;
+            border: 5px solid #000;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #000;
+            color: #fff;
+            line-height: 100px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        .litBox {
+            width: 200px;
+            height: 200px;
+            background-color: #cf231b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .c3, .c4 {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            border: 3px solid #0a0a0b;
+            animation: xuanz 3s linear;
+            perspective: 5000px;
+        }
+
+        .c4 {
+            right: 100%;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes xuanz {
+            from {
+                transform: rotateX(0deg);
+            }
+            to {
+                transform: rotateX(-360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<p>拷贝测试拷贝测试拷贝测试拷贝测试拷贝测试拷贝测试拷贝测试</p>
+<form onsubmit="return false;">
+    <input type="text" id="input">
+    <input type="time">
+    <input type="file">
+    <input type="range" defaultValue="3" min="1" max="10" id="range" value>
+    <button type="submit">提交</button>
+    <button type="reset">重置</button>
+</form>
+
+<input type="search" id="seach">
+<div class="middle" ondrop="console.log(1)">
+    <div class="box" draggable="true">拖拽</div>
+</div>
+<div class="c3">
+    旋转
+</div>
+<div class="c4">
+    旋转
+</div>
+<div class="litBox"></div>
+<details>
+    <!--兼容性不是很好-->
+    <summary>HTML5新标签</summary>
+    <p>12</p>
+    <p>34</p>
+</details>
+<script>
+	document.querySelector('#input').onchange = function () {//要在失去焦点并且内容发生改变才触发；
+		console.log('change');
+	};
+	document.querySelector('#input').onblur = function () {//要在失去焦点才触发；
+		console.log('blur');
+	};
+	document.querySelector('#input').onfocus = function () {//要在获取焦点才触发；
+		console.log('focus');
+	};
+	document.querySelector('#input').oninput = function () {//要在用户输入时触发；
+		console.log('input');
+	};
+	document.querySelector('form').onsubmit = function () {
+		console.log('submit');
+	};
+	document.querySelector('form').onreset = function () {
+		console.log('reset');
+	};
+	document.querySelector('#seach').onsearch = function () {//配合input类型为search的并获得焦点的时候，按下回车键触发
+		console.log('search');
+		console.log(document.querySelector('#range').value);
+	};
+	document.documentElement.oncopy = function () {//选中文字点击复制之后触发
+		console.log('copy');//无法获取到拷贝的内容
+	};
+	document.documentElement.oncut = function () {//选中文字点击剪切之后触发
+		console.log('cut');//无法获取到剪切的内容
+	};
+	document.documentElement.onpaste = function () {//黏贴之后触发
+		console.log('paste ');//无法获取到黏贴的内容
+	};
+	//onwheel鼠标滚轮事件
+	document.documentElement.onwheel = function () {
+		console.log(123);
+	};
+
+	let bol, box = document.querySelector('.box'), node, litBox = document.querySelector('.litBox'), target;
+	//拖动开始
+	box.ondragstart = function (ev) {
+		bol = false;
+		node = this;
+		this.style.opacity = 0.3;
+		console.log('dragstart');
+	};
+	//拖动开始出发，包括拖动后按住不动（但是位置要离开原来的位置）
+	box.ondrag = function (ev) {
+		//console.log('move');
+	};
+	//松开拖动后
+	box.ondragend = function (ev) {
+		if (bol) {
+			target.appendChild(node);
+		}
+		this.style.opacity = 1;
+		console.log('dragEnd');
+	};
+	//这3个事件只能绑定到window或者document上面；ondragenter，ondragleave,ondragover
+	window.ondragenter = function (ev) {
+		if (ev.target.className == 'litBox' || ev.target.className == 'middle') {
+			box.style.backgroundColor = 'blue';//这里改变的只能是原来位置的那个节点
+			console.log('in');
+			target = ev.target;
+			bol = true;
+		}
+	};
+	document.ondragleave = function (ev) {
+		if (ev.target.className == 'litBox' || ev.target.className == 'middle') {
+			console.log('in&out');
+			box.style.backgroundColor = 'red';
+		} else {
+			box.style.backgroundColor = 'black';
+		}
+
+	};
+
+	document.ondragover = function (ev) {
+		if (ev.target.className == 'litBox') {
+			//console.log('hover');//只要拖动的元素停留在目标元素上面就会一直触发
+			litBox.style.backgroundColor = 'blue';
+		}
+	};
+
+
+	document.querySelector('.middle').ondrop = function (ev) {
+		ev.preventDefault();
+		console.log('松开');
+	};
+
+
+	//这3个动画要兼容写法  // Chrome, Safari 和 Opera 代码
+	// animationstart 	该事件在 CSS 动画开始播放时触发
+	document.querySelector('.c3').addEventListener('webkitAnimationStart', function () {
+		console.log('动画开始');
+	});
+	// animationend	该事件在 CSS 动画结束播放时触发
+	document.querySelector('.c3').addEventListener('webkitAnimationEnd', function () {
+		console.log('动画结束');
+	});
+	// animationiteration	该事件在 CSS 动画重复播放时触发
+	document.querySelector('.c4').addEventListener('webkitAnimationIteration', function () {
+		console.log('动画循环');
+	});
+
+	// onpopstate	该事件在窗口的浏览历史（history 对象）发生改变时触发。
+	window.history.pushState('forward', null, '#');
+	window.onpopstate = function (ev) {
+		console.log('historychange');
+	};
+	// ontoggle	   该事件在用户打开或关闭 <details> 元素时触发
+	document.querySelector('details').ontoggle = function (ev) {
+		console.log('详情');
+	};
+
+</script>
+</body>
+</html>

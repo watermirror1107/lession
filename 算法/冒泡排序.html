@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+	let arr1 = [3, 2, 5, 2];
+
+	function sort(arr) {
+		for (let i = 0; i < arr.length; i++) {
+			let temp = '';
+			if (arr[i] > arr[i + 1]) {
+				temp = arr[i];
+				arr[i] = arr[i + 1];
+				arr[i + 1] = temp;
+			}
+		}
+		return arr;
+	}
+
+	//这样只能单独的数组里的最大值移到最后一位；前面比较过得就不能再比较
+	console.log(sort(arr1));
+
+	function bubbleSort(arr) {
+		let i = j = 0;
+		for (i = 1; i < arr.length; i++) {   //每次缩小数组的长度；每次都把最大的一位移到最后一位了；
+			for (j = 0; j < arr.length - i; j++) {
+				let temp='';
+				if (arr[j] > arr[j + 1]) {
+					temp=arr[j+1];
+					arr[j+1]=arr[j];
+					arr[j]=temp;
+				}
+			}
+		}
+		return arr;
+	}
+	console.log(bubbleSort(arr1));
+</script>
+</body>
+</html>
