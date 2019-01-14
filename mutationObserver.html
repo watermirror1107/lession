@@ -8,9 +8,9 @@
 <div class="boxOne"></div>
 <div class="boxTow"></div>
 <script>
-    let changeArr=[];
+	let changeArr = [];
 	var domWatcher = new MutationObserver((arr, obj) => {//第一个是变动数组，第二个是观察器实例
-		changeArr=arr;
+		changeArr = arr;
 		//console.log(obj);
 	});
 	let boxOne = document.querySelector('.boxOne');
@@ -21,20 +21,20 @@
 		'childList': true,
 		'attributes': true,
 	};
-	// options可以的添加的配置属性
+	//options可以的添加的配置属性
 	//childList：子节点的变动（指新增，删除或者更改）。
-	// attributes：属性的变动。
-	// characterData：节点内容或节点文本的变动。
+	//attributes：属性的变动。
+	//characterData：节点内容或节点文本的变动。
 	//subtree：布尔值，表示是否将该观察器应用于该节点的所有后代节点。
-	// attributeOldValue：布尔值，表示观察attributes变动时，是否需要记录变动前的属性值。
-	// characterDataOldValue：布尔值，表示观察characterData变动时，是否需要记录变动前的值。
-	// attributeFilter：数组，表示需要观察的特定属性（比如['class','src']）。
+	//attributeOldValue：布尔值，表示观察attributes变动时，是否需要记录变动前的属性值。
+	//characterDataOldValue：布尔值，表示观察characterData变动时，是否需要记录变动前的值。
+	//attributeFilter：数组，表示需要观察的特定属性（比如['class','src']）。
 
 	domWatcher.observe(boxOne, options);
 
 	setTimeout(() => {
-        boxOne.innerHTML='<div>头皮发麻</div>';
-        boxOne.setAttribute('class','red');
+		boxOne.innerHTML = '<div>头皮发麻</div>';
+		boxOne.setAttribute('class', 'red');
 	}, 2000);
 	//domWatcher.disconnect();可以用来清除dom监听
 </script>
