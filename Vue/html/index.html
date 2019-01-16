@@ -42,6 +42,7 @@
 		template: `<div class="active"><h3>jack</h3></div>`,
 		methods: {},
 	});
+		// 全局注册的行为必须在根 Vue 实例 (通过 new Vue) 创建之前发生。
 	var vm = new Vue({
 		el: '#app',
 		data: {
