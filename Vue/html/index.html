@@ -25,7 +25,7 @@
     <!--将html元素原生事件绑定到组件上用.native修饰符，这个方法有局限性，组件的根元素必须支持该事件-->
     <lit-input @focus.native="onFocus"></lit-input>
     <br>
-    <shit-input :label="content" @focus="onFocus"></shit-input>
+    <shit-input :label="content" @keyup="onFocus"></shit-input>
 </div>
 <script>
 	//子组件改变父组件的值
@@ -71,7 +71,7 @@
 	});
 	//将html元素原生事件绑定到组件上，如果根元素不是事件元素，用$listeners
 	Vue.component('shit-input', {
-		inheritAttrs: false,//这行必须要的
+        inheritAttrs: false,//这行必须要的
 		props: ['label', 'msg'],
 		computed: {
 			inputListeners: function () {
@@ -93,7 +93,7 @@
 		    <label>{{label}}
 		        <input
 		        v-bind="$attrs"
-		        :value="msg"
+		        v-bind:value="msg"
 		        @inputListeners
 		        >
 		    </label>
