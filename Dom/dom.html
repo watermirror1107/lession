@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
+<p id="ddd">ddd</p>
+<a href="qq" name="123"> 123</a><a name="321" href="qq">321</a>
+<a href="qq">456</a>
+<form name="fun">
+
+</form>
+<img src="" alt=""><img src="" alt=""><img src="" alt="">
 <div class="box">
     <div class="son"></div>
     <!--注释节点-->
@@ -25,6 +32,26 @@
 			console.log(item);//换行和注释也是算在子节点里面
 		});
 	}
+		//操作
+		//尾部添加
+		let p = document.createElement('p');
+		let span = document.createElement('span');
+		box.appendChild(p);
+		box.replaceChild(p, box.firstChild);//参数必须是节点类型的变量；替换指定位置的节点
+		box.insertBefore(span, box.firstChild);//参数必须是节点类型的变量；在指定节点前面插入
+
+		//获取节点
+		let ddd = document.getElementById('ddd');
+		let p0 = document.getElementsByClassName('.box');
+		let p1 = document.getElementsByTagName('p');
+		let p2 = document.querySelector('.box');
+		let p3 = document.querySelectorAll('p');
+		//HTMLCollection可以通过属性name作为属性名来访问
+		console.log(document.anchors);//获得所有的带有name属性的a标签
+		console.log(document.links);//蝴获得所有带有href的a标签
+		console.log(document.forms);//获得所有的form
+		console.log(document.forms['fun']);//获得所有的form
+		console.log(document.images);//获取所有Img
 </script>
 </body>
 </html>

@@ -20,13 +20,14 @@
     </big-box>
     <button @click="changeModel">改变模板</button>
     <component :is="model"></component>
+    <input type="text" @input="printRes" :value="res">
 </div>
 <script>
 	Vue.component('big-box', {
 		props: ['msg', 'title'],
 		template: `<div class="active"><h3>{{msg}}</h3><p>{{title}}</p><button @click="change">changeAge</button><slot name="one"></slot><slot name="two"></slot></div>`,
 		methods: {
-			change: function () {
+					change() {
 				this.$emit('change-age', 3);
 				console.log('changeAge');
 			},
@@ -48,15 +49,19 @@
 		data: {
 					age: 222,
 					model: 'lit-box',
+					res: 'lit-box',
 				},
 		methods: {
-			changeAge: function (num = 1) {
+					changeAge(num = 1) {
 				this.age += num;
 				console.log(num);
 			},
-			changeModel: function () {
+					changeModel() {
 				this.model = 'middle-box';
-			},
+					},
+					printRes() {
+
+					},
 		},
 	});
 </script>
