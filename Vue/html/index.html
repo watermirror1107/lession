@@ -20,14 +20,20 @@
     </big-box>
     <button @click="changeModel">改变模板</button>
     <component :is="model"></component>
-    <input type="text" @input="printRes" :value="res">
+    <base-checkbox v-model="checked"></base-checkbox>
+    <base-input v-model="content"></base-input>
+    <!--将html元素原生事件绑定到组件上用.native修饰符，这个方法有局限性，组件的根元素必须支持该事件-->
+    <lit-input @focus.native="onFocus"></lit-input>
+    <br>
+    <shit-input :label="content" @keyup="onFocus"></shit-input>
 </div>
 <script>
+	//子组件改变父组件的值
 	Vue.component('big-box', {
 		props: ['msg', 'title'],
 		template: `<div class="active"><h3>{{msg}}</h3><p>{{title}}</p><button @click="change">changeAge</button><slot name="one"></slot><slot name="two"></slot></div>`,
 		methods: {
-					change() {
+			change: function () {
 				this.$emit('change-age', 3);
 				console.log('changeAge');
 			},
@@ -43,25 +49,87 @@
 		template: `<div class="active"><h3>jack</h3></div>`,
 		methods: {},
 	});
-		// 全局注册的行为必须在根 Vue 实例 (通过 new Vue) 创建之前发生。
+	//父子组件的数据双向绑定model
+	Vue.component('base-input', {
+		model: {
+			event: 'keyup',
+		},
+		props: ['content'],
+		template: `<input type="text" :value="content" v-on:keyup="$emit('keyup',$event.target.value);" >`,//$event.target.value目标元素的值，拿来改变父级元素的值
+	});
+	Vue.component('base-checkbox', {
+		model: {
+			prop: 'checked',
+			event: 'change',//这个属性必须的
+		},
+		props: {checked: Boolean},
+		template: `<input type="checkbox" v-bind:checked="checked" v-on:change="$emit('change', $event.target.checked);" >`,
+	});
+	//将html元素原生事件绑定到组件上
+	Vue.component('lit-input', {
+		template: `<input type="text" placeholder="焦点事件" />`,
+	});
+	//将html元素原生事件绑定到组件上，如果根元素不是事件元素，用$listeners
+	Vue.component('shit-input', {
+        inheritAttrs: false,//这行必须要的
+		props: ['label', 'msg'],
+		computed: {
+			inputListeners: function () {
+				let vm = this;
+				console.log(this);
+				return Object.assign(
+					{},
+                    this.$listeners,
+					{
+						input: function (ev) {
+							console.log(ev);
+							vm.$emit('input', ev.target.value);
+						},
+					}
+					);
+			},
+		},
+		template: `
+		    <label>{{label}}
+		        <input
+		        v-bind="$attrs"
+		        v-bind:value="msg"
+		        @inputListeners
+		        >
+		    </label>
+		`,
+	});
 	var vm = new Vue({
 		el: '#app',
 		data: {
-					age: 222,
-					model: 'lit-box',
-					res: 'lit-box',
-				},
+			age: 222,
+			model: 'lit-box',
+			content: '头皮发麻',
+			checked: true,
+		},
+		watch: {
+			checked: function (val) {
+				console.log(val);
+			},
+			content: function (val) {
+				console.log(val);
+			},
+		},
 		methods: {
-					changeAge(num = 1) {
+			changeAge: function (num = 1) {
 				this.age += num;
 				console.log(num);
 			},
-					changeModel() {
+			changeModel: function () {
 				this.model = 'middle-box';
-					},
-					printRes() {
-
-					},
+			},
+			changeChecked(data) {
+				// console.log(data);
+				// console.log(this.checked);
+			},
+			onFocus() {
+				console.log(123);
+			},
 		},
 	});
 </script>
