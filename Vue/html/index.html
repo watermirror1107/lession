@@ -22,6 +22,7 @@
     <component :is="model"></component>
     <base-checkbox v-model="checked"></base-checkbox>
     <base-input v-model="content"></base-input>
+    <nor-input :content.sync="content"></nor-input>
     <!--将html元素原生事件绑定到组件上用.native修饰符，这个方法有局限性，组件的根元素必须支持该事件-->
     <lit-input @focus.native="onFocus"></lit-input>
     <br>
@@ -49,7 +50,7 @@
 		template: `<div class="active"><h3>jack</h3></div>`,
 		methods: {},
 	});
-	//父子组件的数据双向绑定model
+		//父子组件的数据双向绑定原理就是触发父级事件
 	Vue.component('base-input', {
 		model: {
 			event: 'keyup',
@@ -65,13 +66,18 @@
 		props: {checked: Boolean},
 		template: `<input type="checkbox" v-bind:checked="checked" v-on:change="$emit('change', $event.target.checked);" >`,
 	});
+		//利用sync双向绑定原理就是触发父级事件
+		Vue.component('nor-input', {
+			props: {content: String},
+			template: `<input type="text" :value="content" >`,
+		});
 	//将html元素原生事件绑定到组件上
 	Vue.component('lit-input', {
 		template: `<input type="text" placeholder="焦点事件" />`,
 	});
 	//将html元素原生事件绑定到组件上，如果根元素不是事件元素，用$listeners
 	Vue.component('shit-input', {
-        inheritAttrs: false,//这行必须要的
+			inheritAttrs: false,//这行必须要的
 		props: ['label', 'msg'],
 		computed: {
 			inputListeners: function () {
@@ -79,14 +85,13 @@
 				console.log(this);
 				return Object.assign(
 					{},
-                    this.$listeners,
+									this.$listeners,
 					{
-						input: function (ev) {
-							console.log(ev);
-							vm.$emit('input', ev.target.value);
+											keyup: function (ev) {
+												vm.$emit('keyup', ev.target.value);
 						},
-					}
-					);
+										},
+								);
 			},
 		},
 		template: `
@@ -94,7 +99,7 @@
 		        <input
 		        v-bind="$attrs"
 		        v-bind:value="msg"
-		        @inputListeners
+		        v-on="inputListeners"
 		        >
 		    </label>
 		`,
@@ -127,8 +132,8 @@
 				// console.log(data);
 				// console.log(this.checked);
 			},
-			onFocus() {
-				console.log(123);
+					onFocus(va) {
+						console.log(va);
 			},
 		},
 	});

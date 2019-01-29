@@ -33,6 +33,7 @@
 
 	class Con {
 		constructor(name) {
+					console.log(new.target);//可以判断是new 调用还是函数调用。 new 调用时，指向该构造函数本身。函数调用时，指向undefined。
 			this.name = name;
 			this.height = '190';
 		}
