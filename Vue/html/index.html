@@ -22,13 +22,27 @@
     <component :is="model"></component>
     <base-checkbox v-model="checked"></base-checkbox>
     <base-input v-model="content"></base-input>
-    <nor-input :content.sync="content"></nor-input>
+    <br>
+    <nor-btn :content.sync="content"></nor-btn>
+    <br>
     <!--将html元素原生事件绑定到组件上用.native修饰符，这个方法有局限性，组件的根元素必须支持该事件-->
     <lit-input @focus.native="onFocus"></lit-input>
     <br>
     <shit-input :label="content" @keyup="onFocus"></shit-input>
+    <p>插槽</p>
+    <todo-list :todos="todos">
+        <!-- 将 `slotProps` 定义为插槽作用域的名字 -->
+        <template slot-scope="{todo}"><!--就是把父级作用域传递给子组件的值抽出来然后进行不同的操作-->
+            <!-- 为待办项自定义一个模板，-->
+            <!--这里的从子组件的插槽抽出来的变量必须和绑定的时候同名，如变量绑定的时候是todo,抽取的时候也要用todo,这样还可以用结构-->
+            <!-- 通过 `slotProps` 定制每个待办项。被结构了就不用写了-->
+            <span v-if="todo.isComplete">✓</span>
+            {{ todo.text }}
+        </template>
+    </todo-list>
 </div>
 <script>
+
 	//子组件改变父组件的值
 	Vue.component('big-box', {
 		props: ['msg', 'title'],
@@ -66,10 +80,15 @@
 		props: {checked: Boolean},
 		template: `<input type="checkbox" v-bind:checked="checked" v-on:change="$emit('change', $event.target.checked);" >`,
 	});
-		//利用sync双向绑定原理就是触发父级事件
-		Vue.component('nor-input', {
+		//利用sync双向绑定原理就是触发父级事件,这样的写法好处就是父级组件不需要再写去监听子组件上面的触发事件，局限性就是只能简单的更改值
+		Vue.component('nor-btn', {
 			props: {content: String},
-			template: `<input type="text" :value="content" >`,
+			template: `<button @click="changeContent">点击改变{{content}}</button>`,
+			methods: {
+				changeContent() {
+					this.$emit('update:content', '123');//这个地方的有格式要求，必须是 update:变量名
+				},
+			},
 		});
 	//将html元素原生事件绑定到组件上
 	Vue.component('lit-input', {
@@ -104,6 +123,20 @@
 		    </label>
 		`,
 	});
+		//插槽作用域
+		Vue.component('todo-list', {
+			props: ['todos'],
+			template: `<ul>
+        <li
+                v-for="todo in todos"
+                v-bind:key="todo.id"
+        >
+			<slot v-bind:todo='todo'>
+			{{ todo.text }}
+			</slot>
+			</li>
+			</ul>`,
+		});
 	var vm = new Vue({
 		el: '#app',
 		data: {
@@ -111,6 +144,7 @@
 			model: 'lit-box',
 			content: '头皮发麻',
 			checked: true,
+					todos: [{id: 1, text: '123', isComplete: true}, {id: 2, text: '312', isComplete: false}],
 		},
 		watch: {
 			checked: function (val) {

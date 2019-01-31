@@ -15,7 +15,7 @@
 		set(nV) {
 			console.log(`name属性变为${nV}`);
 			p.innerHTML = nV;
-		},
+				}
 	});
 	console.log(obj == b);
 	btn.addEventListener('click', () => {
@@ -24,13 +24,14 @@
 	//Reflect会把上面的Object的顶替掉，这个2个函数的返回值不一样而已，
 	let c = Reflect.defineProperty(obj, 'name', {
 		set(nV) {
-            p.innerHTML=nV+'123';
+					p.innerHTML = nV + '123defin';
+					console.log(123);
 		},
 		get() {
             return '123'
-		},
+				}
 	});
-	console.log(c)
+		console.log(c);//映射成功返回布尔值true
 </script>
 </body>
 </html>
