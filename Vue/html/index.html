@@ -35,7 +35,7 @@
         <template slot-scope="{todo}"><!--就是把父级作用域传递给子组件的值抽出来然后进行不同的操作-->
             <!-- 为待办项自定义一个模板，-->
             <!--这里的从子组件的插槽抽出来的变量必须和绑定的时候同名，如变量绑定的时候是todo,抽取的时候也要用todo,这样还可以用结构-->
-            <!-- 通过 `slotProps` 定制每个待办项。被结构了就不用写了-->
+            <!-- 通过 `slotProps` 定制每个待办项。这里被结构了就不用写了-->
             <span v-if="todo.isComplete">✓</span>
             {{ todo.text }}
         </template>
@@ -126,16 +126,14 @@
 		//插槽作用域
 		Vue.component('todo-list', {
 			props: ['todos'],
-			template: `<ul>
-        <li
-                v-for="todo in todos"
-                v-bind:key="todo.id"
-        >
-			<slot v-bind:todo='todo'>
-			{{ todo.text }}
-			</slot>
+					template:
+						`<ul>
+            <li v-for="todo in todos" v-bind:key="todo.id" >
+			    <slot v-bind:todo='todo'>
+			        {{ todo.text }}
+			    </slot>
 			</li>
-			</ul>`,
+		</ul>`,
 		});
 	var vm = new Vue({
 		el: '#app',
