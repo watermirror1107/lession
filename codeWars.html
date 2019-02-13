@@ -426,15 +426,16 @@
 					la.push({[keyArr[i]]: i == length - 1 ? decodeURI(item.split('=')[1]) : {}});
 				}
 				for (let i = length - 1; i > 0; i--) {
-                    la[i]
+					if (la[i - 1]) {
+						la[i - 1][keyArr[i - 1]] = la[i];
+					}
 				}
-				// obj=la[0]
-                console.log(la)
+				obj = la[0];
+				console.log(la);
 			} else {
 				obj[item] = decodeURI(item.split('=')[1]);
 			}
 		});
-		console.log(obj);
 		return obj;
 	}
 
