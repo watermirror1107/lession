@@ -430,8 +430,10 @@
 						la[i - 1][keyArr[i - 1]] = la[i];
 					}
 				}
-				obj = la[0];
-				console.log(la);
+				console.log(obj);
+				obj = Object.assign(obj, la[0]);
+				// console.log(obj)
+				// console.log(la[0]);
 			} else {
 				obj[item] = decodeURI(item.split('=')[1]);
 			}

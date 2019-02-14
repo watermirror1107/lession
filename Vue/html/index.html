@@ -14,7 +14,7 @@
 <body>
 <div id="app">
     {{age}}
-    <big-box @change-age="changeAge" class="wode" :msg="age" title="ddd">
+    <big-box @change-age="changeAge" class="wode" :msg="age" title="ddd" ref="testRef">
         <p slot="two">插槽2</p>
         <p slot="one">插槽1</p>
     </big-box>
@@ -26,6 +26,8 @@
     <lit-input @focus.native="onFocus"></lit-input>
     <br>
     <shit-input :label="content" @keyup="onFocus"></shit-input>
+    <br>
+    <button @click="triggerRef">testRef</button>
 </div>
 <script>
 	//子组件改变父组件的值
@@ -46,8 +48,14 @@
 	});
 	Vue.component('middle-box', {
 		props: ['msg'],
-		template: `<div class="active"><h3>jack</h3></div>`,
-		methods: {},
+		template: `<div class="active"><h3 @click="write">jack</h3></div>`,
+		methods: {
+			write: function () {
+				console.log(this.$root.age++);//通过这个方式可以访问到全局组件的数据和方法,并且可以进行改动，还是双向绑定，但是不推荐这么使用，对于 demo 或非常小型的有少量组件的应用来说这是很方便的。不过这个模式扩展到中大型应用来说就不然了。因此在绝大多数情况下，我们强烈推荐使用 Vuex 来管理应用的状态。
+				this.$root.changeAge();//通过这个方式可以访问到全局组件的方法
+				console.log(this.$parent.age);//获取父级组件的
+			},
+		},
 	});
 	//父子组件的数据双向绑定model
 	Vue.component('base-input', {
@@ -71,7 +79,7 @@
 	});
 	//将html元素原生事件绑定到组件上，如果根元素不是事件元素，用$listeners
 	Vue.component('shit-input', {
-        inheritAttrs: false,//这行必须要的
+		inheritAttrs: false,//这行必须要的
 		props: ['label', 'msg'],
 		computed: {
 			inputListeners: function () {
@@ -79,14 +87,14 @@
 				console.log(this);
 				return Object.assign(
 					{},
-                    this.$listeners,
+					this.$listeners,
 					{
 						input: function (ev) {
 							console.log(ev);
 							vm.$emit('input', ev.target.value);
 						},
-					}
-					);
+					},
+				);
 			},
 		},
 		template: `
@@ -116,6 +124,10 @@
 			},
 		},
 		methods: {
+			triggerRef() {
+				//父级调用子级组件，$refs 只会在组件渲染完成之后生效，并且它们不是响应式的。这仅作为一个用于直接操作子组件的“逃生舱”——你应该避免在模板或计算属性中访问 $refs。
+				this.$refs.testRef.change();
+			},
 			changeAge: function (num = 1) {
 				this.age += num;
 				console.log(num);

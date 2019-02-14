@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    {{age}}
+    <out-box>
+        <middle-box>
+            <in-box></in-box>
+        </middle-box>
+    </out-box>
+    <button @click="testY">测试</button>
+    <button @click="testX">change</button>
+</div>
+<script>
+	//子组件改变父组件的值
+	Vue.component('out-box', {
+		template: `<div class="out">
+                外面
+                <button @click="test1">外点击</button>
+                <slot></slot>
+            </div>`,
+		inject: ['testY'],
+		methods: {
+			test1() {
+				this.testY();
+			},
+		},
+	});
+	Vue.component('in-box', {
+		template: `<div class="in">
+                内层
+                <button @click="test1">内点击</button>
+            </div>`,
+		inject: ['testY'],
+		methods: {
+			test1() {
+				this.testY();
+			},
+		},
+	});
+	Vue.component('middle-box', {
+		template: `<div class="middle">
+                中间层
+                <button @click="test1">中间点击</button>
+                <slot></slot>
+            </div>`,
+		inject: ['testY'],
+		methods: {
+			test1() {
+				this.testY();
+			},
+		},
+	});
+	var vm = new Vue({
+		el: '#app',
+		data: {age: 1},
+		provide: function () {//所有的后代组件都需要访问一个 testY 方法。不幸的是，使用 $parent 属性无法很好的扩展到更深层级的嵌套组件上。这也是依赖注入的用武之地，它用到了两个新的实例选项：provide 和 inject。
+			return {
+				testY: this.testY,
+			};
+		},
+		methods: {
+			testY() {
+				this.age++;
+				console.log('test');
+			},
+			testX() {
+				this.testY=function(){
+					console.log('changed')//依赖注入的缺点就是，如果改变了父组件的方法，后代组件没有响应的改变;
+                };
+			},
+		},
+	});
+</script>
+</body>
+</html>
