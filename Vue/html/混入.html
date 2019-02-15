@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    {{age}}
+    <button @click="hello">测试</button>
+    <button @click="say">say</button>
+</div>
+<script>
+	// 定义一个混入对象
+	var mixin = {
+		data() {
+			return {
+				age: 2,
+			};
+		},
+		created() {//生命周期函数同名钩子函数将混合为一个数组，因此都将被调用。另外，混入对象的钩子将在组件自身钩子之前调用。
+			console.log(`混入对象的`);
+			this.hello();//这里混入对象的的方法被嵌入的组件里面的方法给替代了;即使混入对象的钩子在组件之前调用，但是数据已经整合完毕了，方法已经替换了；
+		},
+		//值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。两个对象键名冲突时，取组件对象的键值对。
+		methods: {
+			say() {
+				console.log('say');
+			},
+			hello() {//这里混入对象的的方法被嵌入的组件里面的方法给替代了;
+				console.log(`this is a mix!`);
+			},
+		},
+		selfOption: {name:'ddd'},
+	};
+	//定义一个使用混入对象的组件
+	// var Component = Vue.extend({  //Vue.extend() 也使用同样的策略进行合并。
+	// mixins: [mixin],
+	// });
+	//
+	// var component = new Component();
+
+
+	//也可以全局注册混入对象。注意使用！ 一旦使用全局混入对象，将会影响到 所有 之后创建的 Vue 实例。使用恰当时，可以为自定义对象注入处理逻辑。
+	Vue.mixin({
+		created: function () {
+			var myOption = this.$options.myOption;//$options可以获取配置项
+			if (myOption) {
+				console.log(myOption);
+			}
+		},
+	});
+
+
+	var vm = new Vue({
+		mixins: [mixin],//调用混入对象
+		el: '#app',
+		data: {age: 1},//数据在内部会进行递归合并，在和组件的发生冲突时以组件的数据优先。
+		created() {
+			console.log('组件的');
+		},
+		methods: {
+			hello: function () {
+				this.age++;
+				console.log(`this is  parent!`);
+			},
+		},
+		myOption: 'firstTest',
+		selfOption: {age:'ddd'}
+	});
+</script>
+</body>
+</html>

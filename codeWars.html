@@ -416,7 +416,7 @@
 		};
 
 	function convertQueryToMap(query) {
-		let arr = query.split('&'), obj = {};
+		let arr = query.split('&'), obj = {},dd=[];
 		arr.forEach((item, index) => {
 			let keyArr = item.split('=')[0].split('.');
 			let length = keyArr.length;
@@ -430,10 +430,7 @@
 						la[i - 1][keyArr[i - 1]] = la[i];
 					}
 				}
-				console.log(obj);
-				obj = Object.assign(obj, la[0]);
-				// console.log(obj)
-				// console.log(la[0]);
+				dd.push(la[0])
 			} else {
 				obj[item] = decodeURI(item.split('=')[1]);
 			}
