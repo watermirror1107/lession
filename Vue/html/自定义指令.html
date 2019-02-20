@@ -51,9 +51,10 @@
 						console.log(el);
 						console.log(binding);
 					},
-					inserted(el, binding) {//被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
-						console.log(typeof binding.value);
-						console.log(binding.arg);
+					inserted(el, binding,vnode) {//被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
+						console.log(typeof binding.value);//指令传入的变量，也可以是对象类型的
+						console.log(binding.arg);//指令的参数time
+						console.log(vnode);
 						if (binding.name == 'focus' && binding.value == true) {
 							el.focus();
 						}
