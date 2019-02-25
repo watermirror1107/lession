@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <selfh :level="level">{{level}}</selfh>
+    <br>
+    <button @click="hello">改变</button>
+</div>
+<script>
+
+	// 全局注册一个组件
+	//利用渲染函数render来实现template
+	Vue.component('selfh', {
+		render: function (createElement) {
+			return createElement(
+				'h' + this.level,//标签
+				this.$slots.default,//子元素数组（插槽的默认样式）
+			);
+		},
+		props: {
+			level:{
+				required:true,
+                default:1,
+                type:Number,
+            }
+        },
+	});
+	var vm = new Vue({
+		el: '#app',
+		data: {level: 1},
+		created() {
+
+		},
+		methods: {
+			hello: function () {
+				this.level++;
+			},
+		},
+	});
+</script>
+</body>
+</html>
