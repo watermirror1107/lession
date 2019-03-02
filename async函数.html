@@ -3,8 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #light {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+    </style>
 </head>
 <body>
+<div id="light"></div>
 <script>
 	async function myFunction() {
 		await somethingThatReturnsAPromise()
@@ -98,6 +107,42 @@
 			console.log(await textPromise);
 		}
 	}
+
+		function sleep(time) {
+			return new Promise((resolve, reject) => {
+				setTimeout(resolve, time);
+			});
+		}
+
+		async function foo(name) {
+			await sleep(2000);
+			console.log(name);
+		}
+
+		async function foo2() {
+			await foo('a');
+			await foo('b');
+		}
+
+		foo2();
+
+		let light = document.querySelector('#light');
+
+		function changeColor(t, c) {
+			return new Promise((resolve, reject) => {
+				light.style.backgroundColor = c;
+				setTimeout(resolve, t);
+			});
+		}
+
+		async function changelight() {
+			await changeColor(3000, 'green');
+			await changeColor(1000, 'yellow');
+			await changeColor(2000, 'red');
+			changelight();
+		}
+
+		changelight();
 </script>
 </body>
 </html>
