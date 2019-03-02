@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="../js/vue.js"></script>
+    <script src="../../js/vue.js"></script>
     <style>
         .active {
             color: blue;
@@ -76,9 +76,9 @@
 				console.log('test');
 			},
 			testX() {
-				this.testY=function(){
-					console.log('changed')//依赖注入的缺点就是，如果改变了父组件的方法，后代组件没有响应的改变;
-                };
+							this.testY = function () {
+								console.log('changed');//依赖注入的缺点就是，如果改变了父组件的方法，后代组件没有响应的改变;
+							};
 			},
 		},
 	});
