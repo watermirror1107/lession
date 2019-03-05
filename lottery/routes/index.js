@@ -4,24 +4,35 @@ var router = express.Router();
 
 /* GET home page. */
 
-let date = '2019-03-02';
-let url = 'https://www.cp91.vip/data/klft/lotteryList/' + date + '.json?S9DLUWQ76T14YZ1CYPLG';
-
-request({
-	method: 'GET',
-	url: url,
-	headers: {
-		'content-type': 'application/json',
-		'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) 17     AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36',
-	},
-	body: {},
-	json: true,      //这个针对body是不是支持json
-
-}, (error, response, body) => {
-	router.get('/', function (req, res, next) {
-		res.render('index', {data: JSON.stringify(body)});
-	});
-	// console.log(response);
+router.get('/', function (req, res, next) {
+	res.render('index');
 });
+
+
+router.get('/getData', async function (req, res, next) {
+
+	let url;
+	await new Promise((resolve, reject) => {
+		url = `https://www.cp91.vip/data/${req.query.type}/lotteryList/${req.query.date}.json`;
+		resolve();
+	});
+	await request({
+		method: 'GET',
+		url: url,
+		headers: {
+			'content-type': 'application/json',
+			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) 17     AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.84 Safari/537.36',
+		},
+		body: {},
+		json: true,      //这个针对body是不是支持json
+
+	}, (error, response, body) => {
+		res.json({
+			status: body.length > 0 ? '1' : '0',
+			data: body.length > 0 ? body : '查无数据',
+		});
+	});
+});
+
 
 module.exports = router;

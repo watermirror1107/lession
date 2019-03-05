@@ -3,15 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="js/elementUI.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>-->
+    <script src="js/axios.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            padding: 10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #app .table {
+            width: 50%;
+            float: left;
+            padding-right: 5%;
+        }
+
+        .row {
+            margin: 15px 0;
+        }
+
+        .option {
+            width: 45%;
+            float: left;
+            margin-top: 20px;
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+
+        .search {
+            width: 100px;
+            height: 50px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .num {
+            overflow: hidden;
+        }
+
+        .num li {
+            float: left;
+            width: 10%;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .litItem {
+            width: 40px;
+            height: 40px;
+            float: left;
+            line-height: 40px;
+            text-align: center;
+            border-collapse: collapse;
+            box-sizing: border-box;
+            border: 1px solid #333;
+        }
+    </style>
 </head>
 <body>
-
-<div style="display: none" id="data">
-    <%= data %>
+<div id="app">
+    <!--<ul>-->
+    <!--<li v-for="item in arr">-->
+    <!--<span>时间{{item.openDateTime}}</span>-->
+    <!--<span>期数{{item.issue}}</span>-->
+    <!--<span>号码{{item.openNum}}</span>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <div class="table">
+        <el-table
+                border
+                v-loading="loading"
+                :data="arr"
+                style="width: 100%">
+            <el-table-column
+                    prop="openDateTime"
+                    label="时间"
+                    align="center"
+                    width="160">
+            </el-table-column>
+            <el-table-column
+                    prop="issue"
+                    label="期数"
+                    align="center"
+                    width="80">
+            </el-table-column>
+            <el-table-column
+                    prop="openNum"
+                    align="center"
+                    label="号码">
+                <ul slot-scope="scope" style="display: inline-block;">
+                    <li class="litItem" v-for="(lit,index) in scope.row.openNum">{{lit}}</li>
+                </ul>
+            </el-table-column>
+        </el-table>
+    </div>
+    <div class="option">
+        <div class="top">
+            <div>
+                <span>项目</span>
+                <el-select v-model="type" placeholder="请选择" @change="changeType">
+                    <el-option
+                            v-for="item in typeLIst"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+            <div>
+                <span>日期</span>
+                <el-date-picker
+                        v-model="date"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions1"
+                        format="yyyy 年 MM 月 dd 日"
+                        @change="changeDate"
+                        value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value1">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum1">
+                        <el-option
+                                v-for="item1 in arr1"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value2">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum2">
+                        <el-option
+                                v-for="item1 in arr2"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value3">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum3">
+                        <el-option
+                                v-for="item1 in arr3"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>出现周期：<span>{{minTime}}</span></p>
+        </div>
+        <div class="row">
+            <button class="search" @click="reset">重置</button>
+            <button class="search" @click="compareArr">查询</button>
+        </div>
+    </div>
 </div>
 <script>
-	let data = document.querySelector('#data').innerHTML;
-	console.log(data);
+
+	let vm = new Vue({
+		el: '#app',
+		data: {
+			value: '',
+			value1: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value2: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value3: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr: [],
+			loading: false,
+			date: '',
+			type: '',
+			typeLIst: [
+				{label: '秒速飞艇', value: 'jsft'},
+				{label: '秒速赛车', value: 'jspk10'},
+				{label: '北京PK10', value: 'bjpk10'},
+			],
+			freshTime: '',
+			pickerOptions1: {
+				disabledDate(time) {
+					return time.getTime() > Date.now();
+				},
+			},
+			note1: [],
+			note2: [],
+			note3: [],
+			show1: [],
+			show2: [],
+			show3: [],
+			dis: 1,
+			minTime: 99999,
+		},
+		created() {
+
+		},
+		methods: {
+			changeColor() {
+				//用到show1
+			},
+			reset() {
+				this.value1 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value2 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value3 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.minTime = 99999;
+				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.note1 = [];
+				this.note2 = [];
+				this.note3 = [];
+				this.show1 = [];
+				this.show2 = [];
+				this.show3 = [];
+			},
+			getArr() {
+				this.loading = true;
+				$.ajax({
+					url: '/getData',
+					async: false,
+					data: {date: this.date, type: this.type},
+					type: 'get',
+					success: (res) => {
+						if (res.status == 1) {
+							this.arr = res.data;
+							this.arr = this.arr.map((item, index) => {
+								item.index = index;
+								return item;
+							});
+						} else {
+							this.$message.warning('查无数据！');
+						}
+						this.loading = false;
+					},
+					fail: (err) => {
+						this.$message.error(err);
+					},
+				});
+			},
+			changeType() {
+				if (this.date != '') {
+					this.getArr();
+				}
+			},
+			changeDate() {
+				if (this.type != '') {
+					this.getArr();
+				}
+			},
+			compareArr() {
+				if (this.type == '' || this.date == '') {
+					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
+					return false;
+				}
+
+				this.minTime = 99999;
+				this.note1 = [];
+				this.note2 = [];
+				this.note3 = [];
+				let oArr1 = this.checkArr(this.value1);
+				let oArr2 = this.checkArr(this.value2);
+				let oArr3 = this.checkArr(this.value3);
+				let txt1 = '';
+				let txt2 = '';
+				let txt3 = '';
+
+				let haveNum = new RegExp(/.*\d|t.*/);
+				if (haveNum.test(oArr1.join('.')) || haveNum.test(oArr2.join('.')) || haveNum.test(oArr3.join('.'))) {
+				} else {
+					this.$message.error('请选择至少一个格式');
+					return false;
+				}
+
+				txt1 = '/' + oArr1.join('.') + '/';
+				txt2 = '/' + oArr2.join('.') + '/';
+				txt3 = '/' + oArr3.join('.') + '/';
+
+
+				let re1 = new RegExp(eval(txt1));
+				let re2 = new RegExp(eval(txt2));
+				let re3 = new RegExp(eval(txt3));
+
+				let checkArr = JSON.parse(JSON.stringify(this.arr));
+				//把10转成t
+				checkArr = checkArr.map((item) => {
+					item.openNum.forEach((lit, index) => {
+						if (lit == 10) {
+							item.openNum[index] = 't';
+						}
+					});
+					return item;
+				});
+				//第一次比对
+				this.loopCheck(checkArr, this.note1, re1);
+				if (this.note1.length > 0) {
+					//比对间隔默认为1
+					let dis = this.dis;
+					//第二次比对
+					this.note1.forEach((item) => {
+						if (checkArr[item.index + dis]) {
+							this.note2.push(checkArr[item.index + dis]);
+						}
+					});
+					if (this.note2.length > 0) {
+						let secondArr = [];
+						this.loopCheck(this.note2, secondArr, re2);
+						//第三次比对
+						secondArr.forEach((item) => {
+							if (checkArr[item.index + dis]) {
+								this.note3.push(checkArr[item.index + dis]);
+							}
+						});
+						this.note1 = [];
+						if (this.note3.length > 0) {
+							let ddd = [];
+							this.loopCheck(this.note3, ddd, re3);
+							//倒算回去获得索引
+							ddd.forEach((item) => {
+								this.note1.push(checkArr[item.index - 2]);
+							});
+						} else {
+							//退出
+							this.note1 = [];
+						}
+					} else {
+						//退出
+						this.note1 = [];
+					}
+				}
+				console.table(this.note1);
+				//计算周期
+				this.computedTime();
+			},
+			selectNum1(value) {
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr1 = arr.filter((item) => {
+					return !this.value1.some(item1 => item1.key == item);
+				});
+			},
+			selectNum2(value) {
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr2 = arr.filter((item) => {
+					return !this.value2.some(item1 => item1.key == item);
+				});
+			},
+			selectNum3(value) {
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr3 = arr.filter((item) => {
+					return !this.value3.some(item1 => item1.key == item);
+				});
+			},
+			checkArr(arr) {
+				let oArr = [];
+				arr.forEach((item, index) => {
+					if (item.key != '') {
+						oArr.push(item.key == 10 ? 't' : item.key);
+					} else {
+						oArr.push('.');
+					}
+				});
+				return oArr;
+			},
+			loopCheck(arr1, arr2, re) {
+				//循环比对 arr1是原数组，arr2是比对数组;
+				arr1.forEach((item, index) => {
+					if (re.test(item.openNum.join(','))) {
+						arr2.push(item);
+					}
+				});
+			},
+			computedTime() {
+				//计算周期
+				if (this.note1.length > 0) {
+					//计算周期
+					if (this.note1.length == 1) {
+						this.minTime = '只出现一次';
+					} else {
+						this.note1.forEach((item, index) => {
+							if (this.note1[index + 1]) {
+								let dis = Math.abs(parseFloat(item.issue) - parseFloat(this.note1[index + 1].issue));
+								this.minTime = dis < this.minTime ? dis : this.minTime;
+							}
+						});
+					}
+				} else {
+					this.$message.error('查无改格式数据');
+					this.minTime = 99999;
+				}
+			},
+		},
+	});
 </script>
 </body>
 </html>
