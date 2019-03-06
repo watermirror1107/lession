@@ -199,6 +199,9 @@
             <p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>
         </div>
         <div class="row">
+            <p>出现最大周期间隔：<span>{{maxTime==0?'无穷大':maxTime}}期</span></p>
+        </div>
+        <div class="row">
             <button class="search" @click="reset">重置</button>
             <button class="search" @click="compareArr">查询</button>
         </div>
@@ -238,6 +241,7 @@
 			dis2: 1,
 			showArr: [],
 			minTime: 99999,
+			maxTime: 0,
 		},
 		created() {
 
@@ -261,6 +265,7 @@
 				this.value2 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value3 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.minTime = 99999;
+				this.maxTime = 0;
 				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -312,6 +317,7 @@
 				}
 
 				this.minTime = 99999;
+				this.maxTime = 0;
 				this.note1 = [];
 				this.note2 = [];
 				this.note3 = [];
@@ -432,17 +438,20 @@
 					//计算周期
 					if (this.note1.length == 1) {
 						this.minTime = '只出现一';
+						this.maxTime = '只出现一';
 					} else {
 						this.note1.forEach((item, index) => {
 							if (this.note1[index + 1]) {
-								let dis = Math.abs(parseFloat(item.issue) - parseFloat(this.note1[index + 1].issue));
+								let dis = Math.abs(parseFloat(item.index) - parseFloat(this.note1[index + 1].index));
 								this.minTime = dis < this.minTime ? dis : this.minTime;
+								this.maxTime = dis > this.maxTime ? dis : this.maxTime;
 							}
 						});
 					}
 				} else {
 					this.$message.error('查无改格式数据');
 					this.minTime = 99999;
+					this.maxTime = 0;
 				}
 			},
 		},
