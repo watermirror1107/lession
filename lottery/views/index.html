@@ -111,7 +111,18 @@
                     align="center"
                     label="号码">
                 <ul slot-scope="scope" style="display: inline-block;">
-                    <li class="litItem" v-for="(lit,index) in scope.row.openNum">{{lit}}</li>
+                    <template v-for="(lit,index) in scope.row.openNum">
+                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==1"
+                            :style="{backgroundColor: value1[index].key==lit?'yellow':''}">{{lit}}
+                        </li>
+                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==2"
+                            :style="{backgroundColor: value2[index].key==lit?'yellow':''}">{{lit}}
+                        </li>
+                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==3"
+                            :style="{backgroundColor: value3[index].key==lit?'yellow':''}">{{lit}}
+                        </li>
+                        <li class="litItem" v-if="!showArr[scope.row.index]">{{lit}}</li>
+                    </template>
                 </ul>
             </el-table-column>
         </el-table>
@@ -185,7 +196,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>出现周期：<span>{{minTime}}</span></p>
+            <p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>
         </div>
         <div class="row">
             <button class="search" @click="reset">重置</button>
@@ -223,10 +234,9 @@
 			note1: [],
 			note2: [],
 			note3: [],
-			show1: [],
-			show2: [],
-			show3: [],
-			dis: 1,
+			dis1: 1,
+			dis2: 1,
+			showArr: [],
 			minTime: 99999,
 		},
 		created() {
@@ -234,7 +244,17 @@
 		},
 		methods: {
 			changeColor() {
-				//用到show1
+				this.showArr = [];
+				if (this.note1.length > 0) {
+					this.note1.forEach((item) => {
+						item.type = 1;
+						this.showArr[item.index] = item;
+						this.arr[item.index + this.dis1].type = 2;
+						this.showArr[[item.index + this.dis1]] = this.arr[item.index + this.dis1];
+						this.arr[item.index + this.dis1 + this.dis2].type = 3;
+						this.showArr[[item.index + this.dis2 + this.dis1]] = this.arr[item.index + this.dis2 + this.dis1];
+					});
+				}
 			},
 			reset() {
 				this.value1 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
@@ -247,40 +267,40 @@
 				this.note1 = [];
 				this.note2 = [];
 				this.note3 = [];
-				this.show1 = [];
-				this.show2 = [];
-				this.show3 = [];
+				this.showArr = [];
 			},
 			getArr() {
 				this.loading = true;
-				$.ajax({
+				axios({
 					url: '/getData',
-					async: false,
-					data: {date: this.date, type: this.type},
-					type: 'get',
-					success: (res) => {
-						if (res.status == 1) {
-							this.arr = res.data;
-							this.arr = this.arr.map((item, index) => {
-								item.index = index;
-								return item;
-							});
-						} else {
-							this.$message.warning('查无数据！');
-						}
-						this.loading = false;
-					},
-					fail: (err) => {
-						this.$message.error(err);
-					},
+					params: {date: this.date, type: this.type},
+					method: 'get',
+				}).then((res) => {
+					res = res.data;
+					if (res.status == 1) {
+						this.arr = res.data;
+						this.arr = this.arr.map((item, index) => {
+							item.index = index;
+							item.type = 'init';
+							return item;
+						});
+					} else {
+						this.$message.warning('查无数据！');
+					}
+					this.loading = false;
+				}).catch((err) => {
+					this.$message.error(err);
 				});
 			},
 			changeType() {
+				this.reset();
 				if (this.date != '') {
 					this.getArr();
 				}
+
 			},
 			changeDate() {
+				this.reset();
 				if (this.type != '') {
 					this.getArr();
 				}
@@ -332,11 +352,10 @@
 				this.loopCheck(checkArr, this.note1, re1);
 				if (this.note1.length > 0) {
 					//比对间隔默认为1
-					let dis = this.dis;
 					//第二次比对
 					this.note1.forEach((item) => {
-						if (checkArr[item.index + dis]) {
-							this.note2.push(checkArr[item.index + dis]);
+						if (checkArr[item.index + this.dis1]) {
+							this.note2.push(checkArr[item.index + this.dis1]);
 						}
 					});
 					if (this.note2.length > 0) {
@@ -344,17 +363,17 @@
 						this.loopCheck(this.note2, secondArr, re2);
 						//第三次比对
 						secondArr.forEach((item) => {
-							if (checkArr[item.index + dis]) {
-								this.note3.push(checkArr[item.index + dis]);
+							if (checkArr[item.index + this.dis2]) {
+								this.note3.push(checkArr[item.index + this.dis2]);
 							}
 						});
 						this.note1 = [];
 						if (this.note3.length > 0) {
-							let ddd = [];
-							this.loopCheck(this.note3, ddd, re3);
+							let res = [], dis = this.dis1 + this.dis2;
+							this.loopCheck(this.note3, res, re3);
 							//倒算回去获得索引
-							ddd.forEach((item) => {
-								this.note1.push(checkArr[item.index - 2]);
+							res.forEach((item) => {
+								this.note1.push(checkArr[item.index - dis]);
 							});
 						} else {
 							//退出
@@ -368,6 +387,7 @@
 				console.table(this.note1);
 				//计算周期
 				this.computedTime();
+				this.changeColor();
 			},
 			selectNum1(value) {
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -411,7 +431,7 @@
 				if (this.note1.length > 0) {
 					//计算周期
 					if (this.note1.length == 1) {
-						this.minTime = '只出现一次';
+						this.minTime = '只出现一';
 					} else {
 						this.note1.forEach((item, index) => {
 							if (this.note1[index + 1]) {

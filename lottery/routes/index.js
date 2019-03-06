@@ -27,6 +27,7 @@ router.get('/getData', async function (req, res, next) {
 		json: true,      //这个针对body是不是支持json
 
 	}, (error, response, body) => {
+		console.log(body);
 		res.json({
 			status: body.length > 0 ? '1' : '0',
 			data: body.length > 0 ? body : '查无数据',
