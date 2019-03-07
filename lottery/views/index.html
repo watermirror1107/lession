@@ -203,7 +203,8 @@
         </div>
         <div class="row">
             <button class="search" @click="reset">重置</button>
-            <button class="search" @click="compareArr">查询</button>
+            <button class="search" @click="compareArr">精确查询</button>
+            <button class="search" @click="fuzzyQuery">模糊查询</button>
         </div>
     </div>
 </div>
@@ -310,6 +311,11 @@
 					this.getArr();
 				}
 			},
+			//模糊匹配
+			fuzzyQuery() {
+				console.log(this.value1);
+			},
+			//精确匹配
 			compareArr() {
 				if (this.type == '' || this.date == '') {
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
