@@ -113,13 +113,16 @@
                 <ul slot-scope="scope" style="display: inline-block;">
                     <template v-for="(lit,index) in scope.row.openNum">
                         <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==1"
-                            :style="{backgroundColor: value1[index].key==lit?'yellow':''}">{{lit}}
+                            :style="{backgroundColor: value1[index].key==lit||value1.some(item=>item.key==lit)?'yellow':''}">
+                            {{lit}}
                         </li>
                         <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==2"
-                            :style="{backgroundColor: value2[index].key==lit?'yellow':''}">{{lit}}
+                            :style="{backgroundColor: value2[index].key==lit||value2.some(item=>item.key==lit)?'yellow':''}">
+                            {{lit}}
                         </li>
                         <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==3"
-                            :style="{backgroundColor: value3[index].key==lit?'yellow':''}">{{lit}}
+                            :style="{backgroundColor: value3[index].key==lit||value3.some(item=>item.key==lit)?'yellow':''}">
+                            {{lit}}
                         </li>
                         <li class="litItem" v-if="!showArr[scope.row.index]">{{lit}}</li>
                     </template>
@@ -209,7 +212,7 @@
     </div>
 </div>
 <script>
-
+	let dataArr;
 	let vm = new Vue({
 		el: '#app',
 		data: {
@@ -290,6 +293,16 @@
 							item.type = 'init';
 							return item;
 						});
+						dataArr = JSON.parse(JSON.stringify(this.arr));
+						//把10转成t
+						dataArr = dataArr.map((item) => {
+							item.openNum.forEach((lit, index) => {
+								if (lit == 10) {
+									item.openNum[index] = 't';
+								}
+							});
+							return item;
+						});
 					} else {
 						this.$message.warning('查无数据！');
 					}
@@ -313,7 +326,131 @@
 			},
 			//模糊匹配
 			fuzzyQuery() {
-				console.log(this.value1);
+				if (this.type == '' || this.date == '') {
+					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
+					return false;
+				}
+
+				this.minTime = 99999;
+				this.maxTime = 0;
+				this.note1 = [];
+				this.note2 = [];
+				this.note3 = [];
+				let oArr1 = this.checkArr(this.value1);
+				let oArr2 = this.checkArr(this.value2);
+				let oArr3 = this.checkArr(this.value3);
+				let txt1 = '';
+				let txt2 = '';
+				let txt3 = '';
+
+				let haveNum = new RegExp(/.*\d|t.*/);
+				let count = 0;
+				if (!haveNum.test(oArr1.join('.'))) {
+					count++;
+				}
+				if (!haveNum.test(oArr2.join('.'))) {
+					count++;
+				}
+				if (!haveNum.test(oArr3.join('.'))) {
+					count++;
+				}
+
+				if (count >= 2) {
+					this.$message.error('模糊匹配请选择至少两个格式');
+					return false;
+				}
+				let rre1 = this.judgeArr(this.value1);
+				let rre2 = this.judgeArr(this.value2);
+				let rre3 = this.judgeArr(this.value3);
+				txt1 = '/' + rre1 + '/';
+				txt2 = '/' + rre2 + '/';
+				txt3 = '/' + rre3 + '/';
+
+
+				let re1 = new RegExp(eval(txt1));
+				let re2 = new RegExp(eval(txt2));
+				let re3 = new RegExp(eval(txt3));
+				let rowDis1 = this.computeDis()[1] - this.computeDis()[0];
+				let rowDis2 = this.computeDis()[2] - this.computeDis()[0];
+				let rowDis3 = this.computeDis()[2] - this.computeDis()[1];
+
+
+				if (!this.computeDis().some(item => item == -1)) {
+					this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
+					this.fuzzyCheck(dataArr, this.note2, re2, rre2[0], 's2');
+					this.fuzzyCheck(dataArr, this.note3, re3, rre3[0], 's3');
+					//都不为空
+					let arr1 = [], arr2 = [];
+					if (this.note1.length > 0) {
+						this.note1.forEach((item) => {
+							if (this.note2.includes(dataArr[item.index + this.dis1])) {
+								if (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1) {
+									arr1.push(item);
+								}
+							}
+						});
+					}
+					if (arr1.length > 0) {
+						arr1.forEach((item) => {
+							if (this.note3.includes(dataArr[item.index + this.dis2 + this.dis1])) {
+								if (dataArr[item.index + this.dis2 + this.dis1].s3 - item.s1 == rowDis2) {
+									arr2.push(item);
+								}
+							}
+						});
+					}
+					this.note1 = arr2;
+				} else {
+					//第一行为空
+					if (this.computeDis()[0] == -1) {
+						this.fuzzyCheck(dataArr, this.note1, re2, rre2[0], 's1');
+						if (this.note1.length > 0) {
+							let secondArr = [];
+							this.note1.forEach((item) => {
+								secondArr.push(dataArr[item.index + this.dis2]);
+							});
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, this.note2, re3, rre3[0], 's2');
+								//根据note2和note1的dis做匹配
+								this.note1 = this.note1.filter((item) => {
+									if (this.note2.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s2 - item.s1 == rowDis3)) {
+										return item;
+									}
+								});
+							} else {
+								this.note1 = [];
+							}
+						}
+					}
+					//第二行为空
+					if (this.computeDis()[1] == -1) {
+
+					}
+					//第三行为空
+					if (this.computeDis()[2] == -1) {
+						this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
+						if (this.note1.length > 0) {
+							let secondArr = [];
+							this.note1.forEach((item) => {
+								secondArr.push(dataArr[item.index + this.dis1]);
+							});
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, this.note2, re2, rre2[0], 's2');
+								//根据note2和note1的dis做匹配
+								this.note1 = this.note1.filter((item) => {
+									if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
+										return item;
+									}
+								});
+							} else {
+								this.note1 = [];
+							}
+						}
+					}
+				}
+				console.log(this.note1);
+				this.computedTime();
+				this.changeColor();
 			},
 			//精确匹配
 			compareArr() {
@@ -344,30 +481,17 @@
 				txt1 = '/' + oArr1.join('.') + '/';
 				txt2 = '/' + oArr2.join('.') + '/';
 				txt3 = '/' + oArr3.join('.') + '/';
-
-
 				let re1 = new RegExp(eval(txt1));
 				let re2 = new RegExp(eval(txt2));
 				let re3 = new RegExp(eval(txt3));
-
-				let checkArr = JSON.parse(JSON.stringify(this.arr));
-				//把10转成t
-				checkArr = checkArr.map((item) => {
-					item.openNum.forEach((lit, index) => {
-						if (lit == 10) {
-							item.openNum[index] = 't';
-						}
-					});
-					return item;
-				});
 				//第一次比对
-				this.loopCheck(checkArr, this.note1, re1);
+				this.loopCheck(dataArr, this.note1, re1);
 				if (this.note1.length > 0) {
 					//比对间隔默认为1
 					//第二次比对
 					this.note1.forEach((item) => {
-						if (checkArr[item.index + this.dis1]) {
-							this.note2.push(checkArr[item.index + this.dis1]);
+						if (dataArr[item.index + this.dis1]) {
+							this.note2.push(dataArr[item.index + this.dis1]);
 						}
 					});
 					if (this.note2.length > 0) {
@@ -375,8 +499,8 @@
 						this.loopCheck(this.note2, secondArr, re2);
 						//第三次比对
 						secondArr.forEach((item) => {
-							if (checkArr[item.index + this.dis2]) {
-								this.note3.push(checkArr[item.index + this.dis2]);
+							if (dataArr[item.index + this.dis2]) {
+								this.note3.push(dataArr[item.index + this.dis2]);
 							}
 						});
 						this.note1 = [];
@@ -385,7 +509,7 @@
 							this.loopCheck(this.note3, res, re3);
 							//倒算回去获得索引
 							res.forEach((item) => {
-								this.note1.push(checkArr[item.index - dis]);
+								this.note1.push(dataArr[item.index - dis]);
 							});
 						} else {
 							//退出
@@ -402,18 +526,21 @@
 				this.changeColor();
 			},
 			selectNum1(value) {
+				this.showArr = [];
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr1 = arr.filter((item) => {
 					return !this.value1.some(item1 => item1.key == item);
 				});
 			},
 			selectNum2(value) {
+				this.showArr = [];
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr2 = arr.filter((item) => {
 					return !this.value2.some(item1 => item1.key == item);
 				});
 			},
 			selectNum3(value) {
+				this.showArr = [];
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr3 = arr.filter((item) => {
 					return !this.value3.some(item1 => item1.key == item);
@@ -430,10 +557,34 @@
 				});
 				return oArr;
 			},
+			checkArr1(arr) {
+				let oArr = [];
+				arr.forEach((item, index) => {
+					if (item.key != '') {
+						oArr.push(item.key == 10 ? 't' : item.key);
+					} else {
+						oArr.push('');
+					}
+				});
+				return oArr;
+			},
 			loopCheck(arr1, arr2, re) {
 				//循环比对 arr1是原数组，arr2是比对数组;
 				arr1.forEach((item, index) => {
 					if (re.test(item.openNum.join(','))) {
+						arr2.push(item);
+					}
+				});
+			},
+			fuzzyCheck(arr1, arr2, re, sL = undefined, key) {
+				//循环比对 arr1是原数组，arr2是比对数组;
+				arr1.forEach((item, index) => {
+					if (re.test(item.openNum.join(','))) {
+						if (sL != '.' && sL) {
+							item[key] = item.openNum.join('').indexOf(sL);
+						} else {
+							item[key] = 9999999;
+						}
 						arr2.push(item);
 					}
 				});
@@ -459,6 +610,38 @@
 					this.minTime = 99999;
 					this.maxTime = 0;
 				}
+			},
+			judgeArr(arr) {
+				let msg = this.checkArr1(arr).join('');
+				let re = new RegExp(/(\d|t){2,}/g);
+				if (re.test(msg)) {//多字符匹配
+					let txt = this.checkArr(arr).join('.');
+					let s = txt.indexOf(msg[0]), e = txt.indexOf(msg[msg.length - 1]);
+					return txt.substring(s, e + 1);
+				} else {
+					//单字符匹配
+					return msg == '' ? '.' : msg;
+				}
+			},
+			computeDis() {
+				let arr = [
+					this.value1.findIndex((item, index) => {
+						if (item.key != '') {
+							return index;
+						}
+					}),
+					this.value2.findIndex((item, index) => {
+						if (item.key != '') {
+							return index;
+						}
+					}),
+					this.value3.findIndex((item, index) => {
+						if (item.key != '') {
+							return index;
+						}
+					}),
+				];
+				return arr;
 			},
 		},
 	});
