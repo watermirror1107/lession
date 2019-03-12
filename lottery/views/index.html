@@ -111,20 +111,10 @@
                     align="center"
                     label="号码">
                 <ul slot-scope="scope" style="display: inline-block;">
-                    <template v-for="(lit,index) in scope.row.openNum">
-                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==1"
-                            :style="{backgroundColor: value1[index].key==lit||value1.some(item=>item.key==lit)?'yellow':''}">
-                            {{lit}}
+                    <template v-for="(lit,index) in scope.row.outArr">
+                        <li class="litItem" :style="{backgroundColor: showArr[scope.row.index]&&lit.show?'yellow':''}">
+                            {{lit.key}}
                         </li>
-                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==2"
-                            :style="{backgroundColor: value2[index].key==lit||value2.some(item=>item.key==lit)?'yellow':''}">
-                            {{lit}}
-                        </li>
-                        <li class="litItem" v-if="showArr[scope.row.index]&&showArr[scope.row.index].type==3"
-                            :style="{backgroundColor: value3[index].key==lit||value3.some(item=>item.key==lit)?'yellow':''}">
-                            {{lit}}
-                        </li>
-                        <li class="litItem" v-if="!showArr[scope.row.index]">{{lit}}</li>
                     </template>
                 </ul>
             </el-table-column>
@@ -238,12 +228,15 @@
 					return time.getTime() > Date.now();
 				},
 			},
+			show1: [],
+			show2: [],
+			show3: [],
 			note1: [],
 			note2: [],
 			note3: [],
 			dis1: 1,
 			dis2: 1,
-			showArr: [],
+			showArr: {},
 			minTime: 99999,
 			maxTime: 0,
 		},
@@ -251,16 +244,72 @@
 
 		},
 		methods: {
-			changeColor() {
-				this.showArr = [];
+			changeColor1() {
+				this.initArr();
 				if (this.note1.length > 0) {
 					this.note1.forEach((item) => {
-						item.type = 1;
-						this.showArr[item.index] = item;
-						this.arr[item.index + this.dis1].type = 2;
-						this.showArr[[item.index + this.dis1]] = this.arr[item.index + this.dis1];
-						this.arr[item.index + this.dis1 + this.dis2].type = 3;
-						this.showArr[[item.index + this.dis2 + this.dis1]] = this.arr[item.index + this.dis2 + this.dis1];
+						this.arr[item.index].outArr.forEach((item1) => {
+							if (this.show1.includes(item1.key)) {
+								item1.show = true;
+							}
+						});
+						this.$set(this.showArr, [item.index], '1'); //这样就能被vue监控到，更新视图
+						this.arr[item.index + this.dis1].outArr.forEach((item2) => {
+							if (this.show2.includes(item2.key)) {
+								item2.show = true;
+							}
+						});
+						this.$set(this.showArr, [[item.index + this.dis1]], '1');
+						this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
+							if (this.show3.includes(item3.key)) {
+								item3.show = true;
+							}
+						});
+						this.$set(this.showArr, [[item.index + this.dis2 + this.dis1]], '1');
+					});
+				}
+			},
+			changeColor2() {
+				this.initArr();
+				if (this.note1.length > 0) {
+					this.note1.forEach((item) => {
+						if (this.computeDis()[0] == -1) {
+							this.arr[item.index].outArr.forEach((item1) => {
+								if (this.show2.includes(item1.key)) {
+									item1.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index], '1');
+							this.arr[item.index + this.dis2].outArr.forEach((item2) => {
+								if (this.show3.includes(item2.key)) {
+									item2.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index + this.dis1], '1');
+						} else {
+							this.arr[item.index].outArr.forEach((item1) => {
+								if (this.show1.includes(item1.key)) {
+									item1.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index], '1');
+							if (this.computeDis()[1] != -1) {
+								this.arr[item.index + this.dis1].outArr.forEach((item2) => {
+									if (this.show2.includes(item2.key)) {
+										item2.show = true;
+									}
+								});
+								this.$set(this.showArr, [item.index + this.dis1], '1');
+							}
+							if (this.computeDis()[2] != -1) {
+								this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
+									if (this.show3.includes(item3.key)) {
+										item3.show = true;
+									}
+								});
+								this.$set(this.showArr, [item.index + this.dis1 + this.dis2], '1');
+							}
+						}
 					});
 				}
 			},
@@ -276,7 +325,7 @@
 				this.note1 = [];
 				this.note2 = [];
 				this.note3 = [];
-				this.showArr = [];
+				this.showArr = {};
 			},
 			getArr() {
 				this.loading = true;
@@ -290,7 +339,7 @@
 						this.arr = res.data;
 						this.arr = this.arr.map((item, index) => {
 							item.index = index;
-							item.type = 'init';
+							item.outArr = this.addArr(item.openNum);
 							return item;
 						});
 						dataArr = JSON.parse(JSON.stringify(this.arr));
@@ -330,7 +379,6 @@
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
 					return false;
 				}
-
 				this.minTime = 99999;
 				this.maxTime = 0;
 				this.note1 = [];
@@ -374,7 +422,6 @@
 				let rowDis2 = this.computeDis()[2] - this.computeDis()[0];
 				let rowDis3 = this.computeDis()[2] - this.computeDis()[1];
 
-
 				if (!this.computeDis().some(item => item == -1)) {
 					this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
 					this.fuzzyCheck(dataArr, this.note2, re2, rre2[0], 's2');
@@ -403,20 +450,24 @@
 				} else {
 					//第一行为空
 					if (this.computeDis()[0] == -1) {
-						this.fuzzyCheck(dataArr, this.note1, re2, rre2[0], 's1');
+						this.fuzzyCheck(dataArr, this.note1, re2, rre2[0], 's2');
 						if (this.note1.length > 0) {
 							let secondArr = [];
 							this.note1.forEach((item) => {
-								secondArr.push(dataArr[item.index + this.dis2]);
+								if (dataArr[item.index + this.dis2]) {
+									secondArr.push(dataArr[item.index + this.dis2]);
+								}
 							});
 							if (secondArr.length > 0) {
-								this.fuzzyCheck(secondArr, this.note2, re3, rre3[0], 's2');
+								this.fuzzyCheck(secondArr, this.note2, re3, rre3[0], 's3');
 								//根据note2和note1的dis做匹配
-								this.note1 = this.note1.filter((item) => {
-									if (this.note2.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s2 - item.s1 == rowDis3)) {
-										return item;
-									}
-								});
+								if (this.note2.length > 0) {
+									this.note1 = this.note1.filter((item) => {
+										if (secondArr.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3)) {
+											return item;
+										}
+									});
+								}
 							} else {
 								this.note1 = [];
 							}
@@ -424,7 +475,39 @@
 					}
 					//第二行为空
 					if (this.computeDis()[1] == -1) {
-
+						this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
+						if (this.note1.length > 0) {
+							this.note1.forEach((item) => {
+								if (dataArr[item.index + this.dis1]) {
+									this.note2.push(dataArr[item.index + this.dis1]);
+								}
+							});
+							let secondArr = [];
+							if (this.note2.length > 0) {
+								this.fuzzyCheck(this.note2, secondArr, re2, rre2[0], 's2');
+								//根据note2和note1的dis做匹配
+								if (secondArr.length > 0) {
+									secondArr.forEach((item) => {
+										if (dataArr[item.index + this.dis2]) {
+											this.note3.push(dataArr[item.index + this.dis2]);
+										}
+									});
+									this.note1 = [];
+									if (this.note3.length > 0) {
+										let res = [], dis = this.dis1 + this.dis2;
+										this.fuzzyCheck(this.note3, res, re3, rre3[0], 's3');
+										//倒算回去获得索引
+										res.forEach((item) => {
+											if (item.s3 - dataArr[item.index - dis].s1 == rowDis2) {
+												this.note1.push(dataArr[item.index - dis]);
+											}
+										});
+									}
+								}
+							} else {
+								this.note1 = [];
+							}
+						}
 					}
 					//第三行为空
 					if (this.computeDis()[2] == -1) {
@@ -432,16 +515,20 @@
 						if (this.note1.length > 0) {
 							let secondArr = [];
 							this.note1.forEach((item) => {
-								secondArr.push(dataArr[item.index + this.dis1]);
+								if (dataArr[item.index + this.dis1]) {
+									secondArr.push(dataArr[item.index + this.dis1]);
+								}
 							});
 							if (secondArr.length > 0) {
 								this.fuzzyCheck(secondArr, this.note2, re2, rre2[0], 's2');
 								//根据note2和note1的dis做匹配
-								this.note1 = this.note1.filter((item) => {
-									if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
-										return item;
-									}
-								});
+								if (this.note2.length > 0) {
+									this.note1 = this.note1.filter((item) => {
+										if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
+											return item;
+										}
+									});
+								}
 							} else {
 								this.note1 = [];
 							}
@@ -450,7 +537,7 @@
 				}
 				console.log(this.note1);
 				this.computedTime();
-				this.changeColor();
+				this.changeColor2();
 			},
 			//精确匹配
 			compareArr() {
@@ -488,7 +575,6 @@
 				this.loopCheck(dataArr, this.note1, re1);
 				if (this.note1.length > 0) {
 					//比对间隔默认为1
-					//第二次比对
 					this.note1.forEach((item) => {
 						if (dataArr[item.index + this.dis1]) {
 							this.note2.push(dataArr[item.index + this.dis1]);
@@ -496,8 +582,7 @@
 					});
 					if (this.note2.length > 0) {
 						let secondArr = [];
-						this.loopCheck(this.note2, secondArr, re2);
-						//第三次比对
+						this.loopCheck(this.note2, secondArr, re2);//第二次比对
 						secondArr.forEach((item) => {
 							if (dataArr[item.index + this.dis2]) {
 								this.note3.push(dataArr[item.index + this.dis2]);
@@ -506,14 +591,11 @@
 						this.note1 = [];
 						if (this.note3.length > 0) {
 							let res = [], dis = this.dis1 + this.dis2;
-							this.loopCheck(this.note3, res, re3);
+							this.loopCheck(this.note3, res, re3);//第三次比对
 							//倒算回去获得索引
 							res.forEach((item) => {
 								this.note1.push(dataArr[item.index - dis]);
 							});
-						} else {
-							//退出
-							this.note1 = [];
 						}
 					} else {
 						//退出
@@ -523,28 +605,49 @@
 				console.table(this.note1);
 				//计算周期
 				this.computedTime();
-				this.changeColor();
+				this.changeColor1();
 			},
 			selectNum1(value) {
-				this.showArr = [];
+				this.showArr = {};
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr1 = arr.filter((item) => {
 					return !this.value1.some(item1 => item1.key == item);
 				});
+				let nArr = [];
+				this.value1.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show1 = nArr;
 			},
 			selectNum2(value) {
-				this.showArr = [];
+				this.showArr = {};
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr2 = arr.filter((item) => {
 					return !this.value2.some(item1 => item1.key == item);
 				});
+				let nArr = [];
+				this.value2.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show2 = nArr;
 			},
 			selectNum3(value) {
-				this.showArr = [];
+				this.showArr = {};
 				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr3 = arr.filter((item) => {
 					return !this.value3.some(item1 => item1.key == item);
 				});
+				let nArr = [];
+				this.value3.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show3 = nArr;
 			},
 			checkArr(arr) {
 				let oArr = [];
@@ -642,6 +745,21 @@
 					}),
 				];
 				return arr;
+			},
+			addArr(arr) {
+				let newArr = [];
+				arr.map((item) => {
+					let obj = {show: false, key: item};
+					newArr.push(obj);
+				});
+				return newArr;
+			},
+			initArr() {
+				this.showArr = {};
+				this.arr = this.arr.map((item) => {
+					item.outArr = this.addArr(item.openNum);
+					return item;
+				});
 			},
 		},
 	});
