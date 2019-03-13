@@ -189,6 +189,12 @@
             </ul>
         </div>
         <div class="row">
+            <p>最近出现间隔：<span>{{lastTime==99999?'无穷大':lastTime}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime==0?'无穷大':farTime}}期</span></p>
+        </div>
+        <div class="row">
             <p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>
         </div>
         <div class="row">
@@ -237,6 +243,8 @@
 			dis1: 1,
 			dis2: 1,
 			showArr: {},
+			lastTime: 99999,
+			farTime: 0,
 			minTime: 99999,
 			maxTime: 0,
 		},
@@ -273,7 +281,7 @@
 				this.initArr();
 				if (this.note1.length > 0) {
 					this.note1.forEach((item) => {
-						if (this.computeDis()[0] == -1) {
+						if (this.computeDis()[0] == undefined) {
 							this.arr[item.index].outArr.forEach((item1) => {
 								if (this.show2.includes(item1.key)) {
 									item1.show = true;
@@ -379,6 +387,8 @@
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
 					return false;
 				}
+				this.farTime = 0;
+				this.lastTime = 99999;
 				this.minTime = 99999;
 				this.maxTime = 0;
 				this.note1 = [];
@@ -422,7 +432,7 @@
 				let rowDis2 = this.computeDis()[2] - this.computeDis()[0];
 				let rowDis3 = this.computeDis()[2] - this.computeDis()[1];
 
-				if (!this.computeDis().some(item => item == -1)) {
+				if (!this.computeDis().some(item => item == undefined)) {
 					this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
 					this.fuzzyCheck(dataArr, this.note2, re2, rre2[0], 's2');
 					this.fuzzyCheck(dataArr, this.note3, re3, rre3[0], 's3');
@@ -449,7 +459,7 @@
 					this.note1 = arr2;
 				} else {
 					//第一行为空
-					if (this.computeDis()[0] == -1) {
+					if (this.computeDis()[0] == undefined) {
 						this.fuzzyCheck(dataArr, this.note1, re2, rre2[0], 's2');
 						if (this.note1.length > 0) {
 							let secondArr = [];
@@ -474,7 +484,7 @@
 						}
 					}
 					//第二行为空
-					if (this.computeDis()[1] == -1) {
+					if (this.computeDis()[1] == undefined) {
 						this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
 						if (this.note1.length > 0) {
 							this.note1.forEach((item) => {
@@ -510,7 +520,7 @@
 						}
 					}
 					//第三行为空
-					if (this.computeDis()[2] == -1) {
+					if (this.computeDis()[2] == undefined) {
 						this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
 						if (this.note1.length > 0) {
 							let secondArr = [];
@@ -708,9 +718,16 @@
 							}
 						});
 					}
+
+					let l = this.note1[0].index;
+					let f = this.note1[this.note1.length - 1].index;
+					this.lastTime = this.lastTime > l ? l : this.lastTime;
+					this.farTime = this.farTime < f ? f : this.farTime;
 				} else {
 					this.$message.error('查无改格式数据');
 					this.minTime = 99999;
+					this.lastTime = 99999;
+					this.farTime = 0;
 					this.maxTime = 0;
 				}
 			},
@@ -727,24 +744,26 @@
 				}
 			},
 			computeDis() {
-				let arr = [
-					this.value1.findIndex((item, index) => {
-						if (item.key != '') {
-							return index;
-						}
-					}),
-					this.value2.findIndex((item, index) => {
-						if (item.key != '') {
-							return index;
-						}
-					}),
-					this.value3.findIndex((item, index) => {
-						if (item.key != '') {
-							return index;
-						}
-					}),
-				];
-				return arr;
+				let a, b, c, arr = [true, true, true];
+				this.value1.forEach((item, index) => {
+					if (item.key != '' && arr[0]) {
+						a = index;
+						arr[0] = false;
+					}
+				});
+				this.value2.forEach((item, index) => {
+					if (item.key != '' && arr[1]) {
+						b = index;
+						arr[1] = false;
+					}
+				});
+				this.value3.forEach((item, index) => {
+					if (item.key != '' && arr[2]) {
+						c = index;
+						arr[2] = false;
+					}
+				});
+				return [a, b, c];
 			},
 			addArr(arr) {
 				let newArr = [];
