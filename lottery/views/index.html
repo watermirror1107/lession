@@ -124,7 +124,7 @@
         <div class="top">
             <div>
                 <span>项目</span>
-                <el-select v-model="type" placeholder="请选择" @change="changeType">
+                <el-select v-model="type" placeholder="请选择" clearable @change="changeType">
                     <el-option
                             v-for="item in typeLIst"
                             :key="item.value"
@@ -325,6 +325,7 @@
 				this.note1 = [];
 				this.note2 = [];
 				this.note3 = [];
+				this.arr = [];
 				this.showArr = {};
 			},
 			getArr() {
@@ -360,16 +361,15 @@
 					this.$message.error(err);
 				});
 			},
-			changeType() {
+			changeType(value) {
 				this.reset();
-				if (this.date != '') {
+				if (value && this.date) {
 					this.getArr();
 				}
-
 			},
-			changeDate() {
+			changeDate(value) {
 				this.reset();
-				if (this.type != '') {
+				if (value && this.type) {
 					this.getArr();
 				}
 			},
