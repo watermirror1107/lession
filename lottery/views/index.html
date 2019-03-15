@@ -444,6 +444,9 @@
 								if (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1) {
 									arr1.push(item);
 								}
+								if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+									arr1.push(item);
+								}
 							}
 						});
 					}
@@ -451,6 +454,12 @@
 						arr1.forEach((item) => {
 							if (this.note3.includes(dataArr[item.index + this.dis2 + this.dis1])) {
 								if (dataArr[item.index + this.dis2 + this.dis1].s3 - item.s1 == rowDis2) {
+									arr2.push(item);
+								}
+								if (dataArr[item.index + this.dis1].s2 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis3) {
+									arr2.push(item);
+								}
+								if (item.s1 == 9 && dataArr[item.index + this.dis2].s3 + 2 == rowDis2) {
 									arr2.push(item);
 								}
 							}
@@ -474,6 +483,9 @@
 								if (this.note2.length > 0) {
 									this.note1 = this.note1.filter((item) => {
 										if (secondArr.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3)) {
+											return item;
+										}
+										if (item.s2 == 9 && dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
 											return item;
 										}
 									});
@@ -535,6 +547,9 @@
 								if (this.note2.length > 0) {
 									this.note1 = this.note1.filter((item) => {
 										if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
+											return item;
+										}
+										if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
 											return item;
 										}
 									});
