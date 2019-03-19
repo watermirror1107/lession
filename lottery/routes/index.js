@@ -8,12 +8,18 @@ router.get('/', function (req, res, next) {
 	res.render('index');
 });
 
+function randomNum(e) {
+	for (var t = '', n = (e = e || 20,
+		['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']), a = 0; a < e; a++) {
+		t += n[Math.ceil(35 * Math.random())];
+	}
+	return t;
+}
 
 router.get('/getData', async function (req, res, next) {
-
-	let url;
+	let url, queryData = randomNum(20);
 	await new Promise((resolve, reject) => {
-		url = `https://www.cp91.vip/data/${req.query.type}/lotteryList/${req.query.date}.json`;
+		url = `https://www.cp91.vip/data/${req.query.type}/lotteryList/${req.query.date}.json??${queryData}`;
 		resolve();
 	});
 	await request({

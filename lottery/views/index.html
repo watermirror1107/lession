@@ -70,12 +70,59 @@
         .litItem {
             width: 40px;
             height: 40px;
+            font-weight: bold;
             float: left;
             line-height: 40px;
             text-align: center;
             border-collapse: collapse;
             box-sizing: border-box;
-            border: 1px solid #333;
+            color: #fff;
+            border-radius: 25%;
+            font-size: 23px;
+        }
+
+        .num1 {
+            background-color: #e6df48;
+        }
+
+        .num2 {
+            background-color: #3392dd;
+        }
+
+        .num3 {
+            background-color: #4b4b4b;
+        }
+
+        .num4 {
+            background-color: #f07439;
+        }
+
+        .num5 {
+            background-color: #25f7ff;
+        }
+
+        .num6 {
+            background-color: #5547f6;
+        }
+
+        .num7 {
+            background-color: #bfbfbf;
+        }
+
+        .num8 {
+            background-color: #ed3833;
+        }
+
+        .num9 {
+            background-color: #781815;
+        }
+
+        .num10 {
+            background-color: #59c030;
+        }
+
+        .el-table td {
+            padding: 0;
         }
     </style>
 </head>
@@ -110,9 +157,10 @@
                     prop="openNum"
                     align="center"
                     label="号码">
-                <ul slot-scope="scope" style="display: inline-block;">
+                <ul slot-scope="scope" style="display: flex;justify-content: space-around;">
                     <template v-for="(lit,index) in scope.row.outArr">
-                        <li class="litItem" :style="{backgroundColor: showArr[scope.row.index]&&lit.show?'yellow':''}">
+                        <li class="litItem" :class="classObj(lit.key)"
+                            :style="{backgroundColor: showArr[scope.row.index]&&lit.show?'#fff':'',color:showArr[scope.row.index]&&lit.show?'#333':''}">
                             {{lit.key}}
                         </li>
                     </template>
@@ -126,7 +174,7 @@
                 <span>项目</span>
                 <el-select v-model="type" placeholder="请选择" clearable @change="changeType">
                     <el-option
-                            v-for="item in typeLIst"
+                            v-for="item in typeList"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -194,16 +242,16 @@
         <div class="row">
             <p>最远出现间隔：<span>{{farTime==0?'无穷大':farTime}}期</span></p>
         </div>
-        <div class="row">
-            <p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>
-        </div>
-        <div class="row">
-            <p>出现最大周期间隔：<span>{{maxTime==0?'无穷大':maxTime}}期</span></p>
-        </div>
+        <!--<div class="row">-->
+        <!--<p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<p>出现最大周期间隔：<span>{{maxTime==0?'无穷大':maxTime}}期</span></p>-->
+        <!--</div>-->
         <div class="row">
             <button class="search" @click="reset">重置</button>
-            <button class="search" @click="compareArr">精确查询</button>
-            <button class="search" @click="fuzzyQuery">模糊查询</button>
+            <button class="search" @click="query1">精确查询</button>
+            <button class="search" @click="query2">模糊查询</button>
         </div>
     </div>
 </div>
@@ -222,13 +270,18 @@
 			arr: [],
 			loading: false,
 			date: '',
+			selectQueryType: false,//false精确true模糊
 			type: '',
-			typeLIst: [
-				{label: '秒速飞艇', value: 'jsft'},
-				{label: '秒速赛车', value: 'jspk10'},
-				{label: '北京PK10', value: 'bjpk10'},
+			typeList: [
+				{label: '秒速飞艇', value: 'jsft', time: 75 * 1000, start: '07:30', end: '06:30'},
+				{label: '秒速赛车', value: 'jspk10', time: 75 * 1000, start: '09:30', end: '23:50'},
+				{label: '北京PK10', value: 'bjpk10', time: 20 * 60 * 1000, start: '07:30', end: '06:30'},
+				{label: '快乐赛车', value: 'klpk10', time: 5 * 60 * 1000, start: '07:30:15', end: '06:25:15'},
+				{label: '快乐飞艇', value: 'klft', time: 5 * 60 * 1000, start: '7:30:30', end: '06:25:30'},
+				{label: '幸运飞艇', value: 'xyft', time: 5 * 60 * 1000, start: '13:09', end: '04:04'},
 			],
 			freshTime: '',
+			delayTime: '',
 			pickerOptions1: {
 				disabledDate(time) {
 					return time.getTime() > Date.now();
@@ -247,11 +300,16 @@
 			farTime: 0,
 			minTime: 99999,
 			maxTime: 0,
+			clearNum1: '',
+			clearNum2: '',
 		},
 		created() {
 
 		},
 		methods: {
+			classObj: function (num) {
+				return `num${num}`;
+			},
 			changeColor1() {
 				this.initArr();
 				if (this.note1.length > 0) {
@@ -338,7 +396,7 @@
 			},
 			getArr() {
 				this.loading = true;
-				axios({
+				return axios({
 					url: '/getData',
 					params: {date: this.date, type: this.type},
 					method: 'get',
@@ -371,6 +429,10 @@
 			},
 			changeType(value) {
 				this.reset();
+				let selectItem = this.typeList.find((item) => {
+					return item.value == value;
+				});
+				this.freshTime = selectItem.time;
 				if (value && this.date) {
 					this.getArr();
 				}
@@ -456,11 +518,14 @@
 								if (dataArr[item.index + this.dis2 + this.dis1].s3 - item.s1 == rowDis2) {
 									arr2.push(item);
 								}
-								if (dataArr[item.index + this.dis1].s2 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis3) {
-									arr2.push(item);
-								}
-								if (item.s1 == 9 && dataArr[item.index + this.dis2].s3 + 2 == rowDis2) {
-									arr2.push(item);
+								try {
+									if (dataArr[item.index + this.dis1].s2 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis3) {
+										arr2.push(item);
+									}
+									if (item.s1 == 9 && dataArr[item.index + this.dis2].s3 + 2 == rowDis2) {
+										arr2.push(item);
+									}
+								} catch (err) {
 								}
 							}
 						});
@@ -485,8 +550,10 @@
 										if (secondArr.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3)) {
 											return item;
 										}
-										if (item.s2 == 9 && dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
-											return item;
+										if (item.s2 == 9 && this.note2.includes(dataArr[item.index + this.dis2])) {
+											if (dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
+												return item;
+											}
 										}
 									});
 								}
@@ -549,8 +616,10 @@
 										if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
 											return item;
 										}
-										if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
-											return item;
+										if (item.s1 == 9 && this.note2.includes(dataArr[item.index + this.dis1])) {
+											if (dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+												return item;
+											}
 										}
 									});
 								}
@@ -563,6 +632,7 @@
 				console.log(this.note1);
 				this.computedTime();
 				this.changeColor2();
+				this.selectQueryType = true;
 			},
 			//精确匹配
 			compareArr() {
@@ -631,6 +701,7 @@
 				//计算周期
 				this.computedTime();
 				this.changeColor1();
+				this.selectQueryType = false;
 			},
 			selectNum1(value) {
 				this.showArr = {};
@@ -718,7 +789,6 @@
 				});
 			},
 			computedTime() {
-				//计算周期
 				if (this.note1.length > 0) {
 					//计算周期
 					if (this.note1.length == 1) {
@@ -735,7 +805,12 @@
 					}
 
 					let l = this.note1[0].index;
-					let f = this.note1[this.note1.length - 1].index;
+					let f = 0;
+					this.note1.forEach((item, index) => {
+						if (this.note1[index + 1]) {
+							f = Math.abs(this.note1[index + 1].index - item.index) > f ? Math.abs(this.note1[index + 1].index - item.index) : f;
+						}
+					});
 					this.lastTime = this.lastTime > l ? l : this.lastTime;
 					this.farTime = this.farTime < f ? f : this.farTime;
 				} else {
@@ -794,6 +869,61 @@
 					item.outArr = this.addArr(item.openNum);
 					return item;
 				});
+			},
+			autoFresh() {
+				clearTimeout(this.clearNum1);
+				this.clearNum1 = setTimeout(() => {
+					clearInterval(this.clearNum2);
+					this.clearNum2 = setInterval(() => {
+						if (this.selectQueryType) {
+							this.getArr().then(() => {
+								this.fuzzyQuery();
+							});
+						} else {
+							this.getArr().then(() => {
+								this.compareArr();
+							});
+						}
+					}, this.freshTime);
+				}, this.delayTime);
+			},
+			query1() {
+				this.compareArr();
+				//判断是否是今天
+				if (!this.isToday()) {
+					this.autoFresh();
+				}
+			},
+			query2() {
+				this.checkDelay();
+				this.fuzzyQuery();
+				if (!this.isToday()) {
+					this.autoFresh();
+				}
+			},
+			isToday() {
+				let date = new Date();
+				let y = date.getFullYear(), m, d;
+				if (date.getMonth() + 1 < 10) {
+					m = '0' + (date.getMonth() + 1);
+				} else {
+					m = date.getMonth() + 1;
+				}
+				if (date.getDate() < 10) {
+					d = '0' + date.getDate();
+				} else {
+					d = date.getDate();
+				}
+				let txt = y + '-' + m + '-' + d;
+				if (txt == this.date) {
+					return true;//今天
+				} else {
+					return false;
+				}
+			},
+			checkDelay() {
+				let nowTime = new Date().getTime();
+				console.log(nowTime);
 			},
 		},
 	});
