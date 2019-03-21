@@ -237,11 +237,109 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span>{{lastTime==99999?'无穷大':lastTime}}期</span></p>
+            <p>最近出现间隔：<span>{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
         </div>
         <div class="row">
-            <p>最远出现间隔：<span>{{farTime==0?'无穷大':farTime}}期</span></p>
+            <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
         </div>
+        <!--<hr/>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value4">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum4">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr4"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value5">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum5">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr5"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value6">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum6">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr6"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<p>最近出现间隔：<span>{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>-->
+        <!--</div>-->
+        <!--<hr/>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value7">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum7">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr7"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value8">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum8">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr8"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<ul class="num">-->
+        <!--<li v-for="(item,index) in value9">-->
+        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum9">-->
+        <!--<el-option-->
+        <!--v-for="item1 in arr9"-->
+        <!--:key="item1"-->
+        <!--:label="item1"-->
+        <!--:value="item1">-->
+        <!--</el-option>-->
+        <!--</el-select>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<p>最近出现间隔：<span>{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>-->
+        <!--</div>-->
         <!--<div class="row">-->
         <!--<p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>-->
         <!--</div>-->
@@ -250,7 +348,7 @@
         <!--</div>-->
         <div class="row">
             <button class="search" @click="reset">重置</button>
-            <button class="search" @click="query1">精确查询</button>
+            <!--<button class="search" @click="query1">精确查询</button>-->
             <button class="search" @click="query2">模糊查询</button>
         </div>
     </div>
@@ -267,18 +365,23 @@
 			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			// arr4: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			// arr5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			// arr6: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			// arr7: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			// arr8: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr: [],
 			loading: false,
 			date: '',
 			selectQueryType: false,//false精确true模糊
 			type: '',
 			typeList: [
-				{label: '秒速飞艇', value: 'jsft', time: 75 * 1000, start: '07:30', end: '06:30'},
-				{label: '秒速赛车', value: 'jspk10', time: 75 * 1000, start: '09:30', end: '23:50'},
-				{label: '北京PK10', value: 'bjpk10', time: 20 * 60 * 1000, start: '07:30', end: '06:30'},
-				{label: '快乐赛车', value: 'klpk10', time: 5 * 60 * 1000, start: '07:30:15', end: '06:25:15'},
-				{label: '快乐飞艇', value: 'klft', time: 5 * 60 * 1000, start: '7:30:30', end: '06:25:30'},
-				{label: '幸运飞艇', value: 'xyft', time: 5 * 60 * 1000, start: '13:09', end: '04:04'},
+				{label: '秒速飞艇', value: 'jsft', time: 75 * 1000, start: '07:29:30'},
+				{label: '秒速赛车', value: 'jspk10', time: 75 * 1000, start: '07:30:00'},
+				{label: '北京PK10', value: 'bjpk10', time: 20 * 60 * 1000, start: '09:30:00'},
+				{label: '快乐赛车', value: 'klpk10', time: 5 * 60 * 1000, start: '07:30:15'},
+				{label: '快乐飞艇', value: 'klft', time: 5 * 60 * 1000, start: '7:30:30'},
+				{label: '幸运飞艇', value: 'xyft', time: 5 * 60 * 1000, start: '13:09:00'},
 			],
 			freshTime: '',
 			delayTime: '',
@@ -296,8 +399,8 @@
 			dis1: 1,
 			dis2: 1,
 			showArr: {},
-			lastTime: 99999,
-			farTime: 0,
+			lastTime1: 99999,
+			farTime1: 0,
 			minTime: 99999,
 			maxTime: 0,
 			clearNum1: '',
@@ -449,8 +552,8 @@
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
 					return false;
 				}
-				this.farTime = 0;
-				this.lastTime = 99999;
+				this.farTime1 = 0;
+				this.lastTime1 = 99999;
 				this.minTime = 99999;
 				this.maxTime = 0;
 				this.note1 = [];
@@ -811,13 +914,13 @@
 							f = Math.abs(this.note1[index + 1].index - item.index) > f ? Math.abs(this.note1[index + 1].index - item.index) : f;
 						}
 					});
-					this.lastTime = this.lastTime > l ? l : this.lastTime;
-					this.farTime = this.farTime < f ? f : this.farTime;
+					this.lastTime1 = this.lastTime1 > l ? l : this.lastTime1;
+					this.farTime1 = this.farTime1 < f ? f : this.farTime1;
 				} else {
 					this.$message.error('查无改格式数据');
 					this.minTime = 99999;
-					this.lastTime = 99999;
-					this.farTime = 0;
+					this.lastTime1 = 99999;
+					this.farTime1 = 0;
 					this.maxTime = 0;
 				}
 			},
@@ -873,6 +976,15 @@
 			autoFresh() {
 				clearTimeout(this.clearNum1);
 				this.clearNum1 = setTimeout(() => {
+					if (this.selectQueryType) {
+						this.getArr().then(() => {
+							this.fuzzyQuery();
+						});
+					} else {
+						this.getArr().then(() => {
+							this.compareArr();
+						});
+					}
 					clearInterval(this.clearNum2);
 					this.clearNum2 = setInterval(() => {
 						if (this.selectQueryType) {
@@ -890,14 +1002,14 @@
 			query1() {
 				this.compareArr();
 				//判断是否是今天
-				if (!this.isToday()) {
+				if (this.isToday()) {
 					this.autoFresh();
 				}
 			},
 			query2() {
 				this.checkDelay();
 				this.fuzzyQuery();
-				if (!this.isToday()) {
+				if (this.isToday()) {
 					this.autoFresh();
 				}
 			},
@@ -922,8 +1034,14 @@
 				}
 			},
 			checkDelay() {
+				let selectItem = this.typeList.find((item) => {
+					return item.value == this.type;
+				});
+				let funTime = this.date + ' ' + selectItem.start + ':00';
 				let nowTime = new Date().getTime();
-				console.log(nowTime);
+				let dis = nowTime - new Date(funTime).getTime();
+				let next = Math.ceil(dis / selectItem.time) * selectItem.time;
+				this.delayTime = next + new Date(funTime).getTime() - nowTime;
 			},
 		},
 	});
