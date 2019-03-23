@@ -41,9 +41,9 @@
             width: 45%;
             float: left;
             margin-top: 20px;
-            position: fixed;
-            top: 0;
-            right: 0;
+            /*position: fixed;*/
+            /*top: 0;*/
+            /*right: 0;*/
         }
 
         .search {
@@ -242,110 +242,110 @@
         <div class="row">
             <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
         </div>
-        <!--<hr/>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value4">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum4">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr4"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value5">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum5">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr5"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value6">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum6">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr6"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>最近出现间隔：<span>{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>-->
-        <!--</div>-->
-        <!--<hr/>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value7">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum7">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr7"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value8">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum8">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr8"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<ul class="num">-->
-        <!--<li v-for="(item,index) in value9">-->
-        <!--<el-select v-model="item.key" placeholder="" clearable @change="selectNum9">-->
-        <!--<el-option-->
-        <!--v-for="item1 in arr9"-->
-        <!--:key="item1"-->
-        <!--:label="item1"-->
-        <!--:value="item1">-->
-        <!--</el-option>-->
-        <!--</el-select>-->
-        <!--</li>-->
-        <!--</ul>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>最近出现间隔：<span>{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>-->
-        <!--</div>-->
-        <!--<div class="row">-->
-        <!--<p>出现最大周期间隔：<span>{{maxTime==0?'无穷大':maxTime}}期</span></p>-->
-        <!--</div>-->
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value4">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum4">
+                        <el-option
+                                v-for="item1 in arr4"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value5">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum5">
+                        <el-option
+                                v-for="item1 in arr5"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value6">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum6">
+                        <el-option
+                                v-for="item1 in arr6"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span>{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value7">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum7">
+                        <el-option
+                                v-for="item1 in arr7"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value8">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum8">
+                        <el-option
+                                v-for="item1 in arr8"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value9">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum9">
+                        <el-option
+                                v-for="item1 in arr9"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span>{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
+        </div>
+        <div class="row">
+            <p>出现最小周期间隔：<span>{{minTime==99999?'无穷大':minTime}}期</span></p>
+        </div>
+        <div class="row">
+            <p>出现最大周期间隔：<span>{{maxTime==0?'无穷大':maxTime}}期</span></p>
+        </div>
         <div class="row">
             <button class="search" @click="reset">重置</button>
             <!--<button class="search" @click="query1">精确查询</button>-->
@@ -362,14 +362,21 @@
 			value1: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			value2: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			value3: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value4: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value5: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value6: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value7: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value8: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value9: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			// arr4: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			// arr5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			// arr6: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			// arr7: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			// arr8: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr4: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr6: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr7: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr8: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr9: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			arr: [],
 			loading: false,
 			date: '',
@@ -393,6 +400,12 @@
 			show1: [],
 			show2: [],
 			show3: [],
+			show4: [],
+			show5: [],
+			show6: [],
+			show7: [],
+			show8: [],
+			show9: [],
 			note1: [],
 			note2: [],
 			note3: [],
@@ -400,7 +413,11 @@
 			dis2: 1,
 			showArr: {},
 			lastTime1: 99999,
+			lastTime2: 99999,
+			lastTime3: 99999,
 			farTime1: 0,
+			farTime2: 0,
+			farTime3: 0,
 			minTime: 99999,
 			maxTime: 0,
 			clearNum1: '',
@@ -463,20 +480,25 @@
 							});
 							this.$set(this.showArr, [item.index], '1');
 							if (this.computeDis()[1] != -1) {
-								this.arr[item.index + this.dis1].outArr.forEach((item2) => {
-									if (this.show2.includes(item2.key)) {
-										item2.show = true;
-									}
-								});
-								this.$set(this.showArr, [item.index + this.dis1], '1');
+								if (this.arr[item.index + this.dis1]) {
+
+									this.arr[item.index + this.dis1].outArr.forEach((item2) => {
+										if (this.show2.includes(item2.key)) {
+											item2.show = true;
+										}
+									});
+									this.$set(this.showArr, [item.index + this.dis1], '1');
+								}
 							}
 							if (this.computeDis()[2] != -1) {
-								this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
-									if (this.show3.includes(item3.key)) {
-										item3.show = true;
-									}
-								});
-								this.$set(this.showArr, [item.index + this.dis1 + this.dis2], '1');
+								if (this.arr[item.index + this.dis1 + this.dis2]) {
+									this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
+										if (this.show3.includes(item3.key)) {
+											item3.show = true;
+										}
+									});
+									this.$set(this.showArr, [item.index + this.dis1 + this.dis2], '1');
+								}
 							}
 						}
 					});
@@ -486,19 +508,33 @@
 				this.value1 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value2 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value3 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value4 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value5 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value6 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value7 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value8 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value9 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.minTime = 99999;
 				this.maxTime = 0;
 				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr6 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr8 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr9 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.note1 = [];
 				this.note2 = [];
 				this.note3 = [];
 				this.arr = [];
 				this.showArr = {};
+				clearTimeout(this.clearNum1);
+				clearInterval(this.clearNum2);
 			},
 			getArr() {
-				this.loading = true;
+				this.loading = false;
 				return axios({
 					url: '/getData',
 					params: {date: this.date, type: this.type},
@@ -547,7 +583,7 @@
 				}
 			},
 			//模糊匹配
-			fuzzyQuery() {
+			fuzzyQuery(row) {
 				if (this.type == '' || this.date == '') {
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
 					return false;
@@ -612,6 +648,9 @@
 								if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
 									arr1.push(item);
 								}
+								if (item.s1 == 0 && (dataArr[item.index + this.dis1].s2 - 10 - item.s1) == rowDis1) {
+									arr1.push(item);
+								}
 							}
 						});
 					}
@@ -625,7 +664,13 @@
 									if (dataArr[item.index + this.dis1].s2 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis3) {
 										arr2.push(item);
 									}
-									if (item.s1 == 9 && dataArr[item.index + this.dis2].s3 + 2 == rowDis2) {
+									if (item.s1 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis2) {
+										arr2.push(item);
+									}
+									if (dataArr[item.index + this.dis1].s2 == 0 && (dataArr[item.index + this.dis1 + this.dis2].s3 - 10 - dataArr[item.index + this.dis1].s2) == rowDis3) {
+										arr2.push(item);
+									}
+									if (item.s1 == 0 && (dataArr[item.index + this.dis1 + this.dis2].s2 - 10 - item.s1) == rowDis2) {
 										arr2.push(item);
 									}
 								} catch (err) {
@@ -650,11 +695,14 @@
 								//根据note2和note1的dis做匹配
 								if (this.note2.length > 0) {
 									this.note1 = this.note1.filter((item) => {
-										if (secondArr.includes(dataArr[item.index + this.dis2]) && (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3)) {
-											return item;
-										}
-										if (item.s2 == 9 && this.note2.includes(dataArr[item.index + this.dis2])) {
-											if (dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
+										if (this.note2.includes(dataArr[item.index + this.dis2])) {
+											if (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3) {
+												return item;
+											}
+											if (item.s2 == 9 && dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
+												return item;
+											}
+											if (item.s2 == 0 && dataArr[item.index + this.dis2].s3 - 10 - item.s2 == rowDis3) {
 												return item;
 											}
 										}
@@ -669,32 +717,29 @@
 					if (this.computeDis()[1] == undefined) {
 						this.fuzzyCheck(dataArr, this.note1, re1, rre1[0], 's1');
 						if (this.note1.length > 0) {
+							let secondArr = [];
 							this.note1.forEach((item) => {
-								if (dataArr[item.index + this.dis1]) {
-									this.note2.push(dataArr[item.index + this.dis1]);
+								if (dataArr[item.index + this.dis1 + this.dis2]) {
+									secondArr.push(dataArr[item.index + this.dis1 + this.dis2]);
 								}
 							});
-							let secondArr = [];
-							if (this.note2.length > 0) {
-								this.fuzzyCheck(this.note2, secondArr, re2, rre2[0], 's2');
-								//根据note2和note1的dis做匹配
-								if (secondArr.length > 0) {
-									secondArr.forEach((item) => {
-										if (dataArr[item.index + this.dis2]) {
-											this.note3.push(dataArr[item.index + this.dis2]);
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, this.note2, re3, rre3[0], 's3');
+								if (this.note2.length > 0) {
+									let dis = this.dis1 + this.dis2;
+									this.note1 = this.note1.filter((item) => {
+										if (this.note2.includes(dataArr[item.index + dis])) {
+											if (dataArr[item.index + dis].s3 - item.s1 == rowDis2) {
+												return item;
+											}
+											if (item.s1 == 9 && dataArr[item.index + dis].s3 + 1 == rowDis2) {
+												return item;
+											}
+											if (item.s1 == 0 && dataArr[item.index + dis].s3 - 10 - item.s1 == rowDis2) {
+												return item;
+											}
 										}
 									});
-									this.note1 = [];
-									if (this.note3.length > 0) {
-										let res = [], dis = this.dis1 + this.dis2;
-										this.fuzzyCheck(this.note3, res, re3, rre3[0], 's3');
-										//倒算回去获得索引
-										res.forEach((item) => {
-											if (item.s3 - dataArr[item.index - dis].s1 == rowDis2) {
-												this.note1.push(dataArr[item.index - dis]);
-											}
-										});
-									}
 								}
 							} else {
 								this.note1 = [];
@@ -716,11 +761,14 @@
 								//根据note2和note1的dis做匹配
 								if (this.note2.length > 0) {
 									this.note1 = this.note1.filter((item) => {
-										if (this.note2.includes(dataArr[item.index + this.dis1]) && (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1)) {
-											return item;
-										}
-										if (item.s1 == 9 && this.note2.includes(dataArr[item.index + this.dis1])) {
-											if (dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+										if (this.note2.includes(dataArr[item.index + this.dis1])) {
+											if (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1) {
+												return item;
+											}
+											if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+												return item;
+											}
+											if (item.s1 == 0 && dataArr[item.index + this.dis1].s2 - 10 - item.s1 == rowDis1) {
 												return item;
 											}
 										}
@@ -847,6 +895,90 @@
 					}
 				});
 				this.show3 = nArr;
+			},
+			selectNum4(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr4 = arr.filter((item) => {
+					return !this.value4.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value4.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show4 = nArr;
+			},
+			selectNum5(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr5 = arr.filter((item) => {
+					return !this.value5.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value5.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show5 = nArr;
+			},
+			selectNum6(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr6 = arr.filter((item) => {
+					return !this.value6.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value6.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show6 = nArr;
+			},
+			selectNum7(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr7 = arr.filter((item) => {
+					return !this.value7.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value7.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show7 = nArr;
+			},
+			selectNum8(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr8 = arr.filter((item) => {
+					return !this.value8.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value8.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show8 = nArr;
+			},
+			selectNum9(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr9 = arr.filter((item) => {
+					return !this.value9.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value9.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show9 = nArr;
 			},
 			checkArr(arr) {
 				let oArr = [];
@@ -996,8 +1128,8 @@
 								this.compareArr();
 							});
 						}
-					}, this.freshTime);
-				}, this.delayTime);
+					}, 5000);
+				}, 3000);
 			},
 			query1() {
 				this.compareArr();
@@ -1007,7 +1139,7 @@
 				}
 			},
 			query2() {
-				this.checkDelay();
+				//this.checkDelay();
 				this.fuzzyQuery();
 				if (this.isToday()) {
 					this.autoFresh();
