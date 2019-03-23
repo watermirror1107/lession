@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        img {
+            width: 100vw;
+        }
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        area:hover{
+            border:2px solid white;
+        }
+    </style>
+</head>
+<body>
+<p>
+    带有可点击区域的图像映射：让图片多区域点击,并且点击地方不同跳转的地方也不同
+    Please select a shape:
+    <img src="images/1.jpg" usemap="#shapes" alt="Four shapes are available: a red hollow box, a green circle, a blue triangle, and a yellow four-pointed star." >
+    <map name="shapes" id="shapes">
+        <area shape=rect coords="50,50,100,100"> <!-- the hole in the red box -->
+        <area shape=rect coords="25,25,125,125" href="dddd.html" alt="Red box.">
+        <area shape=circle coords="200,75,50" href="index.html" alt="Green circle.">
+        <area shape=poly coords="325,25,262,125,388,125" href="test.html" alt="Blue triangle.">
+        <area shape=poly coords="450,25,435,60,400,75,435,90,450,125,465,90,500,75,465,60"
+              href="codeWars.html.html" alt="Yellow star.">
+    </map>
+    img中的 usemap 属性可引用 map 中的 id 或 name 属性（由浏览器决定），所以我们需要同时向 map 添加 id 和 name 两个属性。
+</p>
+</body>
+</html>
