@@ -1066,11 +1066,9 @@
 				this.clearNum1 = setTimeout(() => {
 					if (this.selectQueryType) {
 						this.getArr().then(() => {
-							this.fuzzyQuery();
-						});
-					} else {
-						this.getArr().then(() => {
-							this.compareArr();
+							this.fuzzyQuery(1);
+							this.fuzzyQuery(2);
+							this.fuzzyQuery(3);
 						});
 					}
 					clearInterval(this.clearNum2);
@@ -1080,10 +1078,6 @@
 								this.fuzzyQuery(1);
 								this.fuzzyQuery(2);
 								this.fuzzyQuery(3);
-							});
-						} else {
-							this.getArr().then(() => {
-								this.compareArr();
 							});
 						}
 					}, 5000);
