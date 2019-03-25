@@ -240,7 +240,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span>{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
+            <p>最近出现间隔：<span :style="{color:lastTime1>25?'red':''}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
@@ -289,7 +289,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span>{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
+            <p>最近出现间隔：<span :style="{color:lastTime2>25?'red':''}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
@@ -338,7 +338,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span>{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
+            <p>最近出现间隔：<span :style="{color:lastTime3>25?'red':''}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
@@ -1088,9 +1088,9 @@
 				this.fuzzyQuery(1);
 				this.fuzzyQuery(2);
 				this.fuzzyQuery(3);
-				if (this.isToday()) {
+				// if (this.isToday()) {
 					this.autoFresh();
-				}
+				// }
 			},
 			isToday() {
 				let date = new Date();
