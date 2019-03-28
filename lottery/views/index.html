@@ -160,7 +160,7 @@
                     prop="openNum"
                     align="center"
                     label="号码">
-                <ul slot-scope="scope" style="display: flex;justify-content: space-around;">
+                <ul slot-scope="scope" style="width:400px;margin:0 auto;">
                     <template v-for="(lit,index) in scope.row.outArr">
                         <li class="litItem" :class="classObj(lit.key)"
                             :style="{backgroundColor: showArr[scope.row.index]&&lit.show?'#fff':'',color:showArr[scope.row.index]&&lit.show?'#333':''}">
@@ -240,7 +240,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span :style="{color:lastTime1>25?'red':''}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime1)}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
@@ -289,7 +289,7 @@
             </ul>
         </div>
         <div class="row">
-            <p>最近出现间隔：<span :style="{color:lastTime2>25?'red':''}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime2)}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
@@ -337,8 +337,8 @@
                 </li>
             </ul>
         </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:lastTime3>25?'red':''}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
+        <div class="row"> 7 15 25
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime3)}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
         </div>
         <div class="row">
             <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
@@ -421,7 +421,18 @@
 
 		},
 		methods: {
-			classObj: function (num) {
+			selectColor(num) {
+				if (num <= 7) {
+					return num == 7 ? 'green' : 'black';
+				} else {
+					if (num < 25) {
+						return 'blue';
+					} else {
+						return 'red';
+					}
+				}
+			},
+			classObj(num) {
 				return `num${num}`;
 			},
 			changeColor2(rowIndex, arr, bol = false) {
@@ -496,8 +507,8 @@
 				this.value7 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value8 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value9 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.minTime = 99999;
-				this.maxTime = 0;
+				//this.minTime = 99999;
+				//this.maxTime = 0;
 				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -1089,7 +1100,7 @@
 				this.fuzzyQuery(2);
 				this.fuzzyQuery(3);
 				// if (this.isToday()) {
-					this.autoFresh();
+				this.autoFresh();
 				// }
 			},
 			isToday() {
