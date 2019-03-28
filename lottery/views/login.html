@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆</title>
+    <script src="js/vue.js"></script>
+    <script src="js/sha256.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="js/elementUI.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>-->
+    <script src="js/axios.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .form {
+            border: 1px solid #333;
+            padding: 30px;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            text-align: center;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="form">
+        <h1>登陆</h1>
+        <div class="row">
+            <el-tag class="tag">账号</el-tag>
+            <el-input v-model="phone"></el-input>
+        </div>
+        <div class="row">
+            <el-tag class="tag">密码</el-tag>
+            <el-input type="password" v-model="password"></el-input>
+        </div>
+        <div class="row">
+            <el-button type="success" @click="login">登陆</el-button>
+            <el-button type="primary" @click="restForm">重置</el-button>
+        </div>
+    </div>
+</div>
+<script>
+	new Vue({
+		el: '#app',
+		data: {
+			phone: '13600922817',
+			password: 'sj5700113sj',
+		},
+		created() {
+		},
+		methods: {
+			login() {
+				if (this.phone == '' || this.password == '') {
+					this.$message.error('登录信息请填完整！');
+					return false;
+				}
+				if (!(/^1[345678]\d{9}$/.test(this.phone))) {
+					this.$message.error('手机号码有误，请重填');
+					return false;
+				}
+				let pwd = sha256(this.password).toUpperCase();
+				axios({
+					url: '/login',
+					headers: {
+						'Content-Type': 'application/json;charset=UTF-8',
+					},
+					data: {phone: this.phone, password: pwd},
+					method: 'post',
+				}).then((res) => {
+					if (res.data.status == 0) {
+						console.log(document.cookie)
+						//window.location.href = '/lottery';
+					} else {
+						this.$message.error(res.data.msg);
+					}
+				}).catch((err) => {
+					console.log(err);
+				});
+			},
+			restForm() {
+				this.phone = '';
+				this.password = '';
+			},
+		},
+	});
+</script>
+</body>
+</html>

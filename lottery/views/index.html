@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="js/elementUI.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>-->
+    <script src="js/axios.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            padding: 10px;
+            min-width: 1200px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .table {
+            width: 50%;
+            float: left;
+            padding-right: 5%;
+        }
+
+        .row {
+            margin: 15px 0;
+        }
+
+        .option {
+            width: 45%;
+            float: left;
+            margin-top: 20px;
+            /*position: fixed;*/
+            /*top: 0;*/
+            /*right: 0;*/
+        }
+
+        .search {
+            width: 100px;
+            height: 50px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .num {
+            overflow: hidden;
+        }
+
+        .num li {
+            float: left;
+            width: 10%;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .litItem {
+            width: 40px;
+            height: 40px;
+            font-weight: bold;
+            float: left;
+            line-height: 40px;
+            text-align: center;
+            border-collapse: collapse;
+            box-sizing: border-box;
+            color: #fff;
+            border-radius: 25%;
+            font-size: 23px;
+        }
+
+        .num1 {
+            background-color: #e6df48;
+        }
+
+        .num2 {
+            background-color: #3392dd;
+        }
+
+        .num3 {
+            background-color: #4b4b4b;
+        }
+
+        .num4 {
+            background-color: #f07439;
+        }
+
+        .num5 {
+            background-color: #25f7ff;
+        }
+
+        .num6 {
+            background-color: #5547f6;
+        }
+
+        .num7 {
+            background-color: #bfbfbf;
+        }
+
+        .num8 {
+            background-color: #ed3833;
+        }
+
+        .num9 {
+            background-color: #781815;
+        }
+
+        .num10 {
+            background-color: #59c030;
+        }
+
+        .el-table td {
+            padding: 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--<ul>-->
+    <!--<li v-for="item in arr">-->
+    <!--<span>时间{{item.openDateTime}}</span>-->
+    <!--<span>期数{{item.issue}}</span>-->
+    <!--<span>号码{{item.openNum}}</span>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <div class="table">
+        <el-table
+                border
+                v-loading="loading"
+                :data="arr"
+                style="width: 100%">
+            <el-table-column
+                    prop="openDateTime"
+                    label="时间"
+                    align="center"
+                    width="160">
+            </el-table-column>
+            <el-table-column
+                    prop="issue"
+                    label="期数"
+                    align="center"
+                    width="80">
+            </el-table-column>
+            <el-table-column
+                    prop="openNum"
+                    align="center"
+                    label="号码">
+                <ul slot-scope="scope" style="width:400px;margin:0 auto;">
+                    <template v-for="(lit,index) in scope.row.outArr">
+                        <li class="litItem" :class="classObj(lit.key)"
+                            :style="{backgroundColor: showArr[scope.row.index]&&lit.show?'#fff':'',color:showArr[scope.row.index]&&lit.show?'#333':''}">
+                            {{lit.key}}
+                        </li>
+                    </template>
+                </ul>
+            </el-table-column>
+        </el-table>
+    </div>
+    <div class="option">
+        <div class="top">
+            <div>
+                <span>项目</span>
+                <el-select v-model="type" placeholder="请选择" clearable @change="changeType">
+                    <el-option
+                            v-for="item in typeList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+            <div>
+                <span>日期</span>
+                <el-date-picker
+                        v-model="date"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions1"
+                        format="yyyy 年 MM 月 dd 日"
+                        @change="changeDate"
+                        value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value1">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum1">
+                        <el-option
+                                v-for="item1 in arr1"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value2">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum2">
+                        <el-option
+                                v-for="item1 in arr2"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value3">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum3">
+                        <el-option
+                                v-for="item1 in arr3"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime1)}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value4">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum4">
+                        <el-option
+                                v-for="item1 in arr4"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value5">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum5">
+                        <el-option
+                                v-for="item1 in arr5"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value6">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum6">
+                        <el-option
+                                v-for="item1 in arr6"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime2)}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value7">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum7">
+                        <el-option
+                                v-for="item1 in arr7"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value8">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum8">
+                        <el-option
+                                v-for="item1 in arr8"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value9">
+                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum9">
+                        <el-option
+                                v-for="item1 in arr9"
+                                :key="item1"
+                                :label="item1"
+                                :value="item1">
+                        </el-option>
+                    </el-select>
+                </li>
+            </ul>
+        </div>
+        <div class="row"> 7 15 25
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime3)}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
+        </div>
+        <div class="row">
+            <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
+        </div>
+        <div class="row">
+            <button class="search" @click="reset">重置</button>
+            <!--<button class="search" @click="query1">精确查询</button>-->
+            <button class="search" @click="query2">模糊查询</button>
+        </div>
+    </div>
+</div>
+<script>
+	let dataArr;
+	let vm = new Vue({
+		el: '#app',
+		data: {
+			value: '',
+			value1: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value2: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value3: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value4: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value5: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value6: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value7: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value8: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value9: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr4: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr6: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr7: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr8: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr9: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			arr: [],
+			loading: false,
+			date: '',
+			selectQueryType: false,//false精确true模糊
+			type: '',
+			typeList: [
+				{label: '秒速飞艇', value: 'jsft', time: 75 * 1000, start: '07:29:30'},
+				{label: '秒速赛车', value: 'jspk10', time: 75 * 1000, start: '07:30:00'},
+				{label: '北京PK10', value: 'bjpk10', time: 20 * 60 * 1000, start: '09:30:00'},
+				{label: '快乐赛车', value: 'klpk10', time: 5 * 60 * 1000, start: '07:30:15'},
+				{label: '快乐飞艇', value: 'klft', time: 5 * 60 * 1000, start: '7:30:30'},
+				{label: '幸运飞艇', value: 'xyft', time: 5 * 60 * 1000, start: '13:09:00'},
+			],
+			freshTime: '',
+			delayTime: '',
+			pickerOptions1: {
+				disabledDate(time) {
+					return time.getTime() > Date.now();
+				},
+			},
+			show1: [],
+			show2: [],
+			show3: [],
+			show4: [],
+			show5: [],
+			show6: [],
+			show7: [],
+			show8: [],
+			show9: [],
+			dis1: 1,
+			dis2: 1,
+			showArr: {},
+			lastTime1: 99999,
+			lastTime2: 99999,
+			lastTime3: 99999,
+			farTime1: 0,
+			farTime2: 0,
+			farTime3: 0,
+			minTime: 99999,
+			maxTime: 0,
+			clearNum1: '',
+			clearNum2: '',
+		},
+		created() {
+
+		},
+		methods: {
+			selectColor(num) {
+				if (num <= 7) {
+					return num == 7 ? 'green' : 'black';
+				} else {
+					if (num < 25) {
+						return 'blue';
+					} else {
+						return 'red';
+					}
+				}
+			},
+			classObj(num) {
+				return `num${num}`;
+			},
+			changeColor2(rowIndex, arr, bol = false) {
+				if (bol) {
+					this.initArr();
+				}
+				let txt1 = ['show1', 'show2', 'show3'];
+				let txt2 = ['show4', 'show5', 'show6'];
+				let txt3 = ['show7', 'show8', 'show9'];
+				let txt = [];
+				if (rowIndex == 1) {
+					txt = txt1;
+				} else if (rowIndex == 2) {
+					txt = txt2;
+				} else {
+					txt = txt3;
+				}
+				if (arr.length > 0) {
+					arr.forEach((item) => {
+						if (this.computeDis(rowIndex)[0] == undefined) {
+							this.arr[item.index].outArr.forEach((item1) => {
+								if (this[txt[1]].includes(item1.key)) {
+									item1.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index], '1');
+							this.arr[item.index + this.dis2].outArr.forEach((item2) => {
+								if (this[txt[2]].includes(item2.key)) {
+									item2.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index + this.dis1], '1');
+						} else {
+							this.arr[item.index].outArr.forEach((item1) => {
+								if (this[txt[0]].includes(item1.key)) {
+									item1.show = true;
+								}
+							});
+							this.$set(this.showArr, [item.index], '1');
+							if (this.computeDis(rowIndex)[1] != -1) {
+								if (this.arr[item.index + this.dis1]) {
+
+									this.arr[item.index + this.dis1].outArr.forEach((item2) => {
+										if (this[txt[1]].includes(item2.key)) {
+											item2.show = true;
+										}
+									});
+									this.$set(this.showArr, [item.index + this.dis1], '1');
+								}
+							}
+							if (this.computeDis(rowIndex)[2] != -1) {
+								if (this.arr[item.index + this.dis1 + this.dis2]) {
+									this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
+										if (this[txt[2]].includes(item3.key)) {
+											item3.show = true;
+										}
+									});
+									this.$set(this.showArr, [item.index + this.dis1 + this.dis2], '1');
+								}
+							}
+						}
+					});
+				}
+			},
+			reset() {
+				this.value1 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value2 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value3 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value4 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value5 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value6 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value7 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value8 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value9 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				//this.minTime = 99999;
+				//this.maxTime = 0;
+				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr6 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr8 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr9 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr = [];
+				this.showArr = {};
+				clearTimeout(this.clearNum1);
+				clearInterval(this.clearNum2);
+			},
+			getArr() {
+				this.loading = false;
+				return axios({
+					url: '/lottery/getData',
+					params: {date: this.date, type: this.type},
+					method: 'get',
+				}).then((res) => {
+					res = res.data;
+					if (res.status == 1) {
+						this.arr = res.data;
+						this.arr = this.arr.map((item, index) => {
+							item.index = index;
+							item.outArr = this.addArr(item.openNum);
+							return item;
+						});
+						dataArr = JSON.parse(JSON.stringify(this.arr));
+						//把10转成t
+						dataArr = dataArr.map((item) => {
+							item.openNum.forEach((lit, index) => {
+								if (lit == 10) {
+									item.openNum[index] = 't';
+								}
+							});
+							return item;
+						});
+					} else {
+						this.$message.warning('查无数据！');
+					}
+					this.loading = false;
+				}).catch((err) => {
+					this.$message.error(err);
+				});
+			},
+			changeType(value) {
+				this.reset();
+				let selectItem = this.typeList.find((item) => {
+					return item.value == value;
+				});
+				this.freshTime = selectItem.time;
+				if (value && this.date) {
+					this.getArr();
+				}
+			},
+			changeDate(value) {
+				this.reset();
+				if (value && this.type) {
+					this.getArr();
+				}
+			},
+			//模糊匹配
+			fuzzyQuery(rowIndex) {
+				let arr = [], c1 = [], c2 = [], c3 = [];
+				let darr1 = [this.value1, this.value2, this.value3];
+				let darr2 = [this.value4, this.value5, this.value6];
+				let darr3 = [this.value7, this.value8, this.value9];
+				if (rowIndex == 1) {
+					arr = darr1;
+				} else if (rowIndex == 2) {
+					arr = darr2;
+				} else {
+					arr = darr3;
+				}
+				if (this.type == '' || this.date == '') {
+					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
+					return false;
+				}
+				this.minTime = 99999;
+				this.maxTime = 0;
+				let oArr1 = this.checkArr(arr[0]);
+				let oArr2 = this.checkArr(arr[1]);
+				let oArr3 = this.checkArr(arr[2]);
+				let txt1 = '';
+				let txt2 = '';
+				let txt3 = '';
+
+				let haveNum = new RegExp(/.*\d|t.*/);
+				let count = 0;
+				if (!haveNum.test(oArr1.join('.'))) {
+					count++;
+				}
+				if (!haveNum.test(oArr2.join('.'))) {
+					count++;
+				}
+				if (!haveNum.test(oArr3.join('.'))) {
+					count++;
+				}
+
+				if (count >= 2) {
+					this.$message.error('模糊匹配请选择至少两个格式');
+					return false;
+				}
+				let rre1 = this.judgeArr(arr[0]);
+				let rre2 = this.judgeArr(arr[1]);
+				let rre3 = this.judgeArr(arr[2]);
+				txt1 = '/' + rre1 + '/';
+				txt2 = '/' + rre2 + '/';
+				txt3 = '/' + rre3 + '/';
+
+
+				let re1 = new RegExp(eval(txt1));
+				let re2 = new RegExp(eval(txt2));
+				let re3 = new RegExp(eval(txt3));
+				let rowDis1 = this.computeDis(rowIndex)[1] - this.computeDis(rowIndex)[0];
+				let rowDis2 = this.computeDis(rowIndex)[2] - this.computeDis(rowIndex)[0];
+				let rowDis3 = this.computeDis(rowIndex)[2] - this.computeDis(rowIndex)[1];
+
+				if (!this.computeDis(rowIndex).some(item => item == undefined)) {
+					this.fuzzyCheck(dataArr, c1, re1, rre1[0], 's1');
+					this.fuzzyCheck(dataArr, c2, re2, rre2[0], 's2');
+					this.fuzzyCheck(dataArr, c3, re3, rre3[0], 's3');
+					//都不为空
+					let arr1 = [], arr2 = [];
+					if (c1.length > 0) {
+						c1.forEach((item) => {
+							if (c2.includes(dataArr[item.index + this.dis1])) {
+								if (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1) {
+									arr1.push(item);
+								}
+								if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+									arr1.push(item);
+								}
+								if (item.s1 == 0 && (dataArr[item.index + this.dis1].s2 - 10 - item.s1) == rowDis1) {
+									arr1.push(item);
+								}
+							}
+						});
+					}
+					if (arr1.length > 0) {
+						arr1.forEach((item) => {
+							if (c3.includes(dataArr[item.index + this.dis2 + this.dis1])) {
+								if (dataArr[item.index + this.dis2 + this.dis1].s3 - item.s1 == rowDis2) {
+									arr2.push(item);
+								}
+								try {
+									if (dataArr[item.index + this.dis1].s2 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis3) {
+										arr2.push(item);
+									}
+									if (item.s1 == 9 && dataArr[item.index + this.dis2 + this.dis1].s3 + 1 == rowDis2) {
+										arr2.push(item);
+									}
+									if (dataArr[item.index + this.dis1].s2 == 0 && (dataArr[item.index + this.dis1 + this.dis2].s3 - 10 - dataArr[item.index + this.dis1].s2) == rowDis3) {
+										arr2.push(item);
+									}
+									if (item.s1 == 0 && (dataArr[item.index + this.dis1 + this.dis2].s2 - 10 - item.s1) == rowDis2) {
+										arr2.push(item);
+									}
+								} catch (err) {
+								}
+							}
+						});
+					}
+					c1 = arr2;
+				} else {
+					//第一行为空
+					if (this.computeDis(rowIndex)[0] == undefined) {
+						this.fuzzyCheck(dataArr, c1, re2, rre2[0], 's2');
+						if (c1.length > 0) {
+							let secondArr = [];
+							c1.forEach((item) => {
+								if (dataArr[item.index + this.dis2]) {
+									secondArr.push(dataArr[item.index + this.dis2]);
+								}
+							});
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, c2, re3, rre3[0], 's3');
+								if (c2.length > 0) {
+									c1 = c1.filter((item) => {
+										if (c2.includes(dataArr[item.index + this.dis2])) {
+											if (dataArr[item.index + this.dis2].s3 - item.s2 == rowDis3) {
+												return item;
+											}
+											if (item.s2 == 9 && dataArr[item.index + this.dis2].s3 + 1 == rowDis3) {
+												return item;
+											}
+											if (item.s2 == 0 && dataArr[item.index + this.dis2].s3 - 10 - item.s2 == rowDis3) {
+												return item;
+											}
+										}
+									});
+								}
+							} else {
+								c1 = [];
+							}
+						}
+					}
+					//第二行为空
+					if (this.computeDis(rowIndex)[1] == undefined) {
+						this.fuzzyCheck(dataArr, c1, re1, rre1[0], 's1');
+						if (c1.length > 0) {
+							let secondArr = [];
+							c1.forEach((item) => {
+								if (dataArr[item.index + this.dis1 + this.dis2]) {
+									secondArr.push(dataArr[item.index + this.dis1 + this.dis2]);
+								}
+							});
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, c2, re3, rre3[0], 's3');
+								if (c2.length > 0) {
+									let dis = this.dis1 + this.dis2;
+									c1 = c1.filter((item) => {
+										if (c2.includes(dataArr[item.index + dis])) {
+											if (dataArr[item.index + dis].s3 - item.s1 == rowDis2) {
+												return item;
+											}
+											if (item.s1 == 9 && dataArr[item.index + dis].s3 + 1 == rowDis2) {
+												return item;
+											}
+											if (item.s1 == 0 && dataArr[item.index + dis].s3 - 10 - item.s1 == rowDis2) {
+												return item;
+											}
+										}
+									});
+								}
+							} else {
+								c1 = [];
+							}
+						}
+					}
+					//第三行为空
+					if (this.computeDis(rowIndex)[2] == undefined) {
+						this.fuzzyCheck(dataArr, c1, re1, rre1[0], 's1');
+						if (c1.length > 0) {
+							let secondArr = [];
+							c1.forEach((item) => {
+								if (dataArr[item.index + this.dis1]) {
+									secondArr.push(dataArr[item.index + this.dis1]);
+								}
+							});
+							if (secondArr.length > 0) {
+								this.fuzzyCheck(secondArr, c2, re2, rre2[0], 's2');
+								if (c2.length > 0) {
+									c1 = c1.filter((item) => {
+										if (c2.includes(dataArr[item.index + this.dis1])) {
+											if (dataArr[item.index + this.dis1].s2 - item.s1 == rowDis1) {
+												return item;
+											}
+											if (item.s1 == 9 && dataArr[item.index + this.dis1].s2 + 1 == rowDis1) {
+												return item;
+											}
+											if (item.s1 == 0 && dataArr[item.index + this.dis1].s2 - 10 - item.s1 == rowDis1) {
+												return item;
+											}
+										}
+									});
+								}
+							} else {
+								c1 = [];
+							}
+						}
+					}
+				}
+				console.log(c1);
+				this.computedTime(rowIndex, c1);
+				if (rowIndex == 1) {
+					this.changeColor2(rowIndex, c1, true);
+				} else {
+					this.changeColor2(rowIndex, c1);
+				}
+				this.selectQueryType = true;
+			},
+			selectNum1(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr1 = arr.filter((item) => {
+					return !this.value1.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value1.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show1 = nArr;
+			},
+			selectNum2(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr2 = arr.filter((item) => {
+					return !this.value2.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value2.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show2 = nArr;
+			},
+			selectNum3(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr3 = arr.filter((item) => {
+					return !this.value3.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value3.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show3 = nArr;
+			},
+			selectNum4(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr4 = arr.filter((item) => {
+					return !this.value4.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value4.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show4 = nArr;
+			},
+			selectNum5(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr5 = arr.filter((item) => {
+					return !this.value5.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value5.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show5 = nArr;
+			},
+			selectNum6(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr6 = arr.filter((item) => {
+					return !this.value6.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value6.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show6 = nArr;
+			},
+			selectNum7(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr7 = arr.filter((item) => {
+					return !this.value7.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value7.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show7 = nArr;
+			},
+			selectNum8(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr8 = arr.filter((item) => {
+					return !this.value8.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value8.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show8 = nArr;
+			},
+			selectNum9(value) {
+				this.showArr = {};
+				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+				this.arr9 = arr.filter((item) => {
+					return !this.value9.some(item1 => item1.key == item);
+				});
+				let nArr = [];
+				this.value9.forEach((item) => {
+					if (item.key != '') {
+						nArr.push(item.key);
+					}
+				});
+				this.show9 = nArr;
+			},
+			checkArr(arr) {
+				let oArr = [];
+				arr.forEach((item, index) => {
+					if (item.key != '') {
+						oArr.push(item.key == 10 ? 't' : item.key);
+					} else {
+						oArr.push('.');
+					}
+				});
+				return oArr;
+			},
+			checkArr1(arr) {
+				let oArr = [];
+				arr.forEach((item, index) => {
+					if (item.key != '') {
+						oArr.push(item.key == 10 ? 't' : item.key);
+					} else {
+						oArr.push('');
+					}
+				});
+				return oArr;
+			},
+			loopCheck(arr1, arr2, re) {
+				//循环比对 arr1是原数组，arr2是比对数组;
+				arr1.forEach((item, index) => {
+					if (re.test(item.openNum.join(','))) {
+						arr2.push(item);
+					}
+				});
+			},
+			fuzzyCheck(arr1, arr2, re, sL = undefined, key) {
+				//循环比对 arr1是原数组，arr2是比对数组;
+				arr1.forEach((item, index) => {
+					if (re.test(item.openNum.join(','))) {
+						if (sL != '.' && sL) {
+							item[key] = item.openNum.join('').indexOf(sL);
+						} else {
+							item[key] = 9999999;
+						}
+						arr2.push(item);
+					}
+				});
+			},
+			computedTime(rowIndex, arr) {
+				if (rowIndex == 1) {
+					this.farTime1 = 0;
+					this.lastTime1 = 99999;
+				}
+				else if (rowIndex == 2) {
+					this.farTime2 = 0;
+					this.lastTime2 = 99999;
+				}
+				else {
+					this.farTime3 = 0;
+					this.lastTime3 = 99999;
+				}
+				if (arr.length > 0) {
+					//计算周期
+					// if (arr.length == 1) {
+					// 	this.minTime = '只出现一';
+					// 	this.maxTime = '只出现一';
+					// } else {
+					// 	arr.forEach((item, index) => {
+					// 		if (arr[index + 1]) {
+					// 			let dis = Math.abs(parseFloat(item.index) - parseFloat(arr[index + 1].index));
+					// 			this.minTime = dis < this.minTime ? dis : this.minTime;
+					// 			this.maxTime = dis > this.maxTime ? dis : this.maxTime;
+					// 		}
+					// 	});
+					// }
+					let l = arr[0].index;
+					let f = 0;
+					arr.forEach((item, index) => {
+						if (arr[index + 1]) {
+							f = Math.abs(arr[index + 1].index - item.index) > f ? Math.abs(arr[index + 1].index - item.index) : f;
+						}
+					});
+					if (rowIndex == 1) {
+						this.lastTime1 = this.lastTime1 > l ? l : this.lastTime1;
+						this.farTime1 = this.farTime1 < f ? f : this.farTime1;
+					} else if (rowIndex == 2) {
+						this.lastTime2 = this.lastTime2 > l ? l : this.lastTime2;
+						this.farTime2 = this.farTime2 < f ? f : this.farTime2;
+					} else {
+						this.lastTime3 = this.lastTime3 > l ? l : this.lastTime3;
+						this.farTime3 = this.farTime3 < f ? f : this.farTime3;
+					}
+				} else {
+					if (rowIndex == 1) {
+						this.farTime1 = 0;
+						this.lastTime1 = 99999;
+					} else if (rowIndex == 2) {
+						this.farTime2 = 0;
+						this.lastTime2 = 99999;
+					} else {
+						this.farTime3 = 0;
+						this.lastTime3 = 99999;
+					}
+					//this.$message.error('查无改格式数据');
+					// this.maxTime = 0;
+					// this.minTime = 99999;
+				}
+			},
+			judgeArr(arr) {
+				let msg = this.checkArr1(arr).join('');
+				let re = new RegExp(/(\d|t){2,}/g);
+				if (re.test(msg)) {//多字符匹配
+					let txt = this.checkArr(arr).join('.');
+					let s = txt.indexOf(msg[0]), e = txt.indexOf(msg[msg.length - 1]);
+					return txt.substring(s, e + 1);
+				} else {
+					//单字符匹配
+					return msg == '' ? '.' : msg;
+				}
+			},
+			computeDis(rowIndex) {
+				let a, b, c, arr = [true, true, true];
+				let darr = [];
+				let arr1 = [this.value1, this.value2, this.value3];
+				let arr2 = [this.value4, this.value5, this.value6];
+				let arr3 = [this.value7, this.value8, this.value9];
+				if (rowIndex == 1) {
+					darr = arr1;
+				} else if (rowIndex == 2) {
+					darr = arr2;
+				} else {
+					darr = arr3;
+				}
+				darr[0].forEach((item, index) => {
+					if (item.key != '' && arr[0]) {
+						a = index;
+						arr[0] = false;
+					}
+				});
+				darr[1].forEach((item, index) => {
+					if (item.key != '' && arr[1]) {
+						b = index;
+						arr[1] = false;
+					}
+				});
+				darr[2].forEach((item, index) => {
+					if (item.key != '' && arr[2]) {
+						c = index;
+						arr[2] = false;
+					}
+				});
+				return [a, b, c];
+			},
+			addArr(arr) {
+				let newArr = [];
+				arr.map((item) => {
+					let obj = {show: false, key: item};
+					newArr.push(obj);
+				});
+				return newArr;
+			},
+			initArr() {
+				this.showArr = {};
+				this.arr = this.arr.map((item) => {
+					item.outArr = this.addArr(item.openNum);
+					return item;
+				});
+			},
+			autoFresh() {
+				clearTimeout(this.clearNum1);
+				this.clearNum1 = setTimeout(() => {
+					if (this.selectQueryType) {
+						this.getArr().then(() => {
+							this.fuzzyQuery(1);
+							this.fuzzyQuery(2);
+							this.fuzzyQuery(3);
+						});
+					}
+					clearInterval(this.clearNum2);
+					this.clearNum2 = setInterval(() => {
+						if (this.selectQueryType) {
+							this.getArr().then(() => {
+								this.fuzzyQuery(1);
+								this.fuzzyQuery(2);
+								this.fuzzyQuery(3);
+							});
+						}
+					}, 5000);
+				}, 3000);
+			},
+			query2() {
+				//this.checkDelay();
+				this.fuzzyQuery(1);
+				this.fuzzyQuery(2);
+				this.fuzzyQuery(3);
+				// if (this.isToday()) {
+				this.autoFresh();
+				// }
+			},
+			isToday() {
+				let date = new Date();
+				let y = date.getFullYear(), m, d;
+				if (date.getMonth() + 1 < 10) {
+					m = '0' + (date.getMonth() + 1);
+				} else {
+					m = date.getMonth() + 1;
+				}
+				if (date.getDate() < 10) {
+					d = '0' + date.getDate();
+				} else {
+					d = date.getDate();
+				}
+				let txt = y + '-' + m + '-' + d;
+				if (txt == this.date) {
+					return true;//今天
+				} else {
+					return false;
+				}
+			},
+			checkDelay() {
+				let selectItem = this.typeList.find((item) => {
+					return item.value == this.type;
+				});
+				let funTime = this.date + ' ' + selectItem.start + ':00';
+				let nowTime = new Date().getTime();
+				let dis = nowTime - new Date(funTime).getTime();
+				let next = Math.ceil(dis / selectItem.time) * selectItem.time;
+				this.delayTime = next + new Date(funTime).getTime() - nowTime;
+			},
+		},
+	});
+</script>
+</body>
+</html>
