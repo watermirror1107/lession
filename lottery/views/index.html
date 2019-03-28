@@ -337,7 +337,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row"> 7 15 25
+        <div class="row">
             <p>最近出现间隔：<span :style="{color:selectColor(lastTime3)}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
         </div>
         <div class="row">
@@ -611,7 +611,16 @@
 				}
 
 				if (count >= 2) {
-					this.$message.error('模糊匹配请选择至少两个格式');
+					if (rowIndex == 1) {
+						this.lastTime1 = 99999;
+						this.farTime1 = 0;
+					} else if (rowIndex == 2) {
+						this.lastTime2 = 99999;
+						this.farTime2 = 0;
+					} else {
+						this.lastTime3 = 99999;
+						this.farTime3 = 0;
+					}
 					return false;
 				}
 				let rre1 = this.judgeArr(arr[0]);
@@ -620,7 +629,6 @@
 				txt1 = '/' + rre1 + '/';
 				txt2 = '/' + rre2 + '/';
 				txt3 = '/' + rre3 + '/';
-
 
 				let re1 = new RegExp(eval(txt1));
 				let re2 = new RegExp(eval(txt2));

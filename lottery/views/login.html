@@ -60,7 +60,7 @@
         </div>
         <div class="row">
             <el-tag class="tag">密码</el-tag>
-            <el-input type="password" v-model="password"></el-input>
+            <el-input @keyup.enter.native="login" type="password" v-model="password"></el-input>
         </div>
         <div class="row">
             <el-button type="success" @click="login">登陆</el-button>
@@ -72,8 +72,8 @@
 	new Vue({
 		el: '#app',
 		data: {
-			phone: '13600922817',
-			password: 'sj5700113sj',
+			phone: '',
+			password: '',
 		},
 		created() {
 		},
@@ -97,8 +97,7 @@
 					method: 'post',
 				}).then((res) => {
 					if (res.data.status == 0) {
-						console.log(document.cookie)
-						//window.location.href = '/lottery';
+						window.location.href = '/lottery';
 					} else {
 						this.$message.error(res.data.msg);
 					}

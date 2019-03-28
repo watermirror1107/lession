@@ -18,7 +18,7 @@ router.post('/login', function (req, res, next) {
 	let pwd = req.body.password;
 	if (userObj[phone]) {
 		if (sha256(pwd + staticPwd) == userObj[phone]) {
-			res.cookie('token', sha256(phone+cookieStatic), {maxAge: 5*3600*1000, httpOnly: true});
+			res.cookie('token', sha256(phone + cookieStatic), {httpOnly: false});
 			res.json({
 				status: 0,
 				msg: '成功',

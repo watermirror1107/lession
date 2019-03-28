@@ -16,6 +16,7 @@ function randomNum(e) {
 	return t;
 }
 
+
 router.get('/getData', async function (req, res, next) {
 	let url, queryData = randomNum(20);
 	await new Promise((resolve, reject) => {
