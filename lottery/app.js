@@ -8,6 +8,7 @@ var sha256 = require('sha256');
 
 var indexRouter = require('./routes/login');
 var lotteryRouter = require('./routes/index');
+var mulRowRouter = require('./routes/mulRow');
 
 var app = express();
 var arr = ['e437845dff8054b2e6c6f9843a567caed0996a218b1f9a84189a6ab60663933e', 'ee2e195f0ca22585c236b527e7a558b27f441183a78421764ae90934cdfd44a1'];
@@ -38,6 +39,7 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/lottery', lotteryRouter);
+app.use('/mulRow', mulRowRouter);
 
 
 // catch 404 and forward to error handler
