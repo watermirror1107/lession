@@ -126,7 +126,9 @@
             padding: 0;
         }
 
-
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
     </style>
 </head>
 <body>
@@ -200,148 +202,157 @@
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value1">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum1">
-                        <el-option
-                                v-for="item1 in arr1"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(1)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value2">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum2">
-                        <el-option
-                                v-for="item1 in arr2"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(2)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value3">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum3">
-                        <el-option
-                                v-for="item1 in arr3"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(3)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <p>最近出现间隔：<span :style="{color:selectColor(lastTime1)}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
-        </div>
-        <div class="row">
             <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
         </div>
         <hr />
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value4">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum4">
-                        <el-option
-                                v-for="item1 in arr4"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(4)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value5">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum5">
-                        <el-option
-                                v-for="item1 in arr5"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(5)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value6">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum6">
-                        <el-option
-                                v-for="item1 in arr6"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(6)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <p>最近出现间隔：<span :style="{color:selectColor(lastTime2)}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
-        </div>
-        <div class="row">
             <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
         </div>
         <hr />
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value7">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum7">
-                        <el-option
-                                v-for="item1 in arr7"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(7)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value8">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum8">
-                        <el-option
-                                v-for="item1 in arr8"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(8)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <ul class="num">
                 <li v-for="(item,index) in value9">
-                    <el-select v-model="item.key" placeholder="" clearable @change="selectNum9">
-                        <el-option
-                                v-for="item1 in arr9"
-                                :key="item1"
-                                :label="item1"
-                                :value="item1">
-                        </el-option>
-                    </el-select>
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(9)"></el-input>
                 </li>
             </ul>
         </div>
         <div class="row">
             <p>最近出现间隔：<span :style="{color:selectColor(lastTime3)}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
+            <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value10">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(10)"></el-input>
+                </li>
+            </ul>
         </div>
         <div class="row">
-            <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
+            <ul class="num">
+                <li v-for="(item,index) in value11">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(11)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value12">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(12)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime4)}">{{lastTime4==99999?'无穷大':lastTime4}}期</span></p>
+            <p>最远出现间隔：<span>{{farTime4==0?'无穷大':farTime4}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value13">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(13)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value14">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(14)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value15">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(15)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime5)}">{{lastTime5==99999?'无穷大':lastTime5}}期</span></p>
+            <p>最远出现间隔：<span>{{farTime5==0?'无穷大':farTime5}}期</span></p>
+        </div>
+        <hr />
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value16">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(16)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value17">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(17)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <ul class="num">
+                <li v-for="(item,index) in value18">
+                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(18)"></el-input>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <p>最近出现间隔：<span :style="{color:selectColor(lastTime6)}">{{lastTime6==99999?'无穷大':lastTime6}}期</span></p>
+            <p>最远出现间隔：<span>{{farTime6==0?'无穷大':farTime6}}期</span></p>
         </div>
         <div class="row">
             <button class="search" @click="reset">重置</button>
@@ -365,15 +376,15 @@
 			value7: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			value8: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			value9: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			arr1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr3: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr4: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr6: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr7: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr8: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			arr9: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			value10: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value11: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value12: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value13: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value14: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value15: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value16: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value17: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+			value18: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			arr: [],
 			loading: false,
 			date: '',
@@ -403,24 +414,50 @@
 			show7: [],
 			show8: [],
 			show9: [],
+			show10: [],
+			show11: [],
+			show12: [],
+			show13: [],
+			show14: [],
+			show15: [],
+			show16: [],
+			show17: [],
+			show18: [],
 			dis1: 1,
 			dis2: 1,
 			showArr: {},
 			lastTime1: 99999,
 			lastTime2: 99999,
 			lastTime3: 99999,
+			lastTime4: 99999,
+			lastTime5: 99999,
+			lastTime6: 99999,
 			farTime1: 0,
 			farTime2: 0,
 			farTime3: 0,
+			farTime4: 0,
+			farTime5: 0,
+			farTime6: 0,
 			minTime: 99999,
 			maxTime: 0,
 			clearNum1: '',
 			clearNum2: '',
+			nulRow: [{lastTime: 99999, farTime: 0, showArr: [[], [], []]}],
 		},
 		created() {
 
 		},
 		methods: {
+			changeInput(num) {
+				this.showArr = {};
+				let nArr = [];
+				this['value' + num].forEach((item) => {
+					if (item.key != '' && /\d/.test(item.key)) {
+						nArr.push(parseInt(item.key));
+					}
+				});
+				this['show' + num] = nArr;
+			},
 			selectColor(num) {
 				if (num <= 7) {
 					return num == 7 ? 'green' : 'black';
@@ -442,13 +479,22 @@
 				let txt1 = ['show1', 'show2', 'show3'];
 				let txt2 = ['show4', 'show5', 'show6'];
 				let txt3 = ['show7', 'show8', 'show9'];
+				let txt4 = ['show10', 'show11', 'show12'];
+				let txt5 = ['show13', 'show14', 'show15'];
+				let txt6 = ['show16', 'show17', 'show18'];
 				let txt = [];
 				if (rowIndex == 1) {
 					txt = txt1;
 				} else if (rowIndex == 2) {
 					txt = txt2;
-				} else {
+				} else if (rowIndex == 3) {
 					txt = txt3;
+				} else if (rowIndex == 4) {
+					txt = txt4;
+				} else if (rowIndex == 5) {
+					txt = txt5;
+				} else if (rowIndex == 6) {
+					txt = txt6;
 				}
 				if (arr.length > 0) {
 					arr.forEach((item) => {
@@ -507,17 +553,17 @@
 				this.value7 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value8 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				this.value9 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value10 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value11 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value12 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value13 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value14 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value15 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value16 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value17 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.value18 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
 				//this.minTime = 99999;
 				//this.maxTime = 0;
-				this.arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr3 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr4 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr6 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr7 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr8 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr9 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 				this.arr = [];
 				this.showArr = {};
 				clearTimeout(this.clearNum1);
@@ -578,12 +624,21 @@
 				let darr1 = [this.value1, this.value2, this.value3];
 				let darr2 = [this.value4, this.value5, this.value6];
 				let darr3 = [this.value7, this.value8, this.value9];
+				let darr4 = [this.value10, this.value11, this.value12];
+				let darr5 = [this.value13, this.value14, this.value15];
+				let darr6 = [this.value16, this.value17, this.value18];
 				if (rowIndex == 1) {
 					arr = darr1;
 				} else if (rowIndex == 2) {
 					arr = darr2;
-				} else {
+				} else if (rowIndex == 3) {
 					arr = darr3;
+				} else if (rowIndex == 4) {
+					arr = darr4;
+				} else if (rowIndex == 5) {
+					arr = darr5;
+				} else if (rowIndex == 6) {
+					arr = darr6;
 				}
 				if (this.type == '' || this.date == '') {
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
@@ -617,9 +672,18 @@
 					} else if (rowIndex == 2) {
 						this.lastTime2 = 99999;
 						this.farTime2 = 0;
-					} else {
+					} else if (rowIndex == 3) {
 						this.lastTime3 = 99999;
 						this.farTime3 = 0;
+					} else if (rowIndex == 4) {
+						this.lastTime4 = 99999;
+						this.farTime4 = 0;
+					} else if (rowIndex == 5) {
+						this.lastTime5 = 99999;
+						this.farTime5 = 0;
+					} else if (rowIndex == 6) {
+						this.lastTime6 = 99999;
+						this.farTime6 = 0;
 					}
 					return false;
 				}
@@ -791,150 +855,15 @@
 				}
 				this.selectQueryType = true;
 			},
-			selectNum1(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr1 = arr.filter((item) => {
-					return !this.value1.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value1.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show1 = nArr;
-			},
-			selectNum2(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr2 = arr.filter((item) => {
-					return !this.value2.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value2.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show2 = nArr;
-			},
-			selectNum3(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr3 = arr.filter((item) => {
-					return !this.value3.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value3.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show3 = nArr;
-			},
-			selectNum4(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr4 = arr.filter((item) => {
-					return !this.value4.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value4.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show4 = nArr;
-			},
-			selectNum5(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr5 = arr.filter((item) => {
-					return !this.value5.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value5.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show5 = nArr;
-			},
-			selectNum6(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr6 = arr.filter((item) => {
-					return !this.value6.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value6.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show6 = nArr;
-			},
-			selectNum7(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr7 = arr.filter((item) => {
-					return !this.value7.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value7.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show7 = nArr;
-			},
-			selectNum8(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr8 = arr.filter((item) => {
-					return !this.value8.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value8.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show8 = nArr;
-			},
-			selectNum9(value) {
-				this.showArr = {};
-				let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-				this.arr9 = arr.filter((item) => {
-					return !this.value9.some(item1 => item1.key == item);
-				});
-				let nArr = [];
-				this.value9.forEach((item) => {
-					if (item.key != '') {
-						nArr.push(item.key);
-					}
-				});
-				this.show9 = nArr;
-			},
 			checkArr(arr) {
 				let oArr = [];
 				arr.forEach((item, index) => {
-					if (item.key != '') {
-						oArr.push(item.key == 10 ? 't' : item.key);
-					} else {
-						oArr.push('.');
-					}
-				});
-				return oArr;
-			},
-			checkArr1(arr) {
-				let oArr = [];
-				arr.forEach((item, index) => {
-					if (item.key != '') {
-						oArr.push(item.key == 10 ? 't' : item.key);
-					} else {
-						oArr.push('');
+					if (/\d/.test(item.key)) {
+						if (item.key != '') {
+							oArr.push(item.key == 10 ? 't' : item.key);
+						} else {
+							oArr.push('.');
+						}
 					}
 				});
 				return oArr;
@@ -964,14 +893,21 @@
 				if (rowIndex == 1) {
 					this.farTime1 = 0;
 					this.lastTime1 = 99999;
-				}
-				else if (rowIndex == 2) {
+				} else if (rowIndex == 2) {
 					this.farTime2 = 0;
 					this.lastTime2 = 99999;
-				}
-				else {
+				} else if (rowIndex == 3) {
 					this.farTime3 = 0;
 					this.lastTime3 = 99999;
+				} else if (rowIndex == 4) {
+					this.farTime4 = 0;
+					this.lastTime4 = 99999;
+				} else if (rowIndex == 5) {
+					this.farTime5 = 0;
+					this.lastTime5 = 99999;
+				} else if (rowIndex == 6) {
+					this.farTime6 = 0;
+					this.lastTime6 = 99999;
 				}
 				if (arr.length > 0) {
 					//计算周期
@@ -1000,9 +936,18 @@
 					} else if (rowIndex == 2) {
 						this.lastTime2 = this.lastTime2 > l ? l : this.lastTime2;
 						this.farTime2 = this.farTime2 < f ? f : this.farTime2;
-					} else {
+					} else if (rowIndex == 3) {
 						this.lastTime3 = this.lastTime3 > l ? l : this.lastTime3;
 						this.farTime3 = this.farTime3 < f ? f : this.farTime3;
+					} else if (rowIndex == 4) {
+						this.lastTime4 = this.lastTime4 > l ? l : this.lastTime4;
+						this.farTime4 = this.farTime4 < f ? f : this.farTime4;
+					} else if (rowIndex == 5) {
+						this.lastTime5 = this.lastTime5 > l ? l : this.lastTime5;
+						this.farTime5 = this.farTime5 < f ? f : this.farTime5;
+					} else if (rowIndex == 6) {
+						this.lastTime6 = this.lastTime6 > l ? l : this.lastTime6;
+						this.farTime6 = this.farTime6 < f ? f : this.farTime6;
 					}
 				} else {
 					if (rowIndex == 1) {
@@ -1011,9 +956,18 @@
 					} else if (rowIndex == 2) {
 						this.farTime2 = 0;
 						this.lastTime2 = 99999;
-					} else {
+					} else if (rowIndex == 3) {
 						this.farTime3 = 0;
 						this.lastTime3 = 99999;
+					} else if (rowIndex == 4) {
+						this.farTime4 = 0;
+						this.lastTime4 = 99999;
+					} else if (rowIndex == 5) {
+						this.farTime5 = 0;
+						this.lastTime5 = 99999;
+					} else if (rowIndex == 6) {
+						this.farTime6 = 0;
+						this.lastTime6 = 99999;
 					}
 					//this.$message.error('查无改格式数据');
 					// this.maxTime = 0;
@@ -1021,7 +975,7 @@
 				}
 			},
 			judgeArr(arr) {
-				let msg = this.checkArr1(arr).join('');
+				let msg = this.checkArr(arr).join('');
 				let re = new RegExp(/(\d|t){2,}/g);
 				if (re.test(msg)) {//多字符匹配
 					let txt = this.checkArr(arr).join('.');
@@ -1038,12 +992,21 @@
 				let arr1 = [this.value1, this.value2, this.value3];
 				let arr2 = [this.value4, this.value5, this.value6];
 				let arr3 = [this.value7, this.value8, this.value9];
+				let arr4 = [this.value10, this.value11, this.value12];
+				let arr5 = [this.value13, this.value14, this.value15];
+				let arr6 = [this.value16, this.value17, this.value18];
 				if (rowIndex == 1) {
 					darr = arr1;
 				} else if (rowIndex == 2) {
 					darr = arr2;
-				} else {
+				} else if (rowIndex == 3) {
 					darr = arr3;
+				} else if (rowIndex == 4) {
+					darr = arr4;
+				} else if (rowIndex == 5) {
+					darr = arr5;
+				} else if (rowIndex == 6) {
+					darr = arr6;
 				}
 				darr[0].forEach((item, index) => {
 					if (item.key != '' && arr[0]) {
@@ -1088,6 +1051,9 @@
 							this.fuzzyQuery(1);
 							this.fuzzyQuery(2);
 							this.fuzzyQuery(3);
+							this.fuzzyQuery(4);
+							this.fuzzyQuery(5);
+							this.fuzzyQuery(6);
 						});
 					}
 					clearInterval(this.clearNum2);
@@ -1097,6 +1063,9 @@
 								this.fuzzyQuery(1);
 								this.fuzzyQuery(2);
 								this.fuzzyQuery(3);
+								this.fuzzyQuery(4);
+								this.fuzzyQuery(5);
+								this.fuzzyQuery(6);
 							});
 						}
 					}, 5000);
@@ -1107,6 +1076,9 @@
 				this.fuzzyQuery(1);
 				this.fuzzyQuery(2);
 				this.fuzzyQuery(3);
+				this.fuzzyQuery(4);
+				this.fuzzyQuery(5);
+				this.fuzzyQuery(6);
 				// if (this.isToday()) {
 				this.autoFresh();
 				// }
