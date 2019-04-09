@@ -29,7 +29,7 @@
         }
 
         .table {
-            width: 50%;
+            width: 40%;
             float: left;
             padding-right: 5%;
         }
@@ -39,12 +39,10 @@
         }
 
         .option {
-            width: 45%;
+            width: 55%;
             float: left;
             margin-top: 20px;
-            /*position: fixed;*/
-            /*top: 0;*/
-            /*right: 0;*/
+            position: relative;
         }
 
         .search {
@@ -126,6 +124,60 @@
             padding: 0;
         }
 
+        .col {
+            float: left;
+            padding: 40px 1% 20px;
+            display: flex;
+            position: absolute;
+            resize: both;
+            overflow: auto;
+
+        }
+
+        .col .timeUl li {
+            width: 60px;
+        }
+
+        .col li {
+            width: 50px;
+            height: 50px;
+            box-sizing: border-box;
+            border: 1px solid #333;
+            border-collapse: collapse;
+            line-height: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .topBox {
+            position: absolute;
+            z-index: 111;
+            top: 8px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            cursor: move;
+            justify-content: space-around;
+            background-color: yellow;
+        }
+
+        .one {
+            left: 0
+        }
+
+        .two {
+            left: 250px
+        }
+
+        .col input {
+            width: 100%;
+            height: 98%;
+            outline: none;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+        }
+
         input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
             -webkit-appearance: none !important;
         }
@@ -147,10 +199,10 @@
                 :data="arr"
                 style="width: 100%">
             <!--<el-table-column-->
-                    <!--prop="openDateTime"-->
-                    <!--label="时间"-->
-                    <!--align="center"-->
-                    <!--width="160">-->
+            <!--prop="openDateTime"-->
+            <!--label="时间"-->
+            <!--align="center"-->
+            <!--width="160">-->
             <!--</el-table-column>-->
             <el-table-column
                     prop="issue"
@@ -199,192 +251,104 @@
                 </el-date-picker>
             </div>
         </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value1">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(1)"></el-input>
+        <div class="col one" ref="one" draggable="true" @dragstart="startMove" @dragend="endMove" >
+            <div class="topBox">
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('one',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="mindex<10">
+                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="mindex<10">
+                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="mindex<10">
+                        {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                    </li>
+                </template>
+            </ul>
+            <ul class="timeUl">
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li>1</li>
+                <li>无</li>
+                <li>无</li>
+                <li>无</li>
+                <li class="btn" @click="resetArr(0)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(0)">
+                    筛选
                 </li>
             </ul>
         </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value2">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(2)"></el-input>
+        <div class="col two" ref="two" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('two',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="10<=mindex&&mindex<20">
+                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="10<=mindex&&mindex<20">
+                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(mindex)" v-if="10<=mindex&&mindex<20">
+                        {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                    </li>
+                </template>
+            </ul>
+            <ul class="timeUl">
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li></li>
+                <li>无</li>
+                <li>无</li>
+                <li>无</li>
+                <li class="btn" @click="resetArr(1)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(1)">
+                    筛选
                 </li>
             </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value3">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(3)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime1)}">{{lastTime1==99999?'无穷大':lastTime1}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime1==0?'无穷大':farTime1}}期</span></p>
-        </div>
-        <hr />
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value4">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(4)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value5">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(5)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value6">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(6)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime2)}">{{lastTime2==99999?'无穷大':lastTime2}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime2==0?'无穷大':farTime2}}期</span></p>
-        </div>
-        <hr />
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value7">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(7)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value8">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(8)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value9">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(9)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime3)}">{{lastTime3==99999?'无穷大':lastTime3}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime3==0?'无穷大':farTime3}}期</span></p>
-        </div>
-        <hr />
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value10">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(10)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value11">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(11)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value12">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(12)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime4)}">{{lastTime4==99999?'无穷大':lastTime4}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime4==0?'无穷大':farTime4}}期</span></p>
-        </div>
-        <hr />
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value13">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(13)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value14">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(14)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value15">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(15)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime5)}">{{lastTime5==99999?'无穷大':lastTime5}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime5==0?'无穷大':farTime5}}期</span></p>
-        </div>
-        <hr />
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value16">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(16)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value17">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(17)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="num">
-                <li v-for="(item,index) in value18">
-                    <el-input type="text" v-model="item.key" min="1" max="10" @change="changeInput(18)"></el-input>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <p>最近出现间隔：<span :style="{color:selectColor(lastTime6)}">{{lastTime6==99999?'无穷大':lastTime6}}期</span></p>
-            <p>最远出现间隔：<span>{{farTime6==0?'无穷大':farTime6}}期</span></p>
-        </div>
-        <div class="row">
-            <button class="search" @click="reset">重置</button>
-            <!--<button class="search" @click="query1">精确查询</button>-->
-            <button class="search" @click="query2">模糊查询</button>
         </div>
     </div>
 </div>
 <script>
 	let dataArr;
+	let dis1, dis2;
 	let vm = new Vue({
 		el: '#app',
 		data: {
-			value: '',
-			value1: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value2: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value3: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value4: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value5: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value6: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value7: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value8: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value9: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value10: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value11: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value12: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value13: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value14: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value15: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value16: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value17: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
-			value18: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
 			arr: [],
 			loading: false,
 			date: '',
@@ -405,74 +369,71 @@
 					return time.getTime() > Date.now();
 				},
 			},
-			show1: [],
-			show2: [],
-			show3: [],
-			show4: [],
-			show5: [],
-			show6: [],
-			show7: [],
-			show8: [],
-			show9: [],
-			show10: [],
-			show11: [],
-			show12: [],
-			show13: [],
-			show14: [],
-			show15: [],
-			show16: [],
-			show17: [],
-			show18: [],
 			dis1: 1,
 			dis2: 1,
 			showArr: {},
-			lastTime1: 99999,
-			lastTime2: 99999,
-			lastTime3: 99999,
-			lastTime4: 99999,
-			lastTime5: 99999,
-			lastTime6: 99999,
-			farTime1: 0,
-			farTime2: 0,
-			farTime3: 0,
-			farTime4: 0,
-			farTime5: 0,
-			farTime6: 0,
 			minTime: 99999,
 			maxTime: 0,
 			clearNum1: '',
 			clearNum2: '',
-			nulRow: [{
-				lastTime: 99999,
-				farTime: 0,
-				showArr1: [],
-				showArr2: [],
-				showArr3: [],
-				value1: [],
-				value2: [],
-				value3: [],
-			}],
+			mulRow: [],
 		},
-		created() {
-
+		mounted() {
+			for (let i = 0; i < 50; i++) {
+				this.mulRow.push({
+					lastTime: 99999,
+					farTime: 0,
+					value1: '',
+					value2: '',
+				});
+			}
 		},
 		methods: {
-			changeInput(num) {
+			resetArr(idx) {
+				let s = idx * 10, e = (idx + 1) * 10 - 1;
+				this.mulRow.forEach((item, index) => {
+					if (index >= s && index <= e) {
+						item.lastTime = 99999;
+						item.farTime = 0;
+						item.value1 = '';
+						item.value2 = '';
+					}
+				});
+			},
+			queryArr(idx) {
+
+			},
+			changeSize(ev) {
+                console.log(ev)
+			},
+			startMove(ev) {
+				dis1 = ev.clientX - ev.target.offsetLeft;//ev.target.offsetLeft元素相对于屏幕坐标
+				dis2 = ev.clientY - ev.target.offsetTop;
+			},
+			endMove(ev) {
+				//鼠标坐标ev.clientX
+				ev.target.style.left = (ev.clientX - dis1) + 'px';
+				ev.target.style.top = (ev.clientY - dis2) + 'px';
+			},
+			selectItem(index) {
+
+			},
+			changeInput(idx, num) {
 				this.showArr = {};
 				let nArr = [];
-				this['value' + num].forEach((item) => {
+				this.mulRow[idx]['value' + num].forEach((item) => {
 					if (item.key != '' && /\d/.test(item.key)) {
 						nArr.push(parseInt(item.key));
 					}
 				});
-				this['show' + num] = nArr;
+				this.mulRow[idx]['showArr' + num] = nArr;
 			},
 			selectColor(num) {
 				if (num <= 7) {
 					return num == 7 ? 'green' : 'black';
 				} else {
 					if (num < 25) {
-						return 'blue';
+						return num == 15 ? 'blue' : 'black';
 					} else {
 						return 'red';
 					}
@@ -485,44 +446,25 @@
 				if (bol) {
 					this.initArr();
 				}
-				let txt1 = ['show1', 'show2', 'show3'];
-				let txt2 = ['show4', 'show5', 'show6'];
-				let txt3 = ['show7', 'show8', 'show9'];
-				let txt4 = ['show10', 'show11', 'show12'];
-				let txt5 = ['show13', 'show14', 'show15'];
-				let txt6 = ['show16', 'show17', 'show18'];
-				let txt = [];
-				if (rowIndex == 1) {
-					txt = txt1;
-				} else if (rowIndex == 2) {
-					txt = txt2;
-				} else if (rowIndex == 3) {
-					txt = txt3;
-				} else if (rowIndex == 4) {
-					txt = txt4;
-				} else if (rowIndex == 5) {
-					txt = txt5;
-				} else if (rowIndex == 6) {
-					txt = txt6;
-				}
+				let txt = [this.mulRow[rowIndex].showArr1, this.mulRow[rowIndex].showArr2, this.mulRow[rowIndex].showArr3];
 				if (arr.length > 0) {
 					arr.forEach((item) => {
 						if (this.computeDis(rowIndex)[0] == undefined) {
 							this.arr[item.index].outArr.forEach((item1) => {
-								if (this[txt[1]].includes(item1.key)) {
+								if (txt[1].includes(item1.key)) {
 									item1.show = true;
 								}
 							});
 							this.$set(this.showArr, [item.index], '1');
 							this.arr[item.index + this.dis2].outArr.forEach((item2) => {
-								if (this[txt[2]].includes(item2.key)) {
+								if (txt[2].includes(item2.key)) {
 									item2.show = true;
 								}
 							});
 							this.$set(this.showArr, [item.index + this.dis1], '1');
 						} else {
 							this.arr[item.index].outArr.forEach((item1) => {
-								if (this[txt[0]].includes(item1.key)) {
+								if (txt[0].includes(item1.key)) {
 									item1.show = true;
 								}
 							});
@@ -531,7 +473,7 @@
 								if (this.arr[item.index + this.dis1]) {
 
 									this.arr[item.index + this.dis1].outArr.forEach((item2) => {
-										if (this[txt[1]].includes(item2.key)) {
+										if (txt[1].includes(item2.key)) {
 											item2.show = true;
 										}
 									});
@@ -541,7 +483,7 @@
 							if (this.computeDis(rowIndex)[2] != -1) {
 								if (this.arr[item.index + this.dis1 + this.dis2]) {
 									this.arr[item.index + this.dis1 + this.dis2].outArr.forEach((item3) => {
-										if (this[txt[2]].includes(item3.key)) {
+										if (txt[2].includes(item3.key)) {
 											item3.show = true;
 										}
 									});
@@ -553,24 +495,19 @@
 				}
 			},
 			reset() {
-				this.value1 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value2 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value3 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value4 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value5 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value6 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value7 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value8 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value9 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value10 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value11 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value12 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value13 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value14 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value15 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value16 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value17 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
-				this.value18 = [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}];
+				this.mulRow = [];
+				for (let i = 0; i < 50; i++) {
+					this.mulRow.push({
+						lastTime: 99999,
+						farTime: 0,
+						showArr1: [],
+						showArr2: [],
+						showArr3: [],
+						value1: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+						value2: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+						value3: [{key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}, {key: ''}],
+					});
+				}
 				//this.minTime = 99999;
 				//this.maxTime = 0;
 				this.arr = [];
@@ -581,7 +518,7 @@
 			getArr() {
 				this.loading = false;
 				return axios({
-					url: '/lottery/getData',
+					url: '/signed/getData',
 					params: {date: this.date, type: this.type},
 					method: 'get',
 				}).then((res) => {
@@ -629,26 +566,8 @@
 			},
 			//模糊匹配
 			fuzzyQuery(rowIndex) {
-				let arr = [], c1 = [], c2 = [], c3 = [];
-				let darr1 = [this.value1, this.value2, this.value3];
-				let darr2 = [this.value4, this.value5, this.value6];
-				let darr3 = [this.value7, this.value8, this.value9];
-				let darr4 = [this.value10, this.value11, this.value12];
-				let darr5 = [this.value13, this.value14, this.value15];
-				let darr6 = [this.value16, this.value17, this.value18];
-				if (rowIndex == 1) {
-					arr = darr1;
-				} else if (rowIndex == 2) {
-					arr = darr2;
-				} else if (rowIndex == 3) {
-					arr = darr3;
-				} else if (rowIndex == 4) {
-					arr = darr4;
-				} else if (rowIndex == 5) {
-					arr = darr5;
-				} else if (rowIndex == 6) {
-					arr = darr6;
-				}
+				let c1 = [], c2 = [], c3 = [],
+					arr = [this.mulRow[rowIndex].value1, this.mulRow[rowIndex].value2, this.mulRow[rowIndex].value3];
 				if (this.type == '' || this.date == '') {
 					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
 					return false;
@@ -675,25 +594,8 @@
 				}
 
 				if (count >= 2) {
-					if (rowIndex == 1) {
-						this.lastTime1 = 99999;
-						this.farTime1 = 0;
-					} else if (rowIndex == 2) {
-						this.lastTime2 = 99999;
-						this.farTime2 = 0;
-					} else if (rowIndex == 3) {
-						this.lastTime3 = 99999;
-						this.farTime3 = 0;
-					} else if (rowIndex == 4) {
-						this.lastTime4 = 99999;
-						this.farTime4 = 0;
-					} else if (rowIndex == 5) {
-						this.lastTime5 = 99999;
-						this.farTime5 = 0;
-					} else if (rowIndex == 6) {
-						this.lastTime6 = 99999;
-						this.farTime6 = 0;
-					}
+					this.mulRow[rowIndex].lastTime = 99999;
+					this.mulRow[rowIndex].farTime = 0;
 					return false;
 				}
 				let rre1 = this.judgeArr(arr[0]);
@@ -857,7 +759,7 @@
 				}
 				console.log(c1);
 				this.computedTime(rowIndex, c1);
-				if (rowIndex == 1) {
+				if (rowIndex == 0) {
 					this.changeColor2(rowIndex, c1, true);
 				} else {
 					this.changeColor2(rowIndex, c1);
@@ -899,25 +801,8 @@
 				});
 			},
 			computedTime(rowIndex, arr) {
-				if (rowIndex == 1) {
-					this.farTime1 = 0;
-					this.lastTime1 = 99999;
-				} else if (rowIndex == 2) {
-					this.farTime2 = 0;
-					this.lastTime2 = 99999;
-				} else if (rowIndex == 3) {
-					this.farTime3 = 0;
-					this.lastTime3 = 99999;
-				} else if (rowIndex == 4) {
-					this.farTime4 = 0;
-					this.lastTime4 = 99999;
-				} else if (rowIndex == 5) {
-					this.farTime5 = 0;
-					this.lastTime5 = 99999;
-				} else if (rowIndex == 6) {
-					this.farTime6 = 0;
-					this.lastTime6 = 99999;
-				}
+				this.mulRow[rowIndex].lastTime = 99999;
+				this.mulRow[rowIndex].farTime = 0;
 				if (arr.length > 0) {
 					//计算周期
 					// if (arr.length == 1) {
@@ -939,48 +824,8 @@
 							f = Math.abs(arr[index + 1].index - item.index) > f ? Math.abs(arr[index + 1].index - item.index) : f;
 						}
 					});
-					if (rowIndex == 1) {
-						this.lastTime1 = this.lastTime1 > l ? l : this.lastTime1;
-						this.farTime1 = this.farTime1 < f ? f : this.farTime1;
-					} else if (rowIndex == 2) {
-						this.lastTime2 = this.lastTime2 > l ? l : this.lastTime2;
-						this.farTime2 = this.farTime2 < f ? f : this.farTime2;
-					} else if (rowIndex == 3) {
-						this.lastTime3 = this.lastTime3 > l ? l : this.lastTime3;
-						this.farTime3 = this.farTime3 < f ? f : this.farTime3;
-					} else if (rowIndex == 4) {
-						this.lastTime4 = this.lastTime4 > l ? l : this.lastTime4;
-						this.farTime4 = this.farTime4 < f ? f : this.farTime4;
-					} else if (rowIndex == 5) {
-						this.lastTime5 = this.lastTime5 > l ? l : this.lastTime5;
-						this.farTime5 = this.farTime5 < f ? f : this.farTime5;
-					} else if (rowIndex == 6) {
-						this.lastTime6 = this.lastTime6 > l ? l : this.lastTime6;
-						this.farTime6 = this.farTime6 < f ? f : this.farTime6;
-					}
-				} else {
-					if (rowIndex == 1) {
-						this.farTime1 = 0;
-						this.lastTime1 = 99999;
-					} else if (rowIndex == 2) {
-						this.farTime2 = 0;
-						this.lastTime2 = 99999;
-					} else if (rowIndex == 3) {
-						this.farTime3 = 0;
-						this.lastTime3 = 99999;
-					} else if (rowIndex == 4) {
-						this.farTime4 = 0;
-						this.lastTime4 = 99999;
-					} else if (rowIndex == 5) {
-						this.farTime5 = 0;
-						this.lastTime5 = 99999;
-					} else if (rowIndex == 6) {
-						this.farTime6 = 0;
-						this.lastTime6 = 99999;
-					}
-					//this.$message.error('查无改格式数据');
-					// this.maxTime = 0;
-					// this.minTime = 99999;
+					this.mulRow[rowIndex].lastTime = this.mulRow[rowIndex].lastTime > l ? l : this.mulRow[rowIndex].lastTime;
+					this.mulRow[rowIndex].farTime = this.mulRow[rowIndex].farTime < f ? f : this.mulRow[rowIndex].farTime;
 				}
 			},
 			judgeArr(arr) {
@@ -997,26 +842,7 @@
 			},
 			computeDis(rowIndex) {
 				let a, b, c, arr = [true, true, true];
-				let darr = [];
-				let arr1 = [this.value1, this.value2, this.value3];
-				let arr2 = [this.value4, this.value5, this.value6];
-				let arr3 = [this.value7, this.value8, this.value9];
-				let arr4 = [this.value10, this.value11, this.value12];
-				let arr5 = [this.value13, this.value14, this.value15];
-				let arr6 = [this.value16, this.value17, this.value18];
-				if (rowIndex == 1) {
-					darr = arr1;
-				} else if (rowIndex == 2) {
-					darr = arr2;
-				} else if (rowIndex == 3) {
-					darr = arr3;
-				} else if (rowIndex == 4) {
-					darr = arr4;
-				} else if (rowIndex == 5) {
-					darr = arr5;
-				} else if (rowIndex == 6) {
-					darr = arr6;
-				}
+				let darr = [this.mulRow[rowIndex].value1, this.mulRow[rowIndex].value2, this.mulRow[rowIndex].value3];
 				darr[0].forEach((item, index) => {
 					if (item.key != '' && arr[0]) {
 						a = index;
@@ -1057,24 +883,18 @@
 				this.clearNum1 = setTimeout(() => {
 					if (this.selectQueryType) {
 						this.getArr().then(() => {
-							this.fuzzyQuery(1);
-							this.fuzzyQuery(2);
-							this.fuzzyQuery(3);
-							this.fuzzyQuery(4);
-							this.fuzzyQuery(5);
-							this.fuzzyQuery(6);
+							for (let i = 0; i < 50; i++) {
+								this.fuzzyQuery(i);
+							}
 						});
 					}
 					clearInterval(this.clearNum2);
 					this.clearNum2 = setInterval(() => {
 						if (this.selectQueryType) {
 							this.getArr().then(() => {
-								this.fuzzyQuery(1);
-								this.fuzzyQuery(2);
-								this.fuzzyQuery(3);
-								this.fuzzyQuery(4);
-								this.fuzzyQuery(5);
-								this.fuzzyQuery(6);
+								for (let i = 0; i < 50; i++) {
+									this.fuzzyQuery(i);
+								}
 							});
 						}
 					}, 5000);
@@ -1082,14 +902,14 @@
 			},
 			query2() {
 				//this.checkDelay();
-				this.fuzzyQuery(1);
-				this.fuzzyQuery(2);
-				this.fuzzyQuery(3);
-				this.fuzzyQuery(4);
-				this.fuzzyQuery(5);
-				this.fuzzyQuery(6);
+				for (let i = 0; i < 50; i++) {
+					this.fuzzyQuery(i);
+					if (i == 49) {
+						this.autoFresh();
+					}
+				}
 				// if (this.isToday()) {
-				this.autoFresh();
+
 				// }
 			},
 			isToday() {

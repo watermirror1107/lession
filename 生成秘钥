@@ -1,0 +1,7 @@
+1.打开cmd利用Openssl
+2.输入openssl回车，进入openssl
+3.genrsa -out '要生成的秘钥名.key'  1024
+4.利用刚才生成的秘钥生成公钥（解码用）rsa -in '刚才生成的秘钥名' -pubout -out '要生成的公钥名.key'
+
+
+rsa加密算法

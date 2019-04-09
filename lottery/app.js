@@ -4,15 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var ejs = require('ejs');
-var sha256 = require('sha256');
-
+var jwt = require('jsonwebtoken');
+var fs = require('fs');
+var publicKey = fs.readFileSync('./keys/public.key');
 var indexRouter = require('./routes/login');
 var lotteryRouter = require('./routes/index');
-var mulRowRouter = require('./routes/mulRow');
+var mulRowRouter = require('./routes/mulrow');
+var signedRouter = require('./routes/signed');
+var phoneArr = ['13600922817', '13215080104'];
 
 var app = express();
-var arr = ['e437845dff8054b2e6c6f9843a567caed0996a218b1f9a84189a6ab60663933e', 'ee2e195f0ca22585c236b527e7a558b27f441183a78421764ae90934cdfd44a1'];
-var tokenStatic = 'wodetian111';
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', ejs.__express);
@@ -27,19 +28,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
 	var url = req.originalUrl;//获取浏览器中当前访问的nodejs路由地址；
-	var userCookies = req.cookies.token; //获取客户端存取的cookie,userCookies为cookie的名称；//有时拿不到cookie值，可能是因为拦截器位置放错，获取该cookie的方式是依赖于nodejs自带的cookie模块，//因此，获取cookie必须在1,2步之后才能使用，否则拿到的cookie就是undefined.
+	var token = req.cookies.token; //获取客户端存取的cookie,userCookies为cookie的名称；//有时拿不到cookie值，可能是因为拦截器位置放错，获取该cookie的方式是依赖于nodejs自带的cookie模块，//因此，获取cookie必须在1,2步之后才能使用，否则拿到的cookie就是undefined.
 	// console.log('app获得cookie' + req.cookies.userCookies + '真假11111：' + (req.cookies.userCookies == undefined));
-	if (url == '/lottery') { //通过判断控制用户登录后不能访问登录页面；
-		if (!arr.includes(sha256(userCookies + tokenStatic))) {
-			return res.redirect('/');//页面重定向；
-		}
+	if (url == '/lottery' || url == '/mulrow' || url == '/signed') { //通过判断控制用户登录后不能访问登录页面；
+		jwt.verify(token, publicKey, (error, decoded) => {   //jwt解密的时候第一个参数是token，第二个是加密时候的秘钥要和颁发的时候一致，也可以使用公钥,第三个参数是回调函数，里面的参数第一个是报错，第二个是解密后得到的信息;
+			if (error) {
+				console.log(error);
+				return res.redirect('/');//页面重定向；
+			}
+			if (!phoneArr.includes(decoded.phone)) {
+				return res.redirect('/');//页面重定向；
+			}
+		});
 	}
 	next();
 });
 
 app.use('/', indexRouter);
 app.use('/lottery', lotteryRouter);
-app.use('/mulRow', mulRowRouter);
+app.use('/mulrow', mulRowRouter);
+app.use('/signed', signedRouter);
 
 
 // catch 404 and forward to error handler
