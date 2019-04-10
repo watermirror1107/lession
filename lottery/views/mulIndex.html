@@ -147,10 +147,10 @@
                 :data="arr"
                 style="width: 100%">
             <!--<el-table-column-->
-                    <!--prop="openDateTime"-->
-                    <!--label="时间"-->
-                    <!--align="center"-->
-                    <!--width="160">-->
+            <!--prop="openDateTime"-->
+            <!--label="时间"-->
+            <!--align="center"-->
+            <!--width="160">-->
             <!--</el-table-column>-->
             <el-table-column
                     prop="issue"
@@ -755,7 +755,7 @@
 					if (this.selectQueryType) {
 						this.getArr().then(() => {
 							for (let i = 0; i < 50; i++) {
-								this.fuzzyQuery(i);
+								this.fuzzyQuery(i);	//计时器被重写了50次不好
 							}
 						});
 					}

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- 引入样式 -->
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 引入组件库 -->
+    <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+    <script src="js/elementUI.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>-->
+    <script src="js/axios.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #app {
+            padding: 10px;
+            min-width: 1200px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .table {
+            width: 40%;
+            float: left;
+            padding-right: 5%;
+        }
+
+        .row {
+            margin: 15px 0;
+        }
+
+        .option {
+            width: 55%;
+            float: left;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .search {
+            width: 100px;
+            height: 50px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .num {
+            overflow: hidden;
+        }
+
+        .num li {
+            float: left;
+            width: 10%;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .litItem {
+            width: 40px;
+            height: 40px;
+            font-weight: bold;
+            float: left;
+            line-height: 40px;
+            text-align: center;
+            border-collapse: collapse;
+            box-sizing: border-box;
+            color: #fff;
+            border-radius: 25%;
+            font-size: 23px;
+        }
+
+        .num1 {
+            background-color: #e6df48;
+        }
+
+        .num2 {
+            background-color: #3392dd;
+        }
+
+        .num3 {
+            background-color: #4b4b4b;
+        }
+
+        .num4 {
+            background-color: #f07439;
+        }
+
+        .num5 {
+            background-color: #25f7ff;
+        }
+
+        .num6 {
+            background-color: #5547f6;
+        }
+
+        .num7 {
+            background-color: #bfbfbf;
+        }
+
+        .num8 {
+            background-color: #ed3833;
+        }
+
+        .num9 {
+            background-color: #781815;
+        }
+
+        .num10 {
+            background-color: #59c030;
+        }
+
+        .el-table td {
+            padding: 0;
+        }
+
+        .col {
+            float: left;
+            padding: 40px 1% 20px;
+            display: flex;
+            position: absolute;
+            resize: both;
+            overflow: auto;
+
+        }
+
+        .one li, .two li, .five li {
+            width: 50px;
+            height: 50px;
+            box-sizing: border-box;
+            border: 1px solid #333;
+            border-collapse: collapse;
+            line-height: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .topBox {
+            position: absolute;
+            z-index: 111;
+            top: 8px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            cursor: move;
+            justify-content: space-around;
+            background-color: yellow;
+        }
+
+        .one {
+            left: 0
+        }
+
+        .two {
+            left: 300px
+        }
+
+        .three {
+            top: 700px;
+            left: 0px;
+        }
+
+        .three li, .four li {
+            float: left;
+            width: 50px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .four li {
+            height: 200px;
+        }
+
+        .three .box, .four .box {
+            box-sizing: border-box;
+            border: 1px solid #333;
+            border-collapse: collapse;
+            height: 50px;
+            line-height: 50px;
+        }
+
+        .three .btn, .four .btn {
+            box-sizing: border-box;
+            border: 1px solid #333;
+            border-collapse: collapse;
+        }
+
+        .four {
+            left: 0px;
+            top: 1000px;
+        }
+
+        .five {
+            left: 0px;
+            top: 1300px;
+        }
+
+        .col input {
+            width: 100%;
+            height: 98%;
+            outline: none;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn {
+            background-color: orange;
+            cursor: pointer;
+        }
+
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--<ul>-->
+    <!--<li v-for="item in arr">-->
+    <!--<span>时间{{item.openDateTime}}</span>-->
+    <!--<span>期数{{item.issue}}</span>-->
+    <!--<span>号码{{item.openNum}}</span>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <div class="table">
+        <el-table
+                border
+                v-loading="loading"
+                :data="arr"
+                style="width: 100%">
+            <!--<el-table-column-->
+            <!--prop="openDateTime"-->
+            <!--label="时间"-->
+            <!--align="center"-->
+            <!--width="160">-->
+            <!--</el-table-column>-->
+            <el-table-column
+                    prop="issue"
+                    label="期数"
+                    align="center"
+                    width="80">
+            </el-table-column>
+            <el-table-column
+                    prop="openNum"
+                    align="center"
+                    label="号码">
+                <ul slot-scope="scope" style="width:400px;margin:0 auto;">
+                    <template v-for="(lit,index) in scope.row.outArr">
+                        <li class="litItem" :class="classObj(lit.key)"
+                            :style="{backgroundColor:   lit.show?'#fff':'',color:  lit.show?'#333':''}">
+                            {{lit.key}}
+                        </li>
+                    </template>
+                </ul>
+            </el-table-column>
+        </el-table>
+    </div>
+    <div class="option">
+        <div class="top">
+            <div>
+                <span>项目</span>
+                <el-select v-model="type" placeholder="请选择" clearable @change="changeType">
+                    <el-option
+                            v-for="item in typeList"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </div>
+            <div>
+                <span>日期</span>
+                <el-date-picker
+                        v-model="date"
+                        type="date"
+                        placeholder="选择日期"
+                        :picker-options="pickerOptions1"
+                        format="yyyy 年 MM 月 dd 日"
+                        @change="changeDate"
+                        value-format="yyyy-MM-dd">
+                </el-date-picker>
+            </div>
+        </div>
+        <div class="col one" ref="one" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('one',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="mindex<10">
+                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="mindex<10" style="background-color: #eee;"></li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="mindex<10">
+                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(0,mindex)" v-if="mindex<10"
+                        :style="{backgroundColor: mitem.selected?'yellow':''}">
+                        {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                    </li>
+                </template>
+            </ul>
+            <ul class="timeUl">
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li>{{selectArr1.length}}个</li>
+                <li>{{selectArr1.time1==99999?'无穷大':selectArr1.time1}}</li>
+                <li>{{selectArr1.time2==0?'无':selectArr1.time2}}</li>
+                <li>无</li>
+                <li class="btn" @click="resetArr(0)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(0)">
+                    筛选
+                </li>
+            </ul>
+        </div>
+        <div class="col two" ref="two" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('two',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="10<=mindex&&mindex<20">
+                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="10<=mindex&&mindex<20" style="background-color: #eee"></li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="10<=mindex&&mindex<20">
+                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <li style="border:none;"></li>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(1,mindex)" v-if="10<=mindex&&mindex<20"
+                        :style="{backgroundColor: mitem.selected?'yellow':''}">
+                        {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                    </li>
+                </template>
+            </ul>
+            <ul class="timeUl">
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li>{{selectArr2.length}}个</li>
+                <li>{{selectArr2.time1==99999?'无穷大':selectArr2.time1}}</li>
+                <li>{{selectArr2.time2==0?'无':selectArr2.time2}}</li>
+                <li>无</li>
+                <li class="btn" @click="resetArr(1)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(1)">
+                    筛选
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="col three" ref="three" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('two',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="20<=mindex&&mindex<30">
+                        <el-input class="box" type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                        <el-input class="box" type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                        <p class="box" @click="selectItem(1,mindex)"
+                           :style="{backgroundColor: mitem.selected?'yellow':''}">
+                            {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                        </p>
+                    </li>
+                </template>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr3.length}}个
+                </li>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr3.time1==99999?'无穷大':selectArr3.time1}}
+                </li>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr3.time2==0?'无':selectArr3.time2}}
+                </li>
+                <li class="btn" @click="resetArr(2)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(2)">
+                    筛选
+                </li>
+            </ul>
+        </div>
+        <div class="col four" ref="four" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('two',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="30<=mindex&&mindex<40">
+                        <el-input class="box" type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                        <p class="box" style="background-color: #eee;"></p>
+                        <el-input class="box" type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                        <p class="box" @click="selectItem(1,mindex)"
+                           :style="{backgroundColor: mitem.selected?'yellow':''}">
+                            {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                        </p>
+                    </li>
+                </template>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr4.length}}个
+                </li>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr4.time1==99999?'无穷大':selectArr4.time1}}
+                </li>
+                <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
+                    {{selectArr4.time2==0?'无':selectArr4.time2}}
+                </li>
+                <li class="btn" @click="resetArr(3)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(3)">
+                    筛选
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="col five" ref="five" draggable="true" @dragstart="startMove" @dragend="endMove">
+            <div class="topBox">
+                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                拖动
+                <!--<button @click="changeSize('two',false)">放大</button>-->
+            </div>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="40<=mindex">
+                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li v-if="40<=mindex">
+                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
+                    </li>
+                </template>
+            </ul>
+            <ul class='list'>
+                <template v-for="(mitem,mindex) in mulRow">
+                    <li @click="selectItem(1,mindex)" v-if="40<=mindex"
+                        :style="{backgroundColor: mitem.selected?'yellow':''}">
+                        {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
+                    </li>
+                </template>
+            </ul>
+            <ul class="timeUl">
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li style="border:none;"></li>
+                <li>{{selectArr5.length}}个</li>
+                <li>{{selectArr5.time1==99999?'无穷大':selectArr5.time1}}</li>
+                <li>{{selectArr5.time2==0?'无':selectArr5.time2}}</li>
+                <li>无</li>
+                <li class="btn" @click="resetArr(4)">
+                    重置
+                </li>
+                <li class="btn" @click="queryArr(4)">
+                    筛选
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+	let dataArr;
+	let dis1, dis2;
+	let vm = new Vue({
+		el: '#app',
+		data: {
+			arr: [],
+			loading: false,
+			date: '',
+			type: '',
+			typeList: [
+				{label: '秒速飞艇', value: 'jsft', time: 75 * 1000, start: '07:29:30'},
+				{label: '秒速赛车', value: 'jspk10', time: 75 * 1000, start: '07:30:00'},
+				{label: '北京PK10', value: 'bjpk10', time: 20 * 60 * 1000, start: '09:30:00'},
+				{label: '快乐赛车', value: 'klpk10', time: 5 * 60 * 1000, start: '07:30:15'},
+				{label: '快乐飞艇', value: 'klft', time: 5 * 60 * 1000, start: '7:30:30'},
+				{label: '幸运飞艇', value: 'xyft', time: 5 * 60 * 1000, start: '13:09:00'},
+			],
+			freshTime: '',
+			delayTime: '',
+			pickerOptions1: {
+				disabledDate(time) {
+					return time.getTime() > Date.now();
+				},
+			},
+			dis1: 1,
+			dis2: 1,
+			showArr: {},
+			minTime: 99999,
+			maxTime: 0,
+			clearNum1: '',
+			clearNum2: '',
+			mulRow: [],
+		},
+		computed: {
+			selectArr1: function () {
+				let length = 0, t1 = 99999, t2 = 0;
+				this.mulRow.forEach((item, index) => {
+					if (index < 10 && item.selected) {
+						length++;
+						t1 = item.lastTime < t1 ? item.lastTime : t1;
+					}
+				});
+				return {length: length, time1: t1, time2: t2};
+			},
+			selectArr2: function () {
+				let length = 0, t1 = 99999, t2 = 0;
+				this.mulRow.forEach((item, index) => {
+					if (index >= 10 && index < 20 && item.selected) {
+						length++;
+						t1 = item.lastTime < t1 ? item.lastTime : t1;
+					}
+				});
+				return {length: length, time1: t1, time2: t2};
+			},
+			selectArr3: function () {
+				let length = 0, t1 = 99999, t2 = 0;
+				this.mulRow.forEach((item, index) => {
+					if (index >= 20 && index < 30 && item.selected) {
+						length++;
+						t1 = item.lastTime < t1 ? item.lastTime : t1;
+					}
+				});
+				return {length: length, time1: t1, time2: t2};
+			},
+			selectArr4: function () {
+				let length = 0, t1 = 99999, t2 = 0;
+				this.mulRow.forEach((item, index) => {
+					if (index >= 30 && index < 40 && item.selected) {
+						length++;
+						t1 = item.lastTime < t1 ? item.lastTime : t1;
+					}
+				});
+				return {length: length, time1: t1, time2: t2};
+			},
+			selectArr5: function () {
+				let length = 0, t1 = 99999, t2 = 0;
+				this.mulRow.forEach((item, index) => {
+					if (index >= 40 && item.selected) {
+						length++;
+						t1 = item.lastTime < t1 ? item.lastTime : t1;
+					}
+				});
+				return {length: length, time1: t1, time2: t2};
+			},
+		},
+		mounted() {
+			for (let i = 0; i < 50; i++) {
+				this.mulRow.push({
+					lastTime: 99999,
+					index: i,
+					farTime: 0,
+					value1: '',
+					value2: '',
+					selected: false,
+				});
+			}
+		},
+		methods: {
+			resetArr(idx) {
+				let s = idx * 10, e = (idx + 1) * 10 - 1;
+				this.mulRow.forEach((item, index) => {
+					if (index >= s && index <= e) {
+						item.lastTime = 99999;
+						item.farTime = 0;
+						item.value1 = '';
+						item.value2 = '';
+						item.selected = false;
+					}
+				});
+				this.showArr = {};
+			},
+			queryArr() {
+				if (this.type == '' || this.date == '') {
+					this.$message.error(this.date == '' ? '请先选择时间' : '请先选择项目');
+					return false;
+				}
+				this.initArr();
+				let qArr = JSON.parse(JSON.stringify(this.mulRow));
+				qArr = qArr.map((item, index) => {
+					if (item.value1 == 10) {
+						item.value1 = 't';
+					}
+					if (item.value2 == 10) {
+						item.value2 = 't';
+					}
+					return item;
+				});
+				qArr = qArr.filter(item => item.value1 != '' && item.value2 != '');
+				qArr.forEach((item, index) => {
+					let sI, eI;
+					for (let i = 0; i < dataArr.length; i++) {
+						sI = dataArr[i].openNum.findIndex(it => it == item.value1);
+						if (dataArr[i + 1]) {
+							eI = dataArr[i + 1].openNum.findIndex(it => it == item.value2);
+						}
+						if () {
+						}
+					}
+				});
+				clearInterval(this.clearNum2);
+				this.clearNum2 = setInterval(() => {
+					this.getArr().then(() => {
+						this.queryArr();
+					});
+				}, 5000);
+			},
+			changeSize(ev) {
+				console.log(ev);
+			},
+			startMove(ev) {
+				dis1 = ev.clientX - ev.target.offsetLeft;//ev.target.offsetLeft元素相对于屏幕坐标
+				dis2 = ev.clientY - ev.target.offsetTop;
+			},
+			endMove(ev) {
+				//鼠标坐标ev.clientX
+				ev.target.style.left = (ev.clientX - dis1) + 'px';
+				ev.target.style.top = (ev.clientY - dis2) + 'px';
+			},
+			selectItem(col, index) {
+				this.mulRow[index].selected = !this.mulRow[index].selected;
+			},
+			selectColor(num) {
+				if (num <= 7) {
+					return num == 7 ? 'green' : 'black';
+				} else {
+					if (num < 25) {
+						return num == 15 ? 'blue' : 'black';
+					} else {
+						return 'red';
+					}
+				}
+			},
+			classObj(num) {
+				return `num${num}`;
+			},
+			getArr() {
+				this.loading = false;
+				return axios({
+					url: '/type3/getData',
+					params: {date: this.date, type: this.type},
+					method: 'get',
+				}).then((res) => {
+					res = res.data;
+					if (res.status == 1) {
+						this.arr = res.data;
+						this.arr = this.arr.map((item, index) => {
+							item.index = index;
+							item.outArr = this.addArr(item.openNum);
+							return item;
+						});
+						dataArr = JSON.parse(JSON.stringify(this.arr));
+						//把10转成t
+						dataArr = dataArr.map((item) => {
+							item.openNum.forEach((lit, index) => {
+								if (lit == 10) {
+									item.openNum[index] = 't';
+								}
+							});
+							return item;
+						});
+					} else {
+						this.$message.warning('查无数据！');
+					}
+					this.loading = false;
+				}).catch((err) => {
+					this.$message.error(err);
+				});
+			},
+			changeType(value) {
+				this.resetArr(0);
+				this.resetArr(1);
+				this.resetArr(2);
+				this.resetArr(3);
+				this.resetArr(4);
+				// this.reset();
+				let selectItem = this.typeList.find((item) => {
+					return item.value == value;
+				});
+				this.freshTime = selectItem.time;
+				if (value && this.date) {
+					this.getArr();
+				}
+			},
+			changeDate(value) {
+				this.resetArr(0);
+				this.resetArr(1);
+				this.resetArr(2);
+				this.resetArr(3);
+				this.resetArr(4);
+				// this.reset();
+				if (value && this.type) {
+					this.getArr();
+				}
+			},
+			addArr(arr) {
+				let newArr = [];
+				arr.map((item) => {
+					let obj = {show: false, key: item};
+					newArr.push(obj);
+				});
+				return newArr;
+			},
+			initArr() {
+				this.showArr = {};
+				this.arr = this.arr.map((item) => {
+					item.outArr = this.addArr(item.openNum);
+					return item;
+				});
+			},
+		},
+	});
+</script>
+</body>
+</html>
