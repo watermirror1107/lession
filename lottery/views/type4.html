@@ -29,17 +29,13 @@
         }
 
         .table {
-            width: 40%;
+            width: 30%;
             float: left;
             padding-right: 5%;
         }
 
-        .row {
-            margin: 15px 0;
-        }
-
         .option {
-            width: 55%;
+            width: 65%;
             float: left;
             margin-top: 20px;
             position: relative;
@@ -67,11 +63,11 @@
         }
 
         .litItem {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             font-weight: bold;
             float: left;
-            line-height: 40px;
+            line-height: 30px;
             text-align: center;
             border-collapse: collapse;
             box-sizing: border-box;
@@ -127,26 +123,22 @@
         .col {
             float: left;
             padding: 40px 1% 20px;
-            display: flex;
             position: absolute;
             resize: both;
-            overflow: auto;
-
-        }
-
-        .col .timeUl li {
-            width: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .col li {
-            width: 50px;
-            height: 50px;
+            width: 30px;
+            height: 100px;
             box-sizing: border-box;
             border: 1px solid #333;
             border-collapse: collapse;
-            line-height: 50px;
             display: flex;
-            justify-content: center;
+            float: left;
+            align-items: center;
         }
 
         .topBox {
@@ -166,21 +158,38 @@
         }
 
         .two {
-            left: 250px
+            left: 480px
         }
 
         .three {
-            left: 500px
+            top: 850px;
+            left: 0px;
         }
 
         .four {
-            left: 0;
-            top: 700px;
+            top: 850px;
+            left: 480px;
         }
 
         .five {
-            left: 250px;
-            top: 700px;
+            left: 0px;
+            top: 1680px;
+        }
+
+        .list {
+            display: block;
+            border-collapse: collapse;
+            width: 150px;
+        }
+
+        .list td {
+            border: 1px solid #333;
+            width: 50px;
+            height: 50px;
+        }
+
+        .list .box {
+            border: none;
         }
 
         .col input {
@@ -190,6 +199,28 @@
             text-align: center;
             border: none;
             font-size: 16px;
+        }
+
+        .row {
+            width: 300px;
+            display: flex;
+            flex: 1;
+            justify-content: space-around;
+        }
+
+        .row > div {
+            border: 1px solid #333;
+            flex-grow: 1;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+        }
+
+        .row button {
+            flex-grow: 1;
+            height: 40px;
+            font-size: 20px;
+            outline: none;
         }
 
         .btn {
@@ -233,7 +264,7 @@
                     prop="openNum"
                     align="center"
                     label="号码">
-                <ul slot-scope="scope" style="width:400px;margin:0 auto;">
+                <ul slot-scope="scope" style="width:300px;margin:0 auto;">
                     <template v-for="(lit,index) in scope.row.outArr">
                         <li class="litItem" :class="classObj(lit.key)"
                             :style="{backgroundColor:   lit.show?'#fff':'',color:  lit.show?'#333':''}">
@@ -276,22 +307,115 @@
                 拖动
                 <!--<button @click="changeSize('one',false)">放大</button>-->
             </div>
-            <ul class='list'>
-                <li style="border:none;"></li>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="mindex<10">
-                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="mindex<10">
-                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
+            <table class='list'>
+                <!--1-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[0]" v-model="mulRow[0].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                    <td class="box"></td>
+                </tr>
+                <!--2-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[0]" v-model="mulRow[0].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[1]" v-model="mulRow[1].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--3-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[2]" v-model="mulRow[2].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[1]" v-model="mulRow[1].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--4-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[2]" v-model="mulRow[2].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[3]" v-model="mulRow[3].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--5-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[4]" v-model="mulRow[4].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[3]" v-model="mulRow[3].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--6-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[4]" v-model="mulRow[4].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[5]" v-model="mulRow[5].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--7-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[6]" v-model="mulRow[6].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[5]" v-model="mulRow[5].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--8-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[6]" v-model="mulRow[6].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[7]" v-model="mulRow[7].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--9-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[8]" v-model="mulRow[8].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[7]" v-model="mulRow[7].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--10-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[8]" v-model="mulRow[8].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[9]" v-model="mulRow[9].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--11-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[9]" v-model="mulRow[9].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+            </table>
+            <ul style="margin-top: 10px;">
                 <template v-for="(mitem,mindex) in mulRow">
                     <li @click="selectItem(0,mindex)" v-if="mindex<10"
                         :style="{backgroundColor: mitem.selected?'yellow':''}">
@@ -299,206 +423,543 @@
                     </li>
                 </template>
             </ul>
-            <ul class="timeUl">
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li>{{selectArr1.length}}个</li>
-                <li>{{selectArr1.time1==99999?'无穷大':selectArr1.time1}}</li>
-                <li>{{selectArr1.time2==0?'无':selectArr1.time2}}</li>
-                <li>无</li>
-                <li class="btn" @click="resetArr">
-                    重置
-                </li>
-                <li class="btn" @click="queryArr">
-                    筛选
-                </li>
-            </ul>
+            <div class="row">
+                <div>{{selectArr1.length}}个</div>
+                <div>{{selectArr1.time1==99999?'无穷大':selectArr1.time1}}</div>
+                <div>{{selectArr1.time2==0?'无':selectArr1.time2}}</div>
+            </div>
+            <div class="row">
+                <button class="btn" @click="resetArr(0)">重置</button>
+                <button class="btn" @click="queryArr">筛选</button>
+            </div>
         </div>
         <div class="col two" ref="two" draggable="true" @dragstart="startMove" @dragend="endMove">
             <div class="topBox">
-                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
                 拖动
-                <!--<button @click="changeSize('two',false)">放大</button>-->
+                <!--<button @click="changeSize('one',false)">放大</button>-->
             </div>
-            <ul class='list'>
-                <li style="border:none;"></li>
+            <table class='list'>
+                <!--1-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[10]" v-model="mulRow[10].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                    <td class="box"></td>
+                </tr>
+                <!--2-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[10]" v-model="mulRow[10].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[11]" v-model="mulRow[11].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--3-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[12]" v-model="mulRow[12].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[11]" v-model="mulRow[11].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--4-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[12]" v-model="mulRow[12].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[13]" v-model="mulRow[13].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--5-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[14]" v-model="mulRow[14].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[13]" v-model="mulRow[13].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--6-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[14]" v-model="mulRow[14].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[15]" v-model="mulRow[15].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--7-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[16]" v-model="mulRow[16].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[15]" v-model="mulRow[15].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--8-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[16]" v-model="mulRow[16].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[17]" v-model="mulRow[17].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--9-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[18]" v-model="mulRow[18].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[17]" v-model="mulRow[17].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--10-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[18]" v-model="mulRow[18].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[19]" v-model="mulRow[19].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--11-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[19]" v-model="mulRow[19].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+            </table>
+            <ul style="margin-top: 10px;">
                 <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="10<=mindex&&mindex<20">
-                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="10<=mindex&&mindex<20">
-                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li @click="selectItem(1,mindex)" v-if="10<=mindex&&mindex<20"
+                    <li @click="selectItem(0,mindex)" v-if="10<=mindex&&mindex<20"
                         :style="{backgroundColor: mitem.selected?'yellow':''}">
                         {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
                     </li>
                 </template>
             </ul>
-            <ul class="timeUl">
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li>{{selectArr2.length}}个</li>
-                <li>{{selectArr2.time1==99999?'无穷大':selectArr2.time1}}</li>
-                <li>{{selectArr2.time2==0?'无':selectArr2.time2}}</li>
-                <li>无</li>
-                <li class="btn" @click="resetArr">
-                    重置
-                </li>
-                <li class="btn" @click="queryArr">
-                    筛选
-                </li>
-            </ul>
+            <div class="row">
+                <div>{{selectArr2.length}}个</div>
+                <div>{{selectArr2.time1==99999?'无穷大':selectArr2.time1}}</div>
+                <div>{{selectArr2.time2==0?'无':selectArr2.time2}}</div>
+            </div>
+            <div class="row">
+                <button class="btn" @click="resetArr(1)">重置</button>
+                <button class="btn" @click="queryArr">筛选</button>
+            </div>
         </div>
         <div class="col three" ref="three" draggable="true" @dragstart="startMove" @dragend="endMove">
             <div class="topBox">
-                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
                 拖动
-                <!--<button @click="changeSize('two',false)">放大</button>-->
+                <!--<button @click="changeSize('one',false)">放大</button>-->
             </div>
-            <ul class='list'>
-                <li style="border:none;"></li>
+            <table class='list'>
+                <!--1-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[20]" v-model="mulRow[20].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                    <td class="box"></td>
+                </tr>
+                <!--2-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[20]" v-model="mulRow[20].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[21]" v-model="mulRow[21].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--3-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[22]" v-model="mulRow[22].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[21]" v-model="mulRow[21].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--4-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[22]" v-model="mulRow[22].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[23]" v-model="mulRow[23].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--5-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[24]" v-model="mulRow[24].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[23]" v-model="mulRow[23].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--6-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[24]" v-model="mulRow[24].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[25]" v-model="mulRow[25].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--7-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[26]" v-model="mulRow[26].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[25]" v-model="mulRow[25].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--8-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[26]" v-model="mulRow[26].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[27]" v-model="mulRow[27].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--9-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[28]" v-model="mulRow[28].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[27]" v-model="mulRow[27].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--10-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[28]" v-model="mulRow[28].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[29]" v-model="mulRow[29].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--11-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[29]" v-model="mulRow[29].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+            </table>
+            <ul style="margin-top: 10px;">
                 <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="20<=mindex&&mindex<30">
-                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="20<=mindex&&mindex<30">
-                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li @click="selectItem(1,mindex)" v-if="20<=mindex&&mindex<30"
+                    <li @click="selectItem(0,mindex)" v-if="mindex>=20&&mindex<30"
                         :style="{backgroundColor: mitem.selected?'yellow':''}">
                         {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
                     </li>
                 </template>
             </ul>
-            <ul class="timeUl">
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li>{{selectArr3.length}}个</li>
-                <li>{{selectArr3.time1==99999?'无穷大':selectArr3.time1}}</li>
-                <li>{{selectArr3.time2==0?'无':selectArr3.time2}}</li>
-                <li>无</li>
-                <li class="btn" @click="resetArr">
-                    重置
-                </li>
-                <li class="btn" @click="queryArr">
-                    筛选
-                </li>
-            </ul>
+            <div class="row">
+                <div>{{selectArr3.length}}个</div>
+                <div>{{selectArr3.time1==99999?'无穷大':selectArr3.time1}}</div>
+                <div>{{selectArr3.time2==0?'无':selectArr3.time2}}</div>
+            </div>
+            <div class="row">
+                <button class="btn" @click="resetArr(2)">重置</button>
+                <button class="btn" @click="queryArr">筛选</button>
+            </div>
         </div>
         <div class="col four" ref="four" draggable="true" @dragstart="startMove" @dragend="endMove">
             <div class="topBox">
-                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
                 拖动
-                <!--<button @click="changeSize('two',false)">放大</button>-->
+                <!--<button @click="changeSize('one',false)">放大</button>-->
             </div>
-            <ul class='list'>
-                <li style="border:none;"></li>
+            <table class='list'>
+                <!--1-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[30]" v-model="mulRow[30].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                    <td class="box"></td>
+                </tr>
+                <!--2-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[30]" v-model="mulRow[30].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[31]" v-model="mulRow[31].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--3-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[32]" v-model="mulRow[32].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[31]" v-model="mulRow[31].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--4-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[32]" v-model="mulRow[32].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[33]" v-model="mulRow[33].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--5-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[34]" v-model="mulRow[34].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[33]" v-model="mulRow[33].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--6-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[34]" v-model="mulRow[34].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[35]" v-model="mulRow[35].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--7-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[36]" v-model="mulRow[36].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[35]" v-model="mulRow[35].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--8-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[36]" v-model="mulRow[36].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[37]" v-model="mulRow[37].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--9-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[38]" v-model="mulRow[38].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[37]" v-model="mulRow[37].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--10-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[38]" v-model="mulRow[38].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[39]" v-model="mulRow[39].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--11-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[39]" v-model="mulRow[39].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+            </table>
+            <ul style="margin-top: 10px;">
                 <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="30<=mindex&&mindex<40">
-                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="30<=mindex&&mindex<40">
-                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li @click="selectItem(1,mindex)" v-if="30<=mindex&&mindex<40"
+                    <li @click="selectItem(0,mindex)" v-if="mindex>=30&&mindex<40"
                         :style="{backgroundColor: mitem.selected?'yellow':''}">
                         {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
                     </li>
                 </template>
             </ul>
-            <ul class="timeUl">
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li>{{selectArr4.length}}个</li>
-                <li>{{selectArr4.time1==99999?'无穷大':selectArr4.time1}}</li>
-                <li>{{selectArr4.time2==0?'无':selectArr4.time2}}</li>
-                <li>无</li>
-                <li class="btn" @click="resetArr">
-                    重置
-                </li>
-                <li class="btn" @click="queryArr">
-                    筛选
-                </li>
-            </ul>
+            <div class="row">
+                <div>{{selectArr4.length}}个</div>
+                <div>{{selectArr4.time1==99999?'无穷大':selectArr4.time1}}</div>
+                <div>{{selectArr4.time2==0?'无':selectArr4.time2}}</div>
+            </div>
+            <div class="row">
+                <button class="btn" @click="resetArr(3)">重置</button>
+                <button class="btn" @click="queryArr">筛选</button>
+            </div>
         </div>
         <div class="col five" ref="five" draggable="true" @dragstart="startMove" @dragend="endMove">
             <div class="topBox">
-                <!--<button @click="changeSize('two',true)">缩放</button>-->
+                <!--<button @click="changeSize('one',true)">缩放</button>-->
                 拖动
-                <!--<button @click="changeSize('two',false)">放大</button>-->
+                <!--<button @click="changeSize('one',false)">放大</button>-->
             </div>
-            <ul class='list'>
-                <li style="border:none;"></li>
+            <table class='list'>
+                <!--1-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[40]" v-model="mulRow[40].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                    <td class="box"></td>
+                </tr>
+                <!--2-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[40]" v-model="mulRow[40].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[41]" v-model="mulRow[41].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--3-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[42]" v-model="mulRow[42].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[41]" v-model="mulRow[41].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--4-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[42]" v-model="mulRow[42].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[43]" v-model="mulRow[43].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--5-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[44]" v-model="mulRow[44].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[43]" v-model="mulRow[43].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--6-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[44]" v-model="mulRow[44].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[45]" v-model="mulRow[45].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--7-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[46]" v-model="mulRow[46].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[45]" v-model="mulRow[45].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--8-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[46]" v-model="mulRow[46].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[47]" v-model="mulRow[47].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--9-->
+                <tr>
+                    <td>
+                        <el-input type="text" v-if="mulRow[48]" v-model="mulRow[48].value1" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[47]" v-model="mulRow[47].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+                <!--10-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[48]" v-model="mulRow[48].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[49]" v-model="mulRow[49].value1" min="1" max="10"></el-input>
+                    </td>
+                </tr>
+                <!--11-->
+                <tr>
+                    <td class="box"></td>
+                    <td>
+                        <el-input type="text" v-if="mulRow[49]" v-model="mulRow[49].value2" min="1" max="10"></el-input>
+                    </td>
+                    <td class="box"></td>
+                </tr>
+            </table>
+            <ul style="margin-top: 10px;">
                 <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="40<=mindex">
-                        <el-input type="text" v-model="mitem.value2" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li v-if="40<=mindex">
-                        <el-input type="text" v-model="mitem.value1" min="1" max="10"></el-input>
-                    </li>
-                </template>
-            </ul>
-            <ul class='list'>
-                <template v-for="(mitem,mindex) in mulRow">
-                    <li @click="selectItem(1,mindex)" v-if="40<=mindex"
+                    <li @click="selectItem(0,mindex)" v-if="mindex>=40"
                         :style="{backgroundColor: mitem.selected?'yellow':''}">
                         {{mitem.lastTime==99999?'无穷大':'近'+mitem.lastTime}}
                     </li>
                 </template>
             </ul>
-            <ul class="timeUl">
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li style="border:none;"></li>
-                <li>{{selectArr5.length}}个</li>
-                <li>{{selectArr5.time1==99999?'无穷大':selectArr5.time1}}</li>
-                <li>{{selectArr5.time2==0?'无':selectArr5.time2}}</li>
-                <li>无</li>
-                <li class="btn" @click="resetArr">
-                    重置
-                </li>
-                <li class="btn" @click="queryArr">
-                    筛选
-                </li>
-            </ul>
+            <div class="row">
+                <div>{{selectArr5.length}}个</div>
+                <div>{{selectArr5.time1==99999?'无穷大':selectArr5.time1}}</div>
+                <div>{{selectArr5.time2==0?'无':selectArr5.time2}}</div>
+            </div>
+            <div class="row">
+                <button class="btn" @click="resetArr(4)">重置</button>
+                <button class="btn" @click="queryArr">筛选</button>
+            </div>
         </div>
     </div>
 </div>
@@ -638,24 +1099,46 @@
 						if (dataArr[i + 1]) {
 							eI = dataArr[i + 1].openNum.findIndex(it => it == item.value2);
 						}
-						if (sI - eI == 1) {
-							this.$set(this.showArr, [i], '1');
-							this.arr[i].outArr[sI].show = true;
-							if (this.arr[i + 1]) {
-								this.arr[i + 1].outArr[eI].show = true;
-								this.$set(this.showArr, [i + 1], '1');
+						if (item.index % 2 != 0) {
+							if (sI - eI == 1) {
+								this.$set(this.showArr, [i], '1');
+								this.arr[i].outArr[sI].show = true;
+								if (this.arr[i + 1]) {
+									this.arr[i + 1].outArr[eI].show = true;
+									this.$set(this.showArr, [i + 1], '1');
+								}
+								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
 							}
-							this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
-						}
-						if (sI == 0 && eI == 9) {
-							this.$set(this.showArr, [i], '1');
-							this.arr[i].outArr[sI].show = true;
-							if (this.arr[i + 1]) {
-								this.arr[i + 1].outArr[eI].show = true;
-								this.$set(this.showArr, [i + 1], '1');
+							if (sI == 0 && eI == 9) {
+								this.$set(this.showArr, [i], '1');
+								this.arr[i].outArr[sI].show = true;
+								if (this.arr[i + 1]) {
+									this.arr[i + 1].outArr[eI].show = true;
+									this.$set(this.showArr, [i + 1], '1');
+								}
+								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
 							}
-							this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+						} else {
+							if (eI - sI == 1) {
+								this.$set(this.showArr, [i], '1');
+								this.arr[i].outArr[sI].show = true;
+								if (this.arr[i + 1]) {
+									this.arr[i + 1].outArr[eI].show = true;
+									this.$set(this.showArr, [i + 1], '1');
+								}
+								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+							}
+							if (sI == 9 && eI == 0) {
+								this.$set(this.showArr, [i], '1');
+								this.arr[i].outArr[sI].show = true;
+								if (this.arr[i + 1]) {
+									this.arr[i + 1].outArr[eI].show = true;
+									this.$set(this.showArr, [i + 1], '1');
+								}
+								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+							}
 						}
+
 					}
 				});
 				this.autoFresh();

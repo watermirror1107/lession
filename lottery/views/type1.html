@@ -29,7 +29,7 @@
         }
 
         .table {
-            width: 40%;
+            width: 30%;
             float: left;
             padding-right: 5%;
         }
@@ -39,7 +39,7 @@
         }
 
         .option {
-            width: 55%;
+            width: 65%;
             float: left;
             margin-top: 20px;
             position: relative;
@@ -67,11 +67,11 @@
         }
 
         .litItem {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             font-weight: bold;
             float: left;
-            line-height: 40px;
+            line-height: 30px;
             text-align: center;
             border-collapse: collapse;
             box-sizing: border-box;
@@ -233,7 +233,7 @@
                     prop="openNum"
                     align="center"
                     label="号码">
-                <ul slot-scope="scope" style="width:400px;margin:0 auto;">
+                <ul slot-scope="scope" style="width:300px;margin:0 auto;">
                     <template v-for="(lit,index) in scope.row.outArr">
                         <li class="litItem" :class="classObj(lit.key)"
                             :style="{backgroundColor:   lit.show?'#fff':'',color:  lit.show?'#333':''}">
