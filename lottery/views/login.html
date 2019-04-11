@@ -97,7 +97,7 @@
 					method: 'post',
 				}).then((res) => {
 					if (res.data.status == 0) {
-						window.location.href = '/lottery';
+						window.location.href = '/type1';
 					} else {
 						this.$message.error(res.data.msg);
 					}
