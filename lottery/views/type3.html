@@ -658,9 +658,9 @@
 						} else if (item.index >= 40) {
 							dis = 0;
 						}
-						sI = dataArr[i].openNum.findIndex(it => it == item.value1);
+						sI = dataArr[i].openNum.join('').indexOf(item.value1);
 						if (dataArr[i + dis]) {
-							eI = dataArr[i + dis].openNum.findIndex(it => it == item.value2);
+							eI = dataArr[i + dis].openNum.join('').indexOf(item.value2);
 						}
 						if (item.index < 40) {
 							//1
@@ -819,10 +819,6 @@
 				this.resetArr(3);
 				this.resetArr(4);
 				// this.reset();
-				let selectItem = this.typeList.find((item) => {
-					return item.value == value;
-				});
-				this.freshTime = selectItem.time;
 				if (value && this.date) {
 					this.getArr();
 				}

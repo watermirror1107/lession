@@ -1095,9 +1095,9 @@
 				qArr.forEach((item, index) => {
 					let sI, eI, resArr = [];
 					for (let i = 0; i < dataArr.length; i++) {
-						sI = dataArr[i].openNum.findIndex(it => it == item.value1);
+						sI = dataArr[i].openNum.join('').indexOf(item.value1);
 						if (dataArr[i + 1]) {
-							eI = dataArr[i + 1].openNum.findIndex(it => it == item.value2);
+							eI = dataArr[i].openNum.join('').indexOf(item.value2);
 						}
 						if (item.index % 2 != 0) {
 							if (sI - eI == 1) {
@@ -1219,10 +1219,6 @@
 				this.resetArr(3);
 				this.resetArr(4);
 				// this.reset();
-				let selectItem = this.typeList.find((item) => {
-					return item.value == value;
-				});
-				this.freshTime = selectItem.time;
 				if (value && this.date) {
 					this.getArr();
 				}
