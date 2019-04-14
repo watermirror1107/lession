@@ -29,13 +29,13 @@
         }
 
         .table {
-            width: 30%;
+            width: 420px;
             float: left;
-            padding-right: 5%;
+            padding-right: 20px;
         }
 
         .option {
-            width: 65%;
+            width: calc(100% - 440px);
             float: left;
             margin-top: 20px;
             position: relative;
@@ -425,8 +425,8 @@
             </ul>
             <div class="row">
                 <div>{{selectArr1.length}}个</div>
-                <div>{{selectArr1.time1==99999?'无穷大':selectArr1.time1}}</div>
-                <div>{{selectArr1.time2==0?'无':selectArr1.time2}}</div>
+                <div>{{selectArr1.time1==99999?'无穷大':'近'+selectArr1.time1}}</div>
+                <div>{{selectArr1.time2==0?'无':'远'+selectArr1.time2}}</div>
             </div>
             <div class="row">
                 <button class="btn" @click="resetArr(0)">重置</button>
@@ -557,8 +557,8 @@
             </ul>
             <div class="row">
                 <div>{{selectArr2.length}}个</div>
-                <div>{{selectArr2.time1==99999?'无穷大':selectArr2.time1}}</div>
-                <div>{{selectArr2.time2==0?'无':selectArr2.time2}}</div>
+                <div>{{selectArr2.time1==99999?'无穷大':'近'+selectArr2.time1}}</div>
+                <div>{{selectArr2.time2==0?'无':'远'+selectArr2.time2}}</div>
             </div>
             <div class="row">
                 <button class="btn" @click="resetArr(1)">重置</button>
@@ -689,8 +689,8 @@
             </ul>
             <div class="row">
                 <div>{{selectArr3.length}}个</div>
-                <div>{{selectArr3.time1==99999?'无穷大':selectArr3.time1}}</div>
-                <div>{{selectArr3.time2==0?'无':selectArr3.time2}}</div>
+                <div>{{selectArr3.time1==99999?'无穷大':'近'+selectArr3.time1}}</div>
+                <div>{{selectArr3.time2==0?'无':'远'+selectArr3.time2}}</div>
             </div>
             <div class="row">
                 <button class="btn" @click="resetArr(2)">重置</button>
@@ -821,8 +821,8 @@
             </ul>
             <div class="row">
                 <div>{{selectArr4.length}}个</div>
-                <div>{{selectArr4.time1==99999?'无穷大':selectArr4.time1}}</div>
-                <div>{{selectArr4.time2==0?'无':selectArr4.time2}}</div>
+                <div>{{selectArr4.time1==99999?'无穷大':'近'+selectArr4.time1}}</div>
+                <div>{{selectArr4.time2==0?'无':'远'+selectArr4.time2}}</div>
             </div>
             <div class="row">
                 <button class="btn" @click="resetArr(3)">重置</button>
@@ -953,8 +953,8 @@
             </ul>
             <div class="row">
                 <div>{{selectArr5.length}}个</div>
-                <div>{{selectArr5.time1==99999?'无穷大':selectArr5.time1}}</div>
-                <div>{{selectArr5.time2==0?'无':selectArr5.time2}}</div>
+                <div>{{selectArr5.time1==99999?'无穷大':'近'+selectArr5.time1}}</div>
+                <div>{{selectArr5.time2==0?'无':'远'+selectArr5.time2}}</div>
             </div>
             <div class="row">
                 <button class="btn" @click="resetArr(4)">重置</button>
@@ -1093,7 +1093,7 @@
 				});
 				qArr = qArr.filter(item => item.value1 != '' && item.value2 != '');
 				qArr.forEach((item, index) => {
-					let sI, eI;
+					let sI, eI, resArr = [];
 					for (let i = 0; i < dataArr.length; i++) {
 						sI = dataArr[i].openNum.findIndex(it => it == item.value1);
 						if (dataArr[i + 1]) {
@@ -1107,7 +1107,7 @@
 									this.arr[i + 1].outArr[eI].show = true;
 									this.$set(this.showArr, [i + 1], '1');
 								}
-								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+								resArr.push(this.arr[i]);
 							}
 							if (sI == 0 && eI == 9) {
 								this.$set(this.showArr, [i], '1');
@@ -1116,7 +1116,7 @@
 									this.arr[i + 1].outArr[eI].show = true;
 									this.$set(this.showArr, [i + 1], '1');
 								}
-								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+								resArr.push(this.arr[i]);
 							}
 						} else {
 							if (eI - sI == 1) {
@@ -1126,7 +1126,7 @@
 									this.arr[i + 1].outArr[eI].show = true;
 									this.$set(this.showArr, [i + 1], '1');
 								}
-								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+								resArr.push(this.arr[i]);
 							}
 							if (sI == 9 && eI == 0) {
 								this.$set(this.showArr, [i], '1');
@@ -1135,11 +1135,17 @@
 									this.arr[i + 1].outArr[eI].show = true;
 									this.$set(this.showArr, [i + 1], '1');
 								}
-								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+								resArr.push(this.arr[i]);
 							}
 						}
-
 					}
+					//计算周期
+					resArr.forEach((it, idx) => {
+						this.mulRow[item.index].lastTime = it.index > this.mulRow[item.index].lastTime ? this.mulRow[item.index].lastTime : it.index;
+						if (resArr[idx + 1]) {
+							this.mulRow[item.index].farTime = Math.abs(resArr[index + 1].index - it.index) > this.mulRow[item.index].farTime ? Math.abs(resArr[index + 1].index - it.index) : this.mulRow[item.index].farTime;
+						}
+					});
 				});
 				this.autoFresh();
 			},
@@ -1206,6 +1212,7 @@
 				});
 			},
 			changeType(value) {
+				clearInterval(this.clearNum2);
 				this.resetArr(0);
 				this.resetArr(1);
 				this.resetArr(2);
@@ -1221,6 +1228,7 @@
 				}
 			},
 			changeDate(value) {
+				clearInterval(this.clearNum2);
 				this.resetArr(0);
 				this.resetArr(1);
 				this.resetArr(2);

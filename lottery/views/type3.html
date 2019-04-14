@@ -336,13 +336,13 @@
                 <li style="border:none;"></li>
                 <li style="border:none;"></li>
                 <li>{{selectArr1.length}}个</li>
-                <li>{{selectArr1.time1==99999?'无穷大':selectArr1.time1}}</li>
-                <li>{{selectArr1.time2==0?'无':selectArr1.time2}}</li>
-                <li>无</li>
+                <li>{{selectArr1.time1==99999?'无穷大':'近'+selectArr1.time1}}</li>
+                <li>{{selectArr1.time2==0?'无':'远'+selectArr1.time2}}</li>
+
                 <li class="btn" @click="resetArr(0)">
                     重置
                 </li>
-                <li class="btn" @click="queryArr(0)">
+                <li class="btn" @click="queryArr">
                     筛选
                 </li>
             </ul>
@@ -389,13 +389,13 @@
                 <li style="border:none;"></li>
                 <li style="border:none;"></li>
                 <li>{{selectArr2.length}}个</li>
-                <li>{{selectArr2.time1==99999?'无穷大':selectArr2.time1}}</li>
-                <li>{{selectArr2.time2==0?'无':selectArr2.time2}}</li>
-                <li>无</li>
+                <li>{{selectArr2.time1==99999?'无穷大':'近'+selectArr2.time1}}</li>
+                <li>{{selectArr2.time2==0?'无':'远'+selectArr2.time2}}</li>
+
                 <li class="btn" @click="resetArr(1)">
                     重置
                 </li>
-                <li class="btn" @click="queryArr(1)">
+                <li class="btn" @click="queryArr">
                     筛选
                 </li>
             </ul>
@@ -423,15 +423,15 @@
                     {{selectArr3.length}}个
                 </li>
                 <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
-                    {{selectArr3.time1==99999?'无穷大':selectArr3.time1}}
+                    {{selectArr3.time1==99999?'无穷大':'近'+selectArr3.time1}}
                 </li>
                 <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
-                    {{selectArr3.time2==0?'无':selectArr3.time2}}
+                    {{selectArr3.time2==0?'无':'远'+selectArr3.time2}}
                 </li>
                 <li class="btn" @click="resetArr(2)">
                     重置
                 </li>
-                <li class="btn" @click="queryArr(2)">
+                <li class="btn" @click="queryArr">
                     筛选
                 </li>
             </ul>
@@ -458,15 +458,15 @@
                     {{selectArr4.length}}个
                 </li>
                 <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
-                    {{selectArr4.time1==99999?'无穷大':selectArr4.time1}}
+                    {{selectArr4.time1==99999?'无穷大':'近'+selectArr4.time1}}
                 </li>
                 <li style="border-collapse: collapse;box-sizing: border-box;border:1px solid #333;">
-                    {{selectArr4.time2==0?'无':selectArr4.time2}}
+                    {{selectArr4.time2==0?'无':'远'+selectArr4.time2}}
                 </li>
                 <li class="btn" @click="resetArr(3)">
                     重置
                 </li>
-                <li class="btn" @click="queryArr(3)">
+                <li class="btn" @click="queryArr">
                     筛选
                 </li>
             </ul>
@@ -507,13 +507,13 @@
                 <li style="border:none;"></li>
                 <li style="border:none;"></li>
                 <li>{{selectArr5.length}}个</li>
-                <li>{{selectArr5.time1==99999?'无穷大':selectArr5.time1}}</li>
-                <li>{{selectArr5.time2==0?'无':selectArr5.time2}}</li>
-                <li>无</li>
+                <li>{{selectArr5.time1==99999?'无穷大':'近'+selectArr5.time1}}</li>
+                <li>{{selectArr5.time2==0?'无':'远'+selectArr5.time2}}</li>
+
                 <li class="btn" @click="resetArr(4)">
                     重置
                 </li>
-                <li class="btn" @click="queryArr(4)">
+                <li class="btn" @click="queryArr">
                     筛选
                 </li>
             </ul>
@@ -650,7 +650,7 @@
 				});
 				qArr = qArr.filter(item => item.value1 != '' && item.value2 != '');
 				qArr.forEach((item, index) => {
-					let sI, eI;
+					let sI, eI, resArr = [];
 					for (let i = 0; i < dataArr.length; i++) {
 						let dis = 1;
 						if (30 <= item.index && item.index < 40) {
@@ -672,16 +672,16 @@
 										this.arr[i + 1].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 1], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
-								if ((sI == 0 && eI == 8)||(sI == 1 && eI == 9)) {
+								if ((sI == 0 && eI == 8) || (sI == 1 && eI == 9)) {
 									this.$set(this.showArr, [i], '1');
 									this.arr[i].outArr[sI].show = true;
 									if (this.arr[i + 1]) {
 										this.arr[i + 1].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 1], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
 							}
 							//2
@@ -693,7 +693,7 @@
 										this.arr[i + 1].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 1], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
 								if ((sI == 9 && eI == 1) || (sI == 8 && eI == 0)) {
 									this.$set(this.showArr, [i], '1');
@@ -702,7 +702,7 @@
 										this.arr[i + 1].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 1], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
 							}
 							//3
@@ -714,7 +714,7 @@
 										this.arr[i + 1].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 1], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
 							}
 							//4
@@ -726,7 +726,7 @@
 										this.arr[i + 2].outArr[eI].show = true;
 										this.$set(this.showArr, [i + 2], '1');
 									}
-									this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+									resArr.push(this.arr[i]);
 								}
 							}
 						} else {
@@ -735,10 +735,17 @@
 								this.$set(this.showArr, [i], '1');
 								this.arr[i].outArr[0].show = true;
 								this.arr[i].outArr[1].show = true;
-								this.mulRow[item.index].lastTime = i < this.mulRow[item.index].lastTime ? i : this.mulRow[item.index].lastTime;
+								resArr.push(this.arr[i]);
 							}
 						}
 					}
+					//计算周期
+					resArr.forEach((it, idx) => {
+						this.mulRow[item.index].lastTime = it.index > this.mulRow[item.index].lastTime ? this.mulRow[item.index].lastTime : it.index;
+						if (resArr[idx + 1]) {
+							this.mulRow[item.index].farTime = Math.abs(resArr[index + 1].index - it.index) > this.mulRow[item.index].farTime ? Math.abs(resArr[index + 1].index - it.index) : this.mulRow[item.index].farTime;
+						}
+					});
 				});
 				this.autoFresh();
 			},
@@ -805,6 +812,7 @@
 				});
 			},
 			changeType(value) {
+				clearInterval(this.clearNum2);
 				this.resetArr(0);
 				this.resetArr(1);
 				this.resetArr(2);
@@ -820,6 +828,7 @@
 				}
 			},
 			changeDate(value) {
+				clearInterval(this.clearNum2);
 				this.resetArr(0);
 				this.resetArr(1);
 				this.resetArr(2);
