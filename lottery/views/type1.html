@@ -635,7 +635,7 @@
 					for (let i = 0; i < dataArr.length; i++) {
 						sI = dataArr[i].openNum.join('').indexOf(item.value1);
 						if (dataArr[i + 1]) {
-							eI = dataArr[i+1].openNum.join('').indexOf(item.value2);
+							eI = dataArr[i + 1].openNum.join('').indexOf(item.value2);
 						}
 						if (sI - eI == 1) {
 							this.$set(this.showArr, [i], '1');

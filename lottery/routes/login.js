@@ -18,7 +18,6 @@ let staticPwd = 'sonjine1107';
 router.get('/', function (req, res, next) {
 	res.render('login');
 });
-router.isLogin = false;
 router.post('/login', function (req, res, next) {
 	let phone = req.body.phone;
 	let pwd = req.body.password;

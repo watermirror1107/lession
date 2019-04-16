@@ -1097,7 +1097,7 @@
 					for (let i = 0; i < dataArr.length; i++) {
 						sI = dataArr[i].openNum.join('').indexOf(item.value1);
 						if (dataArr[i + 1]) {
-							eI = dataArr[i].openNum.join('').indexOf(item.value2);
+							eI = dataArr[i + 1].openNum.join('').indexOf(item.value2);
 						}
 						if (item.index % 2 != 0) {
 							if (sI - eI == 1) {
@@ -1140,14 +1140,20 @@
 						}
 					}
 					//计算周期
-					resArr.forEach((it, idx) => {
-						this.mulRow[item.index].lastTime = it.index > this.mulRow[item.index].lastTime ? this.mulRow[item.index].lastTime : it.index;
-						if (resArr[idx + 1]) {
-							this.mulRow[item.index].farTime = Math.abs(resArr[index + 1].index - it.index) > this.mulRow[item.index].farTime ? Math.abs(resArr[index + 1].index - it.index) : this.mulRow[item.index].farTime;
-						}
-					});
+					console.log(item.value1);
+					console.log(item.value2);
+					console.log(resArr);
+					if (resArr.length > 0) {
+						console.log(resArr);
+						resArr.forEach((it, idx) => {
+							this.mulRow[item.index].lastTime = it.index > this.mulRow[item.index].lastTime ? this.mulRow[item.index].lastTime : it.index;
+							if (resArr[idx + 1]) {
+								this.mulRow[item.index].farTime = Math.abs(resArr[index + 1].index - it.index) > this.mulRow[item.index].farTime ? Math.abs(resArr[index + 1].index - it.index) : this.mulRow[item.index].farTime;
+							}
+						});
+					}
 				});
-				this.autoFresh();
+				//this.autoFresh();
 			},
 			changeSize(ev) {
 				console.log(ev);
