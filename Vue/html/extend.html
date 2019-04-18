@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+
+	var Profile = Vue.extend({
+		template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>',
+		data: function () {
+			return {
+				firstName: 'Walter',
+				lastName: 'White',
+				alias: 'Heisenberg',
+			};
+		},
+	});
+
+	// 创建 Profile 实例，并挂载到一个元素上。
+
+	var vm = new Vue({
+		el: '#app',
+		data: {age: 1},
+		created() {
+
+		},
+		mounted() {
+			new Profile().$mount('#app');
+		},
+		methods: {
+			hello: function () {
+				this.age++;
+				console.log(`this is  parent!`);
+			},
+		},
+	});
+</script>
+</body>
+</html>

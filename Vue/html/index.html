@@ -16,6 +16,7 @@
     {{age}}
     <big-box @change-age="changeAge" class="wode" :msg="age" title="ddd" ref="testRef">
         <p slot="two">插槽2</p>
+        <!--v-slot:two vue 2.6新写法-->
         <p slot="one">插槽1</p>
     </big-box>
     <button @click="changeModel">改变模板</button>
@@ -39,7 +40,7 @@
 				this.$emit('change-age', 3);
 				console.log('changeAge');
 			},
-		},
+		},s
 	});
 	Vue.component('lit-box', {
 		props: ['msg'],
