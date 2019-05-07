@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let arr1 = [1]
+    if (arr1.length < 5) {
+        for (let i = 0; i < (5 - arr1.length); i++) {        //这个数组最后只有3个元素
+            arr1.push('a')
+        }
+    }
+    let arr2 = [1]
+    if (arr2.length < 5) {
+        let num = 5 - arr2.length
+        for (let i = 0; i < num; i++) { //这个数组最后有5个元素
+            arr2.push('b')
+        }
+    }
+    console.log(arr1)
+    console.log(arr2)
+    //两个数组的长度不一样是因为arr.length是个动态值，不断改变添加数组元素的时候，数组长度在每次引用是会发生变化，属于一个引用类型数据
+    //所以要把这个数组长度的值赋给一个基础数据类型用5-arr2.length这种
+</script>
+</body>
+</html>
