@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-table
+            :data="tableData"
+            border
+            style="width:800px">
+        <el-table-column
+                prop="date"
+                label="日期"
+                width="150">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="姓名"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="province"
+                label="省份"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="city"
+                label="市区"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="address"
+                label="地址"
+                width="300">
+        </el-table-column>
+        <el-table-column
+                prop="zip"
+                label="邮编"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button type="text" size="small">编辑</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <button @click="changeData">点击</button>
+</div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                tableData: []
+            }
+        },
+        methods: {
+            handleClick(row) {
+                console.log(row);
+            },
+            changeData() {
+                // http://v.juhe.cn/toutiao/index?type=top&key=APPKEY
+                // 为给定 ID 的 user 创建请求
+                this.tableData = [{
+                    date: '2019',
+                    name: 'juju',
+                    province: 'fujian',
+                    city: 'xiam',
+                    address: 'putian',
+                    zip: '12313'
+                }];
+              
+
+            },
+        }
+    })
+</script>
+</html>

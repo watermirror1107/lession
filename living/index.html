@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/ezuikit.js"></script>
+    <script src="js/jquery.js"></script>
+</head>
+<body>
+<video width="500"
+       height="300"
+       id="myPlayer"
+       controls
+       playsInline
+       src="ezopen://open.ys7.com/f01018a141094b7fa138b9d0b856507b.live"
+       webkit-playsinline
+>
+    <source>
+</video>
+<script>
+    let video = new EZUIKit.EZUIPlayer('myPlayer');
+    // 日志
+    //video.on('log', log);
+    console.log(video)
+    video.play();
+
+    function log(str) {
+        console.log(str);
+    }
+</script>
+</body>
+</html>
