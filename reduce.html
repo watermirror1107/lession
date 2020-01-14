@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //reduce迭代执行器的用法（并不是累加器，它只是把上一步的结果记录下来应用到下一步去的迭代器）
+    //reduce的返回值 是回调函数迭代后得到的结果，执行次数和数组的长度有关，长度为0就不执行
+    //语法
+    //array.reduce(function(total, currentValue, currentIndex, arr), initialValue)
+    //参数分析
+    // function(total,currentValue, index,arr)	必需。用于执行每个数组元素的函数。
+    //     回调函数参数:
+    //     total	必需。初始值, 或者计算结束后的返回值。
+    //     currentValue	必需。当前元素
+    //     currentIndex	可选。当前元素的索引
+    //     arr	可选。当前元素所属的数组对象。
+    // initialValue	可选。传递给函数的初始值
+    //如果initialValue为空，则以数组的第一个为起始值，并以数组的第二个值为currentValue，执行的循环次数少一次
+
+
+    //例子1
+    var numbers = [65, 44, 12, 4];
+
+    function getSum(total, num) {
+        return total - 1;
+    }
+
+    numbers.reduce(getSum);//没有初始值，65为初始值，连续减三次1
+
+    //例子2
+    let arr = [1, 2, 3];
+
+    //例子3 稍微难了点，用2个函数作为数组并且没有传值，
+    const pipeline = (...funcs) =>
+        (val) => {
+            //console.log(val);
+            //console.log(funcs);
+            return funcs.reduce((a, b) => b(a), val);
+        };
+
+    const plus1 = a => a + 1;//返回参数a+1的值  5+1=6
+    const mult2 = a => a * 2;//返回参数a*2的值  6*2=12
+    const addThenMult = pipeline(plus1, mult2);
+
+    console.log(addThenMult(5));//这里的5是pipeline返回的函数的参数，也是是Plus和mult2两个函数的参数；
+</script>
+</body>
+</html>
