@@ -5,7 +5,8 @@ JQUERY的$(function(){})和window.onload=function(){}的区别【转】
 1.执行时间
 
     window.onload必须等到页面内包括图片的所有元素加载完毕后才能执行。
-    $(document).ready()是DOM结构绘制完毕后就执行，不必等到加载完毕。
+    $(document).ready()是DOM结构生成完毕后就执行，不必等到加载完毕。（原生的js就是document的DOMContentLoaded事件，写法document.addEventListener('DOMContentLoaded',fn) ），比onload先执行
+    还可以用readystatechange来查看文档的当前的状态，（loading —— 文档正在被加载。interactive —— 文档被解析，大概是与 DOMContentLoaded 同时发生，而不是在它之前发生。complete —— 文档和资源被加载，大概是与 window.onload 同时发生，而不是在它之前发生），用法：document.addEventListener('readystatechange', () => console.log(document.readyState));
 2.编写个数不同
 
      window.onload不能同时编写多个，如果有多个window.onload方法，只会执行一个

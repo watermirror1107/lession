@@ -7,35 +7,38 @@
 <body>
 <script>
     //闭包是指有权访问另一个函数作用域中的变量函数；
-    function createFunctions(){
-        var res=[];
-        for(var i=0;i<10;i++){
-            res[i]=function () {
+    function createFunctions() {
+        var res = [];
+        for (var i = 0; i < 10; i++) {
+            res[i] = function () {
                 return i;
             }
         }
         return res;
     }
-    function createFunctions1(){
-      var res=[];
-      for (var i=0;i<10;i++){
-          res[i]=function (x) {  //这里没有使用闭包，但是让输出的数组不是全部都是10;这是因为函数的参数是值传递的，不是指针；
-              return x;
-          }(i)
-      }
-      return res;
-  }
-    function createFunctions2(){
-        var res=[];
-        for(var i=0;i<10;i++){
-            res[i]=function (num) {
-                return function(){
+
+    function createFunctions1() {
+        var res = [];
+        for (var i = 0; i < 10; i++) {
+            res[i] = function (x) {  //这里没有使用闭包，但是让输出的数组不是全部都是10;这是因为函数的参数是值传递的，不是指针,变量的改变不会影响到值；
+                return x;
+            }(i)
+        }
+        return res;
+    }
+
+    function createFunctions2() {
+        var res = [];
+        for (var i = 0; i < 10; i++) {
+            res[i] = function (num) {
+                return function () {
                     return num;
                 };
             }(i);
         }
         return res;
     }
+
     console.log(createFunctions()[2]());//这里不管调用那个函数都是返回10;
     console.log(createFunctions1());
     console.log(createFunctions2()[2]());

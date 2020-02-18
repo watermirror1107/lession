@@ -55,30 +55,31 @@
     </div>
 </div>
 <script>
-	var innerCircle = document.getElementById('inner');
-	var middleCircle = document.getElementById('middle');
-	var outerCircle = document.getElementById('outer');
+    var innerCircle = document.getElementById('inner');
+    var middleCircle = document.getElementById('middle');
+    var outerCircle = document.getElementById('outer');
 
-	innerCircle.addEventListener('click', function () {
-		alert('innerCircle的click事件在捕获阶段被触发');
-	}, true);
-	innerCircle.addEventListener('click', function () {
-		alert('innerCircle的click事件在冒泡阶段被触发');
-	}, false);
-	middleCircle.addEventListener('click', function () {
-		alert('middleCircle的click事件在捕获阶段被触发');
-	}, true);
-	middleCircle.addEventListener('click', function () {
-		alert('middleCircle的click事件在冒泡阶段被触发');
-	}, false);
-	outerCircle.addEventListener('click', function () {
-		alert('outerCircle的click事件在冒泡阶段被触发');
-	}, false);
-	outerCircle.addEventListener('click', function () {
-		alert('outerCircle的click事件在捕获阶段被触发');
-	}, true);
+    innerCircle.addEventListener('click', function () {
+        alert('innerCircle的click事件在冒泡阶段被触发');
+    }, false);//点击inner的时候谁先绑定谁先触发
+    innerCircle.addEventListener('click', function () {
+        alert('innerCircle的click事件在捕获阶段被触发');
+    }, true);
 
-	//和绑定事件的顺序无关，如果是处于目标事件阶段的话，谁先绑定就谁先触发，不分冒泡和捕获了；
+    middleCircle.addEventListener('click', function () {
+        alert('middleCircle的click事件在捕获阶段被触发');
+    }, true);
+    middleCircle.addEventListener('click', function () {
+        alert('middleCircle的click事件在冒泡阶段被触发');
+    }, false);
+    outerCircle.addEventListener('click', function () {
+        alert('outerCircle的click事件在冒泡阶段被触发');
+    }, false);
+    outerCircle.addEventListener('click', function () {
+        alert('outerCircle的click事件在捕获阶段被触发');
+    }, true);
+
+    //和绑定事件的顺序无关，如果是处于目标事件阶段的话，谁先绑定就谁先触发，不分冒泡和捕获了；
     //例如点击innerCircle，当事件传递到innderCircle的时候就是目标事件阶段，这个时候如果是冒泡先绑定冒泡就先触发，
 </script>
 </body>

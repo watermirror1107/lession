@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function foo() {
+        try {
+            // console.log('b');
+            console.log(b);
+            return 0;
+        } catch (err) {
+            // console.log(123)
+            //  return 2
+        } finally {//无论如何都会执行的
+            console.log("a");
+            // return 1;
+        }
+    }
+
+    //finally里面有return 的时候,函数的返回值就是finally里面的，但还是会执行try里面的函数
+    console.log(foo());
+</script>
+</body>
+</html>

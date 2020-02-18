@@ -18,48 +18,50 @@
 <body>
 <div class="box"></div>
 <script>
-	//防抖
-	function debounce(fn, delay) {
-		var delay = delay || 200;
-		var timer;
-		return function () {
-			var th = this;
-			var args = arguments;
-			if (timer) {
-				clearTimeout(timer);
-			}
-			timer = setTimeout(function () {
-				timer = null;
-				fn.apply(th, args);
-			}, delay);
-		};
-	}
+    //防抖效果 在事件被触发n秒后再执行回调，如果在这n秒内又被触发，则重新计时。
+    function debounce(fn, delay) {
+        var delay = delay || 200, timer;
+        // console.log(this)//这里的是window
 
-	//节流
-	function throttle(fn, interval) {
-		var last;
-		var timer;
-		var interval = interval || 5000;
-		return function () {
-			var th = this;
-			var args = arguments;
-			var now = +new Date();
-			if (last && now - last < interval) {
-				clearTimeout(timer);
-				timer = setTimeout(function () {
-					last = now;
-					fn.apply(th, args);
-				}, interval);
-			} else {
-				last = now;
-				fn.apply(th, args);
-			}
-		};
-	}
+        return function () {
+            var th = this;
+            // console.log(this)//这里的this是接下来要调用它的对象，计时器里的回调this指向window，所以要把this的值给保存下来
+            var args = arguments;//这个函数的参数
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(function () {
+                // console.log(this)
+               // timer = null;
+                fn.apply(th, args);
+            }, delay);
+        };
+    }
 
-	document.querySelector('.box').addEventListener('mousemove', throttle(function (ev) {
-		console.log(3);
-	}), false);
+    //节流效果 在一个单位时间内，只能触发一次函数。如果这个单位时间内触发多次函数，只有一次生效。
+    function throttle(fn, interval) {
+        var last, timer, interval = interval || 500;
+        return function () {
+            var th = this;
+            var args = arguments;//闭包
+            var now = new Date();
+            if (last && now - last < interval) {
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    last = now;
+                    fn.apply(th, args);
+                }, interval);
+            } else {
+                last = now;
+                fn.apply(th, args);
+            }
+        };
+    }
+
+    document.querySelector('.box').addEventListener('mousemove', debounce(function (ev) {
+        console.log(3);
+    }), false);
+
 </script>
 </body>
 </html>
