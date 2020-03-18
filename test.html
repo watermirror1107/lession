@@ -75,6 +75,14 @@
             border-radius: 50%;
             background-color: #000;
         }
+
+        .rou {
+            width: 500px;
+            height: 500px;
+            background-color: #000;
+            border-radius: 50%;
+            margin-left: 50px;
+        }
     </style>
 </head>
 <body>
@@ -103,6 +111,7 @@
 </div>
 <div class="round">
 </div>
+<div class="rou"></div>
 <!--<div class="father">-->
 <!--<div class="son">鼠标移到这里</div>-->
 <!--</div>-->
@@ -184,6 +193,41 @@
     }
 
     loopLight()
+
+    function d(fn, delay) {
+        var time, delay = delay || 500;
+        return function () {
+            let th = this;
+            clearTimeout(time);
+            time = setTimeout(function () {
+                fn.apply(th, arguments)
+            }, delay)
+        }
+    }
+
+    function t(fn, dis = 500) {
+        var time, last;
+        return function () {
+            let th = this, now = new Date();
+            if (last && now - last < dis) {
+                clearTimeout(time);
+                time = setTimeout(function () {
+                    last = now;//这句话不能拿到If外面去，因为settimeout是异步任务
+                    fn.apply(th, arguments)
+                }, dis)
+            } else {
+                last = now;
+                fn.apply(th, arguments)
+            }
+        }
+    }
+
+    function write() {
+        console.log(123)
+    }
+
+    let rouTest = document.querySelector('.rou');
+    rouTest.addEventListener('mousemove', t(write), false)
 </script>
 </body>
 </html>

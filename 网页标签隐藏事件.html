@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+</head>
+<body>
+<script>
+    document.addEventListener("visibilitychange", function () {
+
+        console.log(document.visibilityState);//hidden visible这2个状态
+
+        if (document.visibilityState == 'hidden') {
+            document.title = '隐藏了'
+        } else {
+            document.title = '又回来了'
+        }
+
+    });
+</script>
+</body>
+</html>

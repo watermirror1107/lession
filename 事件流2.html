@@ -59,8 +59,9 @@
     var middleCircle = document.getElementById('middle');
     var outerCircle = document.getElementById('outer');
 
-    innerCircle.addEventListener('click', function () {
+    innerCircle.addEventListener('click', function (e) {
         alert('innerCircle的click事件在冒泡阶段被触发');
+        e.stopPropagation();//阻止冒泡
     }, false);//点击inner的时候谁先绑定谁先触发
     innerCircle.addEventListener('click', function () {
         alert('innerCircle的click事件在捕获阶段被触发');
