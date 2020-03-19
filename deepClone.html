@@ -14,6 +14,7 @@
             return obj;
         }
         let result;
+        //下面这一步是为了初始化对象的类型格式
         if (result instanceof Array) {
             result = [];
         } else {
@@ -30,8 +31,7 @@
     let c = deepClone(a);
     let d = deepClone(b);
     b[0].name = 'jim';
-    console.log(d[0].name)
-    console.log()
+    console.log(d[0].name);
     c.name = 'll';
     console.log(c.name);
     console.log(a.name);
