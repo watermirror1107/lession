@@ -7,6 +7,30 @@
 <body>
 <script>
     //闭包是指有权访问另一个函数作用域中的变量函数；
+    //闭包的方式有2种，1：函数作为返回值；2：函数作为参数
+
+    function closure1() {
+        const x = 100;
+        return function () {
+            console.log(x);
+        }
+    }
+
+    closure1()();
+
+    const num = 200;
+
+    function useNum() {//闭包保留对Num=200的引用
+        console.log(num)
+    }
+
+    function closure2(fn) {
+        const num = 100;
+        fn();
+    }
+
+    closure2(useNum);
+
     function createFunctions() {
         var res = [];
         for (var i = 0; i < 10; i++) {
