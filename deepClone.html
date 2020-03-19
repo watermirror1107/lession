@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //深拷贝
+    let a = {name: 'li', age: 18, location: {country: 'china', city: 'shanghai'}}, b = [{name: 'tom', age: 18}, 3];
+
+    function deepClone(obj) {
+        if (typeof obj != 'object' || typeof obj == null) {
+            return obj;
+        }
+        let result;
+        if (result instanceof Array) {
+            result = [];
+        } else {
+            result = {};
+        }
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                result[key] = deepClone(obj[key])
+            }
+        }
+        return result;
+    }
+
+    let c = deepClone(a);
+    let d = deepClone(b);
+    b[0].name = 'jim';
+    console.log(d[0].name)
+    console.log()
+    c.name = 'll';
+    console.log(c.name);
+    console.log(a.name);
+</script>
+</body>
+</html>
