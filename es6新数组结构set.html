@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+set是新的数据结构，不是新数据类型,里面不包含重复的元素,可以用来去重,
+例子 给字符串去重 去除字符串里面的重复字符。
+[...new Set('ababbc')].join('')
+先把字符串变成set数据结构，然后在用...拓展运算符变成数组在join变成新的字符串；
+set和数组不一样的是不能下标索引来获取指定的成员
+<script>
+    //生成set结构用set构造函数
+    //Set函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化，也可以不用参数  （延伸字符串也是一个iterable的数据结构）
+    let a = new Set([1, 2, 3, 3]);
+    console.log(a);
+    //set的方法有
+    //has 用来判断是否里面包含某个元素,返回布尔值
+    console.log(a.has(1))
+    //用add可以给set添加新的成员,并且返回的是添加后的数组，可以进行链式操作
+    a.add(4).add(5).add(1).add(6)//重复的添加不进去
+    console.log(a)
+    //可以用delete来删除某个元素,返回布尔值成功就是true
+    console.log(a.delete(5));
+    //可以用个size来获取长度
+    console.log(a.size)
+    //可以用clear来清空set,没有返回值
+    a.clear();
+    console.log(a.size)
+    //可以用Array.from来把set格式转换成array数组格式
+
+    //WeakSet 结构与 Set 类似，也是不重复的值的集合。但是，它与 Set 有两个区别。
+
+    // 首先，WeakSet 的成员只能是对象，而不能是其他类型的值。其次，WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。
+    //weakset不能遍历，因为是弱引用说不定成员什么时候被清了都不知道
+    //作为构造函数，WeakSet 可以接受一个数组或类似数组的对象作为参数。（实际上，任何具有 Iterable 接口的对象，都可以作为 WeakSet 的参数。）该数组的所有成员，都会自动成为 WeakSet 实例对象的成员。
+    //但是参数的成员必须都是对象
+    const a1 = [[1, 2], [3, 4]];
+    const ws1 = new WeakSet(a1);
+    // WeakSet {[1, 2], [3, 4]}
+    // 上面代码中，a1是一个数组，它有两个成员，也都是数组(数组是对象)。将a1作为 WeakSet 构造函数的参数，a1的成员会自动成为 WeakSet 的成员。
+    // 注意，是a1数组的成员成为 WeakSet 的成员，而不是a1数组本身。这意味着，a1数组的成员只能是对象。
+    const b1 = [3, 4];
+    const ws2 = new WeakSet(b1);//报错
+    //weakset的方法 has add delete;使用方法和set的一直
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let a = [1, 2, 3], b = {name: 'lili', age: 18};
+    //for of 可以用来遍历数组,遍历的是item里面的各个value,不能遍历对象，
+    //for in可以用来遍历对象和数组，遍历的是Key;如果遍历的数组的话Key就是index;
+    for (let item of a) {
+        console.log(item)
+    }
+    for (let key in b) {
+        console.log(key)
+    }
+    a.name='kankan';//在数组的末端添加一个index为name的item,value为kankan
+    for (let key in a) {
+        console.log(key);//这里会把a添加的属性也给遍历出来name会变成一个新的Index存在
+    }
+    //foreach是数组的方法，和for循环不同的是不可以利用break和return来跳出循环
+</script>
+</body>
+</html>

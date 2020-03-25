@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function a(data) {
+        console.log(data);
+        console.log(this);
+    }
+
+    let b = {name: 'tom'};
+
+    a.bind(b, 'mini')();
+
+    Function.prototype.bind1 = function () {
+        let arr = Array.prototype.slice.call(arguments);
+        let t = arr.shift();
+        let fn = this;
+        return function () {
+            return fn.apply(t, arr)
+        }
+    };
+
+    a.bind1(b, 'mini')()
+</script>
+</body>
+</html>
