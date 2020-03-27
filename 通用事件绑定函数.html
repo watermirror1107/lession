@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function bindEvent(dom, type, selector, fn) {
+        if (fn == null) {
+            fn = selector;
+            selector = null;
+        }
+        dom.addEventListener(type, function (ev) {
+            if (selector && ev.target.matches(selector)) {
+                fn.call(ev.target, ev)
+            } else {
+                fn(ev)
+            }
+        })
+    }
+</script>
+</body>
+</html>
