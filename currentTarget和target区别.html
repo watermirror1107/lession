@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #a, #b {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+
+        #b {
+            margin: 25px 0 0 25px;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="a" style="margin: 100px 0 0 100px;">
+    <div id="b"></div>
+</div>
+<script>
+    let a = document.querySelector('#a');
+    let b = document.querySelector('#b');
+    a.addEventListener('click', function (ev) {
+        console.log(this);//永远都是绑定的节点对象
+        console.log(ev.currentTarget)//处理事件的节点
+        console.log(ev.target)//当前触发该事件的节点有可能不是a
+        ev.stopPropagation();//阻止传播,如果实在捕获阶段会阻止b的点击事件，因为在这一步已经阻止了事件的传播
+    }, true);
+    b.addEventListener('click', function (ev) {
+        console.log('1');
+    }, true)
+</script>
+</body>
+</html>
