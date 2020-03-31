@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{age}}
+    <button @click="changeAge">changeAge</button>
+    computed:{{cAge}}
+    <br/>
+    {{dAge}}
+</div>
+<script>
+    let fun = {name: '123'}
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            age: 18,
+            name: 'tom',
+            student: {
+                name: 'kankan'
+            },
+            fun
+        },
+        computed: {//依赖于数据的变化,但是它可以像一个数据一样被使用,类似于一个getter函数(也可以设置setter),有缓存如果依赖的数据没变就不会进行运算，.在页面中使用大量或是复杂的表达式去处理数据，对页面的维护会有很大的影响。这个时候就需要用到computed 计算属性来处理复杂的逻辑运算，
+            cAge: function () {
+                return this.age * 2;
+            },
+            dAge: {
+                get() {
+                    return this.age + this.name;
+                },
+                set(nV) {
+                    this.name = nV + 'test';//可以用vm.dAge=nV来改变这个值
+                }
+            }
+
+        },
+        watch: {//默认潜监听，但是它比computed强的是可以做异步，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态
+            //watch要配合上已经声明的数据使用
+            name(nv, ov) {
+                console.log(nv);
+                console.log(ov);
+            },
+            //深监听
+            student: {
+                handler(d1) {//不接收参数
+                    console.log(d1);
+                    console.log('deepWatch');
+                    console.log(this.student.name)
+                },
+                deep: true,
+                //immediate: true//将立即以表达式的当前值触发回调
+            }
+        },
+        methods: {
+            changeAge: function () {
+                this.age++;
+            }
+        }
+    });
+    vm.dAge = 'dd';
+    vm.student.name = 'testChange';
+</script>
+</body>
+</html>

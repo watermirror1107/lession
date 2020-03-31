@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let a = {name: 'kk'};
+    let b = {
+        name: 'tom', student: {
+            class: 'three'
+        }
+    };
+    let c = Object.assign({}, a), d = {...a};
+    a.name = 'jim';
+    console.log(c.name);
+    c.name = 'fun';
+    console.log(d.name);//当assign和...拓展运算符作用于对象拷贝时，第一层是深拷贝，
+    let e = Object.assign({}, b);
+    b.name = 'lily';
+    b.student.class = 'four';
+    console.log(e.name);
+    console.log(e.student.class);//第二层就是浅拷贝
+</script>
+</body>
+</html>
