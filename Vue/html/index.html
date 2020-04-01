@@ -33,15 +33,15 @@
 <script>
 	//子组件改变父组件的值
 	Vue.component('big-box', {
-		props: ['msg', 'title'],
-		template: `<div class="active"><h3>{{msg}}</h3><p>{{title}}</p><button @click="change">changeAge</button><slot name="one"></slot><slot name="two"></slot></div>`,
-		methods: {
-			change: function () {
-				this.$emit('change-age', 3);
-				console.log('changeAge');
-			},
-		},s
-	});
+        props: ['msg', 'title'],
+        template: `<div class="active"><h3>{{msg}}</h3><p>{{title}}</p><button @click="change">changeAge</button><slot name="one"></slot><slot name="two"></slot></div>`,
+        methods: {
+            change: function () {
+                this.$emit('change-age', 3);
+                console.log('changeAge');
+            },
+        },
+    });
 	Vue.component('lit-box', {
 		props: ['msg'],
 		template: `<div class="active"><h3>tom</h3></div>`,

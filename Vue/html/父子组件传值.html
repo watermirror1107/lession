@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <son-one :one-data="oneData" @change-data="changeOneData"></son-one>
+    <!--   绑定动态属性和自定义事件不能用驼峰-->
+    <son-two></son-two>
+</div>
+<div class="sonOne" style="display: none;">
+    <div class="main">
+        <p>{{oneData}}</p>
+        <button @click="changeData(2)">one</button>
+    </div>
+</div>
+<div class="sonTwo" style="display: none;">
+    <div class="main">
+        {{name}}
+    </div>
+</div>
+
+<script>
+    var event = new Vue();
+    //子级组件1
+    Vue.component('son-one', {
+        props: ['one-data'],
+        template: document.querySelector('.sonOne'),
+        methods: {
+            changeData(param) {
+                this.$emit('change-data', param);
+                //触发兄弟或者其他组件监听的自定义事件
+                event.$emit('name-is-change', 'tom')
+            }
+        },
+    });
+    //子级组件2
+    Vue.component('son-two', {
+        template: document.querySelector('.sonTwo'),
+        data() {
+            return {
+                name: 'lilei'
+            }
+        },
+        mounted() {
+            event.$on('name-is-changed', this.changeName)
+        },
+        beforeDestroy() {
+            //销毁绑定的数据不然会造成内存泄漏
+            event.$off('name-is-changed', this.changeName)
+
+        },
+        methods: {
+            changeName(param) {
+                this.name = param;
+            }
+        },
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            oneData: 1,
+            twoData: 2,
+        },
+        methods: {
+            changeOneData(param) {
+                this.oneData += param
+            }
+        }
+    })
+</script>
+</body>
+</html>

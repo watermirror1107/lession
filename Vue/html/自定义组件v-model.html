@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <inputbox v-model="name"></inputbox>
+    </br>
+    {{name}}
+</div>
+<div class="box" style="display: none;">
+    <input type="text" :value="val" @input="$emit('valchange',$event.target.value)">
+</div>
+
+
+<script>
+    //子级组件1
+    Vue.component('inputbox', {
+        props: ['val'],
+        model: {
+            prop: 'val',
+            event: 'valchange'
+        },
+        template: document.querySelector('.box'),
+    });
+    //子级组件2
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'firstName'
+        },
+    })
+</script>
+</body>
+</html>
