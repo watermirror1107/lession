@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let obj = {
+        index: 0,
+        secondArr: [],
+        use(callback) {
+            fnArr.push(callback);
+        },
+        carry() {
+            if (this.index < fnArr.length) {
+                fnArr[this.index]();
+                this.index++;
+                this.carry();
+            } else {
+                for (let i = this.index - 1; i >= 0; i--) {
+                    this.secondArr[i]()
+                }
+            }
+        }
+    };
+    let fnArr = [];
+
+    async function a() {
+        console.log('a start');
+        await next();
+        console.log('a end');
+    }
+
+    async function b() {
+        console.log('b start');
+        await next();
+        console.log('b end');
+    }
+
+    async function c() {
+        console.log('c start');
+        await next();
+        console.log('c end');
+    }
+
+    function next() {
+        let x = new Promise((resolve, reject) => {
+            obj.secondArr.push(resolve)
+        });
+        return x;
+    }
+
+
+    obj.use(a);
+    obj.use(b);
+    obj.use(c);
+    obj.carry();
+</script>
+
+</body>
+</html>

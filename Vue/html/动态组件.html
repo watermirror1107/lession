@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <keep-alive>
+        <component :is="bol?'box1':'box2'"></component>
+    </keep-alive>
+    <!--    类似于v-if 如果不做缓存的话，组件切换的是会发起网络请求,keep-alive-->
+    <br/>
+    <button @click="changeComponent">change</button>
+</div>
+<div class="one" style="display: none;">
+    <select name="city" id="">
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select>
+</div>
+<div class="two" style="display: none;">
+    <img src="https://mat1.gtimg.com/pingjs/ext2020/qqindex2018/dist/img/qq_logo_2x.png" alt="">
+</div>
+
+
+<script>
+    //子级组件1
+    Vue.component('box1', {
+        template: document.querySelector('.one'),
+        mounted() {
+            console.log('oneMounted')
+        },
+        destroyed() {
+            console.log('oneDestroyed')
+        }
+    });
+    Vue.component('box2', {
+        template: document.querySelector('.two'),
+        mounted() {
+            console.log('twoMounted')
+        },
+        destroyed() {
+            console.log('twoDestroyed')
+        }
+    });
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            bol: true
+        },
+        methods: {
+            changeComponent() {
+                this.bol = !this.bol;
+            }
+        }
+    })
+</script>
+</body>
+</html>

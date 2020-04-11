@@ -7,27 +7,48 @@
 <body>
 <section>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
         }
-        .box{
+
+        .box {
             width: 25vw;
             height: 100vh;
         }
-        .top,.bottom{
+
+        .top, .bottom {
             background-color: mediumvioletred;
             height: 100px;
             display: table-cell;
         }
-        .top{
+
+        .top {
         }
-        .bottom{
+
+        .bottom {
         }
-        .middle{
+
+        .middle {
             background-color: yellow;
 
         }
+
+        table {
+            float: left;
+            table-layout: fixed;
+        }
+
+        .t2 {
+            width: 300px;
+        }
+
+        td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
     </style>
     <article>
         <table class="box">
@@ -35,7 +56,23 @@
             <tr class="middle"></tr>
             <tr class="bottom"></tr>
         </table>
+        <table class="t2">
+            <tr>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+            <tr>
+                <td colspan="1">table-layout:fixed;table-layout:fixed;table-layout:fixed;table-layout:fixed;</td>
+                <!--                colspan必须配合th一起用，th一共3个，超过3的就按一行算-->
+                <td colspan="2">2</td>
+            </tr>
+            <tr>
+                <td colspan="2">2列</td>
+            </tr>
+        </table>
     </article>
+
 </section>
 </body>
 </html>

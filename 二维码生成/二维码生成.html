@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Suporka Vue App</title>
+    <style>
+        .container {
+            padding: 60px;
+            margin: 0 auto;
+            line-height: 50px;
+        }
+
+        input {
+            display: inline-block;
+            width: 200px;
+            height: 32px;
+            line-height: 1.5;
+            padding: 4px 7px;
+            font-size: 12px;
+            border: 1px solid #dcdee2;
+            border-radius: 4px;
+            color: #515a6e;
+            background-color: #fff;
+            background-image: none;
+            position: relative;
+            cursor: text;
+            transition: border 0.2s ease-in-out, background 0.2s ease-in-out,
+            box-shadow 0.2s ease-in-out;
+        }
+
+        button {
+            color: #fff;
+            background-color: #19be6b;
+            border-color: #19be6b;
+            outline: 0;
+            vertical-align: middle;
+            line-height: 1.5;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: 5px 15px 6px;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: color 0.2s linear, background-color 0.2s linear,
+            border 0.2s linear, box-shadow 0.2s linear;
+        }
+
+        #qrcode {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <input type="text" placeholder="请输入您想转化成二维码的字符串" id="input">
+    <button onclick="creatQRcode();">一键生成</button>
+    <div id="qrcode" title="http://192.168.2.141:8082/xm_my_travel/travel_product/index.html">
+        <canvas width="200" height="200" style="display: none;"></canvas>
+        <img alt="Scan me!" id="qrcode-image"
+             src="data:image/png;base64,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"
+             style="display: block;"></div>
+
+    <a href="javascript:void(0);" onclick="downloads();">点击下载</a>
+</div>
+<script src="QRcode.js"></script>
+<script type="text/javascript">
+    var qrcode = null;
+
+    function creatQRcode() {
+        document.getElementById("qrcode").innerHTML = "";
+        qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: document.getElementById("input").value,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    function downloads() {
+        console.log(document.getElementById("qrcode-image").src);
+        let data = document.getElementById("qrcode-image").src;
+        let aLink = document.createElement("a");
+        let blob = base64ToBlob(data); //new Blob([content]);
+
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("click", true, true); //initEvent 不加后两个参数在FF下会报错  事件类型，是否冒泡，是否阻止浏览器的默认行为
+        aLink.download = "fileName";
+        aLink.href = URL.createObjectURL(blob);
+
+        aLink.dispatchEvent(
+            new MouseEvent("click", {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            })
+        ); //兼容火狐
+    }
+
+    //base64转blob
+    function base64ToBlob(code) {
+        let parts = code.split(";base64,");
+        let contentType = parts[0].split(":")[1];
+        let raw = window.atob(parts[1]);
+        let rawLength = raw.length;
+
+        let uInt8Array = new Uint8Array(rawLength);
+
+        for (let i = 0; i < rawLength; ++i) {
+            uInt8Array[i] = raw.charCodeAt(i);
+        }
+        return new Blob([uInt8Array], {type: contentType});
+    }
+</script>
+
+
+</body>
+</html>

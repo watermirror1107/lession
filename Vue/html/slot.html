@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <slotbox>
+        <!--        <template v-slot:[slotName]>插槽3</template>-->
+        <!--        <template v-slot:two>one</template>-->
+        <!--        这里的v-slot必须是用在组件标签或者是一个template标签,v-slot:two还可以简写成#two,-->
+        test
+        <template v-slot="getData">
+            {{getData.slotdata}}
+        </template>
+    </slotbox>
+</div>
+<div class="box" style="display: none;">
+    <div class="main">
+        <!--        <slot >默认插槽</slot>-->
+        <!--        </br>-->
+        <slot name="two">default</slot>
+        <slot name="three">default</slot>
+        <slot :slotdata="sonData"></slot>
+        <!--        这里有个坑就是作用域插槽和默认插槽不能共存，而且作用域插槽的标签属性会被转换成小写的-->
+    </div>
+</div>
+
+
+<script>
+    //子级组件1
+    Vue.component('slotbox', {
+        template: document.querySelector('.box'),
+        data() {
+            return {
+                sonData: 'test1'
+            }
+        }
+    });
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'firstName',
+            slotName: 'three',
+        },
+    })
+</script>
+</body>
+</html>
