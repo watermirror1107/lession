@@ -6,16 +6,29 @@
     <script src="js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-<input type="password" placeholder="请输入密码">
+<input type="text" placeholder="请输入密码">
 <button>显示密码</button>
 <button>隐藏密码</button>
+<button class="sub">提交</button>
 <script>
-    $('button:eq(0)').click(()=>{
-        $('input').attr('type','text');
+    $('button:eq(0)').click(() => {
+        $('input').attr('type', 'text');
     });
-    $('button:eq(1)').click(()=>{
-        $('input').attr('type','password');
-    })
+    $('button:eq(1)').click(() => {
+        $('input').attr('type', 'password');
+    });
+    $('.sub').click(function () {
+        $('body').append($('input').val());
+    });
+    let a = 'a变量';
+    let b = 'b变量';
+
+    function test(a, b) {
+        console.log(a);
+        console.log(b);
+    }
+
+    test`${a}${b}`;
 </script>
 </body>
 </html>
