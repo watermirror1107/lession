@@ -7,18 +7,38 @@
 </head>
 <body>
 <script>
-
-    function test1(){
-        return new sPromise((resolve,reject)=>{
-            setTimeout(()=>{
-                resolve('dd')
-            },0)
-        })
+    //promise对象没有then方法的时候是不会被调用的,调用一个Promise.then()
+    function test1() {
+        return new SPromise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('dd');
+            }, 0);
+        });
     }
 
-    test1().then((data)=>{
+    function test2() {
+        return new SPromise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('qq');
+            }, 1000);
+        });
+    }
+
+    let test3 = new SPromise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('ww');
+        }, 500);
+    });
+
+    test1().then((data) => {
         console.log(data);
-    })
+    });
+    SPromise.all([test1(), test2()]).then((data) => {
+        console.log(data);
+    });
+    SPromise.race([test2(), test3]).then((data) => {
+        console.log(data);
+    });
 
 
 </script>
