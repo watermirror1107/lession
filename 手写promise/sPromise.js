@@ -37,8 +37,7 @@ function SPromise(fn) {
             return;
         }
 
-        let cb = status === 'fulfilled' ? defObj.onFulfilled : defObj.onRejected,
-            ret;
+        let cb = status === 'fulfilled' ? defObj.onFulfilled : defObj.onRejected, ret;
         if (cb === null) {
             cb = status === 'fulfilled' ? defObj.resolve : defObj.reject;
             cb(value);
