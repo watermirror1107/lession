@@ -9,57 +9,67 @@
 </head>
 <body>
 <script>
-	class SalesOffices {
-		constructor() {
-			this.clientList = {};
-		}
+    class SalesOffices {
+        constructor() {
+            this.clientList = {};
+        }
 
-		listen(key, fn) {
-			if (!this.clientList[key]) {
-				this.clientList[key] = [];
-			}
-			this.clientList[key].push(fn);
-		}
+        listen(key, fn) {
+            if (!this.clientList[key]) {
+                this.clientList[key] = [];
+            }
+            this.clientList[key].push(fn);
+        }
 
-		cancelListen(key) {
-			if (this.clientList[key]) {
-				delete this.clientList[key];
-			}
-		}
+        cancelListen(key, callback) {
+            if (this.clientList[key]) {
+                let arr = this.clientList[key].filter(item => item === callback);
+                this.clientList[key] = arr;
+                if (!this.clientList[key].length) delete this.clientList[key];
+            }
+        }
 
-		trigger(key, ...dd) {
-			let arr = [];
-			for (let k in this.clientList) {
-				if (parseFloat(k) <= parseFloat(key) && this.clientList[k].length > 0) {
-					arr.push(...this.clientList[k]);
-				}
-			}
-			for (let i of arr) {
-				i.apply(this, dd);//参数
-			}
-		}
-	}
+        trigger(key, ...dd) {
+            let arr = [];
+            for (let k in this.clientList) {
+                if (parseFloat(k) <= parseFloat(key) && this.clientList[k].length > 0) {
+                    arr.push(...this.clientList[k]);
+                }
+            }
+            for (let i of arr) {
+                i(...dd);//参数
+            }
+        }
 
-	let newSystem = new SalesOffices();
-	newSystem.listen('70', function (price, squareMeter) { // 添加订阅者2
-		console.log('价格= 70');
-		console.log('squareMeter= ' + squareMeter);
-		console.log(1);
-	});
-	newSystem.listen('80', function (price, squareMeter) { // 添加订阅者1
-		console.log('价格= 80');
-		console.log('squareMeter= ' + squareMeter);
-		console.log(2);
-	});
+        onceTrigger(key, onceCallback) {
+            const cb = (...dd) => {
+                onceCallback(...dd);
+                this.cancelListen(key);
+            };
+            this.listen(key, cb);
+        }
+    }
 
-	newSystem.listen('100', function (price, squareMeter, name) { // 添加订阅者3
-		console.log('价格= ' + price);
-		console.log('squareMeter= ' + squareMeter);
-		console.log(3);
-	});
-	//console.log(newSystem.clientList)
-	newSystem.cancelListen(80);//取消80快的订阅
-	newSystem.trigger(90, '90', 'size');//给低于90发布信息
+    let newSystem = new SalesOffices();
+    newSystem.listen('70', function (price, squareMeter) { // 添加订阅者2
+        console.log('价格= 70');
+        console.log('squareMeter= ' + squareMeter);
+        console.log(1);
+    });
+    newSystem.listen('80', function (price, squareMeter) { // 添加订阅者1
+        console.log('价格= 80');
+        console.log('squareMeter= ' + squareMeter);
+        console.log(2);
+    });
+
+    newSystem.listen('100', function (price, squareMeter, name) { // 添加订阅者3
+        console.log('价格= ' + price);
+        console.log('squareMeter= ' + squareMeter);
+        console.log(3);
+    });
+    //console.log(newSystem.clientList)
+    newSystem.cancelListen(80);//取消80快的订阅
+    newSystem.trigger(90, '90', 'size');//给低于90发布信息
 </script>
 </body>
 </html>
