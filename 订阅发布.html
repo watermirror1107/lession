@@ -8,6 +8,8 @@
     <title>Document</title>
 </head>
 <body>
+<button>触发1</button>
+<button>触发2</button>
 <script>
     class SalesOffices {
         constructor() {
@@ -37,17 +39,25 @@
                 }
             }
             for (let i of arr) {
-                i(...dd);//参数
+                i.call(this, ...dd);
             }
         }
 
-        onceTrigger(key, onceCallback) {
+        once(key, callback) {
             const cb = (...dd) => {
-                onceCallback(...dd);
                 this.cancelListen(key);
+                callback(...dd);
             };
-            this.listen(key, cb);
+            this.listen(key, callback);
         }
+
+        // once(event, handler, context, ...args) {
+        //     const onceHandler = (combinedArgs) => {
+        //         this.off(event, onceHandler, context)
+        //         handler.apply(context, ...combinedArgs)
+        //     }
+        //     this.on(event, onceHandler, context, ...args)
+        // }
     }
 
     let newSystem = new SalesOffices();
@@ -65,11 +75,23 @@
     newSystem.listen('100', function (price, squareMeter, name) { // 添加订阅者3
         console.log('价格= ' + price);
         console.log('squareMeter= ' + squareMeter);
+        console.log(name);
         console.log(3);
     });
     //console.log(newSystem.clientList)
     newSystem.cancelListen(80);//取消80快的订阅
-    newSystem.trigger(90, '90', 'size');//给低于90发布信息
+    newSystem.trigger(100, '90', 'size', 'name1');//给低于90发布信息
+    newSystem.once(50, function (name) {
+        console.log(name);
+        console.log('once');
+    });//给低于90发布信息
+    document.querySelectorAll('button')[0].onclick = () => {
+        newSystem.trigger(50, 'funPlus');
+    };
+    document.querySelectorAll('button')[1].onclick = () => {
+        newSystem.trigger(60, 'sad');
+    };
+
 </script>
 </body>
 </html>
