@@ -43,21 +43,12 @@
             }
         }
 
-        once(key, callback) {
-            const cb = (...dd) => {
-                this.cancelListen(key);
+        once(key, callback) {//发布的是只触发一次,触发然后注销事件
+            this.listen(key, (...dd) => {
                 callback(...dd);
-            };
-            this.listen(key, callback);
+                this.cancelListen(key);
+            });
         }
-
-        // once(event, handler, context, ...args) {
-        //     const onceHandler = (combinedArgs) => {
-        //         this.off(event, onceHandler, context)
-        //         handler.apply(context, ...combinedArgs)
-        //     }
-        //     this.on(event, onceHandler, context, ...args)
-        // }
     }
 
     let newSystem = new SalesOffices();
