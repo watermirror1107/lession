@@ -180,54 +180,79 @@
         return new Promise((resolve, reject) => {
             round.style.backgroundColor = c;
             setTimeout(() => {
-                resolve()
-            }, t)
-        })
+                resolve();
+            }, t);
+        });
     }
 
     async function loopLight() {
         await changeColor(3000, 'green');
         await changeColor(1000, 'red');
         await changeColor(2000, 'yellow');
-        loopLight()
+        loopLight();
     }
 
-    loopLight()
+    loopLight();
 
     function d(fn, delay) {
-        var time, delay = delay || 500;
+        let time;
+        delay = delay || 500;
         return function () {
             let th = this;
             clearTimeout(time);
             time = setTimeout(function () {
-                fn.apply(th, arguments)
-            }, delay)
-        }
+                fn.apply(th, arguments);
+            }, delay);
+        };
     }
 
     function t(fn, dis = 500) {
-        var time, last;
+        let time, last;
         return function () {
             let th = this, now = new Date();
             if (last && now - last < dis) {
                 clearTimeout(time);
                 time = setTimeout(function () {
                     last = now;//这句话不能拿到If外面去，因为settimeout是异步任务
-                    fn.apply(th, arguments)
-                }, dis)
+                    fn.apply(th, arguments);
+                }, dis);
             } else {
                 last = now;
-                fn.apply(th, arguments)
+                fn.apply(th, arguments);
             }
-        }
+        };
     }
 
     function write() {
-        console.log(123)
+        console.log(123);
     }
 
     let rouTest = document.querySelector('.rou');
-    rouTest.addEventListener('mousemove', t(write), false)
+    rouTest.addEventListener('mousemove', t(write), false);
+
+    Array.prototype._filter = function (fn) {
+        //context表示回调函数内的执行编程信息
+        if (typeof fn != 'function') {
+            throw new Error(`${fn} is not a function`);
+        }
+        let arr = this;
+        let result = [];
+        for (let i = 0; i < arr.length; i++) {
+            let temp = fn(arr[i], i, arr);
+            if (temp) {
+                result.push(arr[i]);
+            }
+        }
+        return result;
+    };
+    let farr = [12, 25, 34, 47, 53, 69]._filter(function (item, index, arr) {
+        // console.log(item);
+        // console.log(arr);
+        // console.log(index);
+        return item % 2 === 0;
+    });
+    console.log(farr);
+
 </script>
 </body>
 </html>

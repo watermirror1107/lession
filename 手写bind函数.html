@@ -16,15 +16,24 @@
     a.bind(b, 'mini')();
 
     Function.prototype.bind1 = function () {
-        let arr = Array.prototype.slice.call(arguments);
+        let arr = Array.prototype.slice.call(arguments);//argument不是数组所以用call来调用call数组的方法
         let t = arr.shift();
         let fn = this;
         return function () {
-            return fn.apply(t, arr)
-        }
+            return fn.apply(t, arr);
+        };
     };
-
-    a.bind1(b, 'mini')()
+    //另外一种写法
+    Function.prototype.bind2 = function () {
+        //argument的类型是对象，但是它有Symbol.iterator属性说明他可以类似数组来使用，可以循环遍历,但是不具有数组的方法，因为装箱操作的时候是还是以object来装箱的;
+        let fn = this;
+        let t = arguments[0], arr = [].slice.call(arguments, 1);
+        return function () {
+            return fn.apply(t, arr);
+        };
+    };
+    a.bind1(b, 'mini')();
+    a.bind2(b, 'mini')();
 </script>
 </body>
 </html>
