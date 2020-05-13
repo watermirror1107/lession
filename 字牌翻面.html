@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100vw;
+            height: 80vh;
+            padding-top: 20vh;
+            transform-style: preserve-3d;
+        }
+
+        .backCard {
+            background-color: #00aaff;
+            width: 200px;
+            border: 1px solid #333;
+            transition: 1s;
+            height: 300px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 20vh;
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+            z-index: -1;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+            width: 200px;
+            height: 300px;
+            border: 1px solid #333;
+            text-align: center;
+            transition: 1s;
+            font-size: 20px;
+            backface-visibility: hidden;
+        }
+
+        .front {
+            transform: rotateY(180deg);
+        }
+
+        .back {
+            transform: rotateY(0deg);
+        }
+
+        .showBack {
+            transform: rotateY(0deg);
+        }
+    </style>
+</head>
+<body>
+<div class="card">jack</div>
+<div class="backCard"></div>
+<script>
+    let kg = true;
+    let card = document.querySelector('.card');
+    let backCard = document.querySelector('.backCard');
+    card.onclick = function () {
+        if (kg) {
+            this.classList.remove('back');
+            this.classList.add('front');
+            backCard.classList.add('showBack');
+        } else {
+            this.classList.remove('front');
+            this.classList.add('back');
+            backCard.classList.remove('showBack');
+        }
+        kg = !kg;
+    };
+    backCard.onclick = function () {
+        if (!kg) {
+            card.classList.remove('front');
+            card.classList.add('back');
+            backCard.classList.remove('showBack');
+            kg = !kg;
+        }
+    };
+</script>
+</body>
+</html>
