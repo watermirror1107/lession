@@ -14,5 +14,4 @@ function setProperty(key) {
 
 let testData = {name: 'ka', age: 19, family: {father: 'dk', mother: 'jk'}};
 
-
-
+ 
