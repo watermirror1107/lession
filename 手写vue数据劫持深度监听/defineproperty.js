@@ -3,15 +3,28 @@ function update() {
 }
 
 function observeData(data) {
-    Object.keys(data).map((key) => {
-
-    });
+    if (typeof data != 'object' || data == null) {
+        return data;
+    }
+    for (let key in data) {
+        if (typeof data[key] == 'object') {
+            observeData(data[key]);
+        }
+        let o = data[key];
+        Object.defineProperty(data, key, {
+            set(n) {
+                if (n != data[key]) {
+                    update();
+                    o = n;
+                }
+            },
+            get() {
+                return o;
+            }
+        });
+    }
 }
 
-function setProperty(key) {
+let dd = {name: 'ka', age: 19, family: {father: 'dk', mother: 'jk'}};
+observeData(dd);
 
-}
-
-let testData = {name: 'ka', age: 19, family: {father: 'dk', mother: 'jk'}};
-
- 
