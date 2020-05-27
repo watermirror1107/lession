@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function formatDate(date_obj, format) {
+        //利用replace函数
+        let date_str = format.replace(/(yyyy)|(MM)|(M)|(dd)|(d)|(HH)|(H)|(mm)|(m)|(ss)|(s)|(SSS)/g, (field) => {
+            switch (field) {
+                case 'yyyy':
+                    return 1900 + date_obj.getYear();
+                case 'MM':
+                    return this.padZero(date_obj.getMonth() + 1);
+                case 'M':
+                    return date_obj.getMonth() + 1;
+                case 'dd':
+                    return this.padZero(date_obj.getDate());
+                case 'd':
+                    return date_obj.getDate();
+                case 'HH':
+                    return this.padZero(date_obj.getHours());
+                case 'H':
+                    return date_obj.getHours();
+                case 'mm':
+                    return this.padZero(date_obj.getMinutes());
+                case 'm':
+                    return date_obj.getMinutes();
+                case 'ss':
+                    return this.padZero(date_obj.getSeconds());
+                case 's':
+                    return date_obj.getSeconds();
+                case 'SSS':
+                    return date_obj.getMilliseconds();
+            }
+        });
+        return date_str;
+    }
+</script>
+</body>
+</html>
