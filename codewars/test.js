@@ -56,29 +56,18 @@ let txt3 = "B p E D y o q F q n C H v x K K D \n" +
 let txt4 = 'x';
 
 function getDiagonalCode(grid) {
-    let arr = grid.split('\n').map((item) => {
-        return item.replace(/\s/g, "");
-    });
-    let txt = '', start = 0, i = 0, bol = true;
+    let arr = grid.split('\n');
+    let txt = '', start = 0, i = 0, dis = 1;
     while (arr[start] && arr[start][i]) {
         txt += arr[start][i];
-        if (bol) {
-            start++;
-            if (start == arr.length - 1) {
-                bol = false;
-            }
-        } else {
-            start--;
-            if (start == 0) {
-                bol = true;
-            }
-        }
-        i++;
+        if (!arr[start + dis]) dis *= -1;
+        start += dis;
+        i += 2;
     }
     return txt;
 }
 
-// console.log(getDiagonalCode(txt1));
+console.log(getDiagonalCode(txt1));
 // console.log(getDiagonalCode(txt2));
 // console.log(getDiagonalCode(txt3));
-console.log(getDiagonalCode(txt4));
+// console.log(getDiagonalCode(txt4));
