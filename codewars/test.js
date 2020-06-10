@@ -71,3 +71,6 @@ console.log(getDiagonalCode(txt1));
 // console.log(getDiagonalCode(txt2));
 // console.log(getDiagonalCode(txt3));
 // console.log(getDiagonalCode(txt4));
+function balancedParens() {
+
+}
