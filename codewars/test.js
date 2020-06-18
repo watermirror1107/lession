@@ -71,6 +71,85 @@ console.log(getDiagonalCode(txt1));
 // console.log(getDiagonalCode(txt2));
 // console.log(getDiagonalCode(txt3));
 // console.log(getDiagonalCode(txt4));
-function balancedParens() {
 
+function encode(string) {
+    return string.replace(/[aeiou]/g, function (x) {
+        return '_aeiou'.indexOf(x);
+    });
 }
+
+function decode(string) {
+    return string.replace(/[1-5]/g, function (x) {
+        return '_aeiou'[x];
+    });
+}
+
+encode('hello');
+decode('h2ll4');
+
+const GetFormat = function (elList) {
+    return new Proxy((...a) => {
+        return elList.reduce((html, el) => `<${el}>${html}</${el}>`, a.join(''));
+    }, {
+        get: (_, el) => {
+            return GetFormat([el, ...elList]);
+        }
+    });
+};
+
+const Format = GetFormat([]);
+//field chained HTML formatting
+
+console.log(
+    Format.div.h4('aksld', '123')
+);
+
+//手写一个计算器Calculator    (), +, -, *, /
+const Calculator = function () {
+    this.evaluate = string => {
+        //判断是否有括号
+        if (string.indexOf('(') > -1) {
+            let s = string.indexOf('(');
+            let e = string.lastIndexOf(')');
+            string = string.substring(0, s) + new Calculator().evaluate(string.substring(s, e + 1).replace(/\(|\)/g, '')) + string.substring(e, string.length - 1);
+            console.log(string);
+        }
+        string = string.replace(/\s/g, '');  //去除空格
+        let arr = string.split(/\+|-|\*|\//);//获得数字
+        let computedTagArr = string.split(/\d/).filter(i => i != '');//获得计算符号
+        // 判断是否有乘除
+        while (computedTagArr.includes('*') || computedTagArr.includes('/')) {
+            let idx, res;
+            if (computedTagArr.findIndex(i => i == '*') > 0) {
+                idx = computedTagArr.findIndex(i => i == '*');
+            } else if (computedTagArr.findIndex(i => i == '/') > 0) {
+                idx = computedTagArr.findIndex(i => i == '/');
+            }
+            if (computedTagArr[idx] == '*') {
+                res = Number(arr[idx]) * Number(arr[idx + 1]);
+            } else {
+                res = Number(arr[idx]) / Number(arr[idx + 1]);
+            }
+            computedTagArr.splice(idx, 1);
+            arr.splice(idx, 2, res);
+        }
+        let res = arr.reduce(function (t, n, currentIndex) {
+            let computedTag = computedTagArr[currentIndex - 1];
+            if (computedTag == '+') {
+                return Number(t) + Number(n);
+            }
+            if (computedTag == '-') {
+                return Number(t) - Number(n);
+            }
+        });
+        return res;
+    };
+};
+var calculate = new Calculator();
+calculate.evaluate('12-(3+5)*2+6/3+9-2*(1+6)');
+
+// Test.assertApproxEquals(calculate.evaluate('127'), 127);
+// Test.assertApproxEquals(calculate.evaluate('2 + 3'), 5);
+// Test.assertApproxEquals(calculate.evaluate('2 - 3 - 4'), -5);
+// Test.assertApproxEquals(calculate.evaluate('10 * 5 / 2'), 25);
+

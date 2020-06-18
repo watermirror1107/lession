@@ -26,14 +26,14 @@
 	xhr1.open('post', url1, true);
 	xhr1.send('age=123&name=adsf');
 	xhr1.onreadystatechange = function () {
-		if (xhr.readyState == 4) {
-			if (xhr.status == 200 || xhr.status == 206 || xhr.status == 304) {//206是大型的音频文件被分批传输，304是利用缓存也是成功的意思
-				console.log(xhr.responseText);
-			} else {
-				console.log(xhr.status);
-			}
-		}
-	};
+        if (xhr1.readyState == 4) {
+            if (xhr1.status == 200 || xhr1.status == 206 || xhr1.status == 304) {//206是大型的音频文件被分批传输，304是利用缓存也是成功的意思
+                console.log(xhr1.responseText);
+            } else {
+                console.log(xhr1.status);
+            }
+        }
+    };
 </script>
 </body>
 </html>
