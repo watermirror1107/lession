@@ -121,14 +121,12 @@ const Calculator = function () {
         }
         string = string.replace(/\s/g, '');  //去除空格
         let arr = string.split(/\+|-|\*|\//);//获得数字
-        let computedTagArr = string.split(/\d/).filter(i => i != '');//获得计算符号
+        let computedTagArr = string.split(/\d/).filter(i => i != '').filter(i => i != '.');//获得计算符号去掉小数点
         // 判断是否有乘除
         while (computedTagArr.includes('*') || computedTagArr.includes('/')) {
             let idx, res;
-            if (computedTagArr.findIndex(i => i == '*') > -1) {
-                idx = computedTagArr.findIndex(i => i == '*');
-            } else if (computedTagArr.findIndex(i => i == '/') > -1) {
-                idx = computedTagArr.findIndex(i => i == '/');
+            if (computedTagArr.findIndex(i => i.match(/\*|\//)) > -1) {
+                idx = computedTagArr.findIndex(i => i.match(/\*|\//));
             }
             if (computedTagArr[idx] == '*') {
                 res = Number(arr[idx]) * Number(arr[idx + 1]);
@@ -147,12 +145,13 @@ const Calculator = function () {
                 return Number(t) - Number(n);
             }
         });
+        console.log(res);
         return res;
     };
 };
 var calculate = new Calculator();
-calculate.evaluate('12-((3+5)*2+6)/3+9-2*(1+6)');
-
+// calculate.evaluate('1.2+3.8');
+calculate.evaluate('2 + 3 * 4 / 3 - 6 / 3 * 3 + 8');
 // Test.assertApproxEquals(calculate.evaluate('127'), 127);
 // Test.assertApproxEquals(calculate.evaluate('2 + 3'), 5);
 // Test.assertApproxEquals(calculate.evaluate('2 - 3 - 4'), -5);
