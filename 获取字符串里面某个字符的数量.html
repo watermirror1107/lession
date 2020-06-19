@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+巧用split获取字符串里面某个字符串的出现次数
+<script>
+    let txt = 'asdfadsfasdf';
+    let num = txt.split('a').length - 1;
+    //获取a字符出现了几次，如果能被a分割说明里面还有a,并且分割后的数组长度不为1,如果不能分割会返回一个整的字符串，分割后的数组长度就为1
+    console.log(num);
+</script>
+</body>
+</html>

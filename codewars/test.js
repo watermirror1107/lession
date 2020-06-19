@@ -108,11 +108,16 @@ console.log(
 const Calculator = function () {
     this.evaluate = string => {
         //判断是否有括号
-        if (string.indexOf('(') > -1) {
+        while (string.indexOf('(') > -1) {
+            //判断是否有括号
             let s = string.indexOf('(');
-            let e = string.lastIndexOf(')');
-            string = string.substring(0, s) + new Calculator().evaluate(string.substring(s, e + 1).replace(/\(|\)/g, '')) + string.substring(e, string.length - 1);
-            console.log(string);
+            let e = string.indexOf(')', s);
+            //判断两个括号之内有没有前括号
+            while (string.substring(s, e + 1).split('(').length > 2) {
+                s = string.indexOf('(', s + 1);
+            }
+            //计算括号内的运算
+            string = string.substring(0, s) + new Calculator().evaluate(string.substring(s, e + 1).replace(/\(|\)/g, '')) + string.substring(e + 1, string.length);
         }
         string = string.replace(/\s/g, '');  //去除空格
         let arr = string.split(/\+|-|\*|\//);//获得数字
@@ -120,9 +125,9 @@ const Calculator = function () {
         // 判断是否有乘除
         while (computedTagArr.includes('*') || computedTagArr.includes('/')) {
             let idx, res;
-            if (computedTagArr.findIndex(i => i == '*') > 0) {
+            if (computedTagArr.findIndex(i => i == '*') > -1) {
                 idx = computedTagArr.findIndex(i => i == '*');
-            } else if (computedTagArr.findIndex(i => i == '/') > 0) {
+            } else if (computedTagArr.findIndex(i => i == '/') > -1) {
                 idx = computedTagArr.findIndex(i => i == '/');
             }
             if (computedTagArr[idx] == '*') {
@@ -146,7 +151,7 @@ const Calculator = function () {
     };
 };
 var calculate = new Calculator();
-calculate.evaluate('12-(3+5)*2+6/3+9-2*(1+6)');
+calculate.evaluate('12-((3+5)*2+6)/3+9-2*(1+6)');
 
 // Test.assertApproxEquals(calculate.evaluate('127'), 127);
 // Test.assertApproxEquals(calculate.evaluate('2 + 3'), 5);
