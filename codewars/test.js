@@ -149,11 +149,28 @@ const Calculator = function () {
         return res;
     };
 };
-var calculate = new Calculator();
+// var calculate = new Calculator();
 // calculate.evaluate('1.2+3.8');
-calculate.evaluate('2 + 3 * 4 / 3 - 6 / 3 * 3 + 8');
+// calculate.evaluate('2 + 3 * 4 / 3 - 6 / 3 * 3 + 8');
 // Test.assertApproxEquals(calculate.evaluate('127'), 127);
 // Test.assertApproxEquals(calculate.evaluate('2 + 3'), 5);
 // Test.assertApproxEquals(calculate.evaluate('2 - 3 - 4'), -5);
 // Test.assertApproxEquals(calculate.evaluate('10 * 5 / 2'), 25);
 
+function towerBuilder(nFloors) {
+    let arr = [], maxLength = 2 * (nFloors - 1) + 1;
+    for (let i = 0; i < nFloors; i++) {
+        let out = '*'.padEnd(2 * i + 1, '*');
+        let dis = maxLength - out.length;
+        if (dis > 0) {
+            let num = dis / 2 + out.length;
+            out = out.padStart(num, ' ');
+            num += dis / 2;
+            out = out.padEnd(num, ' ');
+        }
+        arr.push(out);
+    }
+    return arr;
+}
+
+towerBuilder(5);
