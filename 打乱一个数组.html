@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let arr = [1, 2, 3, 4];
+    let length = arr.length, nArr = [], resultObj = {};
+    let mid = arr.concat();
+    nArr.length = length;
+    nArr.fill('', 0, length);
+    while (nArr.some(i => i == '')) {
+        let randomNum = parseInt(Math.random() * 4);
+        if (nArr[randomNum]) {
+            continue;
+        } else {
+            nArr[randomNum] = mid.splice(0, 1)[0];
+        }
+    }
+    console.log(Number(nArr.join('')));
+</script>
+</body>
+</html>

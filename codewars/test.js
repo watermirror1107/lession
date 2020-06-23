@@ -109,13 +109,8 @@ const Calculator = function () {
     this.evaluate = string => {
         //判断是否有括号
         while (string.indexOf('(') > -1) {
-            //判断是否有括号
-            let s = string.indexOf('(');
-            let e = string.indexOf(')', s);
-            //判断两个括号之内有没有前括号
-            while (string.substring(s, e + 1).split('(').length > 2) {
-                s = string.indexOf('(', s + 1);
-            }
+            let e = string.indexOf(')');
+            let s = string.lastIndexOf('(', e);//后括号的前面距离他最近的前括号必定是同属一个括号的，反之则不一定，例如(();
             //计算括号内的运算
             string = string.substring(0, s) + new Calculator().evaluate(string.substring(s, e + 1).replace(/\(|\)/g, '')) + string.substring(e + 1, string.length);
         }
@@ -145,12 +140,11 @@ const Calculator = function () {
                 return Number(t) - Number(n);
             }
         });
-        console.log(res);
         return res;
     };
 };
 // var calculate = new Calculator();
-// calculate.evaluate('1.2+3.8');
+// calculate.evaluate('1.2+3.8*4/2+(2*(2+2))');
 // calculate.evaluate('2 + 3 * 4 / 3 - 6 / 3 * 3 + 8');
 // Test.assertApproxEquals(calculate.evaluate('127'), 127);
 // Test.assertApproxEquals(calculate.evaluate('2 + 3'), 5);
@@ -174,3 +168,160 @@ function towerBuilder(nFloors) {
 }
 
 towerBuilder(5);
+
+
+function findOutlier(integers) {
+    let x, n = 0;
+    for (let i = 0; i < 3; i++) {
+        if (integers[i] % 2 === 0) {
+            n++;
+        }
+    }
+    switch (n) {
+        case 3:
+            x = integers.find(i => i % 2 !== 0);
+            break;
+        case 2:
+            x = integers.find(i => i % 2 !== 0);
+            break;
+        case 1:
+            x = integers.find(i => i % 2 === 0);
+            break;
+        case 0:
+            x = integers.find(i => i % 2 === 0);
+            break;
+    }
+    return x;
+}
+
+// findOutlier([1, 2, 3])
+
+
+function stockList(listOfArt, listOfCat) {
+    let arr = [], x = 0;
+    listOfCat.map(i => {
+        let num = 0;
+        listOfArt.map(li => {
+            if (li.indexOf(i) === 0) {
+                num += Number(li.split(' ')[1]);
+                x += num;
+            }
+        });
+        arr.push(`(${i} : ${num})`);
+    });
+    return x === 0 ? '' : arr.join(' - ');
+}
+
+// b = ["ABAR 200", "CDXE 500", "BKWR 250", "BTSQ 890", "DRTY 600"];
+// c = ["A", "B"];
+// res = "(A : 200) - (B : 1140)"
+// stockList(b, c);
+//
+// b = ["CBART 20", "CDXEF 50", "BKWRK 25", "BTSQZ 89", "DRTYM 60"]
+// c = ["A", "B", "C", "W"]
+// res = "(A : 0) - (B : 114) - (C : 70) - (W : 0)"
+// Test.assertEquals(stockList(b, c), res)
+
+
+function roundToNext5(n) {
+    return Math.ceil(n / 5) * 5;
+}
+
+
+function capitalize(s) {
+    let t1 = '', t2 = '';
+    for (let i = 0; i < s.length; i++) {
+        t1 += i % 2 === 0 ? s[i].toUpperCase() : s[i];
+        t2 += i % 2 !== 0 ? s[i].toUpperCase() : s[i];
+    }
+    return [t1, t2];
+}
+
+// capitalize("abcdef"),['AbCdEf', 'aBcDeF']
+// Test.assertDeepEquals(capitalize("codewars"),['CoDeWaRs', 'cOdEwArS']);
+// Test.assertDeepEquals(capitalize("abracadabra"),['AbRaCaDaBrA', 'aBrAcAdAbRa']);
+// Test.assertDeepEquals(capitalize("codewarriors"),['CoDeWaRrIoRs', 'cOdEwArRiOrS']);
+
+
+function codewarResult(codewarrior, opponent) {
+    let x = codewarrior.concat().sort((a, b) => a - b), y = opponent.concat().sort((a, b) => b - a);
+    // console.log(x);
+    // console.log(y);
+    let win = 0, mid = 0, total = x.length;
+    while (x.some(i => i > y[y.length - 1])) {
+        for (let idx = 0; idx < x.length; idx++) {
+            for (let i = 0; i < y.length; i++) {
+                if (x[idx] > y[i]) {
+                    win++;
+                    y.splice(i, 1);
+                    x.splice(idx, 1);
+                    i = 0;
+                    idx = 0;
+                }
+            }
+        }
+    }
+    while (x.some(i => i == y[y.length - 1])) {
+
+        for (let idx = 0; idx < x.length; idx++) {
+            for (let i = 0; i < y.length; i++) {
+                if (x[idx] == y[i]) {
+                    mid++;
+                    y.splice(i, 1);
+                    x.splice(idx, 1);
+                    i = 0;
+                    idx = 0;
+                }
+            }
+        }
+
+    }
+    // console.log(x);
+    // console.log(y);
+    // console.log(win);
+    // console.log(mid);
+    if (total - mid === (win * 2)) {
+        return 'Stalemate';
+    }
+    if (total - mid - win < win) {
+        return 'Victory';
+    }
+    return "Defeat"; //
+}
+
+// codewarResult([1, 4, 1], [1, 5, 3]);
+// codewarResult([5], [6]);
+// codewarResult([1, 2, 2, 1], [3, 1, 2, 3]);
+// codewarResult([2, 4, 3, 1], [4, 5, 1, 2]);
+// codewarResult([6,7,6,4,3] , [7,1,5,11,10]);
+// codewarResult([3, 3, 1, 1, 2], [5, 5, 1, 3, 3]);
+// codewarResult([2, 1, 3, 1, 1, 3, 3, 2, 3, 1, 1, 1, 3, 1, 3, 1, 3, 3, 1, 2, 3, 3, 1, 3], [4, 4, 1, 4, 3, 1, 4, 4, 3, 2, 1, 2, 1, 3, 3, 1, 4, 4, 3, 2, 3, 2, 4, 1]);
+
+
+let res = [], num = 10;
+while (res.length < 65) {
+    let nNum = Number(String(num).split('').reverse().join(''));
+    if (res.includes(num) || res.includes(nNum)) {
+        num++;
+        continue;
+    } else if (String(num).split('').reverse()[0] == '0') {
+        num++;
+        continue;
+    } else {
+        let sum = nNum + num;
+        let dis = Math.abs(nNum - num);
+        if (sum % dis === 0) {
+            res.push(num);
+            res.push(nNum);
+        }
+        num++;
+    }
+}
+res = res.sort((a, b) => a - b);
+
+function sumDifRev(n) {
+    return res[n - 1];
+}
+
+// console.log(sumDifRev(25));
+// console.log(sumDifRev(57));
