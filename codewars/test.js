@@ -325,3 +325,30 @@ function sumDifRev(n) {
 
 // console.log(sumDifRev(25));
 // console.log(sumDifRev(57));
+
+function reverseBits(n) {
+    return parseInt(n.toString(2).split('').reverse().join(''), 2);
+}
+
+// console.log(reverseBits(417));
+
+var isPP = function (n) {
+    let xx = Math.sqrt(n);
+    if (Number.isInteger(xx)) {
+        return [xx, 2];
+    }
+    let x = 2;
+    while (x <= parseInt(xx)) {
+        console.log(x);
+        y = 2;
+        while (Math.pow(x, y) <= n) {
+            if (Math.pow(x, y) === n) {
+                return [x, y];
+            }
+            y++;
+        }
+        x++;
+    }
+    return null;
+};
+console.log(isPP(27));
