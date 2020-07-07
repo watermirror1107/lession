@@ -351,4 +351,118 @@ var isPP = function (n) {
     }
     return null;
 };
-console.log(isPP(27));
+// console.log(isPP(27));
+
+
+//"fruit_banana,vegetable_carrot,fruit_apple,canned_sardines,drink_juice,fruit_orange"
+let txt = 'fruit_banana,vegetable_carrot,fruit_apple,canned_sardines,drink_juice,fruit_orange';
+
+function solution(input) {
+    let arr1 = input.split(',');
+    let obj = {'fruit': [], 'meat': [], other: [], vegetable: []}, tt = '';
+    arr1.map((i) => {
+        let type = i.split('_')[0];
+        let item = i.split('_')[1];
+        if (!obj[type]) {
+            obj.other.push(item);
+        } else {
+            obj[type].push(item);
+        }
+
+    });
+    for (let key in obj) {
+        tt += key + ':';
+        tt += obj[key].sort().join(',');
+        tt += key === 'vegetable' ? '' : '\n';
+    }
+    return tt;
+}
+
+// solution(txt);
+
+
+function digital_root(n) {
+    if (n < 10) {
+        return n;
+    }
+    let arr = String(n).split(''), sum = 0;
+    arr.map(i => {
+        sum += Number(i);
+    });
+    while (sum >= 10) {
+        sum = digital_root(sum);
+    }
+    return sum;
+}
+
+// console.log(digital_root(2));
+// console.log(digital_root(16));
+// console.log(digital_root(456));
+
+
+let t1 = 'sssssssssssssassssss', t2 = 'ssssssssssssssassssssss';
+
+function findDifferent(str1, str2) {
+    let a1 = str1.split('');
+    let a2 = str2.split('');
+    let obj = {index: -1, addedText: '', deletedText: ''};
+    let length = a1.length > a2.length ? a1.length : a2.length;
+    let dis = '';
+    let startIndex = -1, endIndex = -1;
+    for (let i = 0; i < length; i++) {
+        if (a1[i] != a2[i]) {
+            startIndex = i;
+            break;
+        }
+    }
+    for (let i = a2.length - 1; i > 0; i--) {
+        if (a1[i] != a2[i]) {
+            endIndex = i;
+            break;
+        }
+    }
+    if (startIndex != endIndex) {
+        if (a1.length > a2.length) {
+            dis = str1.substring(startIndex, str1.indexOf(str2.substring(endIndex, str2.length)));
+            obj.deletedText = dis;
+        } else {
+            dis = str2.substring(startIndex, endIndex + 1);
+            obj.addedText = dis;
+            obj.deletedText = str1.substring(startIndex, endIndex + 1);
+        }
+        obj.index = startIndex;
+    }
+    console.log(startIndex);
+    console.log(endIndex);
+    console.log(obj);
+    return obj;
+}
+
+// findDifferent(t1, t2);
+
+
+//c5 2 5*4*/2*1
+function threeSplit(a) {
+    function sumArr(arr) {
+        return arr.reduce((t, i) => t + Number(i), 0);
+    }
+
+    let resNum = 0, s1 = 1, s2;
+    while (s1 <= a.length - 2) {
+        let sum = sumArr(a.slice(0, s1));
+        s2 = s1 + 1;
+        while (s2 <= a.length - 1) {
+            if (sum === sumArr(a.slice(s1, s2))) {
+                if (sum === sumArr(a.slice(s2))) {
+                    resNum++;
+                }
+            }
+            s2++;
+        }
+        s1++;
+    }
+    return resNum;
+}
+
+// threeSplit([0, -1, 0, -1, 0, -1]);
+
