@@ -11,6 +11,7 @@
 
         .wrap {
             background-color: #333;
+            /*宽高都需要，overflow-x也是必须的*/
             width: 300px;
             height: 500px;
             overflow-x: hidden;
@@ -19,10 +20,12 @@
 
         .content {
             width: 300px;
+            /*加上下面这三行就可以*/
             height: 100%;
             /*高度必须加上*/
             padding-right: 15px;
             overflow-y: scroll;
+            /******/
         }
 
         li {
