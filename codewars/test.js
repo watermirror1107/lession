@@ -485,57 +485,40 @@ snail = function (arr) {
     }
 
     function row1() {
-        arr.splice(0, 1)[0].forEach(i => resArr.push(i));
+        resArr.push(...arr.splice(0, 1)[0]);
     }
 
-    function row2() {
+    function col1() {
         let row = arr.length, col = arr[0] ? arr[0].length : 0;
         for (let i = 0; i < row; i++) {
             resArr.push(arr[i].splice(col - 1, 1)[0]);
         }
     }
 
-    function row3() {
-        let row = arr.length, col = arr[0] ? arr[0].length : 0;
+    function row2() {
+        let row = arr.length;
         let a3 = arr.splice([row - 1], 1)[0];
-        for (let i = a3.length - 1; i >= 0; i--) {
-            resArr.push(a3[i]);
+        if (row > 0) {
+            resArr.push(...a3.reverse());
         }
     }
 
-    function row4() {
+    function col2() {
         let row = arr.length;
         for (let i = row - 1; i >= 0; i--) {
             resArr.push(arr[i].splice(0, 1)[0]);
         }
     }
 
-    let dir = 1;
     while (arr.length > 0) {
-        if (dir == 1) {
-            row1();
-            dir = 2;
-            continue;
-        }
-        if (dir == 2) {
-            row2();
-            dir = 3;
-            continue;
-        }
-        if (dir == 3) {
-            row3();
-            dir = 4;
-            continue;
-        }
-        if (dir == 4) {
-            row4();
-            dir = 1;
-            continue;
-        }
+        row1();
+        col1();
+        row2();
+        col2();
     }
     console.log(resArr);
     return resArr;
 };
 
-// snail([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);//[1, 2, 3, 6, 9, 8, 7, 4, 5]
-snail([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]);//[1, 2, 3, 4, 5, 10, 15, 20, 25, 24, 23, 22, 21, 16, 11, 6, 7, 8, 9, 14, 19, 18, 17, 12, 13]
+snail([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);//[1, 2, 3, 6, 9, 8, 7, 4, 5]
+// snail([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15], [16, 17, 18, 19, 20], [21, 22, 23, 24, 25]]);//[1, 2, 3, 4, 5, 10, 15, 20, 25, 24, 23, 22, 21, 16, 11, 6, 7, 8, 9, 14, 19, 18, 17, 12, 13]
