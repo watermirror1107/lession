@@ -14,6 +14,8 @@
             height: 300px;
             border: 2px solid #333;
             display: flex;
+            justify-content: space-between;
+            /*    只是吧之间的距离平分*/
         }
 
         .s {
@@ -23,16 +25,14 @@
         }
 
         .s:nth-child(1) {
-            margin-right: 30px;
+            width: 100px;
         }
 
         .s:nth-child(2) {
-            margin-right: 50px;
         }
 
         .s:last-child {
-            justify-self: flex-end;
-            /*align-self: flex-end;*/
+            width: 10px;
         }
     </style>
 </head>
