@@ -516,7 +516,6 @@ snail = function (arr) {
         row2();
         col2();
     }
-    console.log(resArr);
     return resArr;
 };
 
