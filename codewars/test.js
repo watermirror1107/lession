@@ -72,20 +72,20 @@ console.log(getDiagonalCode(txt1));
 // console.log(getDiagonalCode(txt3));
 // console.log(getDiagonalCode(txt4));
 
-function encode(string) {
-    return string.replace(/[aeiou]/g, function (x) {
-        return '_aeiou'.indexOf(x);
-    });
-}
-
-function decode(string) {
-    return string.replace(/[1-5]/g, function (x) {
-        return '_aeiou'[x];
-    });
-}
-
-encode('hello');
-decode('h2ll4');
+// function encode(string) {
+//     return string.replace(/[aeiou]/g, function (x) {
+//         return '_aeiou'.indexOf(x);
+//     });
+// }
+//
+// function decode(string) {
+//     return string.replace(/[1-5]/g, function (x) {
+//         return '_aeiou'[x];
+//     });
+// }
+//
+// encode('hello');
+// decode('h2ll4');
 
 const GetFormat = function (elList) {
     return new Proxy((...a) => {
@@ -538,5 +538,54 @@ function convertQueryToMap(query) {
 }
 
 
-convertQueryToMap(str);
+// convertQueryToMap(str);
+
+function solve(s) {
+    let l = 0;
+    for (let i = 0; i < s.length; i++) {
+        if ((/[a-z]/).test(s[i])) {
+            l++;
+        }
+    }
+    if (s.length / 2 > l) {
+        return s.toUpperCase();
+    } else if (s.length / 2 <= l) {
+        return s.toLowerCase();
+    }
+
+}
+
+function meeting(s) {
+    let arr = s.toUpperCase().split(';');
+    arr = arr.map(i => {
+        return [i.split(':')[1], i.split(':')[0]];
+    });
+    arr.sort();
+    let txt = '';
+    arr.forEach(i => {
+        txt += `(${i[0]}, ${i[1]})`;
+    });
+    return txt;
+}
+
+// meeting("Alexis:Wahl;John:Bell;Victoria:Schwarz;Abba:Dorny;Grace:Meta;Ann:Arno;Madison:STAN;Alex:Cornwell;Lewis:Kern;Megan:Stan;Alex:Korn");
+
+// "(ARNO, ANN)(BELL, JOHN)(CORNWELL, ALEX)(DORNY, ABBA)(KERN, LEWIS)(KORN, ALEX)(META, GRACE)(SCHWARZ, VICTORIA)(STAN, MADISON)(STAN, MEGAN)(WAHL, ALEXIS)");
+
+
+function willFit(present, box) {
+    let res = true;
+    present.sort((a, b) => a - b);
+    box.sort((a, b) => a - b);
+    for (let i = 0; i < 3; i++) {
+        if (box[i] - 2 < present[i]) res = false;
+    }
+    return res;
+}
+
+// willFit([10, 2, 4], [6, 4, 12]);// true
+// willFit([1, 2, 3], [2, 1, 3]);// false
+// willFit([61, 45, 39], [41, 62, 47]);// false
+
+
 

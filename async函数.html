@@ -18,7 +18,7 @@
     async function a() {
         let x = await new Promise((resolve, reject) => {
             resolve('1107');
-        });
+        });//如果这个Promise用了then调用之后X将获取不到resolve传递的数据，会返回undefined
         console.log(x);
     }
 

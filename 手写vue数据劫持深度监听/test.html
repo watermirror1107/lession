@@ -6,6 +6,35 @@
 </head>
 <body>
 <!--<script src="defineproperty.js"></script>-->
-<script src="proxy.js?v=2"></script>
+<!--<script src="proxy.js?v=2"></script>-->
+<script>
+    let t1 = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(1);
+        }, 2000);
+    });
+    let t2 = new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve(2);
+        }, 1000);
+    });
+    t1.then(dd => {
+        console.log(dd);
+        return t2;
+    }).then(data => {
+        console.log(data);
+    });
+
+    async function a() {
+        let d1 = await t1;
+        let d2 = await t2.then(dd => {
+            console.log(dd);
+        });
+        console.log(d1);
+        console.log(d2);
+    }
+
+    a();
+</script>
 </body>
 </html>

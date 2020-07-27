@@ -14,3 +14,18 @@ let str: string = 'abc';
 //对象
 let obj: object = {name: 'dd'}
 
+//枚举
+enum Color {Red, Green, Blue};
+let c: Color = Color.Red;
+console.log(c)
+let colorName: string = Color[2];
+alert(colorName);  // 显示'Green'因为上面代码里它的值是2
+//任意值
+let con: any = 'sdf';//类型可以随意转换
+con = 1;
+
+//空值void
+function f(): void {//这个函数不能有返回值
+    console.log(123)
+}
+
