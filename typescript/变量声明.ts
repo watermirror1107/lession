@@ -3,6 +3,12 @@ let arr: number[] = [1, 23];
 //数组泛类 只能指定一个类型
 let arr1: Array<number> = [1, 3, 4]//数组里面的Item类型都必须是指定的number
 let arr2: Array<string> = ['a', 'b']
+//可读数组,不可修改里面的元素而且不能赋值给普通数组，但是可以利用类型断言重写
+let arr3: ReadonlyArray<number> = [1, 2, 3];
+let arr4 = arr3 as number[];
+arr4[1] = 4;
+console.log(arr3)//会被修改
+console.log(arr4)
 //元组 元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。长度和类型都是已知的，就连顺序也是，只能按照声明时候的类型排列
 let x: [string, number, boolean] = ['adsf', 1, true]
 //数字
@@ -15,11 +21,12 @@ let str: string = 'abc';
 let obj: object = {name: 'dd'}
 
 //枚举
-enum Color {Red, Green, Blue};
+enum Color {Red, Green, Blue}
+
 let c: Color = Color.Red;
 console.log(c)
 let colorName: string = Color[2];
-alert(colorName);  // 显示'Green'因为上面代码里它的值是2
+console.log(colorName);  // 显示'Green'因为上面代码里它的值是2
 //任意值
 let con: any = 'sdf';//类型可以随意转换
 con = 1;
