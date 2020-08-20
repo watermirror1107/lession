@@ -79,3 +79,4 @@ let dingding: person = {
 let kankan = <person>{};//person接口类型的对象，只能有对象里面的属性不能有额外的属性
 kankan.name = 'kankan'
 kankan.sex = 'man'
+
