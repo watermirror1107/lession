@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--根据off.mainfest这个文件的内容来缓存离线需要的文件-->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="test.css">
+    <link rel="manifest" href="download.json">
+    <!-- 为了让 PWA 应用被添加到主屏幕, 使用 manifest.json 定义应用的名称, 图标等等信息。-->
+</head>
+<body>
+<p>Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。这篇文章里我们来完成一个非常简单的 PWA 页面。 </p>
+<p>一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能。</p>
+<img src="../images/gameintrobgimg.png" alt="">
+<script>
+    //Service Worker 在网页已经关闭的情况下还可以运行, 用来实现页面的缓存和离线, 后台通知等等功能。
+    if (navigator.serviceWorker != null) {
+        navigator.serviceWorker.register('firstServiceWorker.js').then(function (registration) {
+            console.log('Registered events at scope: ', registration.scope);
+        });
+    }
+</script>
+</body>
+</html>

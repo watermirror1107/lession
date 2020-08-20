@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>我 的 天</p>
+<script>
+
+    document.addEventListener('copy', function (event) {//监听拷贝
+        event.preventDefault();//阻止默认事件
+        let text = window.getSelection(0).toString();//获取复制的内容
+        console.log(text);
+        var htmlData = text + '!测试';
+        var textData = text + '!测试';
+        if (event.clipboardData) {
+            event.clipboardData.setData("text/html", htmlData);
+            event.clipboardData.setData('text/plain', textData);
+        } else if (window.clipboardData) {
+            return window.clipboardData.setData("text", textData);
+        }
+    });
+</script>
+</body>
+</html>
