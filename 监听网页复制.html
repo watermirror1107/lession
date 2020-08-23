@@ -13,7 +13,7 @@
         let text = window.getSelection(0).toString();//获取复制的内容
         console.log(text);
         var htmlData = text + '!测试';
-        var textData = text + '!测试';
+        var textData = text + '!测试😂';
         if (event.clipboardData) {
             event.clipboardData.setData("text/html", htmlData);
             event.clipboardData.setData('text/plain', textData);

