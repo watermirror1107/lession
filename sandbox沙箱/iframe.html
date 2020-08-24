@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>script脚本不能执行
+    1.不能发送ajax请求
+    2.不能使用本地存储，即localStorage,cookie等
+    3.不能创建新的弹窗和window
+    4.不能发送表单
+    5.不能加载额外插件比如flash等
+</p>
+<p>通过postmessager来传递数据做交互</p>
+<p>
+    1）不过你需要注意的是，在子页面中，要注意不要让执行代码访问到contentWindow对象，因为你需要调用contentWindow的postMessageAPI给父页面传递信息，假如恶意代码也获取到了contentWindow对象，相当于就拿到了父页面的控制权了，这个时候可大事不妙。
+
+    2）当你使用postMessageAPI的时候，由于sandbox的origin默认为null，需要设置allow-same-origin允许两个页面进行通信，意味着子页面内可以发起请求，这时候你需要防范好CSRF，允许了同域请求，不过好在，并没有携带上cookie。
+
+    3）当你调用postMessageAPI传递数据给子页面的时候，传输的数据对象本身已经通过结构化克隆算法复制，如果你还不了解结构化克隆算法可以查看这个。
+
+    简单的说，通过postMessageAPI传递的对象，已经由浏览器处理过了，原型链已经被切断，同时，传过去的对象也是复制好了的，占用的是不同的内存空间，两者互不影响，所以你不需要担心出现第一种沙箱做法中出现的问题。</p>
+<iframe src="" frameborder="0" sandbox></iframe>
+
+</body>
+</html>

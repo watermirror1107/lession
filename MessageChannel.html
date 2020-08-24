@@ -23,11 +23,11 @@
 	iframe.addEventListener("load", onLoad);
 
 	function onLoad() {
-		// Listen for messages on port1
-		channel.port1.onmessage = onMessage;
-		// Transfer port2 to the iframe
-		iframe.contentWindow.postMessage('Hello from the main page!', '*', [channel.port2]);
-	}
+        // Listen for messages on port1、
+        channel.port1.onmessage = onMessage;
+        // Transfer port2 to the iframe
+        iframe.contentWindow.postMessage('Hello from the main page!', '*', [channel.port2]);
+    }
 	// Handle messages received on port1
 	function onMessage(e) {
 		output.innerHTML = e.data;

