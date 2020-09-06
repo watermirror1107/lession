@@ -588,7 +588,7 @@ function willFit(present, box) {
 // willFit([61, 45, 39], [41, 62, 47]);// false
 
 
-//电梯
+//电梯 The Lift
 let theLift = function (queues, capacity) {
     let direction = true;//true上，false下
     let isDone = function () {//是否执行完毕
@@ -612,7 +612,9 @@ let theLift = function (queues, capacity) {
                 //控制多人同层下电梯
                 if (kg2) {
                     //同一层上下楼判断，避免反复添加
-                    res.push(item);
+                    if (res[res.length - 1] != item) {
+                        res.push(item);
+                    }
                 }
                 kg2 = false;
             }
@@ -627,7 +629,9 @@ let theLift = function (queues, capacity) {
         }
         if (kg1) {
             //同一层上下楼判断，避免反复添加
-            res.push(nowFloor);
+            if (res[res.length - 1] != nowFloor) {
+                res.push(nowFloor);
+            }
             kg1 = false;
         }
     }
@@ -648,7 +652,15 @@ let theLift = function (queues, capacity) {
             }
         } else {
             for (let i = queues.length - 1; i >= 0; i--) {
-
+                nowFloor = i;
+                kg1 = kg2 = true;
+                queues[i].forEach((wantFloor, index, arr) => {
+                    if (wantFloor < nowFloor) {
+                        upLift(wantFloor, i, index);
+                    }
+                });
+                queues[i] = queues[i].filter(x => x != 'xx');
+                downLift();
             }
         }
         direction = !direction;
@@ -674,5 +686,15 @@ theLift([[], // G
     [], // 3
     [5], // 4
     [], // 5
+    [], // 6
+], 5);
+
+theLift([
+    [], // G
+    [0], // 1
+    [], // 2
+    [], // 3
+    [2], // 4
+    [3], // 5
     [], // 6
 ], 5);

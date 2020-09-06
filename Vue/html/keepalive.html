@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    v-if不能做到切换组件保存状态，因为切换的时候会把不满足if条件的组件移除;
+    <!--    <one-box v-if="type"></one-box>-->
+    <!--    <two-box v-else></two-box>-->
+    <br>但是v-show可以保存组件状态，因为v-show只是通过改变display来切换组件，组件实际上都是被渲染了，并且不会被移除;
+    <!--    <one-box v-show="type"></one-box>-->
+    <!--    <two-box v-show="!type"></two-box>-->
+    <br>keep-alive可以用在动态组件的更替,并且保存变量，就是有个特殊的要求，需要组件有个name，用做从缓存中取得数据的索引，
+    <br>这个组件名字还可以用来特殊处理，比如用include只缓存特定的组件，或者exclude不缓存特定的组件
+    <keep-alive include="one-box,three-box">
+        <component :is="module"></component>
+    </keep-alive>
+    <!--    <keep-alive>-->
+    <!--        <component :is="bol?'one-box':'two-box'"></component>-->
+    <!--    </keep-alive>-->
+    使用两个keep-alive组件，会生成2个cache缓存对象，是两个不同的keep-alive组件被实例，这和data必须是一个函数返回对象的原因一样
+    <button @click="changeType">修改type</button>
+</div>
+<script>
+
+    Vue.component('one-box', {
+        props: ['msg'],
+        template: `
+            <div class="active"><h3 @click="consoleP">one</h3><input type="text"></div>`,
+        data() {
+            return {
+                age: 10
+            };
+        },
+        activated() {
+            console.log(this.age);
+        },
+        deactivated() {
+            console.log('离开');
+        },
+        methods: {
+            consoleP() {
+                this.age++;
+                console.log(this.age);
+                console.log(this.$parent);
+            }
+        },
+    });
+    Vue.component('two-box', {
+        props: ['msg'],
+        template: `
+            <div class="active"><h3 @click="consoleP">two</h3><input type="text"></div>`,
+        methods: {
+            consoleP() {
+                console.log(this.$parent);
+            }
+        },
+    });
+    Vue.component('three-box', {
+        props: ['msg'],
+        data() {
+            return {
+                age: 10
+            };
+        },
+        template: `
+            <div class="active"><h3 @click="consoleP">three</h3><input type="text"></div>`,
+        methods: {
+            consoleP() {
+                console.log(this.age);
+                console.log(this.$parent);
+            }
+        },
+    });
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            module: 'one-box',
+            type: 1,
+            bol: false,
+        },
+        methods: {
+            changeType() {
+                this.bol = !this.bol;
+                this.type++;
+                if (this.type == 1) {
+                    this.module = 'one-box';
+                } else if (this.type == 2) {
+                    this.module = 'two-box';
+                } else if (this.type == 3) {
+                    this.module = 'three-box';
+                    this.type = 0;
+                }
+            }
+        },
+    });
+</script>
+</body>
+</html>

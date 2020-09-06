@@ -3536,6 +3536,8 @@
 	/*  */
 
 	function initRender(vm) {
+		console.log('render');
+		console.log(vm);
 		vm._vnode = null; // the root of the child tree
 		vm._staticTrees = null; // v-once cached trees
 		var options = vm.$options;
@@ -3824,6 +3826,9 @@
 		vm._hasHookEvent = false;
 		// init parent attached events
 		var listeners = vm.$options._parentListeners;
+		console.log(vm);
+		console.log('初始化事件');
+		console.log(listeners);
 		if (listeners) {
 			updateComponentListeners(vm, listeners);
 		}
@@ -3970,6 +3975,8 @@
 
 		// locate first non-abstract parent
 		var parent = options.parent;
+		console.log('parent');
+		console.log(parent);
 		if (parent && !options.abstract) {
 			while (parent.$options.abstract && parent.$parent) {
 				parent = parent.$parent;
@@ -4100,6 +4107,8 @@
 				}
 			}
 		}
+		console.log('beforemount');
+		console.log(vm.$options.render);
 		callHook(vm, 'beforeMount');
 
 		var updateComponent;
@@ -4693,16 +4702,23 @@
 	}
 
 	function initState (vm) {
+		//初始化状态里面包括方法和props以及数据等等
 		vm._watchers = [];
 		var opts = vm.$options;
-		if (opts.props) { initProps(vm, opts.props); }
-		if (opts.methods) { initMethods(vm, opts.methods); }
+		if (opts.props) {
+			initProps(vm, opts.props);
+		}
+		if (opts.methods) {
+			initMethods(vm, opts.methods);
+		}
 		if (opts.data) {
 			initData(vm);
 		} else {
 			observe(vm._data = {}, true /* asRootData */);
 		}
-		if (opts.computed) { initComputed(vm, opts.computed); }
+		if (opts.computed) {
+			initComputed(vm, opts.computed);
+		}
 		if (opts.watch && opts.watch !== nativeWatch) {
 			initWatch(vm, opts.watch);
 		}
@@ -5374,7 +5390,6 @@
 
 		mounted: function mounted () {
 			var this$1 = this;
-
 			this.$watch('include', function (val) {
 				pruneCache(this$1, function (name) { return matches(val, name); });
 			});
@@ -5386,10 +5401,12 @@
 		render: function render () {
 			var slot = this.$slots.default;
 			var vnode = getFirstComponentChild(slot);
+			console.log(vnode);
 			var componentOptions = vnode && vnode.componentOptions;
 			if (componentOptions) {
 				// check pattern
 				var name = getComponentName(componentOptions);
+				console.log(name);
 				var ref = this;
 				var include = ref.include;
 				var exclude = ref.exclude;
@@ -5399,11 +5416,12 @@
 					// excluded
 					(exclude && name && matches(exclude, name))
 				) {
-					return vnode
+					return vnode;
 				}
 
 				var ref$1 = this;
 				var cache = ref$1.cache;
+				console.log(cache);
 				var keys = ref$1.keys;
 				var key = vnode.key == null
 					// same constructor may get registered as different local components
