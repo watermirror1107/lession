@@ -3190,6 +3190,8 @@
 		insert: function insert(vnode) {
 			var context = vnode.context;
 			var componentInstance = vnode.componentInstance;
+			console.log('挂载节点');
+			console.log(vnode);
 			if (!componentInstance._isMounted) {
 				componentInstance._isMounted = true;
 				callHook(componentInstance, 'mounted');
