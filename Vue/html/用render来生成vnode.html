@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+    <style>
+        .active {
+            color: blue;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <vv-aside :list="list"></vv-aside>
+</div>
+<script>
+    //js
+    //侧边栏
+    Vue.component('vv-aside', {
+        render: function (h) {
+            console.log(this);//指向当前组件的实例对象
+            var ayy = this.list.map((v) => {
+                return h('div', {
+                    'class': {
+                        odd: v.odd
+                    },
+                    attrs: {
+                        title: v.txt
+                    },
+                    on: {
+                        // click:this.handelClick//这个写法传不了参数但是可以调用方法
+                        click: () => {
+                            return this.handelClick(v);
+                        }
+                    }
+                }, v.txt);
+            });
+            return h('div', ayy);
+
+        },
+        props: {
+            list: {
+                type: Array,
+                default: () => {
+                    return this.list || [];
+                }
+            }
+        },
+        methods: {
+            handelClick: function (item) {
+                console.log(item, "item");
+            }
+        }
+    });
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list: [{
+                id: 1,
+                txt: 'javaScript',
+                odd: true
+            }, {
+                id: 2,
+                txt: 'Vue',
+                odd: false
+            }, {
+                id: 3,
+                txt: 'React',
+                odd: true
+            }]
+        }
+    });
+
+</script>
+</body>
+</html>
