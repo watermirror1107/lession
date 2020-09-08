@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #name {
+            width: 100px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<p>
+    selected的下拉框不能输入,可以通过给Option标签添加selected="selected"来选择默认项;
+</p>
+<p>可以给option添加disabled和hidden以及selected来设置一个默认提示选项</p>
+<p>hidden可以让当前Option不在下拉选项中出现</p>
+<select name="name" id="name">
+    <option value="" disabled selected hidden>请选择</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</select>
+<p>input的下拉框可以输入并且可以根据输入做提示，list要和下面datalist的ID对应</p>
+<p>可以通过给Input的value复制来设置默认选项</p>
+<input type="text" list="citylist" placeholder="选择城市">
+<datalist name="city" id="citylist">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+</datalist>
+</body>
+</html>
