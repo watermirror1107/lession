@@ -3191,7 +3191,6 @@
 			var context = vnode.context;
 			var componentInstance = vnode.componentInstance;
 			console.log('挂载节点');
-			console.log(vnode);
 			if (!componentInstance._isMounted) {
 				componentInstance._isMounted = true;
 				callHook(componentInstance, 'mounted');
@@ -3539,11 +3538,12 @@
 
 	function initRender(vm) {
 		console.log('render');
-		console.log(vm);
+		console.log(vm);//组件实例
 		vm._vnode = null; // the root of the child tree
 		vm._staticTrees = null; // v-once cached trees
 		var options = vm.$options;
 		var parentVnode = vm.$vnode = options._parentVnode; // the placeholder node in parent tree
+		console.log(vm.$vnode);
 		var renderContext = parentVnode && parentVnode.context;
 		vm.$slots = resolveSlots(options._renderChildren, renderContext);
 		vm.$scopedSlots = emptyObject;
@@ -4090,7 +4090,7 @@
 	) {
 		vm.$el = el;
 		if (!vm.$options.render) {
-			vm.$options.render = createEmptyVNode;
+			vm.$options.render = createEmptyVNode;//没有用render函数写的组件是没有render这个时候先用一个空的vnode占位下
 			{
 				/* istanbul ignore if */
 				if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
@@ -4109,10 +4109,10 @@
 				}
 			}
 		}
-		console.log('beforemount');
-		console.log(vm.$options.render);
+		console.log('beforeMount');
+		console.log(vm.$options.render); //父组件的render子集里面已经包含了子组件，但是子组件render还是简单的创造一个标签而已，遇到子组件渲染的地方还是去调子组件的render；
+		//with(this){return _c('div',{attrs:{"id":"app"}},[_c('vv-aside',{attrs:{"list":list}}),_v(" "),_c('test-h')],1)}
 		callHook(vm, 'beforeMount');
-
 		var updateComponent;
 		/* istanbul ignore if */
 		if (config.performance && mark) {
@@ -5040,7 +5040,6 @@
 			var vm = this;
 			// a uid
 			vm._uid = uid$3++;
-
 			var startTag, endTag;
 			/* istanbul ignore if */
 			if (config.performance && mark) {
@@ -5056,8 +5055,11 @@
 				// optimize internal component instantiation
 				// since dynamic options merging is pretty slow, and none of the
 				// internal component options needs special treatment.
+				console.log(vm);//子组件
+				//这里给组件安装配置
 				initInternalComponent(vm, options);
 			} else {
+				console.log(vm);
 				vm.$options = mergeOptions(
 					resolveConstructorOptions(vm.constructor),
 					options || {},
@@ -5078,14 +5080,14 @@
 			initState(vm);
 			initProvide(vm); // resolve provide after data/props
 			callHook(vm, 'created');
-
+			//到这里的template或者render函数都没编译成with函数类型的render函数，并且父级盒子的render还没生成
 			/* istanbul ignore if */
 			if (config.performance && mark) {
 				vm._name = formatComponentName(vm, false);
 				mark(endTag);
 				measure(("vue " + (vm._name) + " init"), startTag, endTag);
 			}
-
+			console.log(vm.$options.el);
 			if (vm.$options.el) {
 				vm.$mount(vm.$options.el);
 			}
@@ -5098,13 +5100,11 @@
 		var parentVnode = options._parentVnode;
 		opts.parent = options.parent;
 		opts._parentVnode = parentVnode;
-
 		var vnodeComponentOptions = parentVnode.componentOptions;
 		opts.propsData = vnodeComponentOptions.propsData;
 		opts._parentListeners = vnodeComponentOptions.listeners;
 		opts._renderChildren = vnodeComponentOptions.children;
 		opts._componentTag = vnodeComponentOptions.tag;
-
 		if (options.render) {
 			opts.render = options.render;
 			opts.staticRenderFns = options.staticRenderFns;
@@ -9153,12 +9153,12 @@
 	Vue.prototype.__patch__ = inBrowser ? patch : noop;
 
 	// public mount method
-	Vue.prototype.$mount = function (
+	Vue.prototype.$mount = function (//用来挂载组件的
 		el,
 		hydrating
 	) {
 		el = el && inBrowser ? query(el) : undefined;
-		return mountComponent(this, el, hydrating)
+		return mountComponent(this, el, hydrating);
 	};
 
 	// devtools global hook
@@ -12030,27 +12030,27 @@
 
 	var idToTemplate = cached(function (id) {
 		var el = query(id);
-		return el && el.innerHTML
+		return el && el.innerHTML;
 	});
 
-	var mount = Vue.prototype.$mount;
+	var mount = Vue.prototype.$mount;//重写mount的目的就是为了把template编译成render函数
 	Vue.prototype.$mount = function (
 		el,
 		hydrating
 	) {
 		el = el && query(el);
-
+		console.log(el);
 		/* istanbul ignore if */
 		if (el === document.body || el === document.documentElement) {
 			warn(
 				"Do not mount Vue to <html> or <body> - mount to normal elements instead."
 			);
-			return this
+			return this;
 		}
 
 		var options = this.$options;
 		// resolve template/el and convert to render function
-		if (!options.render) {
+		if (!options.render) {//判断compile根据template生成了render函数没有
 			var template = options.template;
 			if (template) {
 				if (typeof template === 'string') {
@@ -12080,7 +12080,7 @@
 				if (config.performance && mark) {
 					mark('compile');
 				}
-
+				//开始编译template
 				var ref = compileToFunctions(template, {
 					outputSourceRange: "development" !== 'production',
 					shouldDecodeNewlines: shouldDecodeNewlines,

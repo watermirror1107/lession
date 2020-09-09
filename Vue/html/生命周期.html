@@ -14,8 +14,12 @@
 <body>
 <div id="app">
     <vv-aside :list="list"></vv-aside>
+    <test-h></test-h>
+    vue _vnode和$vnode
+    挂载时候编译template成render
 </div>
 <script>
+    //template在initInternalComponent之后编译成render
     //js
     //侧边栏
     Vue.component('vv-aside', {
@@ -54,8 +58,30 @@
             }
         }
     });
+    Vue.component('test-h', {
+        template: '<p>123</p>',
+        beforeCreate() {
+            console.log('htest beforeCreate');
+        },
+        beforeMount() {
+            console.log('htest beforeMount');
+        },
+        mounted() {
+            console.log('htest Mount');
+        }
+    });
     var vm = new Vue({
         el: "#app",
+        beforeCreate() {
+            console.log('app beforeCreate');
+        },
+        beforeMount() {
+            console.log('app beforeMount');
+        },
+        mounted() {
+            console.log(this);
+            console.log('app Mount');
+        },
         data: {
             list: [{
                 id: 1,
