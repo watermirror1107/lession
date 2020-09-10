@@ -2737,12 +2737,14 @@
 		} else {
 			nodes = this.$slots[name] || fallback;
 		}
-
+		console.log(props);//作用域插槽的值
+		console.log(nodes);//要插入的节点
 		var target = props && props.slot;
+		console.log(target);
 		if (target) {
-			return this.$createElement('template', {slot: target}, nodes)
+			return this.$createElement('template', {slot: target}, nodes);
 		} else {
-			return nodes
+			return nodes;
 		}
 	}
 
@@ -3061,7 +3063,6 @@
 			this.$slots = this.slots();
 			this.$scopedSlots = normalizeScopedSlots(data.scopedSlots, this.$slots);
 		}
-
 		if (options._scopeId) {
 			this._c = function (a, b, c, d) {
 				var vnode = createElement(contextVm, a, b, c, d, needNormalization);
@@ -3399,6 +3400,7 @@
 		normalizationType,
 		alwaysNormalize
 	) {
+		console.log(data);
 		if (Array.isArray(data) || isPrimitive(data)) {
 			normalizationType = children;
 			children = data;
@@ -3407,7 +3409,7 @@
 		if (isTrue(alwaysNormalize)) {
 			normalizationType = ALWAYS_NORMALIZE;
 		}
-		return _createElement(context, tag, data, children, normalizationType)
+		return _createElement(context, tag, data, children, normalizationType);
 	}
 
 	function _createElement(
@@ -3577,12 +3579,12 @@
 
 	var currentRenderingInstance = null;
 
-	function renderMixin(Vue) {
+	function renderMixin(Vue) {//render混合的时候通过render函数生成vnode
 		// install runtime convenience helpers
 		installRenderHelpers(Vue.prototype);
 
 		Vue.prototype.$nextTick = function (fn) {
-			return nextTick(fn, this)
+			return nextTick(fn, this);
 		};
 
 		Vue.prototype._render = function () {
@@ -3610,6 +3612,7 @@
 				// when parent component is patched.
 				currentRenderingInstance = vm;
 				vnode = render.call(vm._renderProxy, vm.$createElement);
+				console.log(vnode);//根据render生成vnode
 			} catch (e) {
 				handleError(e, vm, "render");
 				// return error render result,

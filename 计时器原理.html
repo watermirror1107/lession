@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    原理就是倒计时到了之后在任务队列的最后面插入一个回调函数，但是如果主线程的同步任务没执行完毕，
+    是不会去读取任务队列里面任务，所以倒计时时间到了不一定会执行回调，
+    要等到主线程空闲去读取任务队列才会执行
+    <title>Title</title>
+    <button onclick="a()">test</button>
+</head>
+<body>
+<script>
+    function a() {
+        while (true) {
+            console.log('true');
+        }
+    }
+
+    setTimeout(() => {
+        console.log(312);
+    }, 5000);
+</script>
+</body>
+</html>

@@ -9,7 +9,9 @@
 <div id="app">
     <slotbox>
         <!--        <template v-slot:[slotName]>插槽3</template>-->
-        <!--        <template v-slot:two>one</template>-->
+        <template v-slot:three>
+            <p>three</p>
+        </template>
         <!--        这里的v-slot必须是用在组件标签或者是一个template标签,v-slot:two还可以简写成#two,-->
         test
         <template v-slot="getData">
@@ -17,6 +19,7 @@
         </template>
     </slotbox>
 </div>
+
 <div class="box" style="display: none;">
     <div class="main">
         <!--        <slot >默认插槽</slot>-->
@@ -30,13 +33,28 @@
 
 
 <script>
+
+
+    // _c('div', {attrs: {"id": "app"}}, [_c('slotbox', {
+    //     scopedSlots: _u([{
+    //         key: "two", fn: function () {
+    //             return [_c('p', [_v("two")])];
+    //         }, proxy: true
+    //     }, {
+    //         key: "default", fn: function (getData) {
+    //             return [_v("s(getData.slotdata)")];
+    //         }
+    //     }])
+    // }, [_v(" "), _v("test")])], 1);
+
+
     //子级组件1
     Vue.component('slotbox', {
         template: document.querySelector('.box'),
         data() {
             return {
                 sonData: 'test1'
-            }
+            };
         }
     });
     var vm = new Vue({
@@ -45,7 +63,7 @@
             name: 'firstName',
             slotName: 'three',
         },
-    })
+    });
 </script>
 </body>
 </html>
