@@ -13,7 +13,8 @@
 <body>
 <h1>Channel messaging demo</h1>
 <p class="output">My body</p>
-<iframe src="MessageChannel2.html" width='480' height='320'></iframe>
+<iframe src="MessageChannel2.html" width='480' height='200'></iframe>
+<button>test</button>
 </body>
 <script>
 	var channel = new MessageChannel();
@@ -22,17 +23,24 @@
 	// Wait for the iframe to load
 	iframe.addEventListener("load", onLoad);
 
-	function onLoad() {
+    function onLoad() {
         // Listen for messages on port1、
         channel.port1.onmessage = onMessage;
         // Transfer port2 to the iframe
         iframe.contentWindow.postMessage('Hello from the main page!', '*', [channel.port2]);
     }
-	// Handle messages received on port1
-	function onMessage(e) {
-		output.innerHTML = e.data;
-	}
 
+    // Handle messages received on port1
+    function onMessage(e) {
+        output.innerHTML = e.data;
+    }
+
+    let btn = document.querySelector('button');
+    btn.onclick = function () {
+        iframe.contentWindow.onscroll = function () {
+            console.log('son scroll');
+        };
+    };
 </script>
 </html>
 
