@@ -23,12 +23,17 @@
     <br>这个组件名字还可以用来特殊处理，比如用include只缓存特定的组件，或者exclude不缓存特定的组件
     <keep-alive include="one-box,three-box">
         <component :is="module"></component>
+        <div>123</div>
+        <!--        这里的123不会被渲染-->
     </keep-alive>
     <!--    <keep-alive>-->
     <!--        <component :is="bol?'one-box':'two-box'"></component>-->
     <!--    </keep-alive>-->
     使用两个keep-alive组件，会生成2个cache缓存对象，是两个不同的keep-alive组件被实例，这和data必须是一个函数返回对象的原因一样
     <button @click="changeType">修改type</button>
+    keepalive类似于vue提供的一个组件，它会利用插槽的默认值和获取第一个子组件（后面的组件不会被获取到）的方式来获取Keepalive组件被调用时候标签里面的组件，再把获取到的组件放到keepalive内部的一个active的div内部渲染,
+    并且会把符合include的组件进行缓存，缓存的时候需要根据组件的name来做索引
+    <!--    每个keepalive都是存在于自己的父组件内-->
 </div>
 <script>
 
