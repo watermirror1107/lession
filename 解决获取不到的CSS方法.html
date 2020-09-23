@@ -12,9 +12,9 @@
 </head>
 <body>
 <script>
-    var a=document.getElementsByTagName('body')[0];
-    var b=window.getComputedStyle(a,null).fontSize;//null是获取伪类元素;
-    console.log(a.style.fontSize);//这样是获取不到body的字体大小;
+    var a = document.getElementsByTagName('body')[0];
+    var b = window.getComputedStyle(a, null).fontSize;//null是获取伪类元素;
+    console.log(a.style.fontSize);//这样是只能获取到行内样式
     console.log(b);
 </script>
 </body>
