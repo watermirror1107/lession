@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="file" id="fielinput"/>
+<img id="txshow" style="width:100px;height:100px;"/>
+<br/>解析之后的base64数据：<br/>
+</body>
+<script>
+
+    var input = document.getElementById("fielinput");
+    var txshow = document.getElementById("txshow");
+    if (typeof (FileReader) === 'undefined') {
+        result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！";
+        input.setAttribute('disabled', 'disabled');
+    } else {
+        input.addEventListener('change', readFile, false);
+        txshow.onclick = function () {
+            input.click();
+        }
+    }
+
+
+    function readFile() {
+        var file = this.files[0];
+        //判断是否是图片类型
+        /*if (!/image\/\w+/.test(file.type)) {
+            alert("只能选择图片");
+            return false;
+        }*/
+        console.log(file.size)
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            console.log(reader.result)
+        }
+
+
+    }
+</script>
+</html>

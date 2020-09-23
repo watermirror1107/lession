@@ -3,8 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <input type="text">
+    <button>test</button>
 </head>
 <body>
+<script>
+    let input = document.querySelector('input');
+    let button = document.querySelector('button');
+    let data = {val: '123'};
+    input.addEventListener('input', enterVal, false)
+    let proxy = new Proxy(data, {
+        get(target, p, receiver) {
+            console.log('获取')
+            return target[p]
+        },
+        set(target, p, value, receiver) {
+            if (p == 'val') {
+                console.log('设置')
+                if (input.value != value) input.value = value;
+                target[p] = value;
+                console.log(data.val)
+            }
+        }
+    })
 
+    button.onclick = function () {
+        proxy.val = 'fun'
+    }
+
+    function enterVal() {
+        proxy.val = input.value;
+    }
+</script>
 </body>
 </html>
