@@ -23,7 +23,7 @@ const descriptor = {
 };
 const validator = new Validator(descriptor);
 const testData = {
-    username: 'wish',
+    username: 'make a wish',
     age: 33,
     email: '123213'
 };
