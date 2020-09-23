@@ -6,31 +6,56 @@
     <script src="../../js/vue.js"></script>
 </head>
 <body>
+具名插槽外面必须包着一层template
+
+
 <div id="app">
-    <slotbox>
-        <!--        <template v-slot:[slotName]>插槽3</template>-->
+    <p>children</p>
+    <slotbox1>
+        <!--<template v-slot:[slotName]>插槽3</template>-->
         <template v-slot:three>
-            <p>three</p>
+            <p class="oneTwo">thre1e</p>
         </template>
+        <template v-slot:three>
+            <p>thre3e</p>
+        </template>
+        <template #two>
+            <slotbox2>
+                <template #two>
+                    <p>测试2</p>
+                </template>
+            </slotbox2>
+        </template>
+        <!--        <slotbox2>这样写不生效,具名插槽外面必须包着一层template，看源码2613行可以得知-->
+        <!--            <template #two>测试</template>-->
+        <!--        </slotbox2>-->
         <!--        这里的v-slot必须是用在组件标签或者是一个template标签,v-slot:two还可以简写成#two,-->
-        test
-        <template v-slot="getData">
-            {{getData.slotdata}}
+        <template v-slot:fuck="getData">
+            <p>{{getData.slotdata}}</p>
         </template>
-    </slotbox>
+    </slotbox1>
+    <slotbox1>
+        <template v-slot:two>测试123456789</template>
+    </slotbox1>
 </div>
 
-<div class="box" style="display: none;">
+<div class="box1" style="display: none;">
     <div class="main">
-        <!--        <slot >默认插槽</slot>-->
+        <!--                <slot >默认插槽</slot>-->
         <!--        </br>-->
         <slot name="two">default</slot>
         <slot name="three">default</slot>
-        <slot :slotdata="sonData"></slot>
+        <slot :slotdata="sonData" name="fuck"></slot>
         <!--        这里有个坑就是作用域插槽和默认插槽不能共存，而且作用域插槽的标签属性会被转换成小写的-->
     </div>
 </div>
-
+<div class="box2" style="display: none;">
+    <div class="main">
+        <p>slotbox2</p>
+        <div class="shit">shit</div>
+        <slot name="two">default box2</slot>
+    </div>
+</div>
 
 <script>
 
@@ -49,11 +74,19 @@
 
 
     //子级组件1
-    Vue.component('slotbox', {
-        template: document.querySelector('.box'),
+    Vue.component('slotbox1', {
+        template: document.querySelector('.box1'),
         data() {
             return {
-                sonData: 'test1'
+                sonData: 'sondata'
+            };
+        }
+    });
+    Vue.component('slotbox2', {
+        template: document.querySelector('.box2'),
+        data() {
+            return {
+                sonData: 'sondata'
             };
         }
     });

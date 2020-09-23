@@ -49,10 +49,10 @@
 			clearTimeout(this.timeOut);
 		},
 		mounted() {
-			let item = this.dataList.find(i => i[this.valueProperty] == this.val);
-			this.midVal = item[this.showProperty];
-			this.showDataList = this.dataList;
-		},
+      let item = this.dataList.find(i => i[this.valueProperty] == this.val);
+      this.midVal = item ? item[this.showProperty] : '';
+      this.showDataList = this.dataList;
+    },
 		methods: {
 			cancalBubble() {
 				return false;
