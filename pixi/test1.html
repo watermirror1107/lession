@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 200px auto 0;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="text/javascript">
+    let box = document.querySelector('.box');
+    // let type = "WebGL"
+    // if (!PIXI.utils.isWebGLSupported()) {
+    //     type = "canvas"
+    // }
+    //
+    // PIXI.utils.sayHello(type)
+    let app = new PIXI.Application({width: 500, height: 500});
+    box.appendChild(app.view)
+    //加载图片到纹理缓存
+    // let litMan = PIXI.utils.TextureCache('../images/lit-man.png');
+    // let sprite = new PIXI.Sprite(litMan)
+    //加载图片变成纹理
+    // let sprite1 = new PIXI.Sprite(PIXI.Loader.resources['../images/lit-man.png'].texture);
+    PIXI.loader.add(["../images/lit-man.png", "../images/1.jpg"])//图片可以是一个数组
+        .load(setup)
+        .on("progress", loadProgressHandler) // 添加监控加载进度，每次加载数组中的一个文件就会运行一次;
+    let litMan;
+    // PIXI.loader
+    //     .add("catImage", "images/cat.png",options,callbackFunction)
+    //     //给加载的图片命名为catImage,
+    //     //options (object): 加载配置项。 options.crossOrigin (Boolean): 请求是否跨域?默认是自动确定。 options.loadType: 如何加载资源？默认值是Resource.LOAD_TYPE.XHR。 options.xhrType: 在使用XHR时，应该如何解析加载的数据？默认值是Resource.XHR_RESPONSE_TYPE.DEFAULT
+    //     //callbackFunction: 资源完成加载时要调用的函数。
+    //     .load(setup);
+    //调用的时候可以在纹理中利用命名来获取
+    // let cat = new PIXI.Sprite(PIXI.loader.resources.catImage.texture);
+    function setup() {
+        litMan = new PIXI.Sprite(
+            PIXI.loader.resources["../images/lit-man.png"].texture
+        );
+        app.stage.addChild(litMan)
+    }
+
+    function loadProgressHandler(loader, resource) {
+        //接受两个参数，第一个获取加载的文件占总文件的百分比，第二个参数当前加载的文件
+        //Display the file `url` currently being loaded
+        console.log(resource);
+        console.log("loading: " + resource.url);
+        console.log("loading: " + resource.name);
+
+        //Display the percentage of files currently loaded
+        console.log("progress: " + loader.progress + "%");
+
+    }
+
+    //删除一个元素app.stage.removeChild(anySprite)或者anySprite.visible = false;
+</script>
+</body>
+</html>
