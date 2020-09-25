@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 200px auto 0;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="text/javascript">
+    let Application = PIXI.Application,
+        loader = PIXI.loader,
+        resources = PIXI.loader.resources,
+        Sprite = PIXI.Sprite,
+        TextureCache = PIXI.utils.TextureCache;
+    let box = document.querySelector('.box');
+    let app = new PIXI.Application({width: 500, height: 500});
+    box.appendChild(app.view)
+    PIXI.loader.add("icon.png").load(setup)
+
+    function setup() {
+        let textTrue = TextureCache["icon.png"];
+        //选区域
+        let rectangle = new PIXI.Rectangle(96, 64, 32, 32);
+        textTrue.frame = rectangle;
+        let rocket = new PIXI.Sprite(textTrue);
+        rocket.x = 0;
+        rocket.y = 0;
+        app.stage.addChild(rocket)
+        app.renderer.render(app.stage)
+    }
+
+</script>
+</body>
+</html>

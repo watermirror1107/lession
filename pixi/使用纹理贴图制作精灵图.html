@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 200px auto 0;
+            width: 1024px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="text/javascript">
+    let box = document.querySelector('.box');
+    let app = new PIXI.Application({width: 1024, height: 615})
+    box.appendChild(app.view)
+    PIXI.loader.add(['./test.json', './bg1.jpg']).load(function () {
+        //添加背景
+        let background = new PIXI.Sprite(PIXI.loader.resources['./bg1.jpg'].texture)
+        background.width = 1024;
+        background.height = 615;
+        app.stage.addChild(background)
+        //添加国王
+        let kingTexture = PIXI.utils.TextureCache['012-king.png']//方法一通过纹理里面的图片名字来获取图片
+        // PIXI.loader.resources//方法二通过loader加装纹理图集，前提是前面已经加装过图集
+        let king = new PIXI.Sprite(kingTexture)
+        king.width = '50';
+        king.height = '50';
+        king.x = 50;
+        king.y = 225;
+        app.stage.addChild(king)
+        //添加怪物006-ogre.png
+        let monster = new PIXI.Sprite(PIXI.utils.TextureCache['006-ogre.png']);
+        monster.width = 80;
+        monster.height = 80;
+        monster.position.set(300, 210)
+        app.stage.addChild(monster)
+    })
+</script>
+</body>
+</html>

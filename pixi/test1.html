@@ -36,7 +36,7 @@
     PIXI.loader.add(["../images/lit-man.png", "../images/1.jpg"])//图片可以是一个数组
         .load(setup)
         .on("progress", loadProgressHandler) // 添加监控加载进度，每次加载数组中的一个文件就会运行一次;
-    let litMan;
+    let litMan, imgW, imgH;
     // PIXI.loader
     //     .add("catImage", "images/cat.png",options,callbackFunction)
     //     //给加载的图片命名为catImage,
@@ -49,6 +49,23 @@
         litMan = new PIXI.Sprite(
             PIXI.loader.resources["../images/lit-man.png"].texture
         );
+        //移动元素
+        litMan.x = 250 - 130;
+        litMan.y = 250 - 130;
+        // litMan.position.set(50,50)//也可以通过这个方式来设置位置坐标
+        //设置元素的大小
+        litMan.width = 50;
+        litMan.height = 50;
+        //缩放元素，是按图片的原始尺寸进行缩放
+        litMan.scale.x = 1;
+        litMan.scale.y = 1;
+        // litMan.scale.set(0.5, 0.5);//也可以这么设置缩放
+        //旋转元素
+        litMan.rotation = 0.5;
+        //设置旋转的锚点
+        // litMan.anchor.x = 0.5;
+        // litMan.anchor.y = 0.5;
+        litMan.pivot.set(32, 32)
         app.stage.addChild(litMan)
     }
 
@@ -56,6 +73,8 @@
         //接受两个参数，第一个获取加载的文件占总文件的百分比，第二个参数当前加载的文件
         //Display the file `url` currently being loaded
         console.log(resource);
+        //resource.data.height//图片高
+        //resource.data.width//图片宽
         console.log("loading: " + resource.url);
         console.log("loading: " + resource.name);
 
