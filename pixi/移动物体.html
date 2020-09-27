@@ -28,6 +28,7 @@
         king.height = 50;
         king.position.set(101, 100)
         app.stage.addChild(king)
+        //循环
         app.ticker.add(delta => moction(delta))
         let dis = 1, size = 0.1;
 
@@ -48,22 +49,7 @@
                 king.scale.set(size += 0.004)
         }
 
-        window.addEventListener('keydown', function (ev) {
-            switch (ev.key) {
-                case 'ArrowUp':
-                    king.y -= 5;
-                    break
-                case 'ArrowDown':
-                    king.y += 5
-                    break
-                case 'ArrowRight':
-                    king.x += 5;
-                    break
-                default:
-                    king.x -= 5;
-                    break
-            }
-        }, false)
+
     })
 </script>
 </body>

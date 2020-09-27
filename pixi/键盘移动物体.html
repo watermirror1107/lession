@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            width: 500px;
+            margin: 0 auto;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="module">
+    import keyboard from "../keyhandler.js";
+
+    let app = new PIXI.Application({width: 500, height: 500});
+    document.querySelector('.box').appendChild(app.view)
+    PIXI.loader.add('./test.json').load(function () {
+        let texture = PIXI.utils.TextureCache['012-king.png'];
+        let king = new PIXI.Sprite(texture);
+        king.width = 50;
+        king.height = 50;
+        king.position.set(101, 100)
+        app.stage.addChild(king)
+        //循环
+        app.ticker.add(delta => moction(delta));
+        let speedX = 0, speedY = 0;
+        let l = keyboard('ArrowLeft'),
+            r = keyboard('ArrowRight'),
+            u = keyboard('ArrowUp'),
+            d = keyboard('ArrowDown');
+        l.press = () => {
+            speedX = -5;
+            speedY = 0;
+        }
+        l.release = () => {
+            if (!r.isDown && speedY === 0) {
+                //这个判断是为了同时按下左右按钮时候用的,左按的时候右边松了不能阻止左移
+                speedX = 0;
+            }
+        }
+        r.press = () => {
+            speedX = 5;
+            speedY = 0;
+        }
+        r.release = () => {
+            if (!l.isDown && speedY === 0) {
+                speedX = 0;
+            }
+        };
+        u.press = () => {
+            speedX = 0;
+            speedY = -5;
+        }
+        u.release = () => {
+            if (!d.isDown && speedX === 0) {
+                speedY = 0;
+            }
+        };
+        d.press = () => {
+            speedX = 0;
+            speedY = 5;
+        }
+        d.release = () => {
+            if (!u.isDown && speedX === 0) {
+                speedY = 0;
+            }
+        };
+
+        function moction(delta) {
+            king.x += speedX;
+            king.y += speedY;
+            if (king.x > 450) {
+                king.x = 450
+            }
+            if (king.x < 0) {
+                king.x = 0
+            }
+            if (king.y > 450) {
+                king.y = 450
+            }
+            if (king.y < 0) {
+                king.y = 0
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
