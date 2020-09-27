@@ -32,8 +32,8 @@
         let dis = 1, size = 0.1;
 
         function moction(delta) {
-            moveCharactor();
-            glowUp();
+            // moveCharactor();
+            // glowUp();
         }
 
         function moveCharactor() {
@@ -47,6 +47,23 @@
             if (size < 0.2)
                 king.scale.set(size += 0.004)
         }
+
+        window.addEventListener('keydown', function (ev) {
+            switch (ev.key) {
+                case 'ArrowUp':
+                    king.y -= 5;
+                    break
+                case 'ArrowDown':
+                    king.y += 5
+                    break
+                case 'ArrowRight':
+                    king.x += 5;
+                    break
+                default:
+                    king.x -= 5;
+                    break
+            }
+        }, false)
     })
 </script>
 </body>
