@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 200px auto 0;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="text/javascript">
+    let box = document.querySelector('.box');
+    let app = new PIXI.Application({width: 500, height: 500});
+    box.appendChild(app.view)
+    let style = new PIXI.TextStyle({
+        fontFamily: 'Futura',
+        fontSize: 64,//这里必须用数字类型
+        fill: 'white'
+    })
+    message = new PIXI.Text('The End!', style);
+    message.x = 120;
+    message.y = 200;
+    app.stage.addChild(message);
+</script>
+</body>
+</html>

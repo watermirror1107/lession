@@ -11,102 +11,239 @@
         }
 
         .box {
-            width: 500px;
-            height: 500px;
+            margin: 100px auto 0;
+            width: 600px;
+            height: 600px;
+        }
+
+        .start {
+            display: block;
+            width: 100px;
+            height: 50px;
+            margin: 30px auto 0;
         }
     </style>
 </head>
 <body>
 <div class="box"></div>
-<button>开始</button>
-<script>
+<button class="start">开始</button>
+<script type="module">
     //碰撞计算公式
-    function hitTestRectangle(r1, r2) {
+    import hitTestRectangle from '../hitTestRectangle.js'
+    //限制元素移动区域
+    import contain from '../contain.js'
+    //键盘事件监听
+    import keyboard from "../keyhandler.js";
 
-        //Define the variables we'll need to calculate
-        let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
-
-        //hit will determine whether there's a collision
-        hit = false;
-
-        //Find the center points of each sprite
-        r1.centerX = r1.x + r1.width / 2;
-        r1.centerY = r1.y + r1.height / 2;
-        r2.centerX = r2.x + r2.width / 2;
-        r2.centerY = r2.y + r2.height / 2;
-
-        //Find the half-widths and half-heights of each sprite
-        r1.halfWidth = r1.width / 2;
-        r1.halfHeight = r1.height / 2;
-        r2.halfWidth = r2.width / 2;
-        r2.halfHeight = r2.height / 2;
-
-        //Calculate the distance vector between the sprites
-        vx = r1.centerX - r2.centerX;
-        vy = r1.centerY - r2.centerY;
-
-        //Figure out the combined half-widths and half-heights
-        combinedHalfWidths = r1.halfWidth + r2.halfWidth;
-        combinedHalfHeights = r1.halfHeight + r2.halfHeight;
-
-        //Check for a collision on the x axis
-        if (Math.abs(vx) < combinedHalfWidths) {
-
-            //A collision might be occurring. Check for a collision on the y axis
-            if (Math.abs(vy) < combinedHalfHeights) {
-
-                //There's definitely a collision happening
-                hit = true;
-            } else {
-
-                //There's no collision on the y axis
-                hit = false;
-            }
-        } else {
-
-            //There's no collision on the x axis
-            hit = false;
-        }
-
-        //`hit` will be either `true` or `false`
-        return hit;
-    };
-
-    let app = new PIXI.Application({width: 500, height: 500});
+    let app = new PIXI.Application({width: 600, height: 600});
     document.querySelector('.box').appendChild(app.view)
-    PIXI.loader.add('./test.json').load(function () {
-        let kingTexture = PIXI.utils.TextureCache['012-king.png'];
-        let wizardTexture = PIXI.utils.TextureCache['002-wizard.png'];
+    PIXI.loader.add(['./test.json', './box.jpg', './bg.png', './door.json']).load(function () {
+        let gameScene = new PIXI.Container();//分两个场景一个是游戏结束时候，和正常游戏的时候
+        app.stage.addChild(gameScene);
+        let gameOverMsg = 'GAME OVER'
+        let gameOverScene = new PIXI.Container();
+        app.stage.addChild(gameOverScene);
+        gameOverScene.visible = false;
+        //元素的尺寸
+        let size = {
+            characterSize: 40,
+            monsterSize: 40,
+            objectSize: 40
+        }
+
+        let doorTexture = PIXI.utils.TextureCache['door-1.png'];
+        let kingTexture = PIXI.utils.TextureCache['003-dwarf.png'];
+        let boxTexTure = PIXI.utils.TextureCache['./box.jpg'];
+        let bgTexTure = PIXI.utils.TextureCache['./bg.png'];
+        let door = new PIXI.Sprite(doorTexture);
         let king = new PIXI.Sprite(kingTexture);
-        let wizard = new PIXI.Sprite(wizardTexture);
+        let box = new PIXI.Sprite(boxTexTure);
+        let bg = new PIXI.Sprite(bgTexTure);
 
-        wizard.width = 60;
-        wizard.height = 60;
+        door.width = 40;
+        door.height = 30;
+        box.width = size.objectSize;
+        box.height = size.objectSize;
+        king.width = size.characterSize;
+        king.height = size.characterSize;
+        bg.width = 600;
+        bg.height = 600;
+        king.position.set(100, 100)
+        door.position.set(30, 0)
+        box.position.set(300, 100)
+        //king移动
+        let kingSpeed = {vx: 0, vy: 0};
+        let l = keyboard('ArrowLeft'),
+            r = keyboard('ArrowRight'),
+            u = keyboard('ArrowUp'),
+            d = keyboard('ArrowDown');
+        l.press = () => {
+            kingSpeed.vx = -5;
+            kingSpeed.vy = 0;
+        }
+        l.release = () => {
+            if (!r.isDown && kingSpeed.vy === 0) {
+                //这个判断是为了同时按下左右按钮时候用的,左按的时候右边松了不能阻止左移
+                kingSpeed.vx = 0;
+            }
+        }
+        r.press = () => {
+            kingSpeed.vx = 5;
+            kingSpeed.vy = 0;
+        }
+        r.release = () => {
+            if (!l.isDown && kingSpeed.vy === 0) {
+                kingSpeed.vx = 0;
+            }
+        };
+        u.press = () => {
+            kingSpeed.vx = 0;
+            kingSpeed.vy = -5;
+        }
+        u.release = () => {
+            if (!d.isDown && kingSpeed.vx === 0) {
+                kingSpeed.vy = 0;
+            }
+        };
+        d.press = () => {
+            kingSpeed.vx = 0;
+            kingSpeed.vy = 5;
+        }
+        d.release = () => {
+            if (!u.isDown && kingSpeed.vx === 0) {
+                kingSpeed.vy = 0;
+            }
+        };
+        //画边框
+        let border = new PIXI.Graphics();
+        border.lineStyle(30, '0XE5E5E5', 1)
+        border.moveTo(0, 15);
+        border.lineTo(585, 15);
+        border.lineTo(585, 585);
+        border.lineTo(15, 585);
+        border.lineTo(15, 0);
+        border.position.set(0, 0)
+        //导入物体,背景图要先添加不然会覆盖后面添加的
+        gameScene.addChild(bg)
+        gameScene.addChild(border)
+        gameScene.addChild(box)
+        gameScene.addChild(door)
+        gameScene.addChild(king)
+        let healthBar = new PIXI.Container({width: 180, height: 30});
+        healthBar.position.set(270, 0);
+        gameScene.addChild(healthBar)
 
-        king.width = 50;
-        king.height = 50;
-        king.position.set(101, 100)
-        wizard.position.set(300, 100)
-        app.stage.addChild(king)
-        app.stage.addChild(wizard)
+        function hpLine() {
 
-        let dis = 1;
-
-        function moction(delta) {
-            moveCharactor();
-            let isTouch = hitTestRectangle(king, wizard);
-            console.log(isTouch)
+            let style = new PIXI.TextStyle({
+                fontFamily: 'Futura',
+                fontSize: 16,
+                fill: 'black'
+            });
+            let hp = new PIXI.Text('HP:', style);
+            hp.x = 0;
+            hp.y = 7;
+            healthBar.addChild(hp)
+            //画血条,一个黑色的是底色，一个红色的在上面覆盖了黑色
+            let hpLine1 = new PIXI.Graphics();
+            hpLine1.beginFill(0X000000);
+            hpLine1.drawRect(30, 10, 150, 10)
+            let hpLine2 = new PIXI.Graphics();
+            hpLine2.beginFill(0XFF3300);
+            hpLine2.drawRect(30, 10, 150, 10)
+            healthBar.addChild(hpLine1)
+            healthBar.addChild(hpLine2)
         }
 
-        function moveCharactor() {
-            if (king.x > 400) dis = -1;
-            if (king.x < 100) dis = 1;
-            king.x += dis;
+        //随机数生成
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
-        document.querySelector('button').addEventListener('click', function () {
-            app.ticker.add(delta => moction(delta))
-        }, false)
+        //生成怪兽
+        let monsterSpeed = 2, monsterDis = 80, direction = 1, xOffset = 50, monsterArr = [];
+
+        function createMonster(num = 6) {
+            for (let i = 0; i < num; i++) {
+                let monster = new PIXI.Sprite(PIXI.utils.TextureCache['005-witch.png'])
+                monster.width = size.monsterSize;
+                monster.height = size.monsterSize;
+                let x = monsterDis * i + xOffset;
+                monster.speedY = monsterSpeed * direction;
+                direction *= -1;
+                monster.position.set(x, randomInt(30, 570 - size.monsterSize));
+                monsterArr.push(monster);
+                gameScene.addChild(monster);
+            }
+        }
+
+        hpLine()
+        createMonster()
+
+        function gameLoop(delta) {
+            play()
+            // let isTouch = hitTestRectangle(king, box);
+            // console.log(isTouch)
+        }
+
+        let isGetBox = false;
+
+        function play() {
+            king.x += kingSpeed.vx;
+            king.y += kingSpeed.vy;
+            //限制King元素的可移动区域
+            contain(king, {x: 30, y: 30, width: 540, height: 540});//第二个参数是容器的坐标和大小
+            monsterArr.forEach((item) => {
+                item.y += item.speedY;
+                let monsterLimit = contain(item, {x: 30, y: 30, width: 540, height: 540});
+                //monster只能在竖直方向运动
+                if (monsterLimit === 'top' || monsterLimit === 'bottom') {
+                    item.speedY *= -1;
+                }
+                if (hitTestRectangle(king, item)) {
+                    kingHit();
+                } else {
+                    king.alpha = 1
+                }
+                if (hitTestRectangle(king, box)) {
+                    isGetBox = true;
+                    box.x = king.x + 8;
+                    box.y = king.y + 8;
+                }
+                if (king.x == 30 && king.y == 30) {
+                    gameOverMsg = 'YOU WIN'
+                    end()
+                }
+            })
+        }
+
+        //碰撞扣血
+        function kingHit() {
+            if (healthBar.children[2].width <= 0) {
+                end()
+            } else {
+                healthBar.children[2].width -= 2
+                king.alpha = 0.5
+            }
+        }
+
+        //结束
+        function end() {
+            //制作游戏结束时候的文本
+            let fontStyle = new PIXI.TextStyle({
+                fontFamily: 'Futura',
+                fontSize: 64,
+                fill: 'white'
+            });
+            let message = new PIXI.Text(gameOverMsg, fontStyle);
+            message.x = 120;
+            message.y = 120;
+            gameOverScene.addChild(message)
+            gameScene.visible = false;
+            gameOverScene.visible = true;
+        }
+
+        app.ticker.add(delta => gameLoop(delta))
 
     })
 </script>
