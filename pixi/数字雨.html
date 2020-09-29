@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/pixi.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            margin: 200px auto 0;
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+<div class="box"></div>
+<script type="module">
+    import contain from '../contain.js'
+
+    function isOverContain(sprite, contain) {
+        //纵向的
+        return sprite.y > contain.height;
+    }
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    let box = document.querySelector('.box'), fontSize = 32, msgLength = 10, dis = 50;
+    let app = new PIXI.Application({width: 500, height: 500});
+    box.appendChild(app.view)
+    let msgArr = [];
+    for (let i = 0; i < msgLength; i++) {
+        let style = new PIXI.TextStyle({
+            fontFamily: 'Futura',
+            fontSize: fontSize,//这里必须用数字类型
+            fill: '0xA6DB9F',
+            leading: 0,
+            breakWords: true,
+            wordWrap: true,
+            wordWrapWidth: fontSize / 2,
+        })
+
+        let message = new PIXI.Text('123123', style);
+        message.width = fontSize / 2;
+        message.x = i * 50 + 10;
+        message.y = randomInt(10, 500);
+        message.alpha = 0;
+        //计时器用的
+        message.timeout = 0;
+        message.speed = randomInt(1, 4)
+        app.stage.addChild(message);
+        msgArr.push(message)
+    }
+
+    function showMsg(item) {
+        item.alpha += 0.005;
+    }
+
+    app.ticker.add(delta => drop(delta))
+
+    function replaceOne(str, index, wStr) {
+        let m = str;
+        return m.substring(0, index) + wStr + m.substring(index + 1, str.length)
+    }
+
+    function drop() {
+
+        msgArr.forEach(item => {
+            if (item.timeout >= 120) {
+                let str = item.text;
+                item.text = replaceOne(str, randomInt(0, item.text.length - 1), randomInt(1, 9))
+                item.timeout = 0;
+            } else {
+                item.timeout++;
+            }
+            if (item.alpha < 1) showMsg(item);
+            if (isOverContain(item, {width: 500, height: 500})) {
+                item.y = 0 - item.height;
+            }
+            item.y += item.speed;
+        })
+    }
+</script>
+</body>
+</html>
