@@ -132,6 +132,8 @@
         let healthBar = new PIXI.Container({width: 180, height: 30});
         healthBar.position.set(270, 0);
         gameScene.addChild(healthBar)
+        let hpLine1 = new PIXI.Graphics();
+        let hpLine2 = new PIXI.Graphics();
 
         function hpLine() {
 
@@ -145,10 +147,8 @@
             hp.y = 7;
             healthBar.addChild(hp)
             //画血条,一个黑色的是底色，一个红色的在上面覆盖了黑色
-            let hpLine1 = new PIXI.Graphics();
             hpLine1.beginFill(0X000000);
             hpLine1.drawRect(30, 10, 150, 10)
-            let hpLine2 = new PIXI.Graphics();
             hpLine2.beginFill(0XFF3300);
             hpLine2.drawRect(30, 10, 150, 10)
             healthBar.addChild(hpLine1)
@@ -222,6 +222,7 @@
             if (healthBar.children[2].width <= 0) {
                 end()
             } else {
+                hpLine2.drawRect(30, 10, 150, 10)
                 healthBar.children[2].width -= 2
                 king.alpha = 0.5
             }

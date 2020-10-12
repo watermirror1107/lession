@@ -32,7 +32,8 @@
     }
 
     let box = document.querySelector('.box'), fontSize = 32, msgLength = 10, dis = 50;
-    let app = new PIXI.Application({width: 500, height: 500});
+    let app = new PIXI.Application({width: 500, height: 500, transparent: false});
+    // app.stage.
     box.appendChild(app.view)
     let msgArr = [];
     for (let i = 0; i < msgLength; i++) {

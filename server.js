@@ -1,6 +1,5 @@
 let http=require('http');
 let url=require('url');
-let util=require('util');
 let fs=require('fs');
 let server=http.createServer((req,res)=>{
     let pathName=url.parse(req.url).pathname;
