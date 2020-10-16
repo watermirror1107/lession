@@ -17,13 +17,13 @@ obj2.age = 999;
 
 //函数类型的接口,声明了参数就必须传
 interface fun1 {
-    (source: string, subString: number): boolean;//参数2个，source和substring，返回值必须是布尔值
+    (source: string, subString: number): string;//参数2个，source和substring，返回值必须是布尔值
 }
 
 let funType1: fun1;
-funType1 = function (d1: string, d2: number): boolean {//参数的名字可以和函数类型声明时候不一样，但是类型和顺序必须是一样的；
+funType1 = function (d1, d2) {//参数的名字可以和函数类型声明时候不一样，但是类型和顺序必须是一样的；
     console.log(d1)
-    return d2 > 10
+    return d1
     // return 1
 }
 funType1('123', 2)
