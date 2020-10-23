@@ -1,5 +1,4 @@
 import React from 'react'
-
 class Welcome extends React.Component {
     render() {
         const list = [1, 2]
@@ -11,11 +10,11 @@ class Welcome extends React.Component {
                     isLogin ? <p>已登录</p> : <p>未登录</p>
                 }
                 {
-                    list.map(item => {
+                    list.map((item, index) => {
                             if (isLogin) {
-                                return <li>{item + 1}</li>
+                                return <li key={index}>{item + 1}</li>
                             } else {
-                                return <li>{item}</li>
+                                return <li key={index}>{item}</li>
                             }
                         }
                     )
