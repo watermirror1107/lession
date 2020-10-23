@@ -66,10 +66,11 @@ john.tell()
 
 class bigAnimal {
     private name: string;
-    protected age: number
+    protected age: number//类似于一个只能在类里面访问的实例属性，每个实例的值都是独立的
 
     constructor(theName: string) {
         this.age = 100;
+        console.log(this.age)
         this.name = theName;
     }
 }
@@ -81,6 +82,8 @@ class Rhino extends bigAnimal {
 
     tell() {
         // console.log(this.name)//name是private属性必须是在父类里面使用
+        // this.name='fuck'
+        this.age = 1999
         console.log(this.age)//age是protected属性可以在子类里面使用
     }
 }
@@ -90,15 +93,22 @@ class Employee {
     static age = 3;
 
     constructor(theName: string) {
+        console.log(Employee.age)
         this.name = theName + Employee.age;
     }
 }
 
-let animal1 = new bigAnimal("Goat");
+
 let rhino = new Rhino();
 let employee = new Employee("Bob");
 rhino.tell()
+let animal1 = new bigAnimal("Goat");
 animal1 = rhino;
-animal1 = employee; // 错误: Animal 与 Employee 不兼容.
+// animal1 = employee; // 错误: Animal 与 Employee 不兼容.因为employee里面的age不是来自bigAnimal
 
-//protected修饰符与private修饰符的行为很相似，但有一点不同，protected成员在派生类中仍然可以访问
+//protected修饰符与private修饰符的行为很相似，但有一点不同，protected成员在派生类中仍然可以访问,前提都是在类里面访问
+
+let TestType: typeof Employee = Employee;
+TestType.age = 4;//可以通过这样来修改静态属性;
+let nTestType: Employee = new TestType('giao');
+
