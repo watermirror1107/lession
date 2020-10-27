@@ -17,7 +17,12 @@ class CommentBox extends React.Component {
     }
 
     submitForm(event) {
-        alert(this.state.val)
+        //触发父级的方法
+        this.props.onAddComment(this.state.val)
+        this.setState({
+            val: ''
+        })
+        // alert(this.state.val)
         event.preventDefault();
     }
 
@@ -27,6 +32,7 @@ class CommentBox extends React.Component {
                 <label>留言内容</label>
                 <input type="text" value={this.state.val} onChange={this.handleChange}/>
                 <button type="submit">发送</button>
+                <p>已有{this.props.commentListLength}条评论</p>
             </form>
         )
     }
