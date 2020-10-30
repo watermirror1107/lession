@@ -45,6 +45,7 @@
                 console.log(nv);
                 console.log(ov);
             },
+            //这样使用watch时有一个特点，就是当值第一次绑定的时候，不会执行监听函数，只有值发生改变才会执行。如果我们需要在最初绑定值的时候也执行函数，则就需要用到immediate属性。
             //深监听
             student: {
                 handler(d1) {//不接收参数
