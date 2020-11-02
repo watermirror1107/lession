@@ -5,7 +5,7 @@ module.exports = {
     entry: path.resolve(__dirname, 'entry.js'),
     output: {path: path.resolve(__dirname, 'dist'), filename: "bundle.js"},
     resolveLoader: {
-        modules: [path.resolve(__dirname, './'), 'node_modules']
+        modules: [path.resolve(__dirname, ''), 'node_modules']
     },
     module: {
         rules: [{test: /\.css$/, use: [{loader: 'first-loader', options: {msg: '第一次测试'}}, 'css-loader']}]
