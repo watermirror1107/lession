@@ -67,7 +67,7 @@ function getDiagonalCode(grid) {
     return txt;
 }
 
-console.log(getDiagonalCode(txt1));
+// console.log(getDiagonalCode(txt1));
 // console.log(getDiagonalCode(txt2));
 // console.log(getDiagonalCode(txt3));
 // console.log(getDiagonalCode(txt4));
@@ -100,9 +100,9 @@ const GetFormat = function (elList) {
 const Format = GetFormat([]);
 //field chained HTML formatting
 
-console.log(
-    Format.div.h4('aksld', '123')
-);
+
+Format.div.h4('aksld', '123')
+
 
 //手写一个计算器Calculator    (), +, -, *, /
 const Calculator = function () {
@@ -432,9 +432,6 @@ function findDifferent(str1, str2) {
         }
         obj.index = startIndex;
     }
-    console.log(startIndex);
-    console.log(endIndex);
-    console.log(obj);
     return obj;
 }
 
@@ -591,7 +588,9 @@ function willFit(present, box) {
 //电梯 The Lift
 let theLift = function (queues, capacity) {
     let direction = true;//true上，false下
-    let isDone = function () {//是否执行完毕
+    let nowLift = [], nowFloor = 0, res = [];
+
+    function isDone() {//是否执行完毕
         let bol = false;
         queues.map((item, index) => {
             if (item.some(xx => xx != index)) {
@@ -599,7 +598,8 @@ let theLift = function (queues, capacity) {
             }
         });
         return bol;
-    }, nowLift = [], nowFloor = 0, res = [];
+    }
+
 
     //控制多人同层上电梯
     let kg1, kg2;
@@ -608,7 +608,7 @@ let theLift = function (queues, capacity) {
     function downLift() {
         nowLift.forEach((item, index) => {
             if (nowFloor == item) {
-                nowLift.splice(index, 1);
+                nowLift.splice(index, 1, 'xx');
                 //控制多人同层下电梯
                 if (kg2) {
                     //同一层上下楼判断，避免反复添加
@@ -619,13 +619,14 @@ let theLift = function (queues, capacity) {
                 kg2 = false;
             }
         });
+        nowLift = nowLift.filter(x => x != 'xx');
     }
 
     //上电梯
     function upLift(man, wi, ii) {
-        if (nowLift.length <= capacity) {
+        if (nowLift.length < capacity) {
             nowLift.push(man);
-            queues[wi].splice(ii, 1, 'xx');//splice会修改到原数组，如果在数组循环中做删除和增加元素的时候要注意会导致变化，数组的循环回不正常
+            let x = queues[wi].splice(ii, 1, 'xx');//splice会修改到原数组，如果在数组循环中做删除和增加元素的时候要注意会导致变化，数组的循环会不正常
         }
         if (kg1) {
             //同一层上下楼判断，避免反复添加
@@ -642,60 +643,57 @@ let theLift = function (queues, capacity) {
             for (let i = 0; i < queues.length; i++) {
                 nowFloor = i;
                 kg1 = kg2 = true;
-                queues[i].forEach((wantFloor, index, arr) => {
+                downLift();//先下后上
+                queues[i].forEach((wantFloor, index) => {
                     if (wantFloor > nowFloor) {
                         upLift(wantFloor, i, index);
                     }
                 });
                 queues[i] = queues[i].filter(x => x != 'xx');
-                downLift();
+
             }
         } else {
             for (let i = queues.length - 1; i >= 0; i--) {
                 nowFloor = i;
                 kg1 = kg2 = true;
+                downLift();//先下后上
                 queues[i].forEach((wantFloor, index, arr) => {
                     if (wantFloor < nowFloor) {
                         upLift(wantFloor, i, index);
                     }
+
                 });
                 queues[i] = queues[i].filter(x => x != 'xx');
-                downLift();
             }
         }
         direction = !direction;
     }
-    res.push(0);
-    console.log(res);
+    if (res[res.length - 1] != 0) {//如果最后一个是到最底层就不用再回到最底层
+        res.push(0);
+    }
+    console.log(res)
     return res;
 };
 
-theLift([
-    [], // G
-    [], // 1
-    [5, 5, 5], // 2
-    [], // 3
-    [], // 4
-    [], // 5
-    [], // 6
-], 5);
+// theLift([
+//     [], // G
+//     [], // 1
+//     [5, 5, 5], // 2
+//     [], // 3
+//     [], // 4
+//     [], // 5
+//     [], // 6
+// ], 5);
 
-theLift([[], // G
-    [3], // 1
-    [4], // 2
-    [], // 3
-    [5], // 4
-    [], // 5
-    [], // 6
-], 5);
+// theLift([[], // G
+//     [3], // 1
+//     [4], // 2
+//     [], // 3
+//     [5], // 4
+//     [], // 5
+//     [], // 6
+// ], 5);
 
-theLift([
-    [], // G
-    [0], // 1
-    [], // 2
-    [], // 3
-    [2], // 4
-    [3], // 5
-    [], // 6
-], 5);
+theLift([[], [2], [3, 3, 3], [1], [], [], []], 1);
 
+//[0, 1, 2, 3, 1, 2, 3, 2, 3, 0]
