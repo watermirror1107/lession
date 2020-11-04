@@ -671,7 +671,6 @@ let theLift = function (queues, capacity) {
     if (res[res.length - 1] != 0) {//如果最后一个是到最底层就不用再回到最底层
         res.push(0);
     }
-    console.log(res)
     return res;
 };
 
@@ -694,6 +693,36 @@ let theLift = function (queues, capacity) {
 //     [], // 6
 // ], 5);
 
-theLift([[], [2], [3, 3, 3], [1], [], [], []], 1);
+// theLift([[], [2], [3, 3, 3], [1], [], [], []], 1);
 
 //[0, 1, 2, 3, 1, 2, 3, 2, 3, 0]
+
+//字符串数字相加
+function add(a, b) {
+    let length = Math.max(a.length, b.length);
+    let arr1, arr2, iArr = Array(length), res = [];
+    if (a.length > b.length) {
+        arr1 = a.split('').reverse();
+        arr2 = b.split('').reverse();
+    } else {
+        arr1 = b.split('').reverse();
+        arr2 = a.split('').reverse();
+    }
+    for (let i = 0; i < length; i++) {
+        let sum, dis = 0;
+        if (iArr[i - 1] && iArr[i - 1] === 1) {
+            dis = 1;
+        }
+        sum = (arr2[i] ? Number(arr2[i]) : 0) + Number(arr1[i]) + dis;
+        if (sum >= 10) {
+            iArr[i] = 1;
+        }
+        res.unshift(sum % 10);
+    }
+    if (iArr[iArr.length - 1] === 1) {
+        res.unshift(1);
+    }
+    return res.join('');
+}
+
+// add('12', '456')
