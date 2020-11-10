@@ -15,7 +15,7 @@
         name: 'inputSearch',
         props: {
             dataList: {
-                dafault: [],//options列表
+                default: [],//options列表
                 type: Array,
                 required: true
             },
@@ -31,6 +31,13 @@
             },
             val: {//值
                 required: true
+            }
+        },
+        directives: {
+            clickOutSide: {
+                bind(el, binding, vnode, oldVnode) {
+
+                }
             }
         },
         model: {
@@ -76,7 +83,7 @@
     };
 </script>
 
-<style lang="scss">
+<style lang="less">
     .wrap {
         width: 100%;
         height: 100%;
