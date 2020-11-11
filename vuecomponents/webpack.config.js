@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
@@ -19,10 +18,10 @@ module.exports = {
     devServer: {
         port: 3000,
         hot: true,
-        open: true,
         hotOnly: true,
         compress: true,
-        clientLogLevel: 'none',//关闭log日志
+        liveReload: false,
+        // clientLogLevel: 'none',//关闭log日志
     },
     resolve: {
         extensions: ['.vue', '.css', '.js', '.less']

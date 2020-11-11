@@ -1,7 +1,7 @@
 import Vue from 'vue'
-import inputSearch from './components/inputSearch'
+import app from './app'
 
 new Vue({
-    render: h => h(inputSearch),
+    render: h => h(app),
     el: '#app'
 })
