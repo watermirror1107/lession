@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        h2 {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<h2>dom0</h2>
+<p>DOM0级事件具有极好的跨浏览器优势，会以最快的速度绑定。
+    为某一个元素的同一个行为绑定不同的方法在行内会分别执行。
+    为某一个元素的同一个行为绑定不同的方法在script标签中后面的方法会覆盖前面的方法。</p>
+<p>删除DOM 0事件处理程序，只要将对应事件属性设为null即可。</p>
+<button class="test1" onclick="fun1();fun2()">test1 dom0</button>
+<button class="test2">test2 dom0</button>
+<h2>dom2</h2>
+<p>DOM2级事件是通过addEventListener绑定的事件，IE下的DOM2事件通过attachEvent绑定；可以给某一个元素的同一个行为绑定不同的方法在行内会分别执行。</p>
+<p>删除DOM 2事件处理程序，通过removeEventListener,注意点移除的函数不能是匿名函数</p>
+<button class="test3">test1 dom2</button>
+<button class="test4">test2 dom2</button>
+<h2>dom3</h2>
+<p>DOM3级事件在DOM2级事件的基础上添加了更多的事件类型,还有自定义事件</p>
+<table width="800" border="1" align="center">
+    <tr>
+        <th>事件类型</th>
+        <th>说明</th>
+        <th>举例</th>
+    </tr>
+    <tr>
+        <td>UI事件</td>
+        <td>当用户与页面上的元素交互时触发</td>
+        <td>load、scroll</td>
+    </tr>
+    <tr>
+        <td>焦点事件</td>
+        <td>当元素获得或失去焦点时触发</td>
+        <td>blur、focus</td>
+    </tr>
+    <tr>
+        <td>鼠标事件</td>
+        <td>当用户通过鼠标在页面执行操作时触发</td>
+        <td>dbclick、mouseup</td>
+    </tr>
+    <tr>
+        <td>滚轮事件</td>
+        <td>当使用鼠标滚轮或类似设备时触发</td>
+        <td>mousewheel</td>
+    </tr>
+    <tr>
+        <td>文本事件</td>
+        <td>当在文档中输入文本时触发</td>
+        <td>textInput</td>
+    </tr>
+    <tr>
+        <td>键盘事件</td>
+        <td>当用户通过键盘在页面上执行操作时触发</td>
+        <td>keydown、keypress</td>
+    </tr>
+    <tr>
+        <td>合成事件</td>
+        <td>当为IME（输入法编辑器）输入字符时触发</td>
+        <td>compositionstart</td>
+    </tr>
+    <tr>
+        <td>变动事件</td>
+        <td>当底层DOM结构发生变化时触发</td>
+        <td>DOMsubtreeModified</td>
+    </tr>
+</table>
+<script>
+    function fun1() {
+        console.log('方法1');
+    }
+
+    function fun2() {
+        console.log('方法2');
+    }
+
+    //dom0
+    // 某一个元素的同一个行为绑定不同的方法在行内会分别执行
+
+
+    document.querySelector('.test2').onclick = fun1
+    document.querySelector('.test2').onclick = fun2
+    // 执行方法2；方法2覆盖方法1，所有方法1不执行
+
+
+    //dom2
+    document.querySelector('.test3').addEventListener('click', fun1)
+    document.querySelector('.test3').addEventListener('click', fun2)
+    document.querySelector('.test4').addEventListener('click', function () {
+        document.querySelector('.test3').removeEventListener('click', fun2, false);
+        console.log('已经移除test3的fun1')
+    }, {capture: false, once: true})
+
+
+</script>
+</body>
+</html>
