@@ -27,18 +27,22 @@
 <body>
 <div id="box"></div>
 <script>
-    function render() {
-        renderer.render(scene, camera);
-    }
+
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.x = 0;
     camera.position.z = 45;
     camera.position.y = 8;
+    var derArr = [], ballNumber = 13, disDeg = (360 / ballNumber)
     var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    function render() {
+        renderer.render(scene, camera);
+    }
+
     //图片加载器
     var loader = new THREE.TextureLoader();
     var imgObj = {}
@@ -57,7 +61,7 @@
 
     loadImg('./select.png')
     loadImg('./normal.png').then(img => {
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < ballNumber; i++) {
             createElement(img, initPosition(i))
         }
     })
@@ -75,12 +79,10 @@
         render()
     }
 
-    //生成坐标
-    var derArr = [];
 
     function initPosition(i) {
-        derArr.push(i * (360 / 7).toFixed(2))
-        return {x: 30 * Math.sin(i * 51.43 * Math.PI / 180), y: 0, z: 30 * Math.cos(i * 51.43 * Math.PI / 180)}
+        derArr.push(i * disDeg)
+        return {x: 30 * Math.sin(i * disDeg * Math.PI / 180), y: 0, z: 30 * Math.cos(i * disDeg * Math.PI / 180)}
     }
 
     var deg = Math.PI / 2;
@@ -102,14 +104,18 @@
         if (intersects.length) {
             //将图片值赋于纹理
             var index = scene.children.indexOf(intersects[0].object)
-            intersects[0].object.material = new THREE.MeshBasicMaterial({
-                map: imgObj['./select.png'],
-                transparent: true
-            });
-            if (derArr[index] <= 0.9) {
+            // intersects[0].object
+            changeMeshBasicMaterial(intersects[0].object)
+            if (derArr[index] <= (disDeg / 2)) {
                 totalDeg = 0
             } else {
                 totalDeg = 360 - derArr[index]
+            }
+            if (totalDeg > 180) {
+                direction = false;
+                totalDeg = 360 - totalDeg
+            } else {
+                direction = true;
             }
             console.log(totalDeg)
             if (isEnd) {//阻止多次点击
@@ -119,11 +125,18 @@
         }
     }
 
-    var isEnd = true, totalDeg = 0;
+    var isEnd = true, totalDeg = 0, direction = true;//判断旋转方向
 
     function ballAnim() {
         scene.children.forEach((ball, index) => {
-            derArr[index] += 3;
+            if (direction) {
+                derArr[index] += 3;
+            } else {
+                derArr[index] -= 3;
+            }
+            if (derArr[index] < 0) {
+                derArr[index] += 360
+            }
             if (derArr[index] > 360) {
                 derArr[index] -= 360
             }
@@ -143,6 +156,16 @@
         ballAnim()
         render()
         requestAnimationFrame(translateEl);
+    }
+
+    function changeMeshBasicMaterial(el) {
+        if (el) {
+            el.material = new THREE.MeshBasicMaterial({
+                map: imgObj['./select.png'],
+                transparent: true
+            });
+            render()
+        }
     }
 </script>
 </body>
