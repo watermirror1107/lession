@@ -13,18 +13,58 @@
             margin: 0;
         }
 
+        .bg {
+            width: 100vw;
+            height: 100vh;
+            background: url("./bg.png");
+            background-size: 100% 100%;
+            z-index: -1;
+            position: relative;
+
+        }
+
+        img {
+            width: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 10%;
+        }
+
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
     </style>
 </head>
 <body>
+<div class="bg">
+    <img src="./text.png" alt="">
+</div>
 <script>
-
-
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.x = 0;
-    camera.position.z = 45;
-    camera.position.y = 8;
+    var imgLoader = new THREE.TextureLoader();
     var derArr = [], ballNumber = 13, disDeg = (360 / ballNumber)
+
+    function loadImg(url) {
+        return new Promise((resolve) => {
+            imgLoader.load(
+                url,
+                function (texture) {
+                    imgObj[url] = texture
+                    resolve(texture)
+                }
+            )
+        })
+    }
+
+
+    var scene = new THREE.Scene()
+    var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.x = 0;
+    camera.position.z = 85;
+    camera.position.y = 20;
+    camera.lookAt(scene.position);
     var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -35,7 +75,7 @@
 
     var imgObj = {}, fontObj;
     //纹理加载器
-    var imgLoader = new THREE.TextureLoader();
+
     //字体加载器
     var fontLoader = new THREE.FontLoader();
 
@@ -51,17 +91,6 @@
         })
     }
 
-    function loadImg(url) {
-        return new Promise((resolve) => {
-            imgLoader.load(
-                url,
-                function (texture) {
-                    imgObj[url] = texture
-                    resolve(texture)
-                }
-            )
-        })
-    }
 
     let projectArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     loadImg('./select.png')
@@ -76,7 +105,7 @@
 
     //添加圆
     function createElement(texture, position, index) {
-        var geometry = new THREE.CircleGeometry(5, 32);
+        var geometry = new THREE.CircleGeometry(10, 32);
         var material = new THREE.MeshBasicMaterial({map: texture, transparent: true});//如何设置纹理图片的大小和元素的一直
         var circle = new THREE.Mesh(geometry, material);
         if (position) {
@@ -93,7 +122,7 @@
         var new_text = new THREE.TextBufferGeometry(String(projectArr[index]), {
             font: fontObj,
             size: 2,
-            height: 0.1
+            height: 0.01
         });
         var material_text = new THREE.MeshBasicMaterial({color: 0xffffff});
         var text_1 = new THREE.Mesh(new_text, material_text);
@@ -109,7 +138,7 @@
 
     function initPosition(i) {
         derArr.push(i * disDeg)
-        return {x: 30 * Math.sin(i * disDeg * Math.PI / 180), y: 0, z: 30 * Math.cos(i * disDeg * Math.PI / 180)}
+        return {x: 60 * Math.sin(i * disDeg * Math.PI / 180), y: 8, z: 60 * Math.cos(i * disDeg * Math.PI / 180)}
     }
 
     var deg = Math.PI / 2;
@@ -129,7 +158,6 @@
         var intersects = raycaster.intersectObjects(scene.children);
         //选中后进行的操作
         if (intersects.length) {
-            console.log(intersects[0].object.geometry.type)
             //将图片值赋于纹理
             var index = scene.children.indexOf(intersects[0].object)
             // intersects[0].object
@@ -170,8 +198,8 @@
             if (derArr[index] > 360) {
                 derArr[index] -= 360
             }
-            ball.position.x = 30 * Math.sin(derArr[index] * Math.PI / 180);
-            ball.position.z = 30 * Math.cos(derArr[index] * Math.PI / 180);
+            ball.position.x = 60 * Math.sin(derArr[index] * Math.PI / 180);
+            ball.position.z = 60 * Math.cos(derArr[index] * Math.PI / 180);
         })
     }
 

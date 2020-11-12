@@ -30,7 +30,7 @@
     var fontLoader = new THREE.FontLoader();
 
     fontLoader.load('./font/optimer_regular.typeface.json', function (font) {
-        const geometry = new THREE.TextBufferGeometry('Hello three.js!', {
+        const geometry = new THREE.TextBufferGeometry('Hello three.js!', {//这个地方必须是字符串格式的文本，连数字也不行
             font: font,
             size: 80,
             height: 5,
