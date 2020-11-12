@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/three.min.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(95, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.x = 0;
+    camera.position.z = 250;
+    camera.position.y = 10;
+    var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    function render() {
+        renderer.render(scene, camera);
+    }
+
+    var fontLoader = new THREE.FontLoader();
+
+    fontLoader.load('./font/optimer_regular.typeface.json', function (font) {
+        const geometry = new THREE.TextBufferGeometry('Hello three.js!', {
+            font: font,
+            size: 80,
+            height: 5,
+        });
+        const textMaterial = new THREE.MeshBasicMaterial(
+            {color: 0x333333}
+        );
+
+        const mesh = new THREE.Mesh(geometry, textMaterial);
+        mesh.position.set(-135, 0, 0);
+        scene.add(mesh);
+        render()
+    });
+
+
+</script>
+</body>
+</html>

@@ -5,7 +5,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/three.min.js"></script>
     <title>Document</title>
     <style>
@@ -14,18 +13,9 @@
             margin: 0;
         }
 
-        button {
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 100;
-            padding: 10px;
-            color: #333333;
-        }
     </style>
 </head>
 <body>
-<div id="box"></div>
 <script>
 
 
@@ -43,14 +33,28 @@
         renderer.render(scene, camera);
     }
 
-    //图片加载器
-    var loader = new THREE.TextureLoader();
-    var imgObj = {}
+    var imgObj = {}, fontObj;
+    //纹理加载器
+    var imgLoader = new THREE.TextureLoader();
+    //字体加载器
+    var fontLoader = new THREE.FontLoader();
+
+    function loadFont() {
+        return new Promise((resolve) => {
+            fontLoader.load(
+                './font/optimer_regular.typeface.json',
+                function (font) {
+                    fontObj = font;
+                    resolve()
+                }
+            )
+        })
+    }
 
     function loadImg(url) {
         return new Promise((resolve) => {
-            loader.load(
-                './normal.png',
+            imgLoader.load(
+                url,
                 function (texture) {
                     imgObj[url] = texture
                     resolve(texture)
@@ -59,26 +63,61 @@
         })
     }
 
+    let projectArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     loadImg('./select.png')
-    loadImg('./normal.png').then(img => {
+    loadFont().then(() => {
+        return loadImg('./normal.png')
+    }).then(img => {
         for (var i = 0; i < ballNumber; i++) {
-            createElement(img, initPosition(i))
+            createElement(img, initPosition(i), i)
         }
+        render()
     })
 
-    //添加元素
-
-    function createElement(texture, position) {
+    //添加圆
+    function createElement(texture, position, index) {
         var geometry = new THREE.CircleGeometry(5, 32);
         var material = new THREE.MeshBasicMaterial({map: texture, transparent: true});//如何设置纹理图片的大小和元素的一直
         var circle = new THREE.Mesh(geometry, material);
         if (position) {
+            //添加文字描述
+
+            //给圆设置坐标
             circle.position.set(position.x, position.y, position.z)
         }
         scene.add(circle);
-        render()
+        addFont(circle, position, index)
     }
 
+    function addFont(parent, position, index) {
+        var new_text = new THREE.TextBufferGeometry(String(projectArr[index]), {
+            font: fontObj,
+            size: 2,
+            height: 0.1,
+            /*
+            这里只定义了最基本的参数
+            还有其他的参数
+            font: THREE.Font的实例
+            size: Float, 字体大小, 默认值为100
+            height: Float, 挤出文本的厚度。默认值为50
+            curveSegments: Integer, (表示文本的)曲线上点的数量，默认值为12
+            bevelEnabled: Boolean, 是否开启斜角，默认为false
+            bevelThickness: Float, 文本上斜角的深度，默认值为20
+            bevelSize: Float, 斜角与原始文本轮廓之间的延伸距离, 默认值为8
+            bevelSegments: Integer, 斜角的分段数, 默认值为3
+            */
+        });
+        var material_text = new THREE.MeshBasicMaterial({color: 0xffffff});
+        var text_1 = new THREE.Mesh(new_text, material_text);
+        //长度太长对齐
+        var x = position.x - 0.5
+        if (String(projectArr[index]).length > 1) {
+            x = position.x - 1.5
+        }
+        text_1.position.set(x, position.y - 1, position.z)
+        //添加文字到父级容器
+        parent.attach(text_1);
+    }
 
     function initPosition(i) {
         derArr.push(i * disDeg)
@@ -102,10 +141,14 @@
         var intersects = raycaster.intersectObjects(scene.children);
         //选中后进行的操作
         if (intersects.length) {
+            console.log(intersects[0].object.geometry.type)
             //将图片值赋于纹理
             var index = scene.children.indexOf(intersects[0].object)
             // intersects[0].object
-            changeMeshBasicMaterial(intersects[0].object)
+            for (let i = 0; i < ballNumber; i++) {
+                //循环去除其他的选中时候纹理
+                changeMeshBasicMaterial(scene.children[i], i === index)
+            }
             if (derArr[index] <= (disDeg / 2)) {
                 totalDeg = 0
             } else {
@@ -117,7 +160,6 @@
             } else {
                 direction = true;
             }
-            console.log(totalDeg)
             if (isEnd) {//阻止多次点击
                 translateEl()
             }
@@ -147,7 +189,8 @@
 
     function translateEl() {
         if (totalDeg <= 0) {
-            isEnd = true
+            isEnd = true;
+            render()
             return false
         } else {
             isEnd = false
@@ -158,13 +201,12 @@
         requestAnimationFrame(translateEl);
     }
 
-    function changeMeshBasicMaterial(el) {
+    function changeMeshBasicMaterial(el, bol) {
         if (el) {
             el.material = new THREE.MeshBasicMaterial({
-                map: imgObj['./select.png'],
+                map: bol ? imgObj['./select.png'] : imgObj['./normal.png'],
                 transparent: true
             });
-            render()
         }
     }
 </script>
