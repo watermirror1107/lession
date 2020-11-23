@@ -44,7 +44,7 @@
 </div>
 <script>
     var imgLoader = new THREE.TextureLoader();
-    var derArr = [], ballNumber = 13, disDeg = (360 / ballNumber)
+    var derArr = [], ballNumber = 12, disDeg = (360 / ballNumber)
 
     function loadImg(url) {
         return new Promise((resolve) => {
@@ -63,8 +63,8 @@
     var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 1000);
     camera.position.x = 0;
     camera.position.z = 85;
-    camera.position.y = 20;
-    camera.lookAt(scene.position);
+    camera.position.y = 19;
+    // camera.lookAt(scene.position);
     var renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -138,7 +138,7 @@
 
     function initPosition(i) {
         derArr.push(i * disDeg)
-        return {x: 60 * Math.sin(i * disDeg * Math.PI / 180), y: 8, z: 60 * Math.cos(i * disDeg * Math.PI / 180)}
+        return {x: 60 * Math.sin(i * disDeg * Math.PI / 180), y: 0, z: 60 * Math.cos(i * disDeg * Math.PI / 180)}
     }
 
     var deg = Math.PI / 2;
