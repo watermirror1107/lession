@@ -736,3 +736,8 @@ function squareSum(numbers) {
 }
 
 // console.log(squareSum([1,2]))
+
+function findScreenHeight(width, ratio) {
+    let arr = ratio.split(':');
+    return `${width}x${width * arr[1] / arr[0]}`
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var a = function () {
+        console.log(1)
+    }
+    let activeStatus = null
+
+    function run(fn) {
+        function auto() {
+            activeStatus = auto;
+            fn()
+            activeStatus = null;
+        }
+
+        auto()
+    }
+
+    run(a)
+    setTimeout(() => {
+        a = function () {
+            console.log(2)
+        }
+    }, 3000)
+
+    setTimeout(() => {
+        run(a)
+    }, 5000)
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p ref="p">testRef</p>
+    <inputbox ref="input"></inputbox>
+</div>
+<div class="box" style="display: none;">
+    <input type="text"/>
+</div>
+
+
+<script>
+    //子级组件1
+    Vue.component('inputbox', {
+        props: ['val'],
+        model: {
+            prop: 'val',
+            event: 'valchange'
+        },
+        template: document.querySelector('.box'),
+    });
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'firstName'
+        },
+        mounted() {
+            console.log(123)
+            console.log(this.$refs.p)
+            console.log(this.$refs.input)
+        }
+    })
+</script>
+</body>
+</html>
