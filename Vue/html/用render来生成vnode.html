@@ -13,7 +13,9 @@
 </head>
 <body>
 <div id="app">
-    <vv-aside :list="list"></vv-aside>
+    <vv-aside :list="list">
+        <p>giao</p>
+    </vv-aside>
 </div>
 <script>
     //target._o = markOnce;
@@ -36,8 +38,11 @@
     //js
     //侧边栏
     Vue.component('vv-aside', {
-        render: function (h) {
+        // functional:true,//声明为函数式组件，但是声明之后下面render函数里面的this就会找不到报错
+        render: function (h, context) {//函数第二个参数是渲染时候的上下文
+            // console.log(context);//声明成函数式组件时候不能用this就得用上下文context,用法和this有些不同
             console.log(this);//指向当前组件的实例对象这里不能用箭头函数
+            console.log(this.$slots);
             var ayy = this.list.map((v) => {
                 return h('div', {
                     'class': {
@@ -71,9 +76,11 @@
             }
         }
     });
+
     var vm = new Vue({
         el: "#app",
         data: {
+            age: '123',
             list: [{
                 id: 1,
                 txt: 'javaScript',
