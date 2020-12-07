@@ -1,2 +1,2 @@
-require('./test.css')
+ require('./test.css')
 let a = 1

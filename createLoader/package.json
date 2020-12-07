@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "html-webpack-plugin": "^4.5.0",
-    "loader-utils": "^2.0.0"
+    "loader-runner": "^4.1.0",
+    "loader-utils": "^2.0.0",
+    "raw-loader": "^4.0.2"
   }
 }
