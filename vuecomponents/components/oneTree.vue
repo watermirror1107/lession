@@ -1,16 +1,16 @@
 <template>
-    <view class="selectItem">
-        <view class='item' @click="selectItem">
-            <text>{{item.name}}</text>
+    <div class="selectItem">
+        <div class='item' @click="selectItem">
+            <p>{{item.name}}</p>
             <!-- 添加self解决点击不是箭头也会触发的BUG -->
-            <view @click.stop.self='$emit("switch",$event,item.label)' v-if='item.children&&item.children.length>0'
-                  class='arrow'
-                  :class="item.isRetract?'isClick':''"></view>
-        </view>
+            <div @click.stop.self='$emit("switch",$event,item.label)' v-if='item.children&&item.children.length>0'
+                 class='arrow'
+                 :class="item.isRetract?'isClick':''"></div>
+        </div>
         <div class="children" :style="{height:item.isRetract?'auto':'0'}">
             <slot></slot>
         </div>
-    </view>
+    </div>
 </template>
 
 <script>
