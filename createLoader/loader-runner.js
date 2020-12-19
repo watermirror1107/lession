@@ -3,10 +3,12 @@ const fs = require('fs')
 const path = require('path')
 
 runLoaders({
-    resource: path.resolve(__dirname, 'test-entry.js'),
+    // resource: path.resolve(__dirname, 'test-entry.js'),
+    resource: path.resolve(__dirname, 'sprite.css'),
     loaders: [
         {
-            loader: path.join(__dirname, './raw-loader.js'),
+            // loader: path.join(__dirname, './third-loader.js'),
+            loader: path.resolve(__dirname, './sprite-loader.js'),
             options: {
                 name: 'test'
             }
@@ -17,5 +19,5 @@ runLoaders({
     },
     readResource: fs.readFile.bind(fs)
 }, (err, result) => {
-    console.log(err ? console : result);
+    console.log(err ? err : result);
 })

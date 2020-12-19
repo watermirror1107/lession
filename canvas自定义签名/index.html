@@ -63,15 +63,14 @@
 </div>
 
 
-<script language="javascript">
+<script type="application/javascript">
 
-   var contxt='';
+    var contxt = '';
 
-function onDocumentTouchStart( event ) {
+    function onDocumentTouchStart(event) {
 
 
-
-    if( event.touches.length == 1 ) {
+        if (event.touches.length == 1) {
 
 
 
@@ -130,14 +129,10 @@ var canvasWidth = window.screen.width;
 var canvasHeight=window.screen.height;
 
 
+    //  document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
- 
 
-  //  document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
-   
-
-var point = {};
+    var point = {};
 
 point.notFirst = false;
 

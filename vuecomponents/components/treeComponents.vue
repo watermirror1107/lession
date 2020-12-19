@@ -1,5 +1,5 @@
 <script>
-    import simgleItem from './simgleItem.vue'
+    import oneTree from './oneTree.vue'
 
     export default {
         render(h) {
@@ -7,7 +7,7 @@
                 let res = []
                 if (item.children && item.children.length > 0) {
                     for (let i = 0; i < item.children.length; i++) {
-                        res.push(h(simgleItem, {
+                        res.push(h(oneTree, {
                             on: {
                                 switch: this.changeRetract
                             },
@@ -24,7 +24,7 @@
             return h('div', {
                 class: 'contain',
             }, this.list.map((item, index) => {
-                return h(simgleItem, {
+                return h(oneTree, {
                     on: {
                         switch: this.changeRetract,
                     },
@@ -68,7 +68,7 @@
             }
         },
         components: {
-            simgleItem
+            oneTree
         },
         data() {
             return {

@@ -1,5 +1,5 @@
- const path = require('path');
- const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
     mode: 'development',
     entry: path.resolve(__dirname, 'entry.js'),
@@ -8,7 +8,10 @@ module.exports = {
         modules: [path.resolve(__dirname, './'), 'node_modules']
     },
     module: {
-        rules: [{test: /\.css$/, use: [{loader: 'first-loader', options: {msg: '第一次测试'}}, 'css-loader']}]
+        rules: [
+            {test: /\.css$/, use: [{loader: 'first-loader', options: {msg: '第一次测试'}}, 'css-loader']},
+            {test: /\.js$/, use: [{loader: 'third-loader', options: {msg: '第一次测试'}}]}
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
