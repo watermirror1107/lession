@@ -91,27 +91,32 @@
                 this.$set(obj, 'isRetract', !obj.isRetract)
             }
         },
-        mounted() {
-            let arr = JSON.parse(JSON.stringify(this.arr));
+        watch: {
+            arr: {
+                handler(nv, ov) {
+                    let arr = JSON.parse(JSON.stringify(nv));
 
-            function addAttr(item, index, parentlabel) {
-                if (parentlabel == null) {
-                    item.label = index
-                } else {
-                    item.label = parentlabel + ':' + index;
-                }
-                if (item.children && item.children.length > 0) {
-                    item.isRetract = false;
-                    for (let i = 0; i < item.children.length; i++) {
-                        addAttr(item.children[i], i, item.label)
+                    function addAttr(item, index, parentlabel) {
+                        if (parentlabel == null) {
+                            item.label = index
+                        } else {
+                            item.label = parentlabel + ':' + index;
+                        }
+                        if (item.children && item.children.length > 0) {
+                            item.isRetract = false;
+                            for (let i = 0; i < item.children.length; i++) {
+                                addAttr(item.children[i], i, item.label)
+                            }
+                        }
                     }
-                }
-            }
 
-            arr.map((item, index) => {
-                addAttr(item, index, null)
-            });
-            this.list = arr;
+                    arr.map((item, index) => {
+                        addAttr(item, index, null)
+                    });
+                    this.list = arr;
+                },
+                immediate: true
+            }
         }
     }
 </script>

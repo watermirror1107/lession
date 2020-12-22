@@ -2514,6 +2514,7 @@
     /*  */
 
     function initProvide(vm) {
+        //因为每一个组件都可以拥有自己独立的provide，所以provide类似data需要用一个函数来包裹，类似于闭包里面的vm代表当前组件的上下文，vm指向组件自己本身
         var provide = vm.$options.provide;
         if (provide) {
             vm._provided = typeof provide === 'function'
@@ -2558,13 +2559,13 @@
                     continue;
                 }
                 var provideKey = inject[key].from;
-                var source = vm;
+                var source = vm;//vm指向当前组件自己
                 while (source) {
                     if (source._provided && hasOwn(source._provided, provideKey)) {
                         result[key] = source._provided[provideKey];
-                        break;
+                        break;//如果存在上下文的组件中存在_provided这个属性就跳出循环,_provided这个属性在父组件的生命周期里面initprovide时候从option上面提取并赋值到_provide这个属性上
                     }
-                    source = source.$parent;
+                    source = source.$parent;//类似于递归一层层的往上找
                 }
                 if (!source) {
                     if ('default' in inject[key]) {
@@ -4010,7 +4011,8 @@
                     );
                 }
             }
-            var cbs = vm._events[event];
+            var cbs = vm._events[event];//因为一个父组件的一个监听事件，可能会被多个组件触发，所以cbs是一个数组
+            console.log(cbs)
             if (cbs) {
                 cbs = cbs.length > 1 ? toArray(cbs) : cbs;
                 var args = toArray(arguments, 1);
