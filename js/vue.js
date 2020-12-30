@@ -3894,6 +3894,7 @@
         console.log(vm);
         console.log('初始化事件');
         console.log(listeners);
+        console.log('-------')
         if (listeners) {
             updateComponentListeners(vm, listeners);
         }
@@ -4012,6 +4013,7 @@
                 }
             }
             var cbs = vm._events[event];//因为一个父组件的一个监听事件，可能会被多个组件触发，所以cbs是一个数组
+            console.log('cbs')
             console.log(cbs)
             if (cbs) {
                 cbs = cbs.length > 1 ? toArray(cbs) : cbs;
@@ -4301,7 +4303,6 @@
         }
 
         {
-            ut;
             isUpdatingChildComponent = false;
         }
     }
@@ -4798,7 +4799,13 @@
     }
 
     function initProps(vm, propsOptions) {
+        //props原理
+        console.log('props')
+        console.log(vm)//组件
+        console.log(vm.$options)//组件的配置
+        console.log(propsOptions)//从组件中的props取出props对应的配置
         var propsData = vm.$options.propsData || {};
+        console.log(propsData)
         var props = vm._props = {};
         // cache prop keys so that future props updates can iterate using Array
         // instead of dynamic object key enumeration.
@@ -4810,7 +4817,7 @@
         }
         var loop = function (key) {
             keys.push(key);
-            var value = validateProp(key, propsOptions, propsData, vm);
+            var value = validateProp(key, propsOptions, propsData, vm);//类型验证
             /* istanbul ignore else */
             {
                 var hyphenatedKey = hyphenate(key);
@@ -5934,6 +5941,7 @@
     };
 
     function registerRef(vnode, isRemoval) {
+        //ref原理
         var key = vnode.data.ref;
         if (!isDef(key)) {
             return;

@@ -8,23 +8,23 @@
 <body>
 <div id="app">
     <son-one :one-data="oneData" @change-data="changeOneData"></son-one>
-    <!--   绑定动态属性和自定义事件不能用驼峰-->
+    <!--绑定动态属性和自定义事件如果用在在标签属性上面，不能用驼峰。-->
     <son-two></son-two>
 </div>
 <div class="sonOne" style="display: none;">
-    <div class="main">
+    <div class="sonOne">
         <p>{{oneData}}</p>
         <button @click="changeData(2)">one</button>
     </div>
 </div>
 <div class="sonTwo" style="display: none;">
-    <div class="main">
+    <div class="sonTwo">
         {{name}}
     </div>
 </div>
 
 <script>
-    var event = new Vue();
+    var event = new Vue();//看源码的时候这个地方会先实例化，注意
     //子级组件1
     Vue.component('son-one', {
         props: ['one-data'],
@@ -32,8 +32,8 @@
         methods: {
             changeData(param) {
                 this.$emit('change-data', param);
-                //触发兄弟或者其他组件监听的自定义事件
-                event.$emit('name-is-change', 'tom')
+                //触发兄弟或者其他组件监听的自定义事件,原理是eventBus
+                event.$emit('nameChange', 'tom')
             }
         },
     });
@@ -46,11 +46,13 @@
             }
         },
         mounted() {
-            event.$on('name-is-changed', this.changeName)
+            //绑定自定义属性如果不是用在html标签属性上面，不能用中划线不然监听不到
+            //event.$on('name-change', this.changeName)//这样写监听不到
+            event.$on('nameChange', this.changeName)
         },
         beforeDestroy() {
             //销毁绑定的数据不然会造成内存泄漏
-            event.$off('name-is-changed', this.changeName)
+            event.$off('nameChange', this.changeName)
 
         },
         methods: {
