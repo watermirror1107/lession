@@ -28,12 +28,16 @@
             //过滤错误的插入内容
             let titleList = [],
                 typeChildren = [];
-            let slotNodes = this.$slots.default.filter(i => {
-                if (i.tag === 'tab-item') {
+            let slotNodes = this.$slots.default.filter((i, index) => {
+                if (i.data && 'tab-item' in i.data.attrs) {
                     titleList.push(i.data.attrs.title)
-                    return i.tag === 'tab-item'
+                    return 'tab-item' in i.data.attrs
                 }
             });
+            //这一步添加属性切换的不能卸载33行，因为slots.default会把空节点一起加进去，它是直接获取所有子节点
+            slotNodes.forEach((item, index) => {
+                item.data.staticStyle = {'display': this.index == index ? 'block' : 'none'};
+            })
             titleList.forEach((item, index) => {
                 let node = h('div', {
                         class: [this.index === index ? 'selected' : '', 'item'],
@@ -62,7 +66,7 @@
                 }, typeChildren),
                 h('div', {
                     class: 'box'
-                })
+                }, slotNodes)
             ])
         }
     }
