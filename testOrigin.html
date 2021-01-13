@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .box {
+            position: absolute;
+            left: 50%;
+            top: 20vh;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border: 1px solid #333;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 50%;
+            transform: translateX(-50%) rotate(40deg);
+            transform-origin: 0 30vh;
+            animation: move 5000ms infinite;
+            animation-timing-function: linear;
+        }
+
+        p {
+            animation: move1 5000ms infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes move {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes move1 {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <p>123</p>
+</div>
+</body>
+</html>
