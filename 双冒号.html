@@ -6,15 +6,14 @@
 </head>
 <body>
 <script>
-	var name = 'kk';
+    var name = 'kk';
 
-	function speak() {
-		return this.name;
-	}
+    function speak() {
+        return this.name;
+    }
 
-	var b = {name: 'bb'};
-	console.log(speak.call(b));
-	b::speak();//报错是因为这个还在草案中
+    var b = {name: 'bb'};
+    b::speak();//等同于speak.call(b) 报错是因为这个还在ES草案中
 </script>
 </body>
 </html>

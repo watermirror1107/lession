@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        input{
+        input {
             outline: none; /*去掉chrome浏览器自带的点击input框出现边框情况*/
-            -webkit-appearance: none;  /*使元素标签看起来像个按钮样式，意思定义了按钮样式,去掉按钮样式*/
+            -webkit-appearance: none; /*使元素标签看起来像个按钮样式，意思定义了按钮样式,去掉按钮样式*/
             border-radius: 0; /*去掉圆角*/
         }
-        input::-webkit-outer-spin-button,  /*去掉type=number的input的两个小箭头*/
+
+        input::-webkit-outer-spin-button, /*去掉type=number的input的两个小箭头*/
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
         }
@@ -21,22 +22,23 @@
 <div class="test"><input type="text" class="xx"/><br></div>
 
 <input type="color" name="color"/><br>
-<input type="time" name="datetime" step="14400"/>
+<input type="time" name="datetime" step="14400"/><br/>
+<input type="file" multiple="multiple"/>
 <ul>
 
 </ul>
 <button>添加</button>
 <script>
-    $('input[type="text"]').keyup(function(){
+    $('input[type="text"]').keyup(function () {
         console.log($(this).val());
     });
-        $('button').click(function(){
-            var x=$('.test').html();
-            console.log(x);
-            $('ul').append('<li>'+x+'</li>');
-        });
+    $('button').click(function () {
+        var x = $('.test').html();
+        console.log(x);
+        $('ul').append('<li>' + x + '</li>');
+    });
     //动态添加节点绑keyup事件
-    $('ul').on('keyup',()=>{
+    $('ul').on('keyup', () => {
         console.log('ul li')
     });
 </script>
