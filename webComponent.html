@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            font-size: 20px;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+<template id="box">
+    <!--    template标签并不会被渲染到dom树上-->
+    <!--    node节点可以使用这个属性来判断节点是否添加到dom树上isConnected-->
+    <style>
+        p {
+            font-size: 30px;
+            color: #999999;
+        }
+    </style>
+    <p>test webComponent</p>
+    <img src="./images/1.jpg" alt="">
+    <button>click</button>
+</template>
+
+<p>1</p>
+<test-card image="图片"></test-card>
+<p>2</p>
+<script>
+    class testCard extends HTMLElement {
+        constructor() {
+            super();
+            let shadow = this.attachShadow({mode: 'open'});//{ mode: 'closed' }  this.attachShadow()方法的参数{ mode: 'closed' }，表示 Shadow DOM 是封闭的，不允许外部访问。
+            let templateElem = document.getElementById('box');
+            let content = templateElem.content.cloneNode(true);//深拷贝node节点
+            //这里可以通过操纵这个centent来修改影子模块里面的dom；这个content类似于document
+            console.log(this.getAttribute('image'));//获取标签上面的属性
+            this.$button = content.querySelector('button');
+            console.log(this.$button)
+            this.$button.addEventListener('click', () => {
+                console.log('test')
+            });
+            shadow.appendChild(content);//最后添加到shadow中
+        }
+    }
+
+    //利用customElements来注册这个自定义标签组件
+    window.customElements.define('test-card', testCard);
+</script>
+
+</body>
+</html>
