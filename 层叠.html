@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #00aaff;
+        }
+
+        .box:nth-child(1) {
+            /*position: relative;*/
+            /*z-index: auto;*/
+        /*    如果没有这个定位下面的元素box2会根据后来者居上，层叠到上面一个元素上*/
+        }
+
+        .box:nth-child(2) {
+            background-color: greenyellow;
+            margin-top: -10px;
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
-$END$
+<div class="box">1</div>
+<div class="box">2</div>
 </body>
 </html>
