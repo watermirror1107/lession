@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title1</title>
+</head>
+
+<body>
+<script>
+    let p = new Promise(function (resolve, reject) {
+        resolve("成功!");
+    });
+
+
+    p.then(function (successMessage) {
+        console.log("p! " + successMessage);
+    })
+
+
+    let p1 = new Promise(function (resolve, reject) {
+        resolve("成功!");
+    });
+
+
+    p1.then(function (successMessage) {
+        console.log("p1! " + successMessage);
+    })
+</script>
+</body>
+</html>

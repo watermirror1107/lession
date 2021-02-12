@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+a标签打开新页面时需要添加  rel="noopener noreferrer" 可以断开网页之间的联系document.referrer和window.opener都会为空
+这样即使同域名也不会共用一个渲染进程，因为这两个网页不处在同一个浏览上下文组 ( browsing context group)。
+<br/>
+<a href="test.html" target="_blank" rel="noopener noreferrer"></a>
+</body>
+</html>
