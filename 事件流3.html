@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .p {
+            width: 100px;
+            height: 100px;
+            background-color: black;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .s {
+            position: absolute;
+            background-color: green;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="p p1">
+    <div class="s s1"></div>
+</div>
+<div class="p p2">
+    <div class="s s2"></div>
+</div>
+<p>
+    stopPropagation()和stopImmediatePropagation()方法既可以阻止事件冒泡，也可以阻止事件捕获，也可以阻止处于目标阶段。
+
+    stopImmediatePropagation() 和 stopPropagation()的区别在哪儿呢？
+
+    后者只会阻止冒泡或者是捕获。 但是前者除此之外还会阻止该元素的其他事件发生，但是后者就不会阻止其他事件的发生
+</p>
+<script>
+    document.querySelector('.p1').addEventListener('click', (ev) => {
+        console.log('p1')
+        //阻止事件继续捕获
+        // ev.stopImmediatePropagation()//
+        ev.stopPropagation()//
+    }, {capture: true, once: false})
+    document.querySelector('.s1').addEventListener('click', () => {
+        console.log('s1')
+    }, {capture: true, once: false})
+    document.querySelector('.p2').addEventListener('click', () => {
+        console.log('p2')
+    }, {capture: false, once: false})
+    document.querySelector('.s2').addEventListener('click', (ev) => {
+        console.log('s2')
+        ev.stopPropagation()//
+    }, {capture: false, once: false})
+</script>
+</body>
+</html>

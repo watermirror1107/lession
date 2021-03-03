@@ -14,45 +14,50 @@
 <body>
 <div id="app">
     {{age}}
+    <out-box></out-box>
+    <button @click="testX">改变Provide</button>
+    <button @click="testY">改变Provide提供的方法后</button>
 </div>
 <script>
-	//子组件改变父组件的值
-	Vue.component('out-box', {
-		template: `<div class="out">
+    //子组件改变父组件的值
+    Vue.component('out-box', {
+        template: `
+            <div class="out">
                 外面
                 <button @click="test1">外点击</button>
                 <slot></slot>
             </div>`,
-		inject: ['testY'],
-		methods: {
-			test1() {
-				this.testY();
-			},
-		},
-	});
-	// 通过 $on(eventName, eventHandler) 侦听一个事件
-	// 通过 $once(eventName, eventHandler) 一次性侦听一个事件
-	// 通过 $off(eventName, eventHandler) 停止侦听一个事件
-	var vm = new Vue({
-		el: '#app',
-		data: {age: 1},
-		provide: function () {//所有的后代组件都需要访问一个 testY 方法。不幸的是，使用 $parent 属性无法很好的扩展到更深层级的嵌套组件上。这也是依赖注入的用武之地，它用到了两个新的实例选项：provide 和 inject。
-			return {
-				testY: this.testY,
-			};
-		},
-		methods: {
-			testY() {
-				this.age++;
-				console.log('test');
-			},
-			testX() {
-				this.testY = function () {
-					console.log('changed');//依赖注入的缺点就是，如果改变了父组件的方法，后代组件没有响应的改变;
-				};
-			},
-		},
-	});
+        inject: ['testY'],
+        methods: {
+            test1() {
+                this.testY();
+            },
+        },
+    });
+    // 通过 $on(eventName, eventHandler) 侦听一个事件
+    // 通过 $once(eventName, eventHandler) 一次性侦听一个事件
+    // 通过 $off(eventName, eventHandler) 停止侦听一个事件
+    var vm = new Vue({
+        el: '#app',
+        data: {age: 1},
+        provide: function () {//所有的后代组件都需要访问一个 testY 方法。不幸的是，使用 $parent 属性无法很好的扩展到更深层级的嵌套组件上。这也是依赖注入的用武之地，它用到了两个新的实例选项：provide 和 inject。
+            return {
+                testY: this.testY,
+            };
+        },
+        methods: {
+            testY() {
+                this.age++;
+                console.log('test');
+            },
+            testX() {
+                this.testY = function () {
+                    console.log('changed');//依赖注入的缺点就是，如果改变了父组件的方法，后代组件没有响应的改变;
+                    //并且第一次改变并没有生效，还是执行之前的方法
+                };
+            },
+        },
+    });
 </script>
 </body>
 </html>
