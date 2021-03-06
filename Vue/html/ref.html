@@ -7,11 +7,14 @@
 </head>
 <body>
 <div id="app">
-    <p ref="p">testRef</p>
+    <p ref="p" @click="testUpdate">testRef</p>
     <inputbox ref="input"></inputbox>
 </div>
 <div class="box" style="display: none;">
-    <input type="text"/>
+    <div class="root">
+        <input type="text"/>
+        <button @click="testUpdate">change</button>
+    </div>
 </div>
 
 
@@ -24,6 +27,12 @@
             event: 'valchange'
         },
         template: document.querySelector('.box'),
+        methods: {
+            testUpdate() {
+                console.log(123)
+                this.$forceUpdate()
+            }
+        }
     });
     var vm = new Vue({
         el: '#app',
@@ -34,6 +43,12 @@
             console.log(123)
             console.log(this.$refs.p)
             console.log(this.$refs.input)
+        },
+        methods: {
+            testUpdate() {
+                console.log(123)
+                this.$forceUpdate()
+            }
         }
     })
 </script>

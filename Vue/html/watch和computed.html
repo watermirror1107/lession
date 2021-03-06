@@ -12,6 +12,7 @@
     computed:{{cAge}}
     <br/>
     {{dAge}}
+    <p v-html="getAge()"></p>
 </div>
 <script>
     let fun = {name: '123'};
@@ -60,6 +61,9 @@
         methods: {
             changeAge: function () {
                 this.age++;
+            },
+            getAge() {
+                return this.age;
             }
         }
     });

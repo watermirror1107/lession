@@ -7,9 +7,9 @@
 </head>
 <body>
 <div id="app">
-    <son-one :one-data="oneData" @change-data="changeOneData"></son-one>
+    <son-one :one-data="oneData" @change-data="changeOneData" @change-data="test"></son-one>
     <!--绑定动态属性和自定义事件如果用在在标签属性上面，不能用驼峰。-->
-    <son-two></son-two>
+    <!--    <son-two></son-two>-->
 </div>
 <div class="sonOne" style="display: none;">
     <div class="sonOne">
@@ -70,7 +70,10 @@
         },
         methods: {
             changeOneData(param) {
-                this.oneData += param
+                this.oneData += param;
+            },
+            test() {
+                console.log('test');
             }
         }
     })

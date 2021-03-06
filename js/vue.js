@@ -2288,6 +2288,8 @@
         createOnceHandler,
         vm
     ) {
+        console.log(on)
+        console.log(vm)
         var name, def$$1, cur, old, event;
         for (name in on) {
             def$$1 = cur = on[name];
@@ -4012,7 +4014,10 @@
                     );
                 }
             }
-            var cbs = vm._events[event];//因为一个父组件的一个监听事件，可能会被多个组件触发，所以cbs是一个数组
+            console.log('vmvmvmv')
+            console.log(vm)
+            var cbs = vm._events[event];
+            console.log(vm._events)
             console.log('cbs')
             console.log(cbs)
             if (cbs) {
@@ -4101,8 +4106,11 @@
         };
 
         Vue.prototype.$forceUpdate = function () {
+            console.log('forceUpdate')
             var vm = this;
             if (vm._watcher) {
+                console.log(vm)
+                console.log(vm._watcher)
                 vm._watcher.update();
             }
         };
@@ -4955,7 +4963,9 @@
         key,
         userDef
     ) {
+        console.log(userDef)
         var shouldCache = !isServerRendering();
+        console.log(shouldCache)
         if (typeof userDef === 'function') {
             sharedPropertyDefinition.get = shouldCache
                 ? createComputedGetter(key)
@@ -4977,6 +4987,9 @@
                 );
             };
         }
+        console.log(target)
+        console.log(key)
+        console.log(sharedPropertyDefinition)
         Object.defineProperty(target, key, sharedPropertyDefinition);
     }
 
@@ -5182,6 +5195,11 @@
         var parentVnode = options._parentVnode;
         opts.parent = options.parent;
         opts._parentVnode = parentVnode;
+        console.log(opts);
+        console.log(options);
+        console.log('parentVnode');
+        console.log(parentVnode);
+        console.log(vm);
         var vnodeComponentOptions = parentVnode.componentOptions;
         opts.propsData = vnodeComponentOptions.propsData;
         opts._parentListeners = vnodeComponentOptions.listeners;

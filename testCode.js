@@ -25,3 +25,16 @@ for (let i = 0; i < arr.length; i++) {
     }
 }
 console.log(arr)
+
+try {
+    new Promise((resolve, reject) => {
+        reject('reject')
+    }).then((x) => {
+        console.log(x)
+    }).catch(e => {
+        console.log('catch')
+        console.log(e)
+    })
+} catch (e) {
+    console.log(1)
+}
