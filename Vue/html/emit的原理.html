@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <p>parent:{{msg}}</p>
+        <son :msg="msg" @change-msg="changeM"></son>
+        <button @click="changeM('ddd')">自己改变</button>
+    </div>
+</div>
+<div class="son" style="display: none">
+    <p>son:{{msg}}</p>
+</div>
+<script>
+    Vue.component('son', {
+        props: ['msg'],
+        template: document.querySelector('.son'),
+        mounted() {
+            setTimeout(() => {
+                //子组件在初始化自己这个组件实例的时候会
+                //获取到自己的监听事件如change-msg（这个阶段在初始化事件）和已经上面绑定的方法changeM,
+                //但是changeM这个方法已经在父组件实例的时候绑定了this，所以在子组件调用改方法就可以了
+                //有点类似react把父组件的绑定好的this方法传递给子组件使用
+                this.$emit('change-msg', 'changed');
+            }, 5000)
+        }
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'message',
+        },
+        methods: {
+            changeM(param) {//方法在初始化的时候initmethods已经绑定了函数里面this的指针，并且指向当前的组件实例
+                this.msg = param;
+            }
+        }
+    })
+</script>
+</body>
+</html>

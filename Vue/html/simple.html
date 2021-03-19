@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <p>{{msg}}</p>
+        <p>{{time}}</p>
+        <p>{{age}}</p>
+        <p>{{testName}}</p>
+        <p>{{msg}}+2</p>
+        <button @click="changeMsg">change</button>
+        <!--        <test1 :msg="msg"></test1>-->
+        <!--        <test2></test2>-->
+    </div>
+</div>
+<script>
+    Vue.component('test1', {
+        props: ['msg'],
+        computed: {
+            dd() {
+                return this.age + 3
+            }
+        },
+        watch: {
+            msg(nv, ov) {
+                console.log(nv)
+            }
+        },
+        render: function (h) {
+            return h('p', this.age + '!' + this.dd + this.msg)
+        },
+        data() {
+            return {
+                age: 18
+            }
+        }
+    })
+    // Vue.component('test2', {
+    //     render: function (h) {
+    //         return h('p', this.age)
+    //     },
+    //     data() {
+    //         return {
+    //             age: 20
+    //         }
+    //     }
+    // })
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'message',
+            time: '12:12:12',
+            age: '18'
+        },
+        watch: {
+            // 如果 `question` 发生改变，这个函数就会运行
+            msg: function (newQuestion, oldQuestion) {
+                console.log(newQuestion)
+                console.log(oldQuestion)
+            }
+        },
+        computed: {
+            testName() {
+                return this.msg + this.time
+            }
+        },
+        methods: {
+            changeMsg() {
+                // console.log(123)
+                this.msg += 'changed';
+                this.time = 'changeTime'
+                this.$forceUpdate()
+            }
+        },
+        // beforeUpdate(){
+        //     console.log('beforeupdate')
+        //     //虽然msg的值和原来的一样，但是触发的是setter访问器属性就会触发观察者更新,普通data属性被修改值的时候，并不会判断值是否有改变，不像compute有缓存对比，
+        //     // this.msg='message';
+        //     console.log(this._vnode)//这里可以看到vnode虚拟dom节点还是原来的，beforeupdate是发生在render重新生成vnode之前的，这一点也可以通过看源码得知
+        //     debugger
+        // }
+    })
+</script>
+</body>
+</html>

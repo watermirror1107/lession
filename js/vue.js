@@ -759,6 +759,7 @@
 
     Dep.prototype.depend = function depend() {
         if (Dep.target) {
+            console.log(this)
             Dep.target.addDep(this);
         }
     };
@@ -775,6 +776,7 @@
             });
         }
         for (var i = 0, l = subs.length; i < l; i++) {
+            console.log(subs[i])
             subs[i].update();
         }
     };
@@ -787,6 +789,7 @@
 
     function pushTarget(target) {
         targetStack.push(target);
+        console.log(targetStack)
         Dep.target = target;
     }
 
@@ -1074,8 +1077,10 @@
             configurable: true,
             get: function reactiveGetter() {
                 var value = getter ? getter.call(obj) : val;
+                console.log(Dep.target)
                 if (Dep.target) {
                     dep.depend();
+                    console.log(dep)
                     if (childOb) {
                         childOb.dep.depend();
                         if (Array.isArray(value)) {
@@ -1930,6 +1935,10 @@
         info
     ) {
         var res;
+        console.log(context)
+        console.log(handler)
+        console.log(args)
+        console.log(vm)
         try {
             res = args ? handler.apply(context, args) : handler.call(context);
             if (res && !res._isVue && isPromise(res) && !res._handled) {
@@ -4217,6 +4226,7 @@
         // we set this to vm._watcher inside the watcher's constructor
         // since the watcher's initial patch may call $forceUpdate (e.g. inside child
         // component's mounted hook), which relies on vm._watcher being already defined
+        console.log(updateComponent)
         new Watcher(vm, updateComponent, noop, {
             before: function before() {
                 if (vm._isMounted && !vm._isDestroyed) {
@@ -4447,15 +4457,22 @@
         //    user watchers are created before the render watcher)
         // 3. If a component is destroyed during a parent component's watcher run,
         //    its watchers can be skipped.
+        //watcher调用顺序id从小到大排列
+        //父组件的watcher的Id一定会比子组件的watcher的id小，因为父组件先创建的，
+        //1.要先更新父组件的原因是父组件先于子组件创建，
+        //2.组件里面使用的watcher会在组件的render的watcher之前运行,因为要保持数据的最新，当然这里不会运行computed的watcher
+        //3.一个存在于父组件的watcher里的子组件被销毁之后他的watcher都会被忽略
+        console.log(queue)
         queue.sort(function (a, b) {
             return a.id - b.id;
         });
-
         // do not cache length because more watchers might be pushed
         // as we run existing watchers
         for (index = 0; index < queue.length; index++) {
             watcher = queue[index];
             if (watcher.before) {
+                //这里调用了watch在初始化的时候设置的before回调函数，一般是在观察组件时候配置一个调用beforeupdate钩子函数
+                //beforeupdate是发生在render生成新vnode之前的（包括了当前这个队列里面所有watcher更新之前，下面的watcher.run()才是调用，而视图render的观察者也是在run函数里面更新组件视图）
                 watcher.before();
             }
             id = watcher.id;
@@ -4534,7 +4551,8 @@
         if (has[id] == null) {
             has[id] = true;
             if (!flushing) {
-                queue.push(watcher);
+                console.log(watcher)
+                queue.push(watcher);//添加到即将更新的队列
             } else {
                 // if already flushing, splice the watcher based on its id
                 // if already past its id, it will be run next immediately.
@@ -4549,10 +4567,10 @@
                 waiting = true;
 
                 if (!config.async) {
-                    flushSchedulerQueue();
+                    flushSchedulerQueue();//判断是不是同步渲染dom，默认是异步的
                     return;
                 }
-                nextTick(flushSchedulerQueue);
+                nextTick(flushSchedulerQueue);//通过nextTick把watcher里面的渲染放到异步去执行
             }
         }
     }
@@ -4589,6 +4607,9 @@
         } else {
             this.deep = this.user = this.lazy = this.sync = false;
         }
+        console.log(vm)
+        console.log(expOrFn)
+        console.log(cb)
         this.cb = cb;
         this.id = ++uid$2; // uid for batching
         this.active = true;
@@ -4626,7 +4647,7 @@
         var value;
         var vm = this.vm;
         try {
-            value = this.getter.call(vm, vm);
+            value = this.getter.call(vm, vm);//这里的getter如果是组件的话他会重新render组件
         } catch (e) {
             if (this.user) {
                 handleError(e, vm, ("getter for watcher \"" + (this.expression) + "\""));
@@ -4691,7 +4712,7 @@
         } else if (this.sync) {
             this.run();
         } else {
-            queueWatcher(this);
+            queueWatcher(this);//computed的watch并不会走到这里
         }
     };
 
@@ -4701,7 +4722,7 @@
      */
     Watcher.prototype.run = function run() {
         if (this.active) {
-            var value = this.get();
+            var value = this.get();//如果是组件的观察者，这个get就是重新渲染组件，因为在初始化组件观察者的时候传进来的参数get回调就是重新渲染render组件的函数;
             if (
                 value !== this.value ||
                 // Deep watchers and watchers on Object/Arrays should fire even
@@ -4788,7 +4809,7 @@
         vm._watchers = [];
         var opts = vm.$options;
         if (opts.props) {
-            initProps(vm, opts.props);
+            (vm, opts.props);
         }
         if (opts.methods) {
             initMethods(vm, opts.methods);
