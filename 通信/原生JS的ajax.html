@@ -12,20 +12,20 @@
 	xhr.send(null);
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4) {
-			if (xhr.status == 200 || xhr.status == 206 || xhr.status == 304) {//206是大型的音频文件被分批传输，304是利用缓存也是成功的意思
-				console.log(xhr.responseText);
-			} else {
-				console.log(xhr.status);
-			}
-		}
-	};
-	var xhr1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-	var url1 = 'asdfasfasdf';
-	//post请求一定要添加请求头才行不然会报错
-	xhr1.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	xhr1.open('post', url1, true);
-	xhr1.send('age=123&name=adsf');
-	xhr1.onreadystatechange = function () {
+            if (xhr.status == 200 || xhr.status == 206 || xhr.status == 304) {//206是大型的音频文件被分批传输，304是利用缓存也是成功的意思
+                console.log(xhr.responseText);
+            } else {
+                console.log(xhr.status);
+            }
+        }
+    };
+    var xhr1 = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+    var url1 = 'asdfasfasdf';
+    xhr1.open('post', url1, true);
+    //post请求一定要添加请求头才行不然会报错
+    xhr1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr1.send('age=123&name=adsf');
+    xhr1.onreadystatechange = function () {
         if (xhr1.readyState == 4) {
             if (xhr1.status == 200 || xhr1.status == 206 || xhr1.status == 304) {//206是大型的音频文件被分批传输，304是利用缓存也是成功的意思
                 console.log(xhr1.responseText);

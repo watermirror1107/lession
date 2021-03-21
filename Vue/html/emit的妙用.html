@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <test @close="closeBtn"></test>
+        用来做组件的监听事件，当组件被关闭时候触发的函数，类似组件的自己的生命周期
+    </div>
+</div>
+<script>
+    Vue.component('test', {
+        render: function (h) {
+            return h('button', {
+                on: {
+                    click: () => {
+                        this.$emit('close', {msg: 'closed'})
+                    }
+                }
+            }, '点击关闭')
+        }
+    })
+    new Vue({
+        el: '#app',
+        methods: {
+            closeBtn(data) {
+                alert(data.msg)
+            }
+        }
+    })
+</script>
+</body>
+</html>
