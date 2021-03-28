@@ -7,31 +7,40 @@
 </head>
 <body>
 <div id="app">
-    <p ref="p" @click="testUpdate">testRef</p>
-    <inputbox ref="input"></inputbox>
-</div>
-<div class="box" style="display: none;">
-    <div class="root">
-        <input type="text"/>
-        <button @click="testUpdate">change</button>
-    </div>
+    <p ref="p" @click="testUpdate">{{name}}</p>
+    <p ref="p" @click="changeName">refChange {{name}}</p>
+    <input-box :name="name" ref="input">
+
+    </input-box>
 </div>
 
 
 <script>
     //子级组件1
-    Vue.component('inputbox', {
-        props: ['val'],
-        model: {
-            prop: 'val',
-            event: 'valchange'
+    Vue.component('input-box', {
+        props: ['name'],
+        render: function (h) {
+            console.log('child render')
+            return h('div', [
+                h('input', {
+                    attrs: {
+                        value: this.name
+                    }
+                }),
+                h('button', {
+                    on: {
+                        click: this.testUpdate
+                    }
+                }, 'change')
+            ])
         },
-        template: document.querySelector('.box'),
         methods: {
             testUpdate() {
-                console.log(123)
                 this.$forceUpdate()
             }
+        },
+        beforeUpdate() {
+            console.log('child beforeupdate')
         }
     });
     var vm = new Vue({
@@ -44,10 +53,18 @@
             console.log(this.$refs.input)
             //引用信息将会注册在父组件的 $refs 对象上。如果在普通的 DOM 元素上使用，引用指向的就是 DOM 元素；如果用在子组件上，引用就指向组件实例
         },
+        beforeUpdate() {
+            console.log('f update')//父级先执行，子级的后执行，可以通过源码queuewatcher函数就知道
+        },
         methods: {
             testUpdate() {
+                this.name = 'changeM'
                 console.log(123)
                 this.$forceUpdate()
+            },
+            changeName() {
+                this.$refs.p.innerHTML = 'changedName'//这样修改并不会触发数据通知，因为并没有触发setter
+                //并且这么直接ref修改之后的P标签再次通过testupdate改动name并不会同步修改这个ref连接的p标签内容
             }
         }
     })

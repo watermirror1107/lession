@@ -1134,7 +1134,8 @@
             target[key] = val;
             return val;
         }
-        var ob = (target).__ob__;
+        //不存在的属性就会走这里
+        var ob = (target).__ob__;//获取当前target的观察者，再次设置响应式
         if (target._isVue || (ob && ob.vmCount)) {
             warn(
                 'Avoid adding reactive properties to a Vue instance or its root $data ' +
@@ -1147,7 +1148,7 @@
             return val;
         }
         defineReactive$$1(ob.value, key, val);
-        ob.dep.notify();
+        ob.dep.notify();//通知依赖变更
         return val;
     }
 
@@ -4809,7 +4810,7 @@
         vm._watchers = [];
         var opts = vm.$options;
         if (opts.props) {
-            (vm, opts.props);
+            initProps(vm, opts.props);
         }
         if (opts.methods) {
             initMethods(vm, opts.methods);

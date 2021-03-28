@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{testObj}}
+    <button @click="changeObj">obj</button>
+    {{arr}}
+    <button @click="changeArr">arr</button>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            testObj: {
+                age: 18,
+            },
+            arr: [{name: 'tom'}]
+        },
+        methods: {
+            changeObj() {
+                this.$set(this.testObj, 'name', 'giao')//设置一个不存在的属性，获取当前属性的观察者，再次设置响应式并且通知依赖更新；
+            },
+            changeArr() {
+                this.$set(this.arr[0], 'name', 'jim')//通过splice，因为vue修改了数组原型里的一些方法，会触发依赖更新
+            }
+        }
+    })
+</script>
+</body>
+</html>

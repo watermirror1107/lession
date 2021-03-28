@@ -1,6 +1,5 @@
 function currying(fn, ...args) {
     //函数长度等于参数的个数
-    console.log(args);
     if (fn.length <= args.length) {
         return fn(...args);
     }
