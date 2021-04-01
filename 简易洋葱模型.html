@@ -8,23 +8,24 @@
 <script>
     let obj = {
         index: 0,
+        fnArr: [],
         secondArr: [],
         use(callback) {
-            fnArr.push(callback);
+            this.fnArr.push(callback);
         },
         carry() {
-            if (this.index < fnArr.length) {
-                fnArr[this.index]();
-                this.index++;
-                this.carry();
-            } else {
-                for (let i = this.index - 1; i >= 0; i--) {
-                    this.secondArr[i]()
+            while (this.index < (this.fnArr.length * 2 - 1)) {
+                if (this.index < this.fnArr.length) {
+                    this.fnArr[this.index]();
+                } else {
+                    for (let i = this.fnArr.length - 1; i >= 0; i--) {
+                        this.secondArr[i]()
+                    }
                 }
+                this.index++;
             }
         }
     };
-    let fnArr = [];
 
     async function a() {
         console.log('a start');
@@ -45,10 +46,9 @@
     }
 
     function next() {
-        let x = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             obj.secondArr.push(resolve)
         });
-        return x;
     }
 
 
