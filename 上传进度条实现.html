@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+
+    选择文件(可多选):
+    <input type="file" id="f1" multiple/><br/><br/>
+
+    <div id="progress">
+        <span class="red"></span>
+    </div>
+
+    <button type="button" id="btn-submit">上 传</button>
+
+</div>
+<script>
+    function submitFiles() {
+        let progressSpan = document.getElementById('progress').firstElementChild;
+        let fileList = document.getElementById('f1').files;
+        progressSpan.style.width = '0';
+        if (!fileList.length) {
+            alert('请选择文件!');
+            return false;
+        }
+        //创建一个formdata对象来存储数据
+        let fileForm = new FormData();
+        fileForm.append('title', 'uploadList');
+        for (let item of fileList) {
+            fileForm.append('file', item)
+        }
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/testUrl', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let obj = JSON.parse(xhr.responseText);   //返回值
+                console.log(obj);
+            }
+        }
+
+        function updateProgress(event) {
+            console.log(event)
+            if (event.lengthComputable) {
+                // event.lengthComputable这是一个状态，表示发送的长度有了变化，可计算
+                // event.loaded表示发送了多少字节
+                // event.total表示文件总大小
+                var completedPercent = (event.loaded / event.total * 100).toFixed(2);
+                progressSpan.style.width = completedPercent + '%';
+                progressSpan.innerHTML = completedPercent + '%';
+
+            }
+        }
+
+        xhr.onprogress = updateProgress;
+        xhr.upload.onprogress = updateProgress;
+        //注意 send 一定要写在最下面，否则 onprogress 只会执行最后一次 也就是100%的时候
+        xhr.send(fileForm);//发送时  Content-Type默认就是: multipart/form-data;
+    }
+
+    //绑定提交事件
+    document.getElementById('btn-submit').addEventListener('click', submitFiles);
+</script>
+</body>
+</html>
