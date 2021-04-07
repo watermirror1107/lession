@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        input[type='file'] {
+
+        }
+    </style>
+</head>
+<body>
+<input id="file" type="file">
+<button id="submit">拆分文件</button>
+<script>
+    // Blob对象它表示原始数据,也就是二进制数据，同时提供了对数据截取的方法slice,
+    // 而 File 继承了Blob的功能，所以可以直接使用此方法对数据进行分段截取。
+    let chunkSize = 2 * 1024 * 1024;//分片大小 2M //拆分的细粒度
+    let submitBtn = document.querySelector('#submit');
+    let file = document.querySelector('#file');
+
+    //把大文件拆分成多个小文件
+    function splitFile(file) {
+        let chunks = [];
+        if (file.size < chunkSize) {
+            chunks.push(file.slice(0))
+            return false
+        }
+        let start = 0, end = 0;
+        while (true) {
+            end += chunkSize;
+            let blob = file.slice(start, end);
+            start += chunkSize;
+
+            if (!blob.size) {//截取的数据为空 则结束
+                //拆分结束
+                break;
+            }
+            chunks.push(blob);//保存分段数据
+        }
+        return chunks
+    }
+
+    //上传文件
+    function xhrSend(fd, cb) {
+        let xhr = new XMLHttpRequest();   //创建对象
+        xhr.open('POST', '/uploadUrl', true);
+        xhr.onreadystatechange = function () {
+            console.log('state change', xhr.readyState);
+            if (xhr.readyState === 4) {
+                console.log(xhr.responseText);
+                cb && cb();
+            }
+        }
+        xhr.send(fd);//发送
+    }
+
+    //mockUpload
+    let currentTcp;
+
+    function fakeUpload(data, cb) {
+        new Promise((resolve, reject) => {
+            currentTcp++;
+            setTimeout(() => {
+                cb()
+                resolve()
+            }, 5000)
+        })
+    }
+
+    submitBtn.addEventListener('click', () => {
+        currentTcp = 1;
+        // let fileArr = splitFile(file.files[0]);//拆分完的文件
+        let arr = []
+        for (let i = 0; i < 8; i++) {
+            arr.push(i)
+        }
+        let fileArr = arr;//拆分完的文件
+        let tcpLimit = 4;//如果没做并发限制，较大文件导致并发过多，tcp 链接被占光 ，需要做下并发控制，比如只有4个在请求在发送
+        let time = setInterval(() => {
+            if (currentTcp < tcpLimit) {
+                while (fileArr.length > 0) {
+                    if (currentTcp > tcpLimit) break;
+                    let x = fileArr.splice(0, 4);
+                    // console.log(x)
+                    for (let i = 0; i < x.length; i++) {
+                        fakeUpload(fileArr[i], () => {
+                            currentTcp--;
+                            if (fileArr.length <= 0) {
+                                clearInterval(time)
+                            }
+                        })
+                    }
+                }
+            }
+        }, 300)
+    }, false)
+    //断点续传的原理就是每次上次成功之后给这个文件一个标记，存在localstorage里面，下次上次的时候如果有上传过的就过滤掉；
+</script>
+</body>
+</html>
