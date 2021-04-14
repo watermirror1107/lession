@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            age: 18
+        },
+        methods: {
+            output1() {
+                for (let i = 0; i < 100; i++) {
+                    console.log(this.age)
+                }
+            },
+            output2() {
+                let age = this.age
+                //这里把age的值做一个浅拷贝，比上面output2的优化在于每次拿去age的值的时候，不会触发age的getter方法，是一个极大的性能提升;
+                for (let i = 0; i < 100; i++) {
+                    console.log(age)
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
