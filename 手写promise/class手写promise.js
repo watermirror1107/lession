@@ -12,7 +12,7 @@ class Promise {
         this.onRejectedCallbacks = [];
         const resolve = (value) => {
             if (value instanceof Promise) {
-                return value.then(reject, reject)
+                return value.then(resolve, reject)
             }
             if (this.status === PENDING) {
                 this.value = value;
@@ -97,18 +97,70 @@ class Promise {
         return promise2
     }
 
+    //减少一次套用 延迟对象
+    static deferred() {
+        let dfd = {};
+        dfd.promise = new Promise((resolve, reject) => {
+            dfd.resolve = resolve
+            dfd.reject = reject
+        })
+        return dfd
+    }
+
+    //直接返回resolve状态的promise
+    static resolve(value) {
+        return new Promise((resolve, reject) => {
+            resolve(value);
+        })
+    }
+
+    //直接返回reject状态的promise
+    static reject(value) {
+        return new Promise((resolve, reject) => {
+            reject(value)
+        })
+    }
+
+    //all
+    static all(arr) {
+        if (!arr instanceof Array) {
+            throw new Error()
+        }
+        return new Promise((resolve, reject) => {
+            let result = [], time = 0;
+
+            function handlePromise(data, index) {
+                result[index] = data;
+                if (++time === arr.length) {
+                    resolve(result)
+                }
+            }
+
+            arr.forEach((item, index) => {
+                if (item && typeof item.then === 'function') {
+                    item.then((data) => {
+                        handlePromise(data, index)
+                    }, reject)
+                } else {
+                    handlePromise(item, index)
+                }
+            })
+        })
+    }
+
+    catch(errFn) {
+        return this.then(null, errFn)
+    }
+
+    finally(fn) {
+        let p = this.constructor;
+        return this.then(
+            value => p.resolve((fn()).then(() => value)),
+            reason => p.resolve((fn()).then(() => throw reason)),
+        )
+    }
 }
 
-//减少一次套用 延迟对象
-Promise.deferred = function () {
-    let dfd = {};
-    dfd.promise = new Promise((resolve, reject) => {
-        dfd.resolve = resolve
-        dfd.reject = reject
-    })
-    return dfd
-}
-//一个promise直接返回resolve一个promise
 
 //利用X的值来判断是走promise2的resolve还是reject
 function resolvePromise(promise2, x, resolve, reject) {

@@ -4515,7 +4515,7 @@
 
     function callUpdatedHooks(queue) {
         var i = queue.length;
-        while (i--) {
+        while (i--) {//倒序执行，子组件的updated优先于父组件的updated
             var watcher = queue[i];
             var vm = watcher.vm;
             if (vm._watcher === watcher && vm._isMounted && !vm._isDestroyed) {
