@@ -22,3 +22,4 @@ async function foo() {
 console.log(0)
 foo()
 console.log(3)
+

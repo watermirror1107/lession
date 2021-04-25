@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <test>
+        <template v-slot:scope="sonData">
+            {{sonData}}
+            {{sonData.giao}}
+        </template>
+    </test>
+</div>
+<div style="display: none" class="comp">
+    <div class="root">
+        <slot name="scope" :giao="age"></slot>
+    </div>
+</div>
+<script>
+    Vue.component('test', {
+        template: document.querySelector('.comp'),
+        data() {
+            return {
+                age: 18
+            }
+        }
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'message',
+            time: '12:12:12',
+            age: '18'
+        },
+
+        methods: {
+            changeMsg() {
+                // console.log(123)
+                this.msg += 'changed';
+                this.time = 'changeTime'
+                this.$forceUpdate()
+            }
+        },
+    })
+</script>
+</body>
+</html>

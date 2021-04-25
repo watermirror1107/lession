@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="box">
+    <div class="item">
+        <p>test1</p>
+        <span>model</span>
+    </div>
+    <div class="item">
+        <p>test2</p>
+        <span>model</span>
+    </div>
+    <div class="item">
+        <p>test3</p>
+        <span>model</span>
+    </div>
+</div>
+<script>
+    let box = document.querySelector('.box');
+    box.addEventListener('click', function (ev) {
+        console.log(ev.path)//事件冒泡的路径，就是触发的所有元素节点
+        console.log(ev.composedPath())//两个方法返回结果一致，不过下面的兼容性更好,可以知道path并非标准的，而composedPath才是标准的
+        //根据指定元素比如item里面的p元素的内容来判断点击的是哪一个
+        let target = ev.composedPath().find(item => {
+            if (item.className === 'item') {
+                let p = item.querySelector('p');
+                console.log(p.innerHTML)
+            }
+        })
+    }, false)
+</script>
+</body>
+</html>

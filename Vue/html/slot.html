@@ -31,7 +31,7 @@
         <!--        </slotbox2>-->
         <!--        这里的v-slot必须是用在组件标签或者是一个template标签,v-slot:two还可以简写成#two,-->
         <template v-slot:fuck="getData">
-            <p>{{getData.slotdata}}</p>
+            <p>作用域插槽{{getData.slotdata}}</p>
         </template>
     </slotbox1>
     <slotbox1>
@@ -86,7 +86,7 @@
         template: document.querySelector('.box2'),
         data() {
             return {
-                sonData: 'sondata'
+                sonData: '来自子集组件的数据'
             };
         }
     });
