@@ -10,6 +10,11 @@ module.exports = {
     module: {
         rules: [
             {test: /\.vue$/, use: 'vue-loader'},
+            {test: /\.css$/, use: ['style-loader', 'css-loader']},
+            {
+                test: /\.(eot|woff2?|ttf|svg)$/,
+                use: ['url-loader']
+            },
             {test: /\.js$/, use: ['cache-loader', 'babel-loader'], exclude: '/node_modules/'},
             {test: /\.less/, use: ['style-loader', 'css-loader', 'postcss-loader', 'less-loader']}
         ]
