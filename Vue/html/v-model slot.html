@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <test :arr="arr">
+            <div slot="name" slot-scope="scope"><input type="text" @blur="changeMsg" v-model="scope.jj.name"></div>
+        </test>
+    </div>
+</div>
+<div class="test">
+    <div class="container">
+        <slot name="name" :jj="arr[0]"></slot>
+    </div>
+</div>
+<script>
+    Vue.component('test', {
+        props: ['arr'],
+        template: document.querySelector('.test'),
+        data() {
+            return {
+                age: 18
+            }
+        }
+    })
+    new Vue({
+        el: '#app',
+        data: {
+            msg: 'message',
+            arr: [{name: 123}]
+        },
+        create() {
+            console.log(123)
+        },
+        methods: {
+            changeMsg() {
+                console.log('ddddddddddddd')
+                console.log(this.arr[0].name)
+                console.log('ddddddddddddd')
+            }
+        },
+    })
+</script>
+</body>
+</html>
