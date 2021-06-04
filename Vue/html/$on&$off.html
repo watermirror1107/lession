@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <son></son>
+</div>
+<div style="display: none" class="son">
+  <button>click</button>
+</div>
+<script>
+  Vue.component('son', {
+    template: document.querySelector('.son'),
+    mounted() {
+      this.$on('testOn', (data) => {//这个和直接在标签上面监听事件是一个效果，回调函数可以在子组件定义也可以再父组件定义，
+        console.log(data)
+      })
+      this.$emit('testOn', 123)
+      this.$off('testOn')
+      this.$emit('testOn', 123)
+    }
+  });
+  new Vue({
+    el: '#app',
+    mounted() {
+
+    },
+    methods: {}
+  })
+</script>
+</body>
+</html>
