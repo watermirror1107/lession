@@ -3955,6 +3955,7 @@
                 // optimize hook:event cost by using a boolean flag marked at registration
                 // instead of a hash lookup
                 if (hookRE.test(event)) {
+                    $
                     vm._hasHookEvent = true;
                 }
             }
@@ -6549,25 +6550,27 @@
                     i(oldVnode, vnode);
                 }
             }
-            if (isUndef(vnode.text)) {
-                if (isDef(oldCh) && isDef(ch)) {
+            if (isUndef(vnode.text)) {//新节点没有text文本
+                if (isDef(oldCh) && isDef(ch)) {//新老都有children并且老的不等于新的，updatechildren
                     if (oldCh !== ch) {
                         updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly);
                     }
-                } else if (isDef(ch)) {
-                    {
+                } else if (isDef(ch)) {//如果新的有children老的没有，
+                    {   //先查看是否先查看子节点是不是循环生成的，判断是否有KEY
                         checkDuplicateKeys(ch);
                     }
+                    // 如果老节点的子节点是文本，清空文本
                     if (isDef(oldVnode.text)) {
                         nodeOps.setTextContent(elm, '');
                     }
+                    // 添加新的子节点
                     addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
-                } else if (isDef(oldCh)) {
+                } else if (isDef(oldCh)) {//老节点存在子节点，新节点不存在子节点，清空老节点的子节点
                     removeVnodes(oldCh, 0, oldCh.length - 1);
-                } else if (isDef(oldVnode.text)) {
+                } else if (isDef(oldVnode.text)) {//老节点存在文本节点新节点不存在子节点，清空老节点的文本
                     nodeOps.setTextContent(elm, '');
                 }
-            } else if (oldVnode.text !== vnode.text) {
+            } else if (oldVnode.text !== vnode.text) {//新节点有text文本，并且不等于老的，直接替换新的
                 nodeOps.setTextContent(elm, vnode.text);
             }
             if (isDef(data)) {
