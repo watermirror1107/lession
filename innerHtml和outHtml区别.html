@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<p>12345
+    <span>子节点</span></p>
+<script>
+    let p = document.querySelector('p')
+    console.log(p)
+    console.log(p.innerHTML)//获取dom节点的内容，包括子元素的标签
+    //利用InnerHTLM来操纵节点内容的时候，会生成新的DOM结构替换原有的，但是如果插入的是script或style标签作为内容，
+    // 浏览器在解析的是会判断当前要插入的元素是不是一个无作用域的元素，是的话会删除这个元素，详情见JS高级程序设计295页
+    console.log(p.outerHTML)//获取当前元素的节点和子节点
+    //利用OuterHTLM来操纵节点的时候，会把调用这个api的节点也给替换掉
+</script>
+</body>
+</html>

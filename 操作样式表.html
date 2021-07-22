@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 100px;
+            height: 200px;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="box" style="font-size: 16px;">
+    字体16
+</div>
+<script>
+    let box = document.querySelector('.box')
+    console.log(box.style)//获取DOM节点行内样式
+    let x = window.getComputedStyle(box, null)//获取DOM节点最终计算后的样式属性，（只读），第二个参数是用来获取节点的伪类的，如':after'
+    // console.log(x)
+    console.log(box.style.cssText)
+    console.log(box.style.length)
+    console.log(box.style.parentRule)
+    console.log(box.style.getPropertyPriority('fontSize'))
+    console.log(box.style.getPropertyValue('fontSize'))
+    console.log(box.style.item(0))
+    console.log(box.style.item(1))
+    box.style.setProperty('fontSize', 10, 'important')
+    console.log(box.style.cssText)
+    //获取页面中的样式表style标签和link的
+    console.log(document.styleSheets)
+    console.log(document.styleSheets.item(0));//获取第一张样式表
+</script>
+</body>
+</html>

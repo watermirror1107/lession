@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p></p>
+<script>
+    document.onreadystatechange = () => {//文档的生命周期
+        //dom文档发生改变时候会触发，1.刚开始解析的时候触发，2.解析dom事件DOMContentLoaded完成后会再次触发
+        console.log(document.readyState)//有两个值表示当前document的状态interactive正在交互，complete完成交互
+    }
+    document.addEventListener('DOMContentLoaded', () => {//dom树解析完成触发
+        console.log('DOMContentLoaded')
+    })
+    window.onload = () => {//资源加载完成触发
+        console.log('onload')
+    }
+</script>
+</body>
+</html>
