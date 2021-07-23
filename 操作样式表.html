@@ -12,17 +12,27 @@
         .box {
             width: 100px;
             height: 200px;
-            background-color: green;
+            color: green;
+            background-color: yellow;
+        }
+
+        p {
+            font-size: 20px;
+            color: red;
         }
     </style>
+    <!--    可以通过给-->
+    <link rel="stylesheet" disabled href="./css/ie.css">
 </head>
 <body>
 <div class="box" style="font-size: 16px;">
     字体16
 </div>
+<p>字体20</p>
 <script>
     let box = document.querySelector('.box')
-    console.log(box.style)//获取DOM节点行内样式
+    //获取DOM节点行内样式
+    console.log(box.style)
     let x = window.getComputedStyle(box, null)//获取DOM节点最终计算后的样式属性，（只读），第二个参数是用来获取节点的伪类的，如':after'
     // console.log(x)
     console.log(box.style.cssText)
@@ -30,13 +40,24 @@
     console.log(box.style.parentRule)
     console.log(box.style.getPropertyPriority('fontSize'))
     console.log(box.style.getPropertyValue('fontSize'))
+    console.log(box.style.removeProperty('fontSize'))
     console.log(box.style.item(0))
     console.log(box.style.item(1))
-    box.style.setProperty('fontSize', 10, 'important')
+    box.style.setProperty('font-size', 10, 'important')
     console.log(box.style.cssText)
     //获取页面中的样式表style标签和link的
     console.log(document.styleSheets)
     console.log(document.styleSheets.item(0));//获取第一张样式表
+    console.log(document.styleSheets.item(0).type);//获取样式表的类型
+    console.log(document.styleSheets.item(1).href);//获取样式表的地址
+    console.log(document.styleSheets.item(0).cssRules);//获取样式表的所有CSS匹配规则
+    document.styleSheets.item(0).deleteRule(2);//删除样式表的第二条信息
+    document.styleSheets.item(0).insertRule('p{font-size:60px;color:yellow;}', 1);//在制定位置插入规则
+    console.log(document.styleSheets.item(0).cssRules[0]);//获取样式表的第一条CSS规则
+    console.log(document.styleSheets.item(0).cssRules[0].cssText);//获取样式表的第一条CSS规则的整条规则信息
+    console.log(document.styleSheets.item(0).cssRules[0].selectorText);//获取样式表的第一条CSS规则的选择器
+    document.styleSheets.item(0).cssRules[0].style.cssText = 'font-size:20px'//通过上面的style属性来修改样式
+    console.log(document.styleSheets.item(0).cssRules);
 </script>
 </body>
 </html>
