@@ -31,4 +31,3 @@ out = after(2, (data) => {
 })
 out(1)
 out(2)
-

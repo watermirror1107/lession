@@ -9,8 +9,8 @@
                     props: {...item}
                 };
                 if (this.$scopedSlots[item.prop]) {
-                    config.scopedSlots = {
-                        default: props => this.$scopedSlots[item.prop](props)
+                    config.scopedSlots = {//把外层的作用域插槽挪到里面
+                      default: props => this.$scopedSlots[item.prop](props)
                     };
                 }
                 let node = h(TableColumn, config)

@@ -2598,7 +2598,7 @@
 
 
     /**
-     * Runtime helper for resolving raw children VNodes into a slot object.
+     * Runtime helper for resolving raw children VNodes into a slot object.//运行时，把组件中原始子节点如果有插槽的就收集进slot这个对象里
      */
     function resolveSlots(
         children,
@@ -2654,6 +2654,9 @@
         normalSlots,
         prevSlots
     ) {
+        console.log(slots)//父组件中用到的插槽
+        console.log(normalSlots)//子组件中的插槽
+        console.log(prevSlots)
         var res;
         var hasNormalSlots = Object.keys(normalSlots).length > 0;
         var isStable = slots ? !!slots.$stable : !hasNormalSlots;
@@ -2696,6 +2699,7 @@
         def(res, '$stable', isStable);
         def(res, '$key', key);
         def(res, '$hasNormal', hasNormalSlots);
+        console.log(res)
         return res;
     }
 
@@ -2778,7 +2782,7 @@
     /*  */
 
     /**
-     * Runtime helper for rendering <slot>
+     * Runtime helper for rendering <slot>//在子组件渲染的时候渲染slot
      */
     function renderSlot(
         name,
@@ -2788,9 +2792,12 @@
     ) {
         //这里的this指向子组件，这里的this利用改了proxy代理
         console.log(name);
-        console.log(this);//插槽内容是在父组件渲染时候生成的，所以样式类名受父组件的影响
+        console.log(fallback);//这个fallback就是子组件插槽里面的默认内容
+        console.log(props);//作用域组件才有这个props通过这个props来传递值
+        console.log(bindObject);
         var scopedSlotFn = this.$scopedSlots[name];
         var nodes;
+        console.log(this.$scopedSlots)
         if (scopedSlotFn) { // scoped slot
             props = props || {};
             if (bindObject) {
@@ -2802,13 +2809,12 @@
                 }
                 props = extend(extend({}, bindObject), props);
             }
-            nodes = scopedSlotFn(props) || fallback;
+            nodes = scopedSlotFn(props) || fallback;//渲染作用域插槽
         } else {
             nodes = this.$slots[name] || fallback;
         }
-        console.log(props);//作用域插槽的值
         console.log(nodes);//要插入的节点
-        var target = props && props.slot;
+        var target = props && props.slot;//如果是嵌套插槽，这里会在生产一个template
         console.log(target);
         if (target) {
             return this.$createElement('template', {slot: target}, nodes);
@@ -2996,7 +3002,7 @@
         return data;
     }
 
-    /*  */
+    /*  在渲染函数中使用，作用:把父组件中收集到的所有用过的子组件插槽的 数据类型从数组变成对象*/
 
     function resolveScopedSlots(
         fns, // see flow/vnode
@@ -3005,6 +3011,10 @@
         hasDynamicKeys,
         contentHashKey
     ) {
+        console.log(fns)
+        console.log(res)
+        console.log(hasDynamicKeys)
+        console.log(contentHashKey)
         res = res || {$stable: !hasDynamicKeys};
         for (var i = 0; i < fns.length; i++) {
             var slot = fns[i];
@@ -3012,7 +3022,7 @@
                 resolveScopedSlots(slot, res, hasDynamicKeys);
             } else if (slot) {
                 // marker for reverse proxying v-slot without scope on this.$slots
-                if (slot.proxy) {
+                if (slot.proxy) {//为何要有这个Proxy
                     slot.fn.proxy = true;
                 }
                 res[slot.key] = slot.fn;
@@ -3021,6 +3031,7 @@
         if (contentHashKey) {
             (res).$key = contentHashKey;
         }
+        console.log(res)
         return res;
     }
 
@@ -3122,7 +3133,6 @@
                 return normalizeScopedSlots(data.scopedSlots, this.slots());
             }
         }));
-
         // support for compiled functional template
         if (isCompiled) {
             // exposing $options for renderStatic()
@@ -3617,7 +3627,7 @@
         var renderContext = parentVnode && parentVnode.context;
         console.log(options._renderChildren);
         console.log(renderContext);
-        vm.$slots = resolveSlots(options._renderChildren, renderContext);//组件的子元素要和插槽一起处理
+        vm.$slots = resolveSlots(options._renderChildren, renderContext);//收集当前组件中的所有插槽
         console.log(vm.$slots);
         console.log('-----render-----');
         vm.$scopedSlots = emptyObject;
@@ -3666,6 +3676,9 @@
             var _parentVnode = ref._parentVnode;
 
             if (_parentVnode) {
+                console.log(_parentVnode)
+                console.log(_parentVnode.data.scopedSlots)//父组件中用到的插槽的所有内容
+
                 vm.$scopedSlots = normalizeScopedSlots(
                     _parentVnode.data.scopedSlots,
                     vm.$slots,
@@ -9930,7 +9943,7 @@
     /**
      * Convert HTML string to AST.
      */
-    function parse(
+    function parse(//把html字符串转换成ast
         template,
         options
     ) {
@@ -11298,7 +11311,7 @@
         ast,
         options
     ) {
-        var state = new CodegenState(options);
+        var state = new CodegenState(options);//获取当前渲染模板的state数据
         var code = ast ? genElement(ast, state) : '_c("div")';
         return {
             render: ("with(this){return " + code + "}"),
@@ -11307,6 +11320,7 @@
     }
 
     function genElement(el, state) {
+        console.log(el)
         if (el.parent) {
             el.pre = el.pre || el.parent.pre;
         }
@@ -11682,7 +11696,7 @@
                     : genChildren(el, state) || 'undefined'
                 : genElement(el, state)) + "}";
         // reverse proxy v-slot without scope on this.$slots
-        var reverseProxy = slotScope ? "" : ",proxy:true";
+        var reverseProxy = slotScope ? "" : ",proxy:true";//非作用域插槽会有一个proxy的属性，并且是true
         return ("{key:" + (el.slotTarget || "\"default\"") + ",fn:" + fn + reverseProxy + "}");
     }
 
@@ -11775,6 +11789,8 @@
     function genSlot(el, state) {
         var slotName = el.slotName || '"default"';
         var children = genChildren(el, state);
+        console.log(el)
+        console.log(children)
         var res = "_t(" + slotName + (children ? ("," + children) : '');//_t是renderslot函数
         var attrs = el.attrs || el.dynamicAttrs
             ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) {
@@ -11796,6 +11812,8 @@
         if (bind$$1) {
             res += (attrs ? '' : ',null') + "," + bind$$1;
         }
+        console.log('输出编译后的slot渲染函数')
+        console.log(res + ')')
         return res + ')';
     }
 

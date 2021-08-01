@@ -6,18 +6,34 @@
     <script src="../../js/vue.js"></script>
 </head>
 <body>
-具名插槽外面必须包着一层template
+<!--具名插槽外面必须包着一层template-->
 
+源码中resolveSlots是用在当前组件渲染时候收集当前组件中的所有插槽并放进一个对象中存储;
+renderSlots是用在子组件渲染的时候，用来处理组件中的插槽内容;
+resolveScopedSlots是把父组件中收集到的所有用过的子组件插槽的 数据类型从数组变成对象
+normalizeScopedSlots是在当前组件中规范化一下插槽信息，并在添加一个$scopedslots属性，渲染时候会用到
+normalizeScopedSlot插槽兼容性处理
 
+在父级模板解析parse的时候生成render的虚拟DOM节点时候，如果子组件有插槽的话，会在子组件渲染函数render上上添加一个Option对象，
+里面有个属性叫scopedSlots,对应的属性值是resolvescopeslots函数，函数里面的参数就是在父组件中用到的那些插槽，参数是个数组，
+如果是作用域插槽每个插槽对象不会携带一个叫proxy的属性，普通插槽会有这个Proxy属性，并且为true,两种插槽对象都有一个fn的回调函数用来生成dom,
+如果是普通插槽的话，里面的Html已经在父组件生成了，并且带上了父组件hash标签属性,但是在子组件渲染插槽renderslots的时候,
+会去读取在父页面渲染时添加到子组件的scopeslots对象里面的和插槽相关的信息，
+还会给父组件传递过来的html内容加上子级新的Hash标签属性,这时候如果父组件和子组件有两个相同的样式选择器，父组件样式选择器生效，因为父组件的style添加在head的顺序在子组件之后
 <div id="app">
-    <p>children</p>
     <slotbox1>
-        <!--<template v-slot:[slotName]>插槽3</template>-->
+        <!--        <div slot="one">giao one </div>-->
+        <!--        老版的slot写法渲染方式比较不一样，会变成子组件的vdom对象里面的children-->
+        <template #one>giao one</template>
         <template v-slot:three>
             <p class="oneTwo">thre1e</p>
         </template>
         <template v-slot:three>
-            <p>thre3e</p>
+            <p>thre2e</p>
+        </template>
+        <template v-slot:three>
+            <!--           一个具名插槽只能被使用一次，如果多次使用只会去最后一次的值-->
+            <p>thre3e {{name}}</p>
         </template>
         <template #two>
             <slotbox2>
@@ -30,19 +46,15 @@
         <!--            <template #two>测试</template>-->
         <!--        </slotbox2>-->
         <!--        这里的v-slot必须是用在组件标签或者是一个template标签,v-slot:two还可以简写成#two,-->
-        <template v-slot:fuck="getData">
-            <p>作用域插槽{{getData.slotdata}}</p>
+        <template v-slot:fuck="{slotdata}">
+            <p>作用域插槽{{slotdata}}</p>
         </template>
-    </slotbox1>
-    <slotbox1>
-        <template v-slot:two>测试123456789</template>
     </slotbox1>
 </div>
 
 <div class="box1" style="display: none;">
-    <div class="main">
-        <!--                <slot >默认插槽</slot>-->
-        <!--        </br>-->
+    <div class="box1">
+        <slot name="one">default</slot>
         <slot name="two">default</slot>
         <slot name="three">default</slot>
         <slot :slotdata="sonData" name="fuck"></slot>
@@ -50,7 +62,7 @@
     </div>
 </div>
 <div class="box2" style="display: none;">
-    <div class="main">
+    <div class="box2">
         <p>slotbox2</p>
         <div class="shit">shit</div>
         <slot name="two">default box2</slot>
@@ -60,17 +72,38 @@
 <script>
 
 
-    // _c('div', {attrs: {"id": "app"}}, [_c('slotbox', {
+    // _c('div', {
+    //     attrs: {
+    //         "id": "app"
+    //     }
+    // }, [_c('slotbox1', {
     //     scopedSlots: _u([{
-    //         key: "two", fn: function () {
-    //             return [_c('p', [_v("two")])];
-    //         }, proxy: true
+    //         key: "three",
+    //         fn: function() {
+    //             return [_c('p', [_v("thre3e")])]
+    //         },
+    //         proxy: true
     //     }, {
-    //         key: "default", fn: function (getData) {
-    //             return [_v("s(getData.slotdata)")];
+    //         key: "two",
+    //         fn: function() {
+    //             return [_c('slotbox2', {
+    //                 scopedSlots: _u([{
+    //                     key: "two",
+    //                     fn: function() {
+    //                         return [_c('p', [_v("测试2")])]
+    //                     },
+    //                     proxy: true
+    //                 }])
+    //             })]
+    //         },
+    //         proxy: true
+    //     }, {
+    //         key: "fuck",
+    //         fn: function({slotdata}) {
+    //             return [_c('p', [_v("作用域插槽" + _s(slotdata))])]
     //         }
     //     }])
-    // }, [_v(" "), _v("test")])], 1);
+    // })], 1)
 
 
     //子级组件1
@@ -78,7 +111,7 @@
         template: document.querySelector('.box1'),
         data() {
             return {
-                sonData: 'sondata'
+                sonData: 'son giao'
             };
         }
     });
@@ -93,9 +126,11 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            name: 'firstName',
-            slotName: 'three',
+            name: 'firstName'
         },
+        created() {
+            console.log('giaogiao')
+        }
     });
 </script>
 </body>
