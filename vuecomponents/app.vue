@@ -13,6 +13,7 @@
                 <el-button @click="output(scope.row,scope.$index)">点击</el-button>
             </template>
         </tableComponent>
+      <monthSelect :selected-month="['2-4', '7-10']"></monthSelect>
     </div>
 </template>
 
@@ -20,19 +21,19 @@
     import tableComponent from "./components/tableComponent";
     import inputSearch from "./components/inputSearch";
     import tabList from "./components/tabList";
-
+    import monthSelect from "./components/monthSelect";
     export default {
-        components: {inputSearch, tabList, tableComponent},
-        name: "app",
-        data() {
-            return {
-                tabList: [{time: '时间1', name: '名字1'}, {time: '时间2', name: '名字2'}],
-                column: [
-                    {prop: 'time', label: '日期', width: 100},
-                    {prop: 'name', label: '名字', width: 200},
-                    {prop: 'operation', label: '操作'}
-                ],
-                index: 0,
+      components: {inputSearch, tabList, tableComponent, monthSelect},
+      name: "app",
+      data() {
+        return {
+          tabList: [{time: '时间1', name: '名字1'}, {time: '时间2', name: '名字2'}],
+          column: [
+            {prop: 'time', label: '日期', width: 100},
+            {prop: 'name', label: '名字', width: 200},
+            {prop: 'operation', label: '操作'}
+          ],
+          index: 0,
                 value: 2,
                 arr: [{label: '第一个', key: 1}, {label: '第二个', key: 2}, {label: '第三个', key: 3}]
             }

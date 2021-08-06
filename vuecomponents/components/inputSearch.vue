@@ -103,17 +103,17 @@
     };
 </script>
 
-<style lang="less">
-    .wrap {
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-    }
+<style lang="less" scoped>
+.wrap {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
 
-    .inputBox {
+.inputBox {
         height: 115px;
         width: 100%;
         display: flex;
