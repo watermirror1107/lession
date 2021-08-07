@@ -5,11 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<p></p>
+<p>readystate是提供给文档或者一些元素的加载状态有关的信息</p>
+<p>但是有比较难预测，所以不推荐使用</p>
+<p>当页面是简单的页面没有多少dom需要渲染和没有多少静态资源需要加载时候，readystatechange中的状态complete不一定就会发生在window.onload事件之前，
+    如果是复杂的页面的时候complete会在onload之前
+</p>
 <script>
     document.onreadystatechange = () => {//文档的生命周期
         //dom文档发生改变时候会触发，1.刚开始解析的时候触发，2.解析dom事件DOMContentLoaded完成后会再次触发
-        console.log(document.readyState)//有两个值表示当前document的状态interactive正在交互，complete完成交互
+        console.log(document.readyState)//有5个值表示当前document的状态;interactive正在交互，complete完成交互还有其他三个值不常用还取决于元素，不用的元素触发的状态也不定都是5种
+        // 详情见js高级程序设计391页
     }
     document.addEventListener('DOMContentLoaded', () => {//dom树解析完成触发
         console.log('DOMContentLoaded')
