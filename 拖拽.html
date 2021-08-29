@@ -4,16 +4,30 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        li{ width:100px; height:30px; border:1px #000000 solid; margin:20px; list-style:none;}
-        #div1{ width:100px; height:100px; background:red; margin:300px;}
+        li {
+            width: 100px;
+            height: 30px;
+            border: 1px #000000 solid;
+            margin: 20px;
+            list-style: none;
+        }
+
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+            margin: 300px;
+        }
     </style>
 </head>
 <body>
-    <ul>
-        <li draggable="true">梦龙</li>
-        <li draggable="true">梦龙</li>
-        <li draggable="true">梦龙</li>
-    </ul>
+<ul>
+    <li draggable="true">梦龙</li>
+    <li draggable="true">梦龙</li>
+    <li draggable="true">梦龙</li>
+</ul>
+<a href="">a标签</a>
+<div id="div1"></div>
 </body>
 </html>
 <script>
@@ -21,65 +35,66 @@
     //拖动不带链接的li，会起作用但不跳转链接
     //拖动带连接的a，会起作用也跳转
 
-    window.onload = function(){
+    window.onload = function () {
         var aLi = document.getElementsByTagName('li');
         var aA = document.getElementsByTagName('a');
         var oDiv = document.getElementById('div1');
 
-        for(var i=0;i<aLi.length;i++){
+        for (var i = 0; i < aLi.length; i++) {
 
-            aLi[i].ondragstart = function(ev){ //拖拽前触发
+            aLi[i].ondragstart = function (ev) { //拖拽前触发
 
                 this.style.background = 'yellow';
 
-                ev.dataTransfer.setData('a','hello');  //存储一个键值对 : value值必须是字符串
+                ev.dataTransfer.setData('text', 'hello');  //存储一个键值对 : value值必须是字符串
 
                 ev.dataTransfer.effectAllowed = 'all';
-
-                ev.dataTransfer.setDragImage(this,0,0);
+                let img = new Image()
+                img.src = './images/1.jpg'
+                ev.dataTransfer.setDragImage(img, 0, 0);//在拖拽光标下面设置一个图片，不过读取图片需要时间，是异步操作p
 
             };
 
-            aLi[i].ondragend = function(){  //拖拽结束触发
+            aLi[i].ondragend = function () {  //拖拽结束触发
 
                 this.style.background = '';
 
             };
         }
-        for(var i=0;i<aA.length;i++){
+        for (var i = 0; i < aA.length; i++) {
 
-            aA[i].ondragstart = function(ev){ //拖拽前触发
+            aA[i].ondragstart = function (ev) { //拖拽前触发
 
                 this.style.background = 'yellow';
 
-                ev.dataTransfer.setData('a','hello');  //存储一个键值对 : value值必须是字符串
+                ev.dataTransfer.setData('text', 'a标签');  //存储一个键值对 : value值必须是字符串
 
                 ev.dataTransfer.effectAllowed = 'link';
 
-                ev.dataTransfer.setDragImage(this,0,0);
+                ev.dataTransfer.setDragImage(this, 0, 0);
 
             };
 
-            aA[i].ondragend = function(){  //拖拽结束触发
+            aA[i].ondragend = function () {  //拖拽结束触发
 
                 this.style.background = '';
 
             };
         }
 
-        oDiv.ondragenter = function(){  //相当于onmouseover
+        oDiv.ondragenter = function () {  //相当于onmouseover
 
             this.style.background = 'green';
 
         };
 
-        oDiv.ondragleave = function(){  //相当于onmouseout
+        oDiv.ondragleave = function () {  //相当于onmouseout
 
             this.style.background = 'red';
 
         };
 
-        oDiv.ondragover = function(ev){ //进入目标、离开目标之间，连续触发
+        oDiv.ondragover = function (ev) { //进入目标、离开目标之间，连续触发
 
             ev.preventDefault();  //阻止默认事件：元素就可以释放了
 
@@ -87,11 +102,10 @@
 
         };
 
-        oDiv.ondrop = function(ev){  //释放鼠标的时候触发
+        oDiv.ondrop = function (ev) {  //释放鼠标的时候触发
 
             this.style.background = 'red';
-
-            alert( ev.dataTransfer.getData('a') );
+            this.innerHTML = ev.dataTransfer.getData('text')
 
         };
 

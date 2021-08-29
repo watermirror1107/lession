@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>pageshow pagehide</p>
+<p>浏览器</p>
+<script>
+    // pageshow发生在window.onload之后
+    window.addEventListener('pageshow', function () {
+        console.log('pageshow')
+    })
+</script>
+</body>
+</html>
