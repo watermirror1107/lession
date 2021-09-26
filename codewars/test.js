@@ -747,5 +747,38 @@ function bigIntAdd(a, b) {
     return ret
 }
 
-bigIntAdd('8888', '88')
+// bigIntAdd('8888', '88')
 
+var uniqueInOrder = function (iterable) {
+    let res = [];
+    let arr = iterable instanceof Array ? iterable : iterable.split('');
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== arr[i + 1]) {
+            res.push(arr[i])
+        }
+    }
+    return res
+}
+
+// uniqueInOrder('AAAABBBCCDAABBB')
+
+function arrayDiff(a, b) {
+    return a.filter(item => {
+        return !b.includes(item)
+    })
+}
+
+// console.log(arrayDiff([1, 2, 3, 4], [2, 3]));
+
+function pyramid(n) {
+    // your code here
+    let res = [];
+    let i = 1;
+    while (i <= n) {
+        res.push(new Array(i).fill(1))
+        i++
+    }
+    return res
+}
+
+// pyramid(3)
