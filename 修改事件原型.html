@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box, .box2 {
+            width: 200px;
+            height: 200px;
+            color: #fff;
+            margin-top: 20px;
+            background-color: #1E9FFF;
+        }
+
+        .hover {
+            width: 100px;
+            height: 100px;
+            color: #fff;
+            margin-top: 20px;
+            background-color: orangered;
+        }
+    </style>
+</head>
+<body>
+<div class="box">box1</div>
+<div class="box2">box2</div>
+<div class="hover">hover</div>
+<div class="dragger"></div>
+<script>
+    let box = document.querySelector('.box')
+    let box2 = document.querySelector('.box2')
+    let hover = document.querySelector('.hover')
+    let dragger = document.querySelector('.dragger')
+    let clickArrPath = []
+    const originAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function (type, listener, options) {//事件类型原型的修改
+        // console.log(type)
+        // console.log(listener)
+        // console.log(options)
+        const wrappedListener = function (...args) {
+            // console.log(args[0])//事件详情
+            // 只保存前10次操作
+            clickArrPath.push(args[0].path)
+            if (clickArrPath.length > 10) {
+                // 移除最早的一次
+                clickArrPath.shift()
+            }
+            console.log(clickArrPath)
+            try {
+                listener.apply(this, args);
+            } catch (err) {
+                throw err;
+            }
+        }
+        return originAddEventListener.call(this, type, wrappedListener, options);
+    }
+    box.addEventListener('click', function (ev) {//实例化一个事件
+        // console.log(ev)
+        // console.log(ev.path)
+    }, false)
+    box2.onclick = function (ev, ddd) {//这种dom0事件写法上面的修改监听原型是监听不到的
+        console.log(shit)
+    }
+    hover.addEventListener('mouseover', function (ev) {//实例化一个事件
+        console.log(123)
+        // console.log(ev)
+        // console.log(ev.path)
+    }, false)
+    window.onerror = (err) => {
+        console.log(err)
+    }
+</script>
+</body>
+</html>
