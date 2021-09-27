@@ -19,18 +19,46 @@
             margin-top: 20px;
             background-color: orangered;
         }
+
+        .scroll {
+            width: 200px;
+            height: 300px;
+            overflow-x: hidden;
+            background-color: #1E9FFF;
+        }
+
+        .scroll p {
+            line-height: 20px;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 <div class="box">box1</div>
 <div class="box2">box2</div>
 <div class="hover">hover</div>
-<div class="dragger"></div>
+<div class="scroll">
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+    <p>content</p>
+</div>
+<input type="text" class="input">
 <script>
     let box = document.querySelector('.box')
     let box2 = document.querySelector('.box2')
     let hover = document.querySelector('.hover')
-    let dragger = document.querySelector('.dragger')
+    let scroll = document.querySelector('.scroll')
+    let input = document.querySelector('.input')
     let clickArrPath = []
     const originAddEventListener = EventTarget.prototype.addEventListener;
     EventTarget.prototype.addEventListener = function (type, listener, options) {//事件类型原型的修改
@@ -38,6 +66,7 @@
         // console.log(listener)
         // console.log(options)
         const wrappedListener = function (...args) {
+            console.log(type)
             // console.log(args[0])//事件详情
             // 只保存前10次操作
             clickArrPath.push(args[0].path)
@@ -45,7 +74,6 @@
                 // 移除最早的一次
                 clickArrPath.shift()
             }
-            console.log(clickArrPath)
             try {
                 listener.apply(this, args);
             } catch (err) {
@@ -62,10 +90,18 @@
         console.log(shit)
     }
     hover.addEventListener('mouseover', function (ev) {//实例化一个事件
-        console.log(123)
         // console.log(ev)
         // console.log(ev.path)
     }, false)
+    input.addEventListener('focus', function (ev) {
+
+    })
+    input.addEventListener('blur', function (ev) {
+
+    })
+    input.addEventListener('keyup', function (ev) {
+
+    })
     window.onerror = (err) => {
         console.log(err)
     }
