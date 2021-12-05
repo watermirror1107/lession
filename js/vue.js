@@ -1203,7 +1203,7 @@
      * how to merge a parent option value and a child option
      * value into the final value.
      */
-    var strats = config.optionMergeStrategies;
+    var strats = config.optionMergeStrategies;//不同的options有不同的合并策略
 
     /**
      * Options with restrictions
@@ -1223,7 +1223,7 @@
     /**
      * Helper that recursively merges two data objects together.
      */
-    function mergeData(to, from) {
+    function mergeData(to, from) {//数据的融合有点不一样
         if (!from) {
             return to;
         }
@@ -1257,7 +1257,7 @@
     /**
      * Data
      */
-    function mergeDataOrFn(
+    function mergeDataOrFn(//合并数据，数据有可能是函数的时候要先计算值
         parentVal,
         childVal,
         vm
@@ -1315,9 +1315,10 @@
 
                 return parentVal;
             }
+            //实例不存在
             return mergeDataOrFn(parentVal, childVal);
         }
-
+        //实例存在
         return mergeDataOrFn(parentVal, childVal, vm);
     };
 
@@ -1328,6 +1329,8 @@
         parentVal,
         childVal
     ) {
+        console.log(parentVal)
+        console.log(childVal)
         var res = childVal
             ? parentVal
                 ? parentVal.concat(childVal)
@@ -1340,7 +1343,7 @@
             : res;
     }
 
-    function dedupeHooks(hooks) {
+    function dedupeHooks(hooks) {//去掉重复的生命周期，比如在组件中声明了2个同样的生命周期
         var res = [];
         for (var i = 0; i < hooks.length; i++) {
             if (res.indexOf(hooks[i]) === -1) {
@@ -1370,14 +1373,14 @@
         var res = Object.create(parentVal || null);
         if (childVal) {
             assertObjectType(key, childVal, vm);
-            return extend(res, childVal);
+            return extend(res, childVal);//简单的拷贝覆盖父级的
         } else {
             return res;
         }
     }
 
     ASSET_TYPES.forEach(function (type) {
-        strats[type + 's'] = mergeAssets;
+        strats[type + 's'] = mergeAssets;//这个用来合并 components,filters,directives
     });
 
     /**
@@ -1411,7 +1414,7 @@
         }
         var ret = {};
         extend(ret, parentVal);
-        for (var key$1 in childVal) {
+        for (var key$1 in childVal) {//如果父子中options都对一个属性进行watch，合并的策略有点像生命周期的，放到数组里面，按顺序执行
             var parent = ret[key$1];
             var child = childVal[key$1];
             if (parent && !Array.isArray(parent)) {
