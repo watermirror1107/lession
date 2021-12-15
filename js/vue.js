@@ -2100,7 +2100,7 @@
     var measure;
 
     {
-        var perf = inBrowser && window.performance;
+        var perf = inBrowser && window.performance;//Web Performance API允许网页访问某些函数来测量网页和Web应用程序的性能
         /* istanbul ignore if */
         if (
             perf &&
@@ -2109,10 +2109,10 @@
             perf.clearMarks &&
             perf.clearMeasures
         ) {
-            mark = function (tag) {
+            mark = function (tag) {//通过一个给定的名称，将该名称（作为键）和对应的DOMHighResTimeStamp（作为值）保存在一个哈希结构里。该键值对表示了从某一时刻（译者注：某一时刻通常是 navigationStart 事件发生时刻）到记录时刻间隔的毫秒数
                 return perf.mark(tag);
             };
-            measure = function (name, startTag, endTag) {
+            measure = function (name, startTag, endTag) {//计算startTag到endTag所需要的时间
                 perf.measure(name, startTag, endTag);
                 perf.clearMarks(startTag);
                 perf.clearMarks(endTag);
@@ -3332,7 +3332,7 @@
             return;
         }
 
-        // async component
+        // async component 异步组件注册
         var asyncFactory;
         if (isUndef(Ctor.cid)) {
             asyncFactory = Ctor;
@@ -4143,6 +4143,18 @@
         };
 
         Vue.prototype.$destroy = function () {
+            //父子组件的destroy是先子后父
+
+            //销毁前后总共做了以下事情
+            //1.设置组件状态为开始销毁_isBeingDestroyed=true,
+            //2.从父组件的子节点列表中移除当前组件
+            //3.移除吧当前组件的观察者从观察者列表中移除
+            //4.冻结组件数据，移除数据的观察者
+            //5.设置状态_isDestroyed为true
+            //6.patch生成新的html结构,patch的第二个参数是null，就是生成空节点
+            //7.移除组件上所有的监听事件
+            //8.移除__vue__上面的引用，引用对象就是当前组件
+            //9.释放循环引用
             var vm = this;
             if (vm._isBeingDestroyed) {
                 return;
@@ -4177,11 +4189,11 @@
             vm.$off();
             // remove __vue__ reference
             if (vm.$el) {
-                vm.$el.__vue__ = null;
+                vm.$el.__vue__ = null;//类似于释放内存
             }
             // release circular reference (#6759)
             if (vm.$vnode) {
-                vm.$vnode.parent = null;
+                vm.$vnode.parent = null;//类似于释放内存
             }
         };
     }
@@ -4218,20 +4230,21 @@
         callHook(vm, 'beforeMount');
         var updateComponent;
         /* istanbul ignore if */
-        if (config.performance && mark) {
+        if (config.performance && mark) {//开发模式下
             updateComponent = function () {
                 var name = vm._name;
                 var id = vm._uid;
                 var startTag = "vue-perf-start:" + id;
                 var endTag = "vue-perf-end:" + id;
 
-                mark(startTag);
+                mark(startTag);//用来记录时间
                 var vnode = vm._render();
-                mark(endTag);
-                measure(("vue " + name + " render"), startTag, endTag);
+                mark(endTag);//用来记录时间
+                measure(("vue " + name + " render"), startTag, endTag);//计算这组件生成vnode所需要的时间，开发模式下才会计算，不过也找到这个时间用在什么地方判断这个组件是否渲染过慢
 
                 mark(startTag);
-                vm._update(vnode, hydrating);
+                let x = vm._update(vnode, hydrating);//通过vnode生成真正的render函数，就是with的那种
+                console.log(x)
                 mark(endTag);
                 measure(("vue " + name + " patch"), startTag, endTag);
             };
@@ -4891,11 +4904,11 @@
             // during Vue.extend(). We only need to proxy props defined at
             // instantiation here.
             if (!(key in vm)) {
-                proxy(vm, "_props", key);
+                proxy(vm, "_props", key);//吧props上面每个属性代理在实例的_props属性上
             }
         };
 
-        for (var key in propsOptions) loop(key);
+        for (var key in propsOptions) loop(key);//循环设置响应式
         toggleObserving(true);
     }
 
@@ -5433,7 +5446,7 @@
          * Create asset registration methods.
          */
         ASSET_TYPES.forEach(function (type) {
-            Vue[type] = function (
+            Vue[type] = function (//三个全局注册Vue.component和Vue.filter和Vue.directive的函数定义
                 id,
                 definition
             ) {
@@ -5444,13 +5457,16 @@
                     if (type === 'component') {
                         validateComponentName(id);
                     }
+                    //组件
                     if (type === 'component' && isPlainObject(definition)) {
                         definition.name = definition.name || id;
                         definition = this.options._base.extend(definition);
                     }
+                    //指令
                     if (type === 'directive' && typeof definition === 'function') {
                         definition = {bind: definition, update: definition};
                     }
+                    //过滤
                     this.options[type + 's'][id] = definition;
                     return definition;
                 }
