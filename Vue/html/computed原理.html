@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <div>
+    <p>{{total1}}</p>
+    <p>{{total2}}</p>
+    <button @click="num1++">change num1</button>
+    <button @click="num2++">change num2</button>
+    <button @click="changeTotal1">change total1</button>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      num1: 1,
+      num2: 2,
+    },
+    methods: {
+      changeTotal1() {
+        this.total1 = 3333
+      }
+    },
+    computed: {
+      total1: {
+        get() {
+          console.log('giao')
+          return this.num1 + this.num2
+        },
+        set(nv) {
+          console.log(nv)
+          console.log('changeTotal1')
+        }
+      },
+      total2() {
+        return this.num1 + this.num2
+      }
+    }
+  })
+</script>
+</body>
+</html>

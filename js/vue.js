@@ -786,16 +786,19 @@
     // can be evaluated at a time.
     Dep.target = null;
     var targetStack = [];
+    //这里用数组的原因是，当父组件渲染时候遇到子组件需要先渲染子组件，这时候全局的Dep.target就需要切换成子组件的实例，在子组件渲染后又要切换成父组件的实例
 
-    function pushTarget(target) {
+    function pushTarget(target) {//todo 源码中4处调用这个方法改变全局当前的观察者，这4个地方分别对应的观察者是谁
         targetStack.push(target);
         console.log(targetStack)
+        console.log(targetStack.length)
         Dep.target = target;
     }
 
     function popTarget() {
         targetStack.pop();
         Dep.target = targetStack[targetStack.length - 1];
+        //把最后一个移除，也就是子组件的实例移除，并把全局的Dep.target切换成前一个，也就是父组件的实例
     }
 
     /*  */
@@ -958,8 +961,9 @@
      * collect dependencies and dispatch updates.
      */
     var Observer = function Observer(value) {
+        //这个类它的作用是给对象的属性添加 getter 和 setter，用于依赖收集和派发更新：
         this.value = value;
-        this.dep = new Dep();
+        this.dep = new Dep();//每个属性值都有一个自己的依赖列表
         this.vmCount = 0;
         def(value, '__ob__', this);
         if (Array.isArray(value)) {
@@ -1026,6 +1030,8 @@
      * or the existing observer if the value already has one.
      */
     function observe(value, asRootData) {
+        console.log(value)
+        //observe 方法的作用就是给非 VNode 的对象类型数据添加一个 Observer，如果已经添加过则直接返回，否则在满足一定条件下去实例化一个 Observer 对象实例
         if (!isObject(value) || value instanceof VNode) {
             return;
         }
@@ -1041,7 +1047,7 @@
         ) {
             ob = new Observer(value);
         }
-        if (asRootData && ob) {
+        if (asRootData && ob) {//只有根数据的observe会改变vmCount
             ob.vmCount++;
         }
         return ob;
@@ -1077,7 +1083,7 @@
             configurable: true,
             get: function reactiveGetter() {
                 var value = getter ? getter.call(obj) : val;
-                console.log(Dep.target)
+                console.log(Dep.target)//是当前compiler的template的观察者
                 if (Dep.target) {
                     dep.depend();
                     console.log(dep)
@@ -1136,6 +1142,8 @@
         }
         //不存在的属性就会走这里
         var ob = (target).__ob__;//获取当前target的观察者，再次设置响应式
+        console.log(ob)
+        console.log(ob.vmCount)
         if (target._isVue || (ob && ob.vmCount)) {
             warn(
                 'Avoid adding reactive properties to a Vue instance or its root $data ' +
@@ -1143,7 +1151,7 @@
             );
             return val;
         }
-        if (!ob) {
+        if (!ob) {//观察者不存在
             target[key] = val;
             return val;
         }
@@ -4530,7 +4538,7 @@
         var activatedQueue = activatedChildren.slice();
         var updatedQueue = queue.slice();
 
-        resetSchedulerState();
+        resetSchedulerState();//重新设置更新队列状态
 
         // call component updated and activated hooks
         callActivatedHooks(activatedQueue);
@@ -4579,16 +4587,17 @@
      */
     function queueWatcher(watcher) {
         var id = watcher.id;
-        if (has[id] == null) {
+        if (has[id] == null) {//用watch的id来控制每次更新队列里中没有相同的watch
             has[id] = true;
-            if (!flushing) {
+            if (!flushing) {//还没开始更新
                 console.log(watcher)
                 queue.push(watcher);//添加到即将更新的队列
-            } else {
+            } else {//已经开始更新，把当前这个watch插入到正确的位置，正确的位置就是当前这个watch的id大于队列中的某一个id，保持总的queue是个正确的顺序id从小到大的排列watch
+                // 例如queue是[1,2,4,5]，当前的watch id是3，就会插到2后面
                 // if already flushing, splice the watcher based on its id
                 // if already past its id, it will be run next immediately.
-                var i = queue.length - 1;
-                while (i > index && queue[i].id > watcher.id) {
+                var i = queue.length - 1;//每次都要从新获取queue的长度是因为会动态的插入一些新的watch
+                while (i > index && queue[i].id > watcher.id) {//倒序
                     i--;
                 }
                 queue.splice(i + 1, 0, watcher);
@@ -4642,9 +4651,9 @@
         console.log(expOrFn)
         console.log(cb)
         this.cb = cb;
-        this.id = ++uid$2; // uid for batching
+        this.id = ++uid$2; // uid for batching 和Dep实例化时候不同一个uid
         this.active = true;
-        this.dirty = this.lazy; // for lazy watchers
+        this.dirty = this.lazy; // for lazy watchers //true
         this.deps = [];
         this.newDeps = [];
         this.depIds = new _Set();
@@ -4738,12 +4747,12 @@
      */
     Watcher.prototype.update = function update() {
         /* istanbul ignore else */
-        if (this.lazy) {
+        if (this.lazy) {//computed计算属性的watch更新
             this.dirty = true;
         } else if (this.sync) {
             this.run();
         } else {
-            queueWatcher(this);//computed的watch并不会走到这里
+            queueWatcher(this);//普通的watch
         }
     };
 
@@ -4765,6 +4774,7 @@
                 // set new value
                 var oldValue = this.value;
                 this.value = value;
+                console.log(this.user)//用户定义的watchs
                 if (this.user) {
                     try {
                         this.cb.call(this.vm, value, oldValue);
@@ -4784,7 +4794,7 @@
      */
     Watcher.prototype.evaluate = function evaluate() {
         this.value = this.get();
-        this.dirty = false;
+        this.dirty = false;//重新计算完值之后会重置dirty
     };
 
     /**
@@ -4971,7 +4981,7 @@
 
     function initComputed(vm, computed) {
         // $flow-disable-line
-        var watchers = vm._computedWatchers = Object.create(null);
+        var watchers = vm._computedWatchers = Object.create(null);//组件上所有的计算属性观察者对象，用来存所有的计算属性
         // computed properties are just getters during SSR
         var isSSR = isServerRendering();
 
@@ -4987,7 +4997,7 @@
 
             if (!isSSR) {
                 // create internal watcher for the computed property.
-                watchers[key] = new Watcher(
+                watchers[key] = new Watcher(//给每个计算属性创建一个观察者watcher
                     vm,
                     getter || noop,
                     noop,
@@ -5011,12 +5021,12 @@
     }
 
     function defineComputed(
-        target,
-        key,
+        target,//组件实例
+        key,//键名
         userDef
     ) {
         console.log(userDef)
-        var shouldCache = !isServerRendering();
+        var shouldCache = !isServerRendering();//不是服务端渲染的时候开启缓存
         console.log(shouldCache)
         if (typeof userDef === 'function') {
             sharedPropertyDefinition.get = shouldCache
@@ -5047,11 +5057,13 @@
 
     function createComputedGetter(key) {
         return function computedGetter() {
-            var watcher = this._computedWatchers && this._computedWatchers[key];
+            var watcher = this._computedWatchers && this._computedWatchers[key];//组件的计算属性观察者对象，存这个组件的所有计算属性
+            console.log(watcher)
             if (watcher) {
-                if (watcher.dirty) {
+                if (watcher.dirty) {//计算属性取值的时候会判断dirty如果是false就不会重新取值
                     watcher.evaluate();
                 }
+                console.log(Dep.target)//当前用到这计算属性的观察者
                 if (Dep.target) {
                     watcher.depend();
                 }
