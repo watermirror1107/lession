@@ -1082,6 +1082,9 @@
             enumerable: true,
             configurable: true,
             get: function reactiveGetter() {
+                if (key === 'msg') {
+                    console.log('giaogiaogiao')
+                }
                 var value = getter ? getter.call(obj) : val;
                 console.log(Dep.target)//是当前compiler的template的观察者
                 if (Dep.target) {
@@ -1103,7 +1106,7 @@
                     return;
                 }
                 /* eslint-enable no-self-compare */
-                if (customSetter) {
+                if (customSetter) {//props设置响应式的时候会执行
                     customSetter();
                 }
                 // #7981: for accessor properties without setter
@@ -1715,7 +1718,7 @@
             // since the default value is a fresh copy,
             // make sure to observe it.
             var prevShouldObserve = shouldObserve;
-            toggleObserving(true);
+            toggleObserving(true);//默认值获取的时候需要重新设置响应式
             observe(value);
             toggleObserving(prevShouldObserve);
         }
@@ -2379,7 +2382,7 @@
 
     /*  */
 
-    function extractPropsFromVNodeData(
+    function extractPropsFromVNodeData(//用来给子组件传递prop的值
         data,
         Ctor,
         tag
@@ -3313,7 +3316,7 @@
 
     var hooksToMerge = Object.keys(componentVNodeHooks);
 
-    function createComponent(
+    function createComponent(//创建组件
         Ctor,
         data,
         context,
@@ -4332,7 +4335,7 @@
         vm.$attrs = parentVnode.data.attrs || emptyObject;
         vm.$listeners = listeners || emptyObject;
 
-        // update props
+        // update props 更新子组件的props
         if (propsData && vm.$options.props) {
             toggleObserving(false);
             var props = vm._props;
@@ -4747,7 +4750,10 @@
      */
     Watcher.prototype.update = function update() {
         /* istanbul ignore else */
-        if (this.lazy) {//computed计算属性的watch更新
+        if (this.lazy) {
+            //计算属性在使用依赖值的时候触发了依赖值的get，依赖值也会把当前计算属性的观察者存到自己的依赖列表里，
+            //依赖值发生变化通知依赖列表，就会触发依赖列表中computed计算属性的watch更新，（计算属性watcher更新因为lazy是true就会走这里）
+            //计算属性中的依赖值发生改变就会改变dirty，下次再去取计算属性时候就会重新求值
             this.dirty = true;
         } else if (this.sync) {
             this.run();
@@ -4887,7 +4893,8 @@
         }
         var loop = function (key) {
             keys.push(key);
-            var value = validateProp(key, propsOptions, propsData, vm);//类型验证
+            var value = validateProp(key, propsOptions, propsData, vm);//类型验证和赋值
+            console.log(value)
             /* istanbul ignore else */
             {
                 var hyphenatedKey = hyphenate(key);
@@ -5175,7 +5182,7 @@
                 return createWatcher(vm, expOrFn, cb, options);
             }
             options = options || {};
-            options.user = true;
+            options.user = true;//用户自己定义的watch
             var watcher = new Watcher(vm, expOrFn, cb, options);
             if (options.immediate) {
                 try {
@@ -6073,9 +6080,9 @@
 
     function sameVnode(a, b) {
         return (
-            a.key === b.key && (
+            a.key === b.key && (//先判断key
                 (
-                    a.tag === b.tag &&
+                    a.tag === b.tag &&//同步组件判断tag先判断
                     a.isComment === b.isComment &&
                     isDef(a.data) === isDef(b.data) &&
                     sameInputType(a, b)
@@ -11010,15 +11017,15 @@
      *    create fresh nodes for them on each re-render;
      * 2. Completely skip them in the patching process.
      */
-    function optimize(root, options) {
+    function optimize(root, options) {//抽象语法树的优化，目的就是检测出静态的节点，就是永不需要改变的DOM节点，吧他们变成常量，每次patch对比的时候跳过他们，减少逻辑判断加快代码执行效率
         if (!root) {
             return;
         }
         isStaticKey = genStaticKeysCached(options.staticKeys || '');
         isPlatformReservedTag = options.isReservedTag || no;
-        // first pass: mark all non-static nodes.
+        // first pass: mark all non-static nodes.第一步标记非静态节点
         markStatic$1(root);
-        // second pass: mark static roots.
+        // second pass: mark static roots.第二步标记静态根。
         markStaticRoots(root, false);
     }
 
@@ -11338,7 +11345,7 @@
     };
 
 
-    function generate(
+    function generate(//利用抽象语法树生成最后用来生成HTML的render函数，就是with包裹的render函数
         ast,
         options
     ) {
@@ -12272,7 +12279,7 @@
     ) {
         var ast = parse(template.trim(), options);
         if (options.optimize !== false) {
-            optimize(ast, options);
+            optimize(ast, options);//优化抽象语法树
         }
         var code = generate(ast, options);
         return {

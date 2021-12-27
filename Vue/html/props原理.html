@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>
+        <p>{{msg}}</p>
+        <!--        即使父组件的模板中没用到msg也会触发子组件的更新,是因为数据被改成了引用类型的了-->
+        <button @click="changeMsg">father</button>
+        <son :text="msg"></son>
+    </div>
+</div>
+<script>
+    Vue.component('son', {
+        props: ['text'],
+        render(h) {
+            return h('div', [
+                h('p', this.text),
+                h('button', {
+                    on: {
+                        click: this.changetext
+                    }
+                }, '点击')
+            ])
+        },
+        methods: {
+            changetext() {
+                this.text = 'son change'//如果由子组件改变props的值，只会影响子组件的，这个可以根据响应式收集的原理可知，因为text和msg是由2个不同的dep依赖列表的，
+                //父组件的watch并不在子组件的text依赖列表中，因为父组件没用到这个text，所以父组件的msg和模板不会变化
+            }
+        },
+    });
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            msg: 'msg'
+        },
+        methods: {
+            changeMsg() {
+                this.msg = 'change msg'//虽然子组件也没有在msg的依赖列中，但是父组件的值改变会导致子组件的变动，
+                //是因为当父组件的值发生改变，在更新父组件的patchVnode过程中，如果遇到了组件会执行prepatch会执行updateChildComponent，在这个函数中会对Props里面的值重新求值，这就会导致子组件的prop变化就会触发子组件更新
+                //那如果父组件没有在模板中使用到这个this.msg也会触发子组件的变化，是因为在给子组件prop赋值（validateProp这个函数中）用到了这个msg（引用类型的数据）触发了它的getter，msg会把子组件收集到依赖列表中
+            }
+        }
+    })
+</script>
+</body>
+</html>
