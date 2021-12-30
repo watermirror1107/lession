@@ -8,17 +8,24 @@
 <body>
 <!--具名插槽外面必须包着一层template-->
 
-源码中resolveSlots是用在当前组件渲染时候收集当前组件中的所有插槽并放进一个对象中存储;
-renderSlots是用在子组件渲染的时候，用来处理组件中的插槽内容;
-resolveScopedSlots是把父组件中收集到的所有用过的子组件插槽的 数据类型从数组变成对象
-normalizeScopedSlots是在当前组件中规范化一下插槽信息，并在添加一个$scopedslots属性，渲染时候会用到
-normalizeScopedSlot插槽兼容性处理
+源码中在生命周期的beforeCreate中的initRender中先运行resolveSlots，resolveSlots是用在当前组件渲染时候收集当前组件中的所有插槽并放进一个
+对象$slots 中存储(这个对象会在generate中renderSlots函数用到，用来生成子级插槽内容)，这个方法的第二个参数是父组件 ，通过父组件获取插槽中要插入的内容；
+然后在beforeMount生命周期中开始编译template过程中，parse函数会给虚拟dom设置一些渲染需要用到的scope属性，比如target和scopedSlots,
+然后在generate要生成用来生成HTML的render函数时候会用到_t也就是renderSlots,renderSlots是用在子组件渲染的时候，用来处理组件中的插槽内容，
+并生成子节点的html,过程中会用到$slots用来获取对应的插槽该插入的内容，这就是普通插槽（包括具名插槽）的原理
 
-在父级模板解析parse的时候生成render的虚拟DOM节点时候，如果子组件有插槽的话，会在子组件渲染函数render上上添加一个Option对象，
-里面有个属性叫scopedSlots,对应的属性值是resolvescopeslots函数，函数里面的参数就是在父组件中用到的那些插槽，参数是个数组，
-如果是作用域插槽每个插槽对象不会携带一个叫proxy的属性，普通插槽会有这个Proxy属性，并且为true,两种插槽对象都有一个fn的回调函数用来生成dom,
-如果是普通插槽的话，里面的Html已经在父组件生成了，并且带上了父组件hash标签属性,但是在子组件渲染插槽renderslots的时候,
-会去读取在父页面渲染时添加到子组件的scopeslots对象里面的和插槽相关的信息，
+作用域插槽在parse过程时候会有特殊处理，就是会被父节点添加一个scopeSlots对象，并在该对象上面添加插槽内容，以插槽名称 name 为 key，在源码的10061行附近
+然后会父组件的generate函数中调用genScopedSlots对作用域插槽进行处理，（调用函数generate->genElement->genData$2->genScopedSlots）,
+在genScopedSlots时候对scopedslots做处理，它和普通插槽父组件编译结果的一个很明显的区别就是没有 children 了 ，
+data 部分多了一个对象，并且执行了 _u 方法，_u也就是resolveScopedSlots，接下来开始子组件的编译和上面普通插槽的差不多，就是会调用this.$scopeSlots对应插槽的
+方法 ，并吧props当成参数传递进去，例如this.$scopedSlotFn(props)，返回的是插槽的内容，$scopeSlots这个来源就是在子组件的渲染函数执行前，在 vm_render 方法内，
+我们在父组件通过执行 resolveScopedSlots 返回的对象。
+
+它们有一个很大的差别是数据作用域，普通插槽是在父组件编译和渲染阶段生成 vnodes，所以数据的作用域是父组件实例，子组件渲染的时候直接拿到这些渲染好的
+vnodes。而对于作用域插槽，父组件在编译和渲染阶段并不会直接生成 vnodes，而是在父节点 vnode 的 data 中保留一个 scopedSlots 对象，存储着不同名
+称的插槽以及它们对应的渲染函数，只有在编译和渲染子组件阶段才会执行这个渲染函数生成 vnodes，由于是在子组件环境执行的，所以对应的数据作用域是子组件实例。
+
+
 还会给父组件传递过来的html内容加上子级新的Hash标签属性,这时候如果父组件和子组件有两个相同的样式选择器，父组件样式选择器生效，因为父组件的style添加在head的顺序在子组件之后
 <div id="app">
     <slotbox1>

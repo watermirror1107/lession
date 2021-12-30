@@ -2284,7 +2284,7 @@
         };
     });
 
-    function createFnInvoker(fns, vm) {
+    function createFnInvoker(fns, vm) {//创建事件处理函数
         function invoker() {
             var arguments$1 = arguments;
 
@@ -2615,8 +2615,8 @@
      * Runtime helper for resolving raw children VNodes into a slot object.//运行时，把组件中原始子节点如果有插槽的就收集进slot这个对象里
      */
     function resolveSlots(
-        children,
-        context
+        children,//这个子级列表是子组件的插槽列表
+        context//这里的上下文是父组件实例
     ) {
         console.log(children);
         console.log(context);
@@ -2804,11 +2804,11 @@
         props,
         bindObject
     ) {
-        //这里的this指向子组件，这里的this利用改了proxy代理
         console.log(name);
         console.log(fallback);//这个fallback就是子组件插槽里面的默认内容
-        console.log(props);//作用域组件才有这个props通过这个props来传递值
+        console.log(props);//作用域插槽才有这个props通过这个props来传递值
         console.log(bindObject);
+        console.log(this)//这里的this指向子组件
         var scopedSlotFn = this.$scopedSlots[name];
         var nodes;
         console.log(this.$scopedSlots)
@@ -2823,9 +2823,9 @@
                 }
                 props = extend(extend({}, bindObject), props);
             }
-            nodes = scopedSlotFn(props) || fallback;//渲染作用域插槽
+            nodes = scopedSlotFn(props) || fallback;//渲染作用域插槽 利用prop来接受传值
         } else {
-            nodes = this.$slots[name] || fallback;
+            nodes = this.$slots[name] || fallback;//读取在parse过程中生成的插槽中的内容
         }
         console.log(nodes);//要插入的节点
         var target = props && props.slot;//如果是嵌套插槽，这里会在生产一个template
@@ -3297,7 +3297,7 @@
                     // be processed after the whole patch process ended.
                     queueActivatedComponent(componentInstance);
                 } else {
-                    activateChildComponent(componentInstance, true /* direct */);
+                    activateChildComponent(componentInstance, true /* direct */);//已经挂载的keepalive激活子组件的activate
                 }
             }
         },
@@ -3632,7 +3632,7 @@
 
     function initRender(vm) {
         console.log(vm);//组件实例
-        vm._vnode = null; // the root of the child tree
+        vm._vnode = null; // the root of the child tree 父节点
         vm._staticTrees = null; // v-once cached trees
         var options = vm.$options;
         console.log(options);
@@ -3641,7 +3641,7 @@
         var renderContext = parentVnode && parentVnode.context;
         console.log(options._renderChildren);
         console.log(renderContext);
-        vm.$slots = resolveSlots(options._renderChildren, renderContext);//收集当前组件中的所有插槽
+        vm.$slots = resolveSlots(options._renderChildren, renderContext);//收集当前组件中的所有插槽 上下文是父组件
         console.log(vm.$slots);
         console.log('-----render-----');
         vm.$scopedSlots = emptyObject;
@@ -3691,7 +3691,7 @@
 
             if (_parentVnode) {
                 console.log(_parentVnode)
-                console.log(_parentVnode.data.scopedSlots)//父组件中用到的插槽的所有内容
+                console.log(_parentVnode.data.scopedSlots)//父组件中用到的作用域插槽的所有内容
 
                 vm.$scopedSlots = normalizeScopedSlots(
                     _parentVnode.data.scopedSlots,
@@ -3925,7 +3925,7 @@
 
     /*  */
 
-    function initEvents(vm) {
+    function initEvents(vm) {//自定义的事件
         vm._events = Object.create(null);
         vm._hasHookEvent = false;
         // init parent attached events
@@ -6281,7 +6281,7 @@
             }
         }
 
-        function reactivateComponent(vnode, insertedVnodeQueue, parentElm, refElm) {
+        function reactivateComponent(vnode, insertedVnodeQueue, parentElm, refElm) {//keepalive的组件再次被挂载会激活activate
             var i;
             // hack for #4339: a reactivated component with inner transition
             // does not trigger because the inner node's created hooks are not called
@@ -7490,7 +7490,7 @@
     /**
      * Cross-platform code generation for component v-model
      */
-    function genComponentModel(
+    function genComponentModel(//组件的v-model实现
         el,
         value,
         modifiers
@@ -7851,7 +7851,7 @@
     // safe to exclude.
     var useMicrotaskFix = isUsingMicroTask && !(isFF && Number(isFF[1]) <= 53);
 
-    function add$1(
+    function add$1(//添加事件
         name,
         handler,
         capture,
@@ -7863,6 +7863,13 @@
         // the solution is simple: we save the timestamp when a handler is attached,
         // and the handler would only fire if the event passed to it was fired
         // AFTER it was attached.
+
+        // 内部点击事件触发patch,事件处理程序
+        // 在patch期间附加到外部元素，并再次触发。 这
+        // 么做的因为浏览器在事件传播之间触发微任务队列。
+        // 解决方案很简单：我们在附加处理程序时保存时间戳，
+        // 只有当传递给它的事件被触发时，处理程序才会触发
+        // 在它被附加之后。
         if (useMicrotaskFix) {
             var attachedTimestamp = currentFlushTimestamp;
             var original = handler;
@@ -9100,7 +9107,7 @@
     var Transition = {
         name: 'transition',
         props: transitionProps,
-        abstract: true,
+        abstract: true,//这个属性会忽略组件之间的父子关系的设定
 
         render: function render(h) {
             var this$1 = this;
@@ -10046,12 +10053,12 @@
                 if (element.elseif || element.else) {
                     processIfConditions(element, currentParent);
                 } else {
-                    if (element.slotScope) {
+                    if (element.slotScope) {//作用域插槽的特殊处理
                         // scoped slot
                         // keep it in the children list so that v-else(-if) conditions can
                         // find it as the prev node.
-                        var name = element.slotTarget || '"default"'
-                        ;(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element;
+                        var name = element.slotTarget || '"default"';
+                        (currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element;//在父节点上面添加一个scopeSlots属性
                     }
                     currentParent.children.push(element);
                     element.parent = currentParent;
@@ -11023,9 +11030,9 @@
         }
         isStaticKey = genStaticKeysCached(options.staticKeys || '');
         isPlatformReservedTag = options.isReservedTag || no;
-        // first pass: mark all non-static nodes.第一步标记非静态节点
+        // first pass: mark all non-static nodes.
         markStatic$1(root);
-        // second pass: mark static roots.第二步标记静态根。
+        // second pass: mark static roots.
         markStaticRoots(root, false);
     }
 
@@ -11049,7 +11056,7 @@
             ) {
                 return;
             }
-            for (var i = 0, l = node.children.length; i < l; i++) {
+            for (var i = 0, l = node.children.length; i < l; i++) {//递归
                 var child = node.children[i];
                 markStatic$1(child);
                 if (!child.static) {
@@ -11638,7 +11645,7 @@
         }
     }
 
-    function genScopedSlots(
+    function genScopedSlots(//处理作用域插槽
         el,
         slots,
         state
@@ -12277,7 +12284,7 @@
         template,
         options
     ) {
-        var ast = parse(template.trim(), options);
+        var ast = parse(template.trim(), options);//生成抽象语法树类似的虚拟节点
         if (options.optimize !== false) {
             optimize(ast, options);//优化抽象语法树
         }
