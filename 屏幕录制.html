@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<video id='video' width="300" autoplay="true"></video>
+<!--用来预览录制的东西-->
+<br>
+<button id="start">开始录制</button>
+<button id="stop">停止录制</button>
+<button id="download">下载视频</button>
+<script>
+    let start = document.querySelector('#start')
+    let stop = document.querySelector('#stop')
+    let download = document.querySelector('#download')
+    let videoEle = document.querySelector('#video')
+    let mediaStream = null;
+    let mediaRecorder = null;
+    let videoBuffer = [];
+    start.addEventListener('click', async function () {
+        //获取屏幕内容navigator.mediaDevices.getDisplayMedia() 这个API返回的是MediaStream对象
+        videoEle.srcObject = mediaStream = await navigator.mediaDevices.getDisplayMedia()//把要录制的东西复制到video标签来预览
+        // console.log(mediaStream)
+        // 利用MediaRecorder这个类来录制
+        mediaRecorder = new MediaRecorder(mediaStream, {
+            audioBitsPerSecond: 128000, //音频码率
+            videoBitsPerSecond: 2500000,//视频码率
+            mimeType: 'video/webm' //录制格式，视不同浏览器而定 MP4格式现在不支持
+        })
+        // MediaRecorder.ondataavailable 回调来保存录制的数据,
+        mediaRecorder.ondataavailable = function (e) {
+            //这里直接将数据写入了内存，如果录制长视频应该写入到别的地方
+            videoBuffer.push(e.data);
+        }
+        //开始录制
+        mediaRecorder.start(1000)
+    })
+
+    stop.addEventListener('click', function () {
+        if (videoEle.srcObject) {
+            for (let track of videoEle.srcObject.getTracks()) {
+                track.stop()
+            }
+        }
+        mediaRecorder && mediaRecorder.state !== 'inactive' && mediaRecorder.stop()//断开需要时间去处理
+    })
+    download.addEventListener('click', function () {
+        //videoBuffer为视频数据
+        let blob = new Blob(videoBuffer, {
+            type: "video/webm"
+        });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.style = "display: none";
+        document.body.appendChild(a);
+        a.href = url;
+        a.download = "test.webm"; //下载的文件名
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+
+</script>
+</body>
+</html>

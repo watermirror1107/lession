@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./js/Rxjs.js"></script>
+</head>
+<body>
+<button id="btn">test</button>
+<script>
+    const btn = document.querySelector('#btn');
+    const mousedown$ = Rx.Observable.fromEvent(btn, 'mousedown')
+    const mouseup$ = Rx.Observable.fromEvent(btn, 'mouseup')
+</script>
+</body>
+</html>

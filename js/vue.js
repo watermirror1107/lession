@@ -6499,7 +6499,7 @@
                         vnodeToMove = oldCh[idxInOld];
                         if (sameVnode(vnodeToMove, newStartVnode)) {
                             patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx);
-                            oldCh[idxInOld] = undefined;
+                            oldCh[idxInOld] = undefined;//对比之后要把老的节点复制成undefined，接下来的循环要是遇到undefined就跳过
                             canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm);
                         } else {
                             // same key but different element. treat as new element
@@ -6509,10 +6509,10 @@
                     newStartVnode = newCh[++newStartIdx];
                 }
             }
-            if (oldStartIdx > oldEndIdx) {
+            if (oldStartIdx > oldEndIdx) {//老开始大于老结尾，说明有新增的元素
                 refElm = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm;
                 addVnodes(parentElm, refElm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue);
-            } else if (newStartIdx > newEndIdx) {
+            } else if (newStartIdx > newEndIdx) {//新开始大于新结尾，说明有多余的元素
                 removeVnodes(oldCh, oldStartIdx, oldEndIdx);
             }
         }
@@ -6587,7 +6587,7 @@
 
             var i;
             var data = vnode.data;
-            if (isDef(data) && isDef(i = data.hook) && isDef(i = i.prepatch)) {
+            if (isDef(data) && isDef(i = data.hook) && isDef(i = i.prepatch)) {//如果节点是组件的话会调用prepatch
                 i(oldVnode, vnode);
             }
 
@@ -6602,12 +6602,12 @@
                 }
             }
             if (isUndef(vnode.text)) {//新节点没有text文本
-                if (isDef(oldCh) && isDef(ch)) {//新老都有children并且老的不等于新的，updatechildren
+                if (isDef(oldCh) && isDef(ch)) {//新老都有children并且老的不等于新的，
                     if (oldCh !== ch) {
                         updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly);
                     }
                 } else if (isDef(ch)) {//如果新的有children老的没有，
-                    {   //先查看是否先查看子节点是不是循环生成的，判断是否有KEY
+                    {   //先查看是否先查看子节点是不是循环生成的，判断是否有重复KEY
                         checkDuplicateKeys(ch);
                     }
                     // 如果老节点的子节点是文本，清空文本
