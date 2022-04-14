@@ -5,9 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-a标签打开新页面时需要添加  rel="noopener noreferrer" 可以断开网页之间的联系document.referrer和window.opener都会为空
+a标签打开新页面时需要添加 rel="noopener noreferrer" 可以断开网页之间的联系document.referrer和window.opener都会为空
 这样即使同域名也不会共用一个渲染进程，因为这两个网页不处在同一个浏览上下文组 ( browsing context group)。
 <br/>
 <a href="test.html" target="_blank" rel="noopener noreferrer"></a>
+<a href="标签中的target.html" target="_blank" rel="noopener noreferrer">noopener</a>
+<a href="标签中的target.html" target="_self">self</a>
+<a href="标签中的target.html" target="_blank">blank</a>
 </body>
 </html>
