@@ -389,7 +389,7 @@
         'destroyed',
         'activated',
         'deactivated',
-        'errorCaptured',
+        'errorCaptured',//用来捕获子组件向上冒泡的bug，捕获不了自身的bug
         'serverPrefetch'
     ];
 
@@ -1913,14 +1913,14 @@
 
     /*  */
 
-    function handleError(err, vm, info) {
+    function handleError(err, vm, info) {//
         // Deactivate deps tracking while processing error handler to avoid possible infinite rendering.
         // See: https://github.com/vuejs/vuex/issues/1505
         pushTarget();
         try {
             if (vm) {
                 var cur = vm;
-                while ((cur = cur.$parent)) {
+                while ((cur = cur.$parent)) {//递归往上查找vue的报错函数errorCaptured是否被定义
                     var hooks = cur.$options.errorCaptured;
                     if (hooks) {
                         for (var i = 0; i < hooks.length; i++) {
@@ -1970,7 +1970,7 @@
         return res;
     }
 
-    function globalHandleError(err, vm, info) {
+    function globalHandleError(err, vm, info) {//如果组件没有自己定义捕获错误的函数或者往上递归查找的父组件也没有，就会调用全局定义的报错函数
         if (config.errorHandler) {
             try {
                 return config.errorHandler.call(null, err, vm, info);
@@ -1978,7 +1978,7 @@
                 // if the user intentionally throws the original error in the handler,
                 // do not log it twice
                 if (e !== err) {
-                    logError(e, null, 'config.errorHandler');
+                    logError(e, null, 'config.errorHandler');//如果没有定义全局的报错函数，就会输出bug
                 }
             }
         }
