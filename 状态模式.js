@@ -1,4 +1,4 @@
-//状态模式用来解决过多的If和switch判读的；
+//状态模式用来解决过多的If和switch判读的；解决条件分支之间的耦合
 let MarryState = function () {
     let currentState = {},//用来存储当前需要做的哪些状态
         states = {//先用一个对象存储所有的状态
