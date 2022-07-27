@@ -14,11 +14,17 @@
         <p>{{testName}}</p>
         <p>{{msg}}+2</p>
         <button @click="changeMsg">change</button>
-        <!--        <test1 :msg="msg"></test1>-->
-        <!--        <test2></test2>-->
+        <test1 :msg="msg">ddd</test1>
+        <test2></test2>
     </div>
 </div>
 <script>
+    const mixin = {
+        created() {
+            console.log('public create')
+        }
+    };
+    Vue.mixin(mixin)
     Vue.component('test1', {
         props: ['msg'],
         computed: {
@@ -40,22 +46,25 @@
             }
         }
     })
-    // Vue.component('test2', {
-    //     render: function (h) {
-    //         return h('p', this.age)
-    //     },
-    //     data() {
-    //         return {
-    //             age: 20
-    //         }
-    //     }
-    // })
+    Vue.component('test2', {
+        render: function (h) {
+            return h('p', this.age)
+        },
+        data() {
+            return {
+                age: 20
+            }
+        }
+    })
     new Vue({
         el: '#app',
         data: {
             msg: 'message',
             time: '12:12:12',
             age: '18'
+        },
+        created() {
+            console.log('self create')
         },
         watch: {
             // 如果 `question` 发生改变，这个函数就会运行

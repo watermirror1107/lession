@@ -1354,10 +1354,11 @@
             : res;
     }
 
-    function dedupeHooks(hooks) {//去掉重复的生命周期，比如在组件中声明了2个同样的生命周期
+    function dedupeHooks(hooks) {
+        //这里的处理方式和全局混入的生命周期处理方式不同
         var res = [];
         for (var i = 0; i < hooks.length; i++) {
-            if (res.indexOf(hooks[i]) === -1) {
+            if (res.indexOf(hooks[i]) === -1) {//
                 res.push(hooks[i]);
             }
         }
@@ -3249,7 +3250,7 @@
     /*  */
 
     // inline hooks to be invoked on component VNodes during patch
-    var componentVNodeHooks = {
+    var componentVNodeHooks = {//插入4个内部自用的生命周期，初始化，patch之前，插入，摧毁
         init: function init(vnode, hydrating) {
             if (
                 vnode.componentInstance &&
@@ -3327,6 +3328,12 @@
             return;
         }
 
+        console.log('3331')
+        console.log(Ctor)
+        console.log(data)
+        console.log(context)
+        console.log(children)
+        console.log('tag', tag)
         var baseCtor = context.$options._base;
 
         // plain options object: turn it into a constructor
@@ -3374,7 +3381,7 @@
         }
 
         // extract props
-        var propsData = extractPropsFromVNodeData(data, Ctor, tag);
+        var propsData = extractPropsFromVNodeData(data, Ctor, tag);//利用数据和组件的构造函数生成propsData
 
         // functional component
         if (isTrue(Ctor.options.functional)) {
@@ -3504,7 +3511,7 @@
         return _createElement(context, tag, data, children, normalizationType);
     }
 
-    function _createElement(
+    function _createElement(//根据HTML标签判断是不是自定义的组件，是的话调用createComponet生成vnode,如果不是自定义的tag就直接调用Vnode构造函数生成vnode
         context,
         tag,
         data,
@@ -3982,7 +3989,6 @@
                 // optimize hook:event cost by using a boolean flag marked at registration
                 // instead of a hash lookup
                 if (hookRE.test(event)) {
-                    $
                     vm._hasHookEvent = true;
                 }
             }
@@ -5272,7 +5278,7 @@
         console.log(parentVnode);
         console.log(vm);
         var vnodeComponentOptions = parentVnode.componentOptions;
-        opts.propsData = vnodeComponentOptions.propsData;
+        opts.propsData = vnodeComponentOptions.propsData;//todo 为何从父级获取propsData
         opts._parentListeners = vnodeComponentOptions.listeners;
         opts._renderChildren = vnodeComponentOptions.children;
         opts._componentTag = vnodeComponentOptions.tag;
