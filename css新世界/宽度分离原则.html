@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .pb {
+            border: 2px solid red;
+            padding: 20px;
+        }
+
+        .one {
+            width: 120px;
+
+        }
+    </style>
+</head>
+<body>
+<h1>宽度分离原则：width和padding border这两个属性不写到同一个标签的css样式上,因为这两个属性会影响宽度的布局（不设置宽理念）</h1>
+<div class="one pb">这个需要计算内容是否装的下</div>
+<div class="one ">
+    <div class="pb">内容大小自动填充宽度</div>
+</div>
+<!--border-box不是一样的效果？-->
+</body>
+</html>
