@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .p {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            padding: 20px;
+            /*box-sizing: border-box;*/
+        }
+
+        .one {
+            width: 50%;
+            height: 30%;
+            background-color: yellow;
+        }
+
+        .two {
+            background-color: blue;
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<p>绝对定位的元素和非绝对定位的元素的百分比计算是不一样的，绝对定位的宽高百分比是相对于padding-box，会把padding计算在内。然而非绝对定位的元素则是以内容content-box计算的</p>
+<div class="p">
+    <div class="one">one</div>
+    <div class="one two">two</div>
+</div>
+</body>
+</html>

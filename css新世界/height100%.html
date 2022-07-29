@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .p {
+            /*height: 300px;*/
+            width: 150px;
+            background-color: blue;
+        }
+
+        .son {
+            height: 150%;
+            font-size: 60px;
+            background-color: green;
+            margin-top: 10px;
+        }
+
+        .son:nth-child(1) {
+            right: 0;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<p>在父级盒子不设置宽度时候默认是auto,而且子级盒子可以给宽度设置百分比来获取对应正确的数值</p>
+<p>
+    在父级盒子不设置高度时候默认是auto,但是子级盒子不可以通过高度设置百分比来获取正确的值,除非父级盒子是具有明确的高度值如果200PX，或者给子级盒子添加绝对定位如fixed和absolute,但是这样父级的高度还是0，并不会被子级别撑开，而且数值并不准确，具体多少值参考
+    <a href="./宽高百分比.html" target="_blank">宽高百分比页面</a></p>
+<div class="p">
+    <div class="son">test</div>
+</div>
+<div class="p">
+    <div class="son">test</div>
+</div>
+</body>
+</html>

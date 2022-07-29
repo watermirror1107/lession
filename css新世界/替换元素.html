@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .p {
+            width: 400px;
+            height: 300px;
+            background-color: #f0f3f9;
+            animation: width 2s infinite alternate;
+        }
+
+        @keyframes width {
+            from {
+                width: 200px;
+            }
+            to {
+                width: 280px;
+            }
+        }
+
+        .content {
+            display: block;
+            /*   替换元素是无法通过display为block来让其具有流动性，并自动填充到父级一样的宽度，需要手动的设置width:100%; */
+            width: 100%;
+            padding: 10px;
+            /*但是设置了宽度又不适合"不设置宽度的原则",会导致宽度因为padding和margin使实际效果不和预期，所以要加上border-box*/
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<p>替换元素有input textarea video img</p>
+<div class="p">
+    <textarea class="content"></textarea>
+</div>
+</body>
+</html>

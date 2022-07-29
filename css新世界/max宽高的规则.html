@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .one {
+            width: 100px !important;
+            min-width: 200px;
+            /*会覆盖important*/
+            height: 20px;
+            background-color: lime;
+        }
+
+        .two {
+            min-width: 200px;
+            max-width: 150px;
+            background-color: #00aaff;
+        }
+
+        .giao {
+            max-width: 0;
+            line-height: 40px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 1.5s;
+        }
+
+        .open {
+            max-width: 300px;
+            max-height: 100px;
+            /*!*max-height: 99999;*!动画效果丢失*/
+        }
+    </style>
+</head>
+<body>
+<p>
+    min-width/min-height的初始值是auto,max-width/max-height的初始值是none，max初始值为何不是auto的原因就是这样宽度width会被max-width覆盖，宽度就永远只能取max-width</p>
+<p>超越!important和超越最大</p>
+<div class="one">one</div>
+<!--min-width会覆盖important-->
+<div class="two">two</div>
+<!--最小的会把最大的给覆盖-->
+
+
+<p>max宽高的妙用，当一个元素无法准确的知道它的高度可以用max-height来代替，前提是max不能设置太大，不然会有延迟，会导致丢失动画效果,尽量设置的小一点</p>
+<div class="giao">
+    <span>giaogiaogiaogiaogiaogiaogiaogiaog</span>
+    <br>
+    <span>iaogiaogiaogiaogiaogiaogiaogiaogiao</span>
+</div>
+<button class="btn" onclick="openGiao()">open</button>
+<script>
+    let giao = document.querySelector('.giao')
+
+    function openGiao() {
+        giao.classList.add('open')
+    }
+</script>
+</body>
+</html>
