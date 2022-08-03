@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        dot {
+            display: inline-block;
+            height: 1em;
+            line-height: 1;
+            text-align: left;
+            overflow: hidden;
+        }
+
+        dot::before {
+            /*如果这里用的是after伪类，火狐浏览器就会失效，会被标签里面的内容覆盖，如果删除标签里的内容也是可以用after*/
+            /*加标签里面3个点是为了，兼容低版本浏览器，让里面有东西展示罢了*/
+            display: block;
+            content: '...\A..\A.';
+            /*\A是换行的意思*/
+            white-space: pre-wrap;
+            animation: upDown 3s infinite step-start both;
+        }
+
+        @keyframes upDown {
+            33% {
+                transform: translateY(-2em);
+            }
+            66% {
+                transform: translateY(-1em);
+            }
+        }
+    </style>
+</head>
+<body>
+正在加载
+<dot>...</dot>
+</body>
+</html>

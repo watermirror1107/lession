@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div::before {
+            content: attr(data-height);
+        }
+
+        div::after {
+            content: attr(word);
+        }
+    </style>
+</head>
+<body>
+<div data-height="200" word="giao"></div>
+</body>
+</html>

@@ -33,12 +33,35 @@
             /*但是设置了宽度又不适合"不设置宽度的原则",会导致宽度因为padding和margin使实际效果不和预期，所以要加上border-box*/
             box-sizing: border-box;
         }
+
+        .second {
+            content: url("../images/2.jpg");
+        }
+
+        .icecream {
+
+        }
+
+        .third::after {
+            content: counter(icecream);
+            /*内容无法被选中，也无法被js获取到*/
+            display: block;
+            height: 30px;
+            width: 300px;
+        }
     </style>
 </head>
 <body>
 <p>替换元素有input textarea video img</p>
+<p>就是含有src或者css属性中含有content的元素</p>
+<p>img在有的浏览器在src为空时候渲染的规则是非替换元素</p>
+<p>有的浏览器可以通过设置css的content来变成替换原，有些浏览器只支持伪类元素设置content为替换元素</p>
 <div class="p">
     <textarea class="content"></textarea>
+    <img src="../images/1.jpg" alt="" width="300">
+    <div style="height: 300px;"></div>
+    <img class="second" alt="" width="100" height="50">
+    <div class="third"></div>
 </div>
 </body>
 </html>
