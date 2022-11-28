@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let x = function () {
+        console.log('x')
+    }
+
+    function y() {
+        console.log('y')
+    }
+
+    document.addEventListener('click', x)
+    document.addEventListener('click', y)
+
+    function solution(nums) {
+        if (nums instanceof Array) {
+            return nums.sort((a, b) => {
+                return a > b ? 1 : -1
+            })
+        }
+        return []
+    }
+
+    console.log(solution([1, 2, 3, 10, 5]));
+</script>
+</body>
+</html>
