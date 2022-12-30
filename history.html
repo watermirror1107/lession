@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<button onclick="changeSearch()">click</button>
+<script>
+  function changeSearch() {
+    const {href} = window.location
+    let state = {age: 123}
+    // history.pushState(state,'title',href+'&w=123')//通过history的pushstate可以修改页面href的search并且不会触发浏览器的刷新机制，这里的第三个参数url不能随便填，必须是符合同源策略，不然不能改变
+    window.location.search = 'w=123'//直接修改search会触发浏览器的刷新
+  }
+
+</script>
+</body>
+</html>
