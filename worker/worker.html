@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Web Workers 使得一个Web应用程序可以在与主执行线程分离的后台线程中运行一个脚本操作。这样做的好处是可以在一个单独的线程中执行费时的处理任务，从而允许主（通常是UI）线程运行而不被阻塞。
+
+    它的作用就是给JS创造多线程运行环境，允许主线程创建worker线程，分配任务给后者，主线程运行的同时worker线程也在运行，相互不干扰，在worker线程运行结束后把结果返回给主线程。这样做的好处是主线程可以把计算密集型或高延迟的任务交给worker线程执行，这样主线程就会变得轻松，不会被阻塞或拖慢。这并不意味着JS语言本身支持了多线程能力，而是浏览器作为宿主环境提供了JS一个多线程运行的环境。
+
+    不过因为worker一旦新建，就会一直运行，不会被主线程的活动打断，这样有利于随时响应主线程的通性，但是也会造成资源的浪费，所以不应过度使用，用完注意关闭。或者说：如果worker无实例引用，该worker空闲后立即会被关闭；如果worker实列引用不为0，该worker空闲也不会被关闭。</p>
+<input type="text" id="input">
+<button onclick="sendMsg()">send</button>
+<button onclick="closeWorker()">close</button>
+<script>
+    const w = new Worker('./worker.js')
+    const input = document.querySelector('#input')
+
+    function sendMsg() {
+        w.postMessage(input.value)
+    }
+
+    function closeWorker() {
+        w.terminate()
+    }
+
+    w.onmessage = function (ev) {
+        console.log('主进程接受到数据' + ev.data)
+    }
+</script>
+</body>
+</html>
