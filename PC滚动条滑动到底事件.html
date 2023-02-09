@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            width: 176px;
+        }
+
+        li {
+            height: 40px;
+            width: 100%;
+            border-bottom: 1px solid #eee;
+        }
+
+        .container {
+            margin-top: 100px;
+            margin-left: 100px;
+            width: 200px;
+            height: 150px;
+            border: 1px solid #333;
+            box-sizing: content-box;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul id="ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+</div>
+<script>
+    const container = document.querySelector('.container')
+    const ul = document.querySelector('#ul')
+    let containerHeight = parseFloat(window.getComputedStyle(container, null).height)//容器高度
+    container.onscroll = () => {
+        let scroll_height = parseFloat(container.scrollHeight);//滑动内容的总高度
+        //能滑动到底首先可滑动内容必须大于容器高度
+        if (scroll_height > containerHeight) {
+            //container.scrollTop容器已滚动的高度
+            if (scroll_height - containerHeight <= container.scrollTop) {
+                console.log('down')
+                const li = document.querySelectorAll('li')
+                let temUl = document.createDocumentFragment()
+                for (let i = 0; i < 10; i++) {
+                    const item = document.createElement('li')
+                    item.textContent = li.length + i + 1
+                    temUl.appendChild(item)
+                }
+                ul.appendChild(temUl)
+            }
+        }
+
+    }
+
+
+</script>
+</body>
+</html>
