@@ -1,0 +1,9 @@
+{
+  "name": "custormLintRule",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^8.35.0"
+  }
+}
