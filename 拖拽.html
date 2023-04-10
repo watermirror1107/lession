@@ -82,8 +82,8 @@
             };
         }
 
-        oDiv.ondragenter = function () {  //相当于onmouseover
-
+        oDiv.ondragenter = function (ev) {  //相当于onmouseover
+            console.log(ev)
             this.style.background = 'green';
 
         };
@@ -95,7 +95,6 @@
         };
 
         oDiv.ondragover = function (ev) { //进入目标、离开目标之间，连续触发
-
             ev.preventDefault();  //阻止默认事件：元素就可以释放了
 
             ev.dataTransfer.dropEffect = 'link';  //真对外部文件
@@ -103,10 +102,10 @@
         };
 
         oDiv.ondrop = function (ev) {  //释放鼠标的时候触发
-
+            console.log(ev.dataTransfer.files)
             this.style.background = 'red';
             this.innerHTML = ev.dataTransfer.getData('text')
-
+            ev.preventDefault();
         };
 
     };
