@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" id="text-box" size="20" value="Mozilla">
+<button onclick="selectText()">Select text</button>
+<script>
+    function selectText() {
+        const input = document.getElementById('text-box');
+        input.focus();
+        input.setSelectionRange(2, 5);
+    }
+
+</script>
+</body>
+</html>

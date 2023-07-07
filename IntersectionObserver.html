@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        li {
+
+            float: left;
+            width: 30%;
+            height: 30vh;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h2>https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API</h2>
+<ul class="list">
+</ul>
+<script>
+    let observerObj = new IntersectionObserver((entries) => {//参数是个数组
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                entry.target.src = entry.target.dataset.src
+                observerObj.unobserve(entry.target)
+            }
+        }
+    }, {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    })
+    let list = document.querySelector('.list')
+    for (let i = 0; i < 100; i++) {
+        let li = document.createElement('li')
+        let img = document.createElement('img')
+        img.setAttribute('data-src', './images/moon.jpg')
+        img.setAttribute('src', './images/click.png')
+        li.appendChild(img)
+        observerObj.observe(img)
+        list.appendChild(li)
+    }
+
+</script>
+</body>
+</html>
