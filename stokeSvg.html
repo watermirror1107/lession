@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .path {
+            fill: none;
+            stroke: #00aaff;
+            stroke-width: 20;
+            stroke-dasharray: var(--pathLength1);
+            stroke-dashoffset: var(--pathLength1);
+            animation: stroke 2s forwards;
+        }
+
+        @keyframes stroke {
+            to {
+                /*stroke-dashoffset:0;*/
+                stroke-dashoffset: var(--pathLength2);
+                /*    移动到还剩30%  70% */
+            }
+        }
+    </style>
+</head>
+<body>
+描边动画
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="300">
+    <circle cx="50%" cy="50%" r="30%" class="path"></circle>
+</svg>
+<script>
+    let circle = document.querySelector('.path');
+    let length = circle.getTotalLength()
+    circle.style.setProperty('--pathLength1', (length + 1));
+    circle.style.setProperty('--pathLength2', (length + 1) * (1 - 0.7));//30%
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            overflow: hidden;
+            height: 300px;
+            width: 300px;
+            border: 1px solid #eee;
+            position: relative;
+        }
+
+        ul {
+            position: absolute;
+            list-style: none;
+            transition: all 1s;
+            width: 100%;
+        }
+
+        li {
+            width: 100%;
+            height: 100px;
+            text-align: center;
+        }
+
+        .box {
+            margin: 0 auto;
+            background: orangered;
+            transition: all 1s;
+            cursor: pointer;
+            font-size: 20px;
+            width: 80%;
+            height: 60px;
+            opacity: 1;
+        }
+
+        .small {
+            opacity: 0.8;
+            transform: scale(0.8);
+        }
+
+        .transparent {
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <ul>
+        <li class="transparent"></li>
+        <li>
+            <div class="box">1</div>
+        </li>
+        <li>
+            <div class="box small">2</div>
+        </li>
+        <li>
+            <div class="box small">3</div>
+        </li>
+        <li>
+            <div class="box small">4</div>
+        </li>
+        <li>
+            <div class="box small">5</div>
+        </li>
+        <li>
+            <div class="box small">6</div>
+        </li>
+
+        <li class="transparent"></li>
+    </ul>
+</div>
+<script>
+    const ul = document.querySelector('ul');
+    ul.addEventListener('click', function (e) {
+        const children = Array.from(ul.children);
+        const target = e.target;
+        const index = children.indexOf(target.parentNode)
+        const currentIndex = children.indexOf([...document.querySelectorAll('.box')].find(i => i.className === 'box').parentNode)
+        if (index === 0 || index === children.length - 2) {
+            return
+        }
+        if (target.nodeName === 'DIV' && target.className.indexOf('small') > -1) {
+            const pre = children[index - 1].children[0];
+            const next = children[index + 1].children[0];
+            if (currentIndex > index) {//点击最上面一个 向下
+                target.className = 'box';
+            } else {//点击最下面一个 向上
+                pre.classList.add('small');
+                target.className = 'box';
+            }
+            next.classList.add('small');
+            ul.style.transform = `translateY(-${(index - 1) * 100}px)`;
+        }
+    })
+</script>
+</body>
+</html>
