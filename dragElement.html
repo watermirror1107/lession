@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            height: 30px;
+            width: 150px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li draggable="true">1</li>
+    <li draggable="true">2</li>
+    <li draggable="true">3</li>
+    <li draggable="true">4</li>
+    <li draggable="true">5</li>
+    <li draggable="true">6</li>
+    <li draggable="true">7</li>
+    <li draggable="true">8</li>
+    <li draggable="true">9</li>
+</ul>
+<script>
+    const ul = document.querySelector('ul')
+    let currentIndex = 0;
+    let dragTarget = null
+    let hoverTarget = null
+    let lis = document.querySelectorAll('ul li')
+    for (const li of lis) {
+        li.addEventListener('dragstart', (e) => {
+            lis = document.querySelectorAll('ul li')//每次都要去获取是因为li的顺序会变
+            dragTarget = e.target
+            currentIndex = [...lis].indexOf(dragTarget)
+        })
+        li.addEventListener('dragover', (e) => {
+            hoverTarget = e.target
+            e.preventDefault()
+        })
+        li.addEventListener('drop', (e) => {
+            ul.replaceChild(dragTarget, hoverTarget)
+            ul.insertBefore(hoverTarget, lis[currentIndex + 1])
+            e.preventDefault();
+            console.log([...document.querySelectorAll('ul li')].reduce((t, i) => {
+                return t + i.innerHTML
+            }, ''));//每次都要去获取是因为li的顺序会变
+
+            console.log()
+        })
+    }
+</script>
+</body>
+</html>

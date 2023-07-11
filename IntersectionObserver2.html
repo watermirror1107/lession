@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            width: 50vw;
+            height: 50vh;
+        }
+
+        li {
+            width: 100%;
+            height: 150px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<h2>https://developer.mozilla.org/zh-CN/docs/Web/API/Intersection_Observer_API</h2>
+<ul class="list">
+    <li class="loadMore">加载更多</li>
+</ul>
+<script>
+    let list = document.querySelector('.list')
+    let loadMore = document.querySelector('.loadMore')
+
+    function appendChild() {
+        let fragment = document.createDocumentFragment();
+        for (let i = 0; i < 100; i++) {
+            let li = document.createElement('li')
+            li.innerHTML = i;
+            fragment.appendChild(li)
+        }
+        list.insertBefore(fragment, loadMore)
+    }
+
+    appendChild();
+
+    let observerObj = new IntersectionObserver((entries) => {//参数是个数组
+        for (const entry of entries) {
+            if (entry.isIntersecting) {
+                appendChild();
+            }
+        }
+    }, {
+        root: null,
+        rootMargin: '20px',
+        threshold: 0.5
+    })
+
+    observerObj.observe(loadMore)
+
+</script>
+</body>
+</html>
