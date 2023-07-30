@@ -8,12 +8,10 @@ function timeout(time) {
 
 class SuperTask {
     static limit = 2;
-
     constructor() {
         this.queue = [];
         this.count = 0;
     }
-
     add(task) {
         let x = new Promise(resolve => {
             this.queue.push(resolve)
@@ -27,7 +25,6 @@ class SuperTask {
         this.run()
         return x
     }
-
     run() {
         if (this.queue.length > 0 && this.count < SuperTask.limit) {
             this.count++;
