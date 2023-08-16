@@ -4931,7 +4931,7 @@
             }
         };
 
-        for (var key in propsOptions) loop(key);//循环设置响应式
+        for (var key in propsOptions) loop(key);
         toggleObserving(true);
     }
 
