@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        window.addEventListener('error', (ev) => {
+            if (ev.target.tagName === 'SCRIPT' && ev instanceof Event) {
+                const url = new URL(ev.target.src)
+                const name = url.pathname
+                if (!(name in retry)) {
+                    retry[name] = 0
+                }
+                if (retry[name] > domain.length) {
+                    return
+                }
+                const index = retry[name]
+                url.host = domain[index]
+                document.write(`<script src="${url}"><\/script>`)
+                // 不能用insertBefore一个script标签
+                // 因为js有加载顺序，后面的脚本可能依赖前面的脚本，所以需要用document.write来阻塞进程，而不能用insertBefore
+                retry[name]++
+            }
+        }, true)
+    </script>
+</head>
+<body>
+<script>
+    console.log(1)
+</script>
+<!--<script src="https://vm.gtimg.cn/thumbplayer/superplayer/1.15.22/superplayer.js"></script>-->
+<script src="https://www.qq.cn/thumbplayer/superplayer/1.15.22/superplayer.js"></script>
+<script>
+    // throw new Error('test')//ErrorEvent错误类型
+    console.log(3)
+</script>
+</body>
+</html>

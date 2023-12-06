@@ -7,28 +7,33 @@ function timeout(time) {
 }
 
 class SuperTask {
-    static limit = 2;
+
     constructor() {
         this.queue = [];
         this.count = 0;
+        this.limit = 2;
     }
+
     add(task) {
-        let x = new Promise(resolve => {
-            this.queue.push(resolve)
-        }).then(() => {
-            return task();
-        }).then(() => {
-            this.count--;
-            this.run()
-            return Promise.resolve()
-        });
-        this.run()
-        return x
+        return new Promise((resolve, reject) => {
+            this.queue.push({
+                resolve,
+                reject,
+                task
+            })
+            this.run();
+        })
     }
+
     run() {
-        if (this.queue.length > 0 && this.count < SuperTask.limit) {
+        while (this.queue.length > 0 && this.count < this.limit) {
+            const {resolve, task} = this.queue.shift()
             this.count++;
-            this.queue.shift()();
+            task().then(() => {
+                resolve();
+                this.count--;
+                this.run();
+            })
         }
     }
 

@@ -37,7 +37,7 @@
         let fragment = document.createDocumentFragment();
         for (let i = 0; i < 100; i++) {
             let li = document.createElement('li')
-            li.innerHTML = i;
+            li.innerHTML = list.children.length + i;
             fragment.appendChild(li)
         }
         list.insertBefore(fragment, loadMore)

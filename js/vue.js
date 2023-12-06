@@ -776,7 +776,7 @@
             });
         }
         for (var i = 0, l = subs.length; i < l; i++) {
-            console.log(subs[i])
+            console.log(subs[i].id)
             subs[i].update();
         }
     };
@@ -4718,13 +4718,13 @@
     /**
      * Add a dependency to this directive.
      */
-    Watcher.prototype.addDep = function addDep(dep) {
+    Watcher.prototype.addDep = function addDep(dep) {//观察者的添加依赖方法
         var id = dep.id;
         if (!this.newDepIds.has(id)) {
             this.newDepIds.add(id);
             this.newDeps.push(dep);
             if (!this.depIds.has(id)) {
-                dep.addSub(this);
+                dep.addSub(this);//数据的依赖列表是添加观察者
             }
         }
     };
@@ -4786,7 +4786,7 @@
                 // set new value
                 var oldValue = this.value;
                 this.value = value;
-                console.log(this.user)//用户定义的watchs
+                console.log(this.user)//用户定义的watcher
                 if (this.user) {
                     try {
                         this.cb.call(this.vm, value, oldValue);
@@ -5078,7 +5078,7 @@
                 }
                 console.log(Dep.target)//当前用到这计算属性的观察者
                 if (Dep.target) {
-                    watcher.depend();
+                    watcher.depend();//watcher的depend方法会把当前用到这个计算属性的观察者存到计算属性的依赖列表里
                 }
                 return watcher.value;
             }
