@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            margin: 20% auto;
+            border: 1px solid #333;
+            width: 200px;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .top, .bottom {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .top {
+            z-index: 2;
+        }
+
+        .bottom {
+            background-color: deepskyblue;
+            line-height: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top">
+        <canvas width="200" height="300"></canvas>
+    </div>
+    <div class="bottom">
+        bottom
+    </div>
+</div>
+<script>
+    let canvas = document.querySelector('canvas')
+    let ctx = canvas.getContext("2d");
+    let topContainer = document.querySelector('.top')
+    topContainer.addEventListener('mousedown', function (e1) {
+        let startY = e1.offsetY
+        let startX = e1.offsetX
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 15;
+        ctx.globalCompositeOperation = 'destination-out'
+        ctx.moveTo(startX, startY);
+        document.onmousemove = function (e) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+        }
+    })
+    topContainer.addEventListener('mouseup', function () {
+        document.onmousemove = null
+        ctx.globalCompositeOperation = 'source-over'
+    })
+
+
+    // 创建 Image 对象
+    let img = new Image();
+    img.src = './1.jpg'; // 设置图片源地址
+
+    // 图片加载完毕后，将其绘制到 canvas 中
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+    }
+</script>
+</body>
+</html>
